@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 /**
  * Version-independent replacement for {@code org.bukkit.Tag}.
@@ -153,10 +153,12 @@ class MinecraftTag implements Tag<Material> {
      */
     static Set<Material> resolveVanilla(String registry, String key) {
         try {
-            // NamespacedKey is provided as a compat stub at compile time; at runtime the server's real
-            // class is used. On legacy versions Bukkit#getTag is absent, so this throws and we fall back.
-            Object namespacedKey = NamespacedKey.minecraft(key);
-            Method getTag = Bukkit.class.getMethod("getTag", String.class, NamespacedKey.class, Class.class);
+            // Bukkit#getTag expects the REAL org.bukkit.NamespacedKey; build it reflectively from our own
+            // key (BukkitKeys) and resolve the real class for the method signature. On legacy versions
+            // getTag/NamespacedKey are absent, so this throws and we fall back.
+            Class<?> bukkitKeyClass = Class.forName("org.bukkit.NamespacedKey");
+            Object namespacedKey = BukkitKeys.toBukkit(NamespacedKey.minecraft(key));
+            Method getTag = Bukkit.class.getMethod("getTag", String.class, bukkitKeyClass, Class.class);
             Object tag = getTag.invoke(null, registry, namespacedKey, Material.class);
 
             if (tag == null) {
