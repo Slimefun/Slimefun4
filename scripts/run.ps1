@@ -13,7 +13,9 @@
 #>
 
 $ErrorActionPreference = "Stop"
-Set-Location $PSScriptRoot
+# This script lives in <project>/scripts; the Gradle project root (with gradlew.bat) is its parent.
+$projectRoot = Split-Path -Parent $PSScriptRoot
+Set-Location $projectRoot
 
 $versions = @(
     "1.8.8", "1.9.4", "1.10.2", "1.11.2", "1.12.2", "1.13.2", "1.14.4", "1.15.2",
@@ -104,5 +106,5 @@ if ($addons.Count -gt 0) {
 }
 Write-Host ""
 
-& "$PSScriptRoot\gradlew.bat" @gradleArgs
+& "$projectRoot\gradlew.bat" @gradleArgs
 exit $LASTEXITCODE

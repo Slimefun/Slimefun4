@@ -24,3 +24,6 @@ run/
 *.stackdump
 compile_*.txt
 test_tasks*.txt
+
+# Accidentally-committed server runtime data
+/plugins/

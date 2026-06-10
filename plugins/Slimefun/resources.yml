@@ -1,9 +1,0 @@
-slimefun:
-  oil:
-    enabled: true
-  nether_ice:
-    enabled: true
-  uranium:
-    enabled: true
-  salt:
-    enabled: true
