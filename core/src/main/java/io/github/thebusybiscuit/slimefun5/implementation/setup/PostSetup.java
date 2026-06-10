@@ -196,8 +196,8 @@ public final class PostSetup {
             }
 
             for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-                if (item instanceof AContainer machine) {
-                    if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
+                if (item instanceof AContainer) {
+                    AContainer machine = (AContainer) item;                    if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
                         List<MachineRecipe> recipes = machine.getMachineRecipes();
                         Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
                     }
@@ -234,8 +234,8 @@ public final class PostSetup {
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-            if (item instanceof AContainer container && container.getMachineIdentifier().equals(machine)) {
-                container.registerRecipe(seconds, input, output);
+            if (item instanceof AContainer && ((AContainer) item).getMachineIdentifier().equals(machine)) {
+                AContainer container = (AContainer) item;                container.registerRecipe(seconds, input, output);
             }
         }
     }

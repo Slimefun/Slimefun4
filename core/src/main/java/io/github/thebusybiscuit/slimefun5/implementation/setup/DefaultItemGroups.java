@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun5.implementation.setup;
 import java.time.Month;
 
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.NamespacedKey;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -61,7 +62,7 @@ class DefaultItemGroups {
     protected final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "christmas"), Month.DECEMBER, 1, CustomItemStack.create(SlimefunUtils.getCustomHead("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));
     protected final SeasonalItemGroup valentinesDay = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "valentines_day"), Month.FEBRUARY, 2, CustomItemStack.create(SlimefunUtils.getCustomHead("55d89431d14bfef2060461b4a3565614dc51115c001fae2508e8684bc0ae6a80"), "&dValentine's Day" + " &7(14th February)"));
     protected final SeasonalItemGroup easter = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "easter"), Month.APRIL, 2, CustomItemStack.create(HeadTexture.EASTER_EGG.getAsItemStack(), "&6Easter" + " &7(April)"));
-    protected final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "birthday"), Month.OCTOBER, 1, CustomItemStack.create(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
+    protected final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "birthday"), Month.OCTOBER, 1, CustomItemStack.create(XMaterial.FIREWORK_ROCKET.parseMaterial(), "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
     protected final SeasonalItemGroup halloween = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "halloween"), Month.OCTOBER, 1, CustomItemStack.create(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
 
     // Flex Item Groups
