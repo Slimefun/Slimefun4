@@ -63,6 +63,14 @@ public class SlimefunItemStack {
 
     private String texture = null;
 
+    /**
+     * Legacy-safe placeholder material. On servers older than the version that introduced a given
+     * material, {@code XMaterial#parseMaterial()} returns {@code null}; the universal Java-8 jar
+     * substitutes this material so the item still registers (with a fallback icon) instead of
+     * crashing the whole plugin. {@code PAPER} exists on every supported Minecraft version.
+     */
+    private static final Material LEGACY_FALLBACK_MATERIAL = Material.PAPER;
+
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item) {
         delegate = new ItemStack(item);
 
@@ -92,7 +100,18 @@ public class SlimefunItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Consumer<ItemMeta> consumer) {
-        this(id, new ItemStack(type), consumer);
+        this(id, safeStack(type), consumer);
+    }
+
+    /**
+     * Builds an {@link ItemStack} from the given {@link Material}, falling back to
+     * {@link #LEGACY_FALLBACK_MATERIAL} when the material is {@code null} (i.e. it does not exist
+     * on the running legacy server). This keeps the universal jar from crashing on items whose
+     * material was introduced in a newer Minecraft version.
+     */
+    @Nonnull
+    private static ItemStack safeStack(@Nullable Material type) {
+        return new ItemStack(type != null ? type : LEGACY_FALLBACK_MATERIAL);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
@@ -123,7 +142,7 @@ public class SlimefunItemStack {
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
-        this(id, new ItemStack(type), name, lore);
+        this(id, safeStack(type), name, lore);
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
