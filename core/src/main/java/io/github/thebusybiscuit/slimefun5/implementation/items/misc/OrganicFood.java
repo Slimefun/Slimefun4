@@ -28,7 +28,9 @@ public class OrganicFood extends SlimefunItem {
 
     @ParametersAreNonnullByDefault
     public OrganicFood(ItemGroup itemGroup, SlimefunItemStack item, Material ingredient) {
-        super(itemGroup, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(ingredient), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT).item());
+        // Java-8 universal port: the ingredient may not exist on a legacy server (null); substitute a
+        // placeholder so the item still registers instead of crashing in new ItemStack(null).
+        super(itemGroup, item, RecipeType.FOOD_FABRICATOR, new ItemStack[] { SlimefunItems.TIN_CAN.item(), new ItemStack(ingredient != null ? ingredient : Material.PAPER), null, null, null, null, null, null, null }, new SlimefunItemStack(item, OUTPUT).item());
     }
 }
 

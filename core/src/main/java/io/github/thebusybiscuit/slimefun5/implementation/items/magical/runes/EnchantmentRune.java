@@ -64,8 +64,12 @@ public class EnchantmentRune extends SimpleSlimefunItem<ItemDropHandler> {
                     continue;
                 }
 
-                if (enchantment.canEnchantItem(new ItemStack(mat))) {
-                    enchantments.add(enchantment);
+                try {
+                    if (enchantment.canEnchantItem(new ItemStack(mat))) {
+                        enchantments.add(enchantment);
+                    }
+                } catch (Exception | LinkageError ex) {
+                    // Legacy NMS (1.8) throws for some material/enchantment combinations - skip them.
                 }
             }
 

@@ -983,9 +983,16 @@ public class SlimefunItem implements Placeable {
      */
     @ParametersAreNonnullByDefault
     public void warn(String message) {
-        Validate.notNull(addon, "Cannot send a warning for an unregistered item!");
-
         String msg = toString() + ": " + message;
+
+        // Java-8 universal port: an item may warn from its constructor (e.g. about a material that is
+        // missing on a legacy server) before it has been registered, so addon is still null. Rather
+        // than throw - which would abort the whole item setup - fall back to Slimefun's own logger.
+        if (addon == null) {
+            Slimefun.logger().log(Level.WARNING, msg);
+            return;
+        }
+
         addon.getLogger().log(Level.WARNING, msg);
 
         if (addon.getBugTrackerURL() != null) {
