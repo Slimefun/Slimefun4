@@ -1,8 +1,9 @@
 package io.github.thebusybiscuit.slimefun5.implementation.tasks.player;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.EntityCompat;
+
 import javax.annotation.Nonnull;
 
-import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -10,6 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedPotionEffectType;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.BeeWings;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BeeWingsListener;
 
@@ -38,7 +40,9 @@ public class BeeWingsTask extends AbstractPlayerTask {
     protected void executeTask() {
         if (p.getLocation().getY() < lastLocation.getY()) {
             Location loc = p.getLocation();
-            int distanceToHighestBlock = (loc.getBlockY() - loc.getWorld().getHighestBlockYAt(loc, HeightMap.WORLD_SURFACE));
+            // HeightMap overload is 1.15+; the single-arg getHighestBlockYAt(Location) exists on 1.8 and
+            // resolves to the world surface, so it is equivalent here.
+            int distanceToHighestBlock = (loc.getBlockY() - loc.getWorld().getHighestBlockYAt(loc));
 
             /*
              * getDistanceToGround will only fire when distanceToHighestBlock is negative
@@ -64,7 +68,11 @@ public class BeeWingsTask extends AbstractPlayerTask {
         Slimefun.getLocalization().sendMessage(p, "messages.bee-suit-slow-fall");
 
         p.setFallDistance(0);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 60, 0));
+
+        // SLOW_FALLING is 1.13+ (null on older servers, where the slow-fall effect simply cannot apply).
+        if (VersionedPotionEffectType.SLOW_FALLING != null) {
+            p.addPotionEffect(new PotionEffect(VersionedPotionEffectType.SLOW_FALLING, 60, 0));
+        }
     }
 
     /**
@@ -91,7 +99,8 @@ public class BeeWingsTask extends AbstractPlayerTask {
     @Override
     protected boolean isValid() {
         // The task is only valid as long as the Player is alive and gliding
-        if (!p.isOnline() || !p.isValid() || p.isDead() || !p.isGliding() || p.hasPotionEffect(PotionEffectType.SLOW_FALLING)) {
+        if (!p.isOnline() || !p.isValid() || p.isDead() || !EntityCompat.isGliding(p)
+                || (VersionedPotionEffectType.SLOW_FALLING != null && p.hasPotionEffect(VersionedPotionEffectType.SLOW_FALLING))) {
             cancel();
             return false;
         }

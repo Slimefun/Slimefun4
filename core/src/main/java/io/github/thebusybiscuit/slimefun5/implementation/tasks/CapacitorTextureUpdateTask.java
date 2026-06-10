@@ -5,6 +5,7 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 
@@ -56,7 +57,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
         Material type = b.getType();
 
         // Ensure that this Block is still a Player Head
-        if (type == Material.PLAYER_HEAD || type == Material.PLAYER_WALL_HEAD) {
+        if (type == XMaterial.PLAYER_HEAD.parseMaterial() || type == XMaterial.PLAYER_WALL_HEAD.parseMaterial()) {
             if (filledPercentage <= 0.25) {
                 // 0-25% capacity
                 setTexture(b, HeadTexture.CAPACITOR_25);

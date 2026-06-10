@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.SoundCategory;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 

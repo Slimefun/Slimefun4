@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.implementation.tasks.armor;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun5.api.events.RadiationDamageEvent;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -8,6 +10,7 @@ import io.github.thebusybiscuit.slimefun5.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun5.core.attributes.RadiationSymptom;
 import io.github.thebusybiscuit.slimefun5.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.RadioactivityListener;
 import io.github.thebusybiscuit.slimefun5.utils.RadiationUtils;
 import net.md_5.bungee.api.ChatMessageType;
@@ -51,12 +54,12 @@ public class RadiationTask extends AbstractArmorTask {
                 && p.getGameMode() != GameMode.CREATIVE
                 && p.getGameMode() != GameMode.SPECTATOR) {
             for (ItemStack item : p.getInventory()) {
-                if (item == null || item.getType().isAir()) {
+                if (item == null || MaterialCompat.isAir(item.getType())) {
                     continue;
                 }
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
-                if (sfItem instanceof Radioactive radioactiveItem) {
-                    exposureTotal += item.getAmount() * radioactiveItem.getRadioactivity().getExposureModifier();
+                if (sfItem instanceof Radioactive) {
+                    Radioactive radioactiveItem = (Radioactive) sfItem;                    exposureTotal += item.getAmount() * radioactiveItem.getRadioactivity().getExposureModifier();
                 }
             }
             int exposureLevelBefore = RadiationUtils.getExposure(p);
@@ -93,8 +96,9 @@ public class RadiationTask extends AbstractArmorTask {
                         .getMessage(p, "actionbar.radiation")
                         .replace("%level%", "" + exposureLevelAfter);
                 BaseComponent[] components =
-                        new ComponentBuilder().append(ChatColors.color(msg)).create();
-                p.spigot().sendMessage(ChatMessageType.ACTION_BAR, components);
+                        new ComponentBuilder("").append(ChatColors.color(msg)).create();
+                // The (ChatMessageType, BaseComponent[]) sendMessage overload is post-1.8; reached reflectively.
+                ReflectionCompat.invoke(p.spigot(), "sendMessage", ChatMessageType.ACTION_BAR, components);
             }
         } else {
             RadiationUtils.removeExposure(p, 1);
