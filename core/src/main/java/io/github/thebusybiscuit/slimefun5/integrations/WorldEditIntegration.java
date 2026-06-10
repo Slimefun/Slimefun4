@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.integrations;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -43,7 +45,7 @@ class WorldEditIntegration {
 
             @Override
             public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
-                if (block.getBlockType().getMaterial().isAir()) {
+                if (MaterialCompat.isAir(block.getBlockType().getMaterial())) {
                     World world = Bukkit.getWorld(event.getWorld().getName());
 
                     if (world != null) {
