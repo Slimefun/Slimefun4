@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.api.events;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -66,7 +68,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
         event = originalEvent;
         clickedBlock = Optional.ofNullable(originalEvent.getClickedBlock());
         face = originalEvent.getBlockFace();
-        hand = originalEvent.getHand();
+        hand = HandCompat.getHand(originalEvent);
 
         itemResult = originalEvent.useItemInHand();
         blockResult = originalEvent.useInteractedBlock();
@@ -103,7 +105,7 @@ public class PlayerRightClickEvent extends PlayerEvent {
 
     /**
      * This returns the hand that was used in this interaction.
-     * Can either be {@code EquipmentSlot.HAND} or {@code EquipmentSlot.OFF_HAND}.
+     * Can either be {@code EquipmentSlot.HAND} or {@code HandCompat.OFF_HAND}.
      * 
      * @return The hand used in this {@link Event}
      */

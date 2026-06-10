@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
-import org.bukkit.Tag;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;

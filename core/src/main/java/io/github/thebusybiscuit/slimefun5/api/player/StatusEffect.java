@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.api.player;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
+
 import java.util.Optional;
 import java.util.OptionalInt;
 import java.util.concurrent.TimeUnit;
@@ -67,7 +69,7 @@ public class StatusEffect implements Keyed {
      *            The {@link TimeUnit} for the given duration
      */
     public void add(@Nonnull Player p, int level, int duration, @Nonnull TimeUnit unit) {
-        PersistentDataAPI.setString(p, getKey(), level + ";" + System.currentTimeMillis() + unit.toMillis(duration));
+        PersistentDataAPI.setString(PdcCompat.holder(p), getKey(), level + ";" + System.currentTimeMillis() + unit.toMillis(duration));
     }
 
     /**
@@ -80,7 +82,7 @@ public class StatusEffect implements Keyed {
      *            The level of this effect
      */
     public void addPermanent(@Nonnull Player p, int level) {
-        PersistentDataAPI.setString(p, getKey(), level + ";0");
+        PersistentDataAPI.setString(PdcCompat.holder(p), getKey(), level + ";0");
     }
 
     /**
@@ -94,7 +96,7 @@ public class StatusEffect implements Keyed {
      * @return Whether this {@link StatusEffect} is currently applied
      */
     public boolean isPresent(@Nonnull Player p) {
-        Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
+        Optional<String> optional = PersistentDataAPI.getOptionalString(PdcCompat.holder(p), getKey());
 
         if (optional.isPresent()) {
             String[] data = CommonPatterns.SEMICOLON.split(optional.get());
@@ -120,7 +122,7 @@ public class StatusEffect implements Keyed {
      * @return An {@link OptionalInt} that describes the result
      */
     public @Nonnull OptionalInt getLevel(@Nonnull Player p) {
-        Optional<String> optional = PersistentDataAPI.getOptionalString(p, getKey());
+        Optional<String> optional = PersistentDataAPI.getOptionalString(PdcCompat.holder(p), getKey());
 
         if (optional.isPresent()) {
             String[] data = CommonPatterns.SEMICOLON.split(optional.get());
@@ -137,7 +139,7 @@ public class StatusEffect implements Keyed {
      *            The {@link Player} to clear it from
      */
     public void clear(@Nonnull Player p) {
-        PersistentDataAPI.remove(p, getKey());
+        PersistentDataAPI.remove(PdcCompat.holder(p), getKey());
     }
 
 }

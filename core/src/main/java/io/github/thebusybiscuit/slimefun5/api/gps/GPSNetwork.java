@@ -113,8 +113,8 @@ public class GPSNetwork {
         for (Location l : locations) {
             SlimefunItem item = BlockStorage.check(l);
 
-            if (item instanceof GPSTransmitter transmitter) {
-                level += transmitter.getMultiplier(Math.max(l.getBlockY(), 0));
+            if (item instanceof GPSTransmitter) {
+                GPSTransmitter transmitter = (GPSTransmitter) item;                level += transmitter.getMultiplier(Math.max(l.getBlockY(), 0));
             }
         }
 
@@ -174,8 +174,8 @@ public class GPSNetwork {
 
             SlimefunItem sfi = BlockStorage.check(l);
 
-            if (sfi instanceof GPSTransmitter transmitter) {
-                int slot = inventory[index];
+            if (sfi instanceof GPSTransmitter) {
+                GPSTransmitter transmitter = (GPSTransmitter) sfi;                int slot = inventory[index];
 
                 menu.addItem(slot, CustomItemStack.create(SlimefunItems.GPS_TRANSMITTER.item(), "&bGPS Transmitter", "&8\u21E8 &7World: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &7Signal Strength: &f" + transmitter.getMultiplier(l.getBlockY()), "&8\u21E8 &7Ping: &f" + NumberUtils.roundDecimalNumber(1000D / l.getY()) + "ms"));
                 menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());

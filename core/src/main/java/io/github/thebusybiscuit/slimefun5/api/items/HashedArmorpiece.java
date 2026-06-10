@@ -61,8 +61,8 @@ public final class HashedArmorpiece {
             this.hash = copy.hashCode();
         }
 
-        if (item instanceof SlimefunArmorPiece armorPiece) {
-            this.item = Optional.of(armorPiece);
+        if (item instanceof SlimefunArmorPiece) {
+            SlimefunArmorPiece armorPiece = (SlimefunArmorPiece) item;            this.item = Optional.of(armorPiece);
         } else {
             this.item = Optional.empty();
         }

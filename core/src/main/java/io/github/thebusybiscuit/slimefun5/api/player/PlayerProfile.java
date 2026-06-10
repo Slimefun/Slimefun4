@@ -512,8 +512,8 @@ public class PlayerProfile {
 
         for (HashedArmorpiece armorpiece : armor) {
             Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
-            if (armorPiece.isPresent() && armorPiece.get() instanceof ProtectiveArmor protectiveArmor) {
-                for (ProtectionType protectionType : protectiveArmor.getProtectionTypes()) {
+            if (armorPiece.isPresent() && armorPiece.get() instanceof ProtectiveArmor) {
+                ProtectiveArmor protectiveArmor = (ProtectiveArmor) armorPiece.get();                for (ProtectionType protectionType : protectiveArmor.getProtectionTypes()) {
                     if (protectionType == type) {
                         if (!protectiveArmor.isFullSetRequired()) {
                             return true;
@@ -540,8 +540,7 @@ public class PlayerProfile {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof PlayerProfile profile && ownerId.equals(profile.ownerId);
-    }
+        return obj instanceof PlayerProfile && ownerId.equals(((PlayerProfile) obj).ownerId);    }
 
     @Override
     public String toString() {

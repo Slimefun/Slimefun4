@@ -24,6 +24,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -44,6 +45,7 @@ import io.github.thebusybiscuit.slimefun5.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 /**
  * The {@link SlimefunItemStack} functions as the base for any
@@ -140,12 +142,13 @@ public class SlimefunItemStack {
                 im.setLore(lines);
             }
 
-            if (im instanceof LeatherArmorMeta leatherArmorMeta) {
-                leatherArmorMeta.setColor(color);
+            if (im instanceof LeatherArmorMeta) {
+                LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) im;                leatherArmorMeta.setColor(color);
             }
 
-            if (im instanceof PotionMeta potionMeta) {
-                potionMeta.setColor(color);
+            if (im instanceof PotionMeta) {
+                PotionMeta potionMeta = (PotionMeta) im;
+                ReflectionCompat.invoke(potionMeta, "setColor", color);
             }
         });
     }
@@ -166,8 +169,9 @@ public class SlimefunItemStack {
                 im.setLore(lines);
             }
 
-            if (im instanceof PotionMeta potionMeta) {
-                potionMeta.setColor(color);
+            if (im instanceof PotionMeta) {
+                PotionMeta potionMeta = (PotionMeta) im;
+                ReflectionCompat.invoke(potionMeta, "setColor", color);
                 potionMeta.addCustomEffect(effect, true);
 
                 if (effect.getType().equals(PotionEffectType.SATURATION)) {
@@ -280,7 +284,7 @@ public class SlimefunItemStack {
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return new ItemStack(Material.PLAYER_HEAD);
+            return new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
         }
 
         return VersionedPlayerHead.getItemStack(getTexture(id, texture));
@@ -340,7 +344,7 @@ public class SlimefunItemStack {
     }
 
     public ItemStack withType(Material type) {
-        return this.delegate.withType(type);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "withType", type);
     }
 
     public int getAmount() {
@@ -412,7 +416,7 @@ public class SlimefunItemStack {
     }
 
     public void removeEnchantments() {
-        this.delegate.removeEnchantments();
+        ReflectionCompat.invoke(this.delegate, "removeEnchantments");
     }
 
     public Map<String, Object> serialize() {
@@ -420,11 +424,13 @@ public class SlimefunItemStack {
     }
 
     public boolean editMeta(Consumer<? super ItemMeta> consumer) {
-        return this.delegate.editMeta(consumer);
+        Object result = ReflectionCompat.invoke(this.delegate, "editMeta", consumer);
+        return result instanceof Boolean ? (Boolean) result : false;
     }
 
     public <M extends ItemMeta> boolean editMeta(Class<M> metaClass, Consumer<? super M> consumer) {
-        return this.delegate.editMeta(metaClass, consumer);
+        Object result = ReflectionCompat.invoke(this.delegate, "editMeta", metaClass, consumer);
+        return result instanceof Boolean ? (Boolean) result : false;
     }
 
     public ItemMeta getItemMeta() {
@@ -437,138 +443,157 @@ public class SlimefunItemStack {
 
     /** @deprecated */
     @Deprecated
+    // Java-8 port: the methods below mirror modern Paper ItemStack APIs that are absent at the 1.8.8
+    // compile floor. Their bodies go through ReflectionCompat so they fully work on modern servers and
+    // degrade gracefully (null / sensible default) on legacy ones. Signatures use compileOnly-stubbed
+    // Paper/Adventure types. @SuppressWarnings: the Object->generic casts are unchecked by nature.
+    @SuppressWarnings("unchecked")
     public String getTranslationKey() {
-        return this.delegate.getTranslationKey();
+        return (String) ReflectionCompat.invoke(this.delegate, "getTranslationKey");
     }
 
     public ItemStack enchantWithLevels(int levels, boolean allowTreasure, Random random) {
-        return this.delegate.enchantWithLevels(levels, allowTreasure, random);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "enchantWithLevels", levels, allowTreasure, random);
     }
 
     public ItemStack enchantWithLevels(int levels, RegistryKeySet<Enchantment> keySet, Random random) {
-        return this.delegate.enchantWithLevels(levels, keySet, random);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "enchantWithLevels", levels, keySet, random);
     }
 
+    @SuppressWarnings("unchecked")
     public HoverEvent<HoverEvent.ShowItem> asHoverEvent(UnaryOperator<HoverEvent.ShowItem> op) {
-        return this.delegate.asHoverEvent(op);
+        return (HoverEvent<HoverEvent.ShowItem>) ReflectionCompat.invoke(this.delegate, "asHoverEvent", op);
     }
 
     public Component displayName() {
-        return this.delegate.displayName();
+        return (Component) ReflectionCompat.invoke(this.delegate, "displayName");
     }
 
     public ItemStack ensureServerConversions() {
-        return this.delegate.ensureServerConversions();
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "ensureServerConversions");
     }
 
     public byte[] serializeAsBytes() {
-        return this.delegate.serializeAsBytes();
+        Object result = ReflectionCompat.invoke(this.delegate, "serializeAsBytes");
+        return result instanceof byte[] ? (byte[]) result : new byte[0];
     }
 
     /** @deprecated */
     public String getI18NDisplayName() {
-        return this.delegate.getI18NDisplayName();
+        return (String) ReflectionCompat.invoke(this.delegate, "getI18NDisplayName");
     }
 
     /** @deprecated */
     public int getMaxItemUseDuration() {
-        return this.delegate.getMaxItemUseDuration();
+        Object result = ReflectionCompat.invoke(this.delegate, "getMaxItemUseDuration");
+        return result instanceof Integer ? (Integer) result : 0;
     }
 
     public int getMaxItemUseDuration(LivingEntity entity) {
-        return this.delegate.getMaxItemUseDuration(entity);
+        Object result = ReflectionCompat.invoke(this.delegate, "getMaxItemUseDuration", entity);
+        return result instanceof Integer ? (Integer) result : 0;
     }
 
     public ItemStack asOne() {
-        return this.delegate.asOne();
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "asOne");
     }
 
     public ItemStack asQuantity(int qty) {
-        return this.delegate.asQuantity(qty);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "asQuantity", qty);
     }
 
     public ItemStack add() {
-        return this.delegate.add();
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "add");
     }
 
     public ItemStack add(int qty) {
-        return this.delegate.add(qty);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "add", qty);
     }
 
     public ItemStack subtract() {
-        return this.delegate.subtract();
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "subtract");
     }
 
     public ItemStack subtract(int qty) {
-        return this.delegate.subtract(qty);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "subtract", qty);
     }
 
     @Deprecated
+    @SuppressWarnings("unchecked")
     public List<String> getLore() {
-        return this.delegate.getLore();
+        return (List<String>) ReflectionCompat.invoke(this.delegate, "getLore");
     }
 
+    @SuppressWarnings("unchecked")
     public List<Component> lore() {
-        return this.delegate.lore();
+        return (List<Component>) ReflectionCompat.invoke(this.delegate, "lore");
     }
 
     @Deprecated
     public void setLore(List<String> lore) {
-        this.delegate.setLore(lore);
+        ReflectionCompat.invoke(this.delegate, "setLore", lore);
     }
 
     public void lore(List<? extends Component> lore) {
-        this.delegate.lore(lore);
+        ReflectionCompat.invoke(this.delegate, "lore", lore);
     }
 
     public void addItemFlags(ItemFlag... itemFlags) {
-        this.delegate.addItemFlags(itemFlags);
+        ReflectionCompat.invoke(this.delegate, "addItemFlags", (Object) itemFlags);
     }
 
     public void removeItemFlags(ItemFlag... itemFlags) {
-        this.delegate.removeItemFlags(itemFlags);
+        ReflectionCompat.invoke(this.delegate, "removeItemFlags", (Object) itemFlags);
     }
 
+    @SuppressWarnings("unchecked")
     public Set<ItemFlag> getItemFlags() {
-        return this.delegate.getItemFlags();
+        Object result = ReflectionCompat.invoke(this.delegate, "getItemFlags");
+        return result instanceof Set ? (Set<ItemFlag>) result : java.util.Collections.emptySet();
     }
 
     public boolean hasItemFlag(ItemFlag flag) {
-        return this.delegate.hasItemFlag(flag);
+        Object result = ReflectionCompat.invoke(this.delegate, "hasItemFlag", flag);
+        return result instanceof Boolean ? (Boolean) result : false;
     }
 
     public String translationKey() {
-        return this.delegate.translationKey();
+        return (String) ReflectionCompat.invoke(this.delegate, "translationKey");
     }
 
     /** @deprecated */
     @Deprecated
     public ItemRarity getRarity() {
-        return this.delegate.getRarity();
+        return (ItemRarity) ReflectionCompat.invoke(this.delegate, "getRarity");
     }
 
     public boolean isRepairableBy(ItemStack repairMaterial) {
-        return this.delegate.isRepairableBy(repairMaterial);
+        Object result = ReflectionCompat.invoke(this.delegate, "isRepairableBy", repairMaterial);
+        return result instanceof Boolean ? (Boolean) result : false;
     }
 
     public boolean canRepair(ItemStack toBeRepaired) {
-        return this.delegate.canRepair(toBeRepaired);
+        Object result = ReflectionCompat.invoke(this.delegate, "canRepair", toBeRepaired);
+        return result instanceof Boolean ? (Boolean) result : false;
     }
 
     public ItemStack damage(int amount, LivingEntity livingEntity) {
-        return this.delegate.damage(amount, livingEntity);
+        return (ItemStack) ReflectionCompat.invoke(this.delegate, "damage", amount, livingEntity);
     }
 
     public boolean isEmpty() {
-        return this.delegate.isEmpty();
+        Object result = ReflectionCompat.invoke(this.delegate, "isEmpty");
+        return result instanceof Boolean ? (Boolean) result : (this.delegate == null || this.delegate.getType() == Material.AIR);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Component> computeTooltipLines(TooltipContext tooltipContext, Player player) {
-        return this.delegate.computeTooltipLines(tooltipContext, player);
+        return (List<Component>) ReflectionCompat.invoke(this.delegate, "computeTooltipLines", tooltipContext, player);
     }
 
+    @SuppressWarnings("unchecked")
     public HoverEvent<HoverEvent.ShowItem> asHoverEvent() {
-        return this.delegate.asHoverEvent();
+        return (HoverEvent<HoverEvent.ShowItem>) ReflectionCompat.invoke(this.delegate, "asHoverEvent");
     }
 }
 

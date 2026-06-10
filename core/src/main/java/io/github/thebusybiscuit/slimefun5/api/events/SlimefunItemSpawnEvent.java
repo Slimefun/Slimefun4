@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.api.events;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
 import java.util.Optional;
 
 import javax.annotation.Nonnull;
@@ -105,7 +107,7 @@ public class SlimefunItemSpawnEvent extends Event implements Cancellable {
      */
     public void setItemStack(@Nonnull ItemStack itemStack) {
         Validate.notNull(itemStack, "Cannot drop null.");
-        Validate.isTrue(!itemStack.getType().isAir(), "Cannot drop air.");
+        Validate.isTrue(!MaterialCompat.isAir(itemStack.getType()), "Cannot drop air.");
 
         this.itemStack = itemStack;
     }

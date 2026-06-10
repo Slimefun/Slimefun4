@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun5.api.gps;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ParticleCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -186,7 +189,7 @@ public final class TeleportationManager {
         teleporterUsers.remove(uuid);
 
         if (p != null) {
-            p.sendTitle(ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.cancelled")), ChatColors.color("&c&k40&f&c%"), 20, 60, 20);
+            ReflectionCompat.invoke(p, "sendTitle", ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.cancelled")), ChatColors.color("&c&k40&f&c%"), 20, 60, 20);
         }
     }
 
@@ -196,12 +199,12 @@ public final class TeleportationManager {
 
         if (isValid(p, source)) {
             if (progress > 99) {
-                p.sendTitle(ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
+                ReflectionCompat.invoke(p, "sendTitle", ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.teleported")), ChatColors.color("&b100%"), 20, 60, 20);
                 PaperLib.teleportAsync(p, destination).thenAccept(success -> onTeleport(p, destination, success, resistance));
             } else {
-                p.sendTitle(ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
+                ReflectionCompat.invoke(p, "sendTitle", ChatColors.color(Slimefun.getLocalization().getMessage(p, "machines.TELEPORTER.teleporting")), ChatColors.color("&b" + progress + "%"), 0, 60, 0);
 
-                source.getWorld().spawnParticle(Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
+                ParticleCompat.spawn(source.getWorld(), Particle.PORTAL, source, progress * 2, 0.2F, 0.8F, 0.2F);
                 SoundEffect.TELEPORT_UPDATE_SOUND.playFor(p);
                 Slimefun.runSync(() -> updateProgress(uuid, speed, progress + speed, source, destination, resistance), 10L);
             }
@@ -226,7 +229,7 @@ public final class TeleportationManager {
 
                 // Spawn some particles for aesthetic reasons.
                 Location loc = new Location(destination.getWorld(), destination.getX(), destination.getY() + 1, destination.getZ());
-                destination.getWorld().spawnParticle(Particle.PORTAL, loc, 200, 0.2F, 0.8F, 0.2F);
+                ParticleCompat.spawn(destination.getWorld(), Particle.PORTAL, loc, 200, 0.2F, 0.8F, 0.2F);
                 SoundEffect.TELEPORT_SOUND.playFor(p);
                 teleporterUsers.remove(p.getUniqueId());
             } else {

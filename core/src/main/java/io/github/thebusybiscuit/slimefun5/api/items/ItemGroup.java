@@ -349,8 +349,8 @@ public class ItemGroup implements Keyed {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof ItemGroup group) {
-            return group.getKey().equals(this.getKey());
+        if (obj instanceof ItemGroup) {
+            ItemGroup group = (ItemGroup) obj;            return group.getKey().equals(this.getKey());
         } else {
             return false;
         }

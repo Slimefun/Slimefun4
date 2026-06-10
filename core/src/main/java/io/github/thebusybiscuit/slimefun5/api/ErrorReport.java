@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.api;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
 import java.io.File;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -92,7 +93,7 @@ public class ErrorReport<T extends Throwable> {
             stream.println("  Y: " + l.getBlockY());
             stream.println("  Z: " + l.getBlockZ());
             stream.println("  Material: " + l.getBlock().getType());
-            stream.println("  Block Data: " + l.getBlock().getBlockData().getClass().getName());
+            stream.println("  Block Data: " + BlockDataCompat.getBlockData(l.getBlock()).getClass().getName());
             stream.println("  State: " + l.getBlock().getState().getClass().getName());
             stream.println();
 

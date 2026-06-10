@@ -795,8 +795,8 @@ public class SlimefunItem implements Placeable {
             itemHandlers.put(handler.getIdentifier(), handler);
 
             // Tickers are a special case (at the moment at least)
-            if (handler instanceof BlockTicker ticker) {
-                ticking = true;
+            if (handler instanceof BlockTicker) {
+                BlockTicker ticker = (BlockTicker) handler;                ticking = true;
                 Slimefun.getRegistry().getTickerBlocks().add(getId());
                 blockTicker = ticker;
             }
@@ -1016,8 +1016,8 @@ public class SlimefunItem implements Placeable {
         addon.getLogger().log(Level.SEVERE, message, throwable);
 
         // We definitely want to re-throw them during Unit Tests
-        if (throwable instanceof RuntimeException e && Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            throw e;
+        if (throwable instanceof RuntimeException && Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
+            RuntimeException e = (RuntimeException) throwable;            throw e;
         }
     }
 
@@ -1118,8 +1118,8 @@ public class SlimefunItem implements Placeable {
 
     @Override
     public final boolean equals(Object obj) {
-        if (obj instanceof SlimefunItem item) {
-            return item.getId().equals(this.getId());
+        if (obj instanceof SlimefunItem) {
+            SlimefunItem item = (SlimefunItem) obj;            return item.getId().equals(this.getId());
         } else {
             return false;
         }
@@ -1157,7 +1157,7 @@ public class SlimefunItem implements Placeable {
             return null;
         }
 
-        var delegate = slimefunItemStack.item();
+        ItemStack delegate = slimefunItemStack.item();
         if (delegate.getType() == Material.AIR) {
             return null;
         }
