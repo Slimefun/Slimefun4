@@ -1,0 +1,45 @@
+package io.github.thebusybiscuit.slimefun5.implementation.items.food;
+
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
+
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun5.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
+/**
+ * This {@link SlimefunItem} can be obtained by crafting, it's
+ * used for various foods and recipes.
+ *
+ * @author TheSilentPro
+ * 
+ */
+public class HeavyCream extends SimpleSlimefunItem<ItemUseHandler> {
+
+    @ParametersAreNonnullByDefault
+    public HeavyCream(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
+    }
+
+    @Nonnull
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Optional<Block> block = e.getClickedBlock();
+
+            if (!block.isPresent() || !MaterialCompat.isInteractable(block.get().getType())) {
+                e.cancel();
+            }
+        };
+    }
+
+}

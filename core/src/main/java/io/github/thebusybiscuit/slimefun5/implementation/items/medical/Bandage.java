@@ -1,0 +1,62 @@
+package io.github.thebusybiscuit.slimefun5.implementation.items.medical;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Effect;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.core.handlers.ItemUseHandler;
+import io.github.thebusybiscuit.slimefun5.implementation.items.SimpleSlimefunItem;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedPotionEffectType;
+
+/**
+ * A {@link Bandage} or Rag is a medical supply which heals the {@link Player} and extinguishes
+ * fire.
+ * 
+ * @author TheBusyBiscuit
+ *
+ */
+public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
+
+    private final int healingLevel;
+
+    @ParametersAreNonnullByDefault
+    public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
+        super(itemGroup, item, recipeType, recipe, recipeOutput);
+
+        this.healingLevel = healingLevel;
+    }
+
+    @Override
+    public ItemUseHandler getItemHandler() {
+        return e -> {
+            Player p = e.getPlayer();
+
+            // Player is neither burning nor injured
+            if (p.getFireTicks() <= 0 && p.getHealth() >= p.getMaxHealth()) {
+                return;
+            }
+
+            if (p.getGameMode() != GameMode.CREATIVE) {
+                ItemUtils.consumeItem(e.getItem(), false);
+            }
+
+            p.getWorld().playEffect(p.getLocation(), Effect.STEP_SOUND, XMaterial.WHITE_WOOL.parseMaterial());
+            p.addPotionEffect(new PotionEffect(VersionedPotionEffectType.INSTANT_HEALTH, 1, healingLevel));
+            p.setFireTicks(0);
+
+            e.cancel();
+        };
+    }
+
+}
+
