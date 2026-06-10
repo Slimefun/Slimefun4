@@ -1,5 +1,11 @@
 package io.github.thebusybiscuit.slimefun5.utils;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
+
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
+
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -15,6 +21,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.entity.Item;
@@ -23,6 +30,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionData;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PotionCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ItemMetaCompat;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -145,7 +155,7 @@ public final class SlimefunUtils {
 
     private static boolean hasSoulboundFlag(@Nullable ItemMeta meta) {
         if (meta != null) {
-            PersistentDataContainer container = meta.getPersistentDataContainer();
+            PersistentDataContainer container = PdcCompat.container(meta);
             NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
             return container.has(key, PersistentDataType.BYTE);
@@ -176,7 +186,7 @@ public final class SlimefunUtils {
         boolean isSoulbound = isSoulbound(item);
         ItemMeta meta = item.getItemMeta();
 
-        PersistentDataContainer container = meta.getPersistentDataContainer();
+        PersistentDataContainer container = PdcCompat.container(meta);
         NamespacedKey key = Slimefun.getRegistry().getSoulboundDataKey();
 
         if (makeSoulbound && !isSoulbound) {
@@ -231,7 +241,7 @@ public final class SlimefunUtils {
 
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
             // com.mojang.authlib.GameProfile does not exist in a Test Environment
-            return new ItemStack(Material.PLAYER_HEAD);
+            return new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
         }
 
         String base64 = texture;
@@ -254,7 +264,7 @@ public final class SlimefunUtils {
             item = ItemStackWrapper.wrap(item);
         }
 
-        for (ItemStack stack : inventory.getStorageContents()) {
+        for (ItemStack stack : InventoryCompat.getStorageContents(inventory)) {
             if (stack == null || stack.getType() == Material.AIR) {
                 continue;
             }
@@ -352,8 +362,8 @@ public final class SlimefunUtils {
              * Some items can't rely on just IDs matching and will implement {@link DistinctiveItem}
              * in which case we want to use the method provided to compare
              */
-            if (checkDistinction && sf_sfitem instanceof DistinctiveItem distinctive && sf_item instanceof DistinctiveItem) {
-                return distinctive.canStack(sf_sfitem.getItem().getItemMeta(), sf_item.getItem().getItemMeta());
+            if (checkDistinction && sf_sfitem instanceof DistinctiveItem && sf_item instanceof DistinctiveItem) {
+                DistinctiveItem distinctive = (DistinctiveItem) sf_sfitem;                return distinctive.canStack(sf_sfitem.getItem().getItemMeta(), sf_item.getItem().getItemMeta());
             }
             return true;
         } else if (item.hasItemMeta()) {
@@ -428,8 +438,8 @@ public final class SlimefunUtils {
 
     private static @Nonnull Optional<DistinctiveItem> getDistinctiveItem(@Nonnull String id) {
         SlimefunItem slimefunItem = SlimefunItem.getById(id);
-        if (slimefunItem instanceof DistinctiveItem distinctive) {
-            return Optional.of(distinctive);
+        if (slimefunItem instanceof DistinctiveItem) {
+            DistinctiveItem distinctive = (DistinctiveItem) slimefunItem;            return Optional.of(distinctive);
         }
         return Optional.empty();
     }
@@ -453,10 +463,10 @@ public final class SlimefunUtils {
 
         // Fixes #3133: name and lore are not enough
         OptionalInt itemCustomModelData = itemMetaSnapshot.getCustomModelData();
-        if (itemMeta.hasCustomModelData() && itemCustomModelData.isPresent() && itemMeta.getCustomModelData() != itemCustomModelData.getAsInt()) {
+        if (ItemMetaCompat.hasCustomModelData(itemMeta) && itemCustomModelData.isPresent() && ItemMetaCompat.getCustomModelData(itemMeta) != itemCustomModelData.getAsInt()) {
             return false;
         } else {
-            return itemMeta.hasCustomModelData() == itemCustomModelData.isPresent();
+            return ItemMetaCompat.hasCustomModelData(itemMeta) == itemCustomModelData.isPresent();
         }
     }
 
@@ -479,32 +489,36 @@ public final class SlimefunUtils {
         }
 
         // Fixes #3133: name and lore are not enough
-        boolean hasItemMetaCustomModelData = itemMeta.hasCustomModelData();
-        boolean hasSfItemMetaCustomModelData = sfitemMeta.hasCustomModelData();
-        if (hasItemMetaCustomModelData && hasSfItemMetaCustomModelData && itemMeta.getCustomModelData() != sfitemMeta.getCustomModelData()) {
+        boolean hasItemMetaCustomModelData = ItemMetaCompat.hasCustomModelData(itemMeta);
+        boolean hasSfItemMetaCustomModelData = ItemMetaCompat.hasCustomModelData(sfitemMeta);
+        if (hasItemMetaCustomModelData && hasSfItemMetaCustomModelData && ItemMetaCompat.getCustomModelData(itemMeta) != ItemMetaCompat.getCustomModelData(sfitemMeta)) {
             return false;
         } else if (hasItemMetaCustomModelData != hasSfItemMetaCustomModelData) {
             return false;
         }
 
-        if (!(itemMeta instanceof PotionMeta potionMeta) || !(sfitemMeta instanceof PotionMeta sfPotionMeta)) {
+        if (!(itemMeta instanceof PotionMeta) || !(sfitemMeta instanceof PotionMeta)) {
             return true;
         }
+        PotionMeta potionMeta = (PotionMeta) itemMeta;
+        PotionMeta sfPotionMeta = (PotionMeta) sfitemMeta;
         MinecraftVersion current = Slimefun.getMinecraftVersion();
 
         if (current.isBefore(20, 2)) {
-            // getBasePotionData pre 1.20.2
-            return potionMeta.getBasePotionData().equals(sfPotionMeta.getBasePotionData());
+            // getBasePotionData pre 1.20.2 (reached reflectively for the Java-8 1.8.8 compile floor)
+            PotionData data = PotionCompat.getBasePotionData(potionMeta);
+            PotionData sfData = PotionCompat.getBasePotionData(sfPotionMeta);
+            return data == null ? sfData == null : data.equals(sfData);
         } else if (current.isBefore(20, 5)) {
             //  getBasePotionType without null check for 1.20.3 and 1.20.4
-            return potionMeta.getBasePotionType() == sfPotionMeta.getBasePotionType();
+            return PotionCompat.getBasePotionType(potionMeta) == PotionCompat.getBasePotionType(sfPotionMeta);
         }
         // check if potionMetha has a basePotionType (acting a null check for getBasePotionType
         // on 1.20.5+
-        if (potionMeta.hasBasePotionType() != sfPotionMeta.hasBasePotionType()) {
+        if (PotionCompat.hasBasePotionType(potionMeta) != PotionCompat.hasBasePotionType(sfPotionMeta)) {
             return false;
         }
-        return potionMeta.getBasePotionType() == sfPotionMeta.getBasePotionType();
+        return PotionCompat.getBasePotionType(potionMeta) == PotionCompat.getBasePotionType(sfPotionMeta);
     }
 
     /**
@@ -679,10 +693,10 @@ public final class SlimefunUtils {
      */
     public static boolean isInventoryEmpty(@Nonnull Inventory inventory) {
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
-            return inventory.isEmpty();
+            return InventoryCompat.isEmpty(inventory);
         } else {
-            for (ItemStack is : inventory.getStorageContents()) {
-                if (is != null && !is.getType().isAir()) {
+            for (ItemStack is : InventoryCompat.getStorageContents(inventory)) {
+                if (is != null && !MaterialCompat.isAir(is.getType())) {
                     return false;
                 }
             }

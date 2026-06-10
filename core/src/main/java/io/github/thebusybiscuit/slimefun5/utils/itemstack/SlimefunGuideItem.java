@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.utils.itemstack;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,7 @@ public class SlimefunGuideItem extends ItemStack {
 
         meta.setLore(lore);
 
-        PersistentDataAPI.setString(meta, Slimefun.getRegistry().getGuideDataKey(), type.name());
+        PersistentDataAPI.setString(PdcCompat.holder(meta), Slimefun.getRegistry().getGuideDataKey(), type.name());
         Slimefun.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
 
         setItemMeta(meta);

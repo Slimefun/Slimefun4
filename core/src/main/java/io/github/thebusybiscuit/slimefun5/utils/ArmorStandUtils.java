@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.utils;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import javax.annotation.Nonnull;
 
 import io.papermc.lib.PaperLib;
@@ -60,12 +61,23 @@ public class ArmorStandUtils {
             return armorStand;
         }
 
-        return location.getWorld().spawn(location, ArmorStand.class, ArmorStandUtils::setupArmorStand);
+        // The pre-spawn consumer overload of World#spawn is 1.11+; reached reflectively to keep its
+        // flicker-free behaviour on modern servers (this branch only runs on 1.20.2+).
+        java.util.function.Consumer<ArmorStand> setup = ArmorStandUtils::setupArmorStand;
+        Object spawned = ReflectionCompat.invoke(location.getWorld(), "spawn", location, ArmorStand.class, setup);
+
+        if (spawned instanceof ArmorStand) {
+            return (ArmorStand) spawned;
+        }
+
+        ArmorStand fallback = location.getWorld().spawn(location, ArmorStand.class);
+        setupArmorStand(fallback);
+        return fallback;
     }
 
     private static void setupArmorStand(ArmorStand armorStand) {
         armorStand.setVisible(false);
-        armorStand.setSilent(true);
+        ReflectionCompat.invoke(armorStand, "setSilent", true);
         armorStand.setMarker(true);
         armorStand.setGravity(false);
         armorStand.setBasePlate(false);

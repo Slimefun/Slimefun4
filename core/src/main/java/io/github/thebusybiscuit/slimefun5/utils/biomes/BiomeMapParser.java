@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.KeyedCompat;
 import org.bukkit.block.Biome;
 
 import com.google.gson.JsonArray;
@@ -147,7 +148,7 @@ public class BiomeMapParser<T> {
 
                     // Check for duplicates
                     if (prev != null) {
-                        throw new BiomeMapException(key, "Biome '" + biome.getKey() + "' is registered twice");
+                        throw new BiomeMapException(key, "Biome '" + KeyedCompat.keyName(biome) + "' is registered twice");
                     }
                 }
             } else {

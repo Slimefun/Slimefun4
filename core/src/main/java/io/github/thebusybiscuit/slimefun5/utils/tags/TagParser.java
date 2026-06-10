@@ -14,11 +14,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -105,8 +104,8 @@ public class TagParser implements Keyed {
                 JsonArray values = child.getAsJsonArray();
 
                 for (JsonElement element : values) {
-                    if (element instanceof JsonPrimitive primitive && primitive.isString()) {
-                        // Strings will be parsed directly
+                    if (element instanceof JsonPrimitive && ((JsonPrimitive) element).isString()) {
+                        JsonPrimitive primitive = (JsonPrimitive) element;                        // Strings will be parsed directly
                         parsePrimitiveValue(element.getAsString(), materials, tags, true);
                     } else if (element instanceof JsonObject) {
                         /*
@@ -145,9 +144,8 @@ public class TagParser implements Keyed {
         } else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
             // Get the actual Key portion and match it to item and block tags.
             String keyValue = CommonPatterns.COLON.split(value)[1];
-            NamespacedKey namespacedKey = NamespacedKey.minecraft(keyValue);
-            Tag<Material> itemsTag = Bukkit.getTag(Tag.REGISTRY_ITEMS, namespacedKey, Material.class);
-            Tag<Material> blocksTag = Bukkit.getTag(Tag.REGISTRY_BLOCKS, namespacedKey, Material.class);
+            Tag<Material> itemsTag = Tag.lookup(Tag.REGISTRY_ITEMS, keyValue);
+            Tag<Material> blocksTag = Tag.lookup(Tag.REGISTRY_BLOCKS, keyValue);
 
             if (itemsTag != null) {
                 // We will prioritize the item tag
@@ -181,8 +179,8 @@ public class TagParser implements Keyed {
         JsonElement required = entry.get("required");
 
         // Check if the entry contains elements of the correct type
-        if (id instanceof JsonPrimitive idJson && idJson.isString() && required instanceof JsonPrimitive requiredJson && requiredJson.isBoolean()) {
-            boolean isRequired = required.getAsBoolean();
+        if (id instanceof JsonPrimitive && ((JsonPrimitive) id).isString() && required instanceof JsonPrimitive && ((JsonPrimitive) required).isBoolean()) {
+            JsonPrimitive idJson = (JsonPrimitive) id;            boolean isRequired = required.getAsBoolean();
 
             /*
              * If the Tag is required, an exception may be thrown.

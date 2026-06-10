@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -91,8 +92,8 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
                         return false;
                     }
                 case BASALT_GENERATOR:
-                    if (b.getRelative(BlockFace.DOWN).getType() == Material.SOUL_SOIL) {
-                        return hasSurroundingMaterials(b, Material.LAVA, Material.BLUE_ICE);
+                    if (b.getRelative(BlockFace.DOWN).getType() == XMaterial.SOUL_SOIL.parseMaterial()) {
+                        return hasSurroundingMaterials(b, Material.LAVA, XMaterial.BLUE_ICE.parseMaterial());
                     } else {
                         return false;
                     }

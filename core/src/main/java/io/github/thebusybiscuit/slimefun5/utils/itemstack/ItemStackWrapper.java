@@ -74,10 +74,8 @@ public final class ItemStackWrapper extends ItemStack {
         throw new UnsupportedOperationException(ERROR_MESSAGE);
     }
 
-    @Override
-    public int hashCode() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
-    }
+    // Note: ItemStack#hashCode() is final on the 1.8.8 API floor, so it cannot be overridden here.
+    // The wrapper is never used as a hash key, so inheriting ItemStack's hashCode is acceptable.
 
     @Override
     public ItemStack clone() {
@@ -132,8 +130,8 @@ public final class ItemStackWrapper extends ItemStack {
     public static @Nonnull ItemStackWrapper wrap(@Nonnull ItemStack itemStack) {
         Validate.notNull(itemStack, "The ItemStack cannot be null!");
 
-        if (itemStack instanceof ItemStackWrapper wrapper) {
-            return wrapper;
+        if (itemStack instanceof ItemStackWrapper) {
+            ItemStackWrapper wrapper = (ItemStackWrapper) itemStack;            return wrapper;
         }
 
         return new ItemStackWrapper(itemStack);

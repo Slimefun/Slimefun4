@@ -37,7 +37,7 @@ public final class JsonUtils {
              * As of 1.18 Spigot includes a newer version of Gson that
              * favours static method access.
              */
-            return JsonParser.parseString(json);
+            return new JsonParser().parse(json);
         } else {
             /*
              * For older versions, we will need to use this way.

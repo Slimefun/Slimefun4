@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.utils;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public final class ChargeUtils {
         float value = decimal.floatValue();
 
         NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
-        meta.getPersistentDataContainer().set(key, PersistentDataType.FLOAT, value);
+        PdcCompat.container(meta).set(key, PersistentDataType.FLOAT, value);
 
         List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
         for (int i = 0; i < lore.size(); i++) {
@@ -67,7 +69,7 @@ public final class ChargeUtils {
         Validate.notNull(meta, "Meta cannot be null!");
 
         NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
-        PersistentDataContainer container = meta.getPersistentDataContainer();
+        PersistentDataContainer container = PdcCompat.container(meta);
         Float value = container.get(key, PersistentDataType.FLOAT);
 
         // If persistent data is available, we just return this value

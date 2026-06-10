@@ -15,8 +15,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.items.autocrafters.Abst
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.Tag;
-import org.bukkit.block.data.Waterlogged;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 
 import io.github.thebusybiscuit.slimefun5.api.exceptions.TagMisconfigurationException;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -173,7 +172,7 @@ public enum SlimefunTag implements Tag<Material> {
     SENSITIVE_MATERIALS,
 
     /**
-     * These Materials are sensitive to fluids, they cannot be {@link Waterlogged}
+     * These Materials are sensitive to fluids, they cannot be {@code Waterlogged}
      * and would break in contact with water.
      */
     FLUID_SENSITIVE_MATERIALS,
@@ -342,7 +341,6 @@ public enum SlimefunTag implements Tag<Material> {
         }
     }
 
-    @Override
     public @Nonnull NamespacedKey getKey() {
         return key;
     }
