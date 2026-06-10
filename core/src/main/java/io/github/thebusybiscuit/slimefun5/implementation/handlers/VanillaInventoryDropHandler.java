@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.implementation.handlers;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
 import java.util.List;
 
 import javax.annotation.Nonnull;
@@ -69,7 +71,7 @@ public class VanillaInventoryDropHandler<T extends BlockState & InventoryHolder>
             T inventoryHolder = blockStateClass.cast(state);
 
             for (ItemStack stack : getInventory(inventoryHolder)) {
-                if (stack != null && !stack.getType().isAir()) {
+                if (stack != null && !MaterialCompat.isAir(stack.getType())) {
                     drops.add(stack);
                 }
             }
@@ -78,8 +80,8 @@ public class VanillaInventoryDropHandler<T extends BlockState & InventoryHolder>
 
     @Nonnull
     protected Inventory getInventory(@Nonnull T inventoryHolder) {
-        if (inventoryHolder instanceof Chest chest) {
-            return chest.getBlockInventory();
+        if (inventoryHolder instanceof Chest) {
+            Chest chest = (Chest) inventoryHolder;            return chest.getBlockInventory();
         } else {
             return inventoryHolder.getInventory();
         }
