@@ -18,8 +18,6 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.block.data.Waterlogged;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -179,7 +177,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
         if (block.getType() == (isWater ? Material.WATER : Material.LAVA)) {
             addLiquidLevel(block, isWater);
         } else if (block.getType() == (isWater ? Material.LAVA : Material.WATER)) {
-            int level = ((Levelled) BlockDataCompat.getBlockData(block)).getLevel();
+            int level = BlockDataCompat.getInt(BlockDataCompat.getBlockData(block), "getLevel");
             block.setType(level == 0 || level == 8 ? Material.OBSIDIAN : Material.STONE);
             SoundEffect.CRUCIBLE_GENERATE_LIQUID_SOUND.playAt(block);
         } else {
@@ -188,7 +186,7 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
     }
 
     private void addLiquidLevel(@Nonnull Block block, boolean water) {
-        int level = ((Levelled) BlockDataCompat.getBlockData(block)).getLevel();
+        int level = BlockDataCompat.getInt(BlockDataCompat.getBlockData(block), "getLevel");
 
         if (level > 7) {
             level -= 8;
@@ -207,8 +205,9 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
             // Fixes #2903 - Cancel physics update to resolve weird overlapping
             block.setType(water ? Material.WATER : Material.LAVA, false);
         } else {
-            if (water && BlockDataCompat.getBlockData(block) instanceof Waterlogged) {
-                Waterlogged waterlogged = (Waterlogged) BlockDataCompat.getBlockData(block);                waterlogged.setWaterlogged(true);
+            if (water && BlockDataCompat.isInstance(BlockDataCompat.getBlockData(block), "org.bukkit.block.data.Waterlogged")) {
+                Object waterlogged = BlockDataCompat.getBlockData(block);
+                BlockDataCompat.set(waterlogged, "setWaterlogged", true);
                 BlockDataCompat.setBlockData(block, waterlogged, false);
                 SoundEffect.CRUCIBLE_PLACE_WATER_SOUND.playAt(block);
                 return;
@@ -223,15 +222,15 @@ public class Crucible extends SimpleSlimefunItem<BlockUseHandler> implements Rec
 
     @ParametersAreNonnullByDefault
     private void runPostTask(Block block, SoundEffect sound, int times) {
-        if (!(BlockDataCompat.getBlockData(block) instanceof Levelled)) {
+        if (!BlockDataCompat.isInstance(BlockDataCompat.getBlockData(block), "org.bukkit.block.data.Levelled")) {
             SoundEffect.CRUCIBLE_BLOCK_BREAK_SOUND.playAt(block);
             return;
         }
 
-        Levelled le = (Levelled) BlockDataCompat.getBlockData(block);
+        Object le = BlockDataCompat.getBlockData(block);
         sound.playAt(block);
         int level = 8 - times;
-        le.setLevel(level);
+        BlockDataCompat.set(le, "setLevel", level);
         BlockDataCompat.setBlockData(block, le, false);
 
         if (times < 8) {

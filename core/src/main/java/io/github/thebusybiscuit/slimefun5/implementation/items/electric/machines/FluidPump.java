@@ -14,8 +14,6 @@ import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Levelled;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.Vein;
@@ -242,11 +240,11 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
      */
     private boolean isSource(@Nonnull Block block) {
         if (block.isLiquid()) {
-            BlockData data = BlockDataCompat.getBlockData(block);
+            Object data = BlockDataCompat.getBlockData(block);
 
-            if (data instanceof Levelled) {
-                Levelled levelled = (Levelled) data;                // Check if this is a full block.
-                return levelled.getLevel() == 0;
+            if (BlockDataCompat.isInstance(data, "org.bukkit.block.data.Levelled")) {
+                // A level of 0 means this is a full (source) block.
+                return BlockDataCompat.getInt(data, "getLevel") == 0;
             }
         }
 

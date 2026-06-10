@@ -11,7 +11,6 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
-import org.bukkit.block.data.type.Sapling;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.MinecraftVersion;
@@ -83,8 +82,8 @@ public class TreeGrowthAccelerator extends AbstractGrowthAccelerator {
             // On 1.17+ we can actually simulate bonemeal :O
             return applyBoneMeal(machine, sapling, inv);
         } else {
-            Sapling saplingData = (Sapling) BlockDataCompat.getBlockData(sapling);
-            return saplingData.getStage() < saplingData.getMaximumStage() && updateSaplingData(machine, sapling, inv, saplingData);
+            Object saplingData = BlockDataCompat.getBlockData(sapling);
+            return BlockDataCompat.getInt(saplingData, "getStage") < BlockDataCompat.getInt(saplingData, "getMaximumStage") && updateSaplingData(machine, sapling, inv, saplingData);
         }
     }
 
@@ -106,12 +105,12 @@ public class TreeGrowthAccelerator extends AbstractGrowthAccelerator {
     }
 
     @ParametersAreNonnullByDefault
-    private boolean updateSaplingData(Block machine, Block block, BlockMenu inv, Sapling sapling) {
+    private boolean updateSaplingData(Block machine, Block block, BlockMenu inv, Object sapling) {
         for (int slot : getInputSlots()) {
             if (isFertilizer(inv.getItemInSlot(slot))) {
                 removeCharge(machine.getLocation(), ENERGY_CONSUMPTION);
 
-                sapling.setStage(sapling.getStage() + 1);
+                BlockDataCompat.set(sapling, "setStage", BlockDataCompat.getInt(sapling, "getStage") + 1);
                 BlockDataCompat.setBlockData(block, sapling, false);
 
                 inv.consumeItem(slot);

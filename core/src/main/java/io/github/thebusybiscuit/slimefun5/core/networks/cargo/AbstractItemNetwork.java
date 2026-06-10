@@ -15,8 +15,6 @@ import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.network.Network;
@@ -61,7 +59,14 @@ abstract class AbstractItemNetwork extends Network {
                     return Optional.of(block.getRelative(cached));
                 }
 
-                BlockFace face = ((Directional) BlockDataCompat.getBlockData(block)).getFacing().getOppositeFace();
+                Object facingValue = BlockDataCompat.get(BlockDataCompat.getBlockData(block), "getFacing");
+
+                if (!(facingValue instanceof BlockFace)) {
+                    // Legacy servers have no Directional block data; this connector can't be resolved.
+                    return Optional.empty();
+                }
+
+                BlockFace face = ((BlockFace) facingValue).getOppositeFace();
                 connectorCache.put(l, face);
                 return Optional.of(block.getRelative(face));
             }

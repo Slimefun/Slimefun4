@@ -12,8 +12,6 @@ import org.bukkit.Effect;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.events.AndroidFarmEvent;
@@ -39,7 +37,7 @@ public class FarmerAndroid extends ProgrammableAndroid {
     @Override
     protected void farm(Block b, BlockMenu menu, Block block, boolean isAdvanced) {
         Material blockType = block.getType();
-        BlockData data = BlockDataCompat.getBlockData(block);
+        Object data = BlockDataCompat.getBlockData(block);
         ItemStack drop = null;
 
         // WorldBorder#isInside(Location) is 1.20.4+; on older servers treat the location as inside.
@@ -48,8 +46,9 @@ public class FarmerAndroid extends ProgrammableAndroid {
             return;
         }
 
-        if (data instanceof Ageable && ((Ageable) data).getAge() >= ((Ageable) data).getMaximumAge()) {
-            Ageable ageable = (Ageable) data;            drop = getDropFromCrop(blockType);
+        if (BlockDataCompat.isInstance(data, "org.bukkit.block.data.Ageable")
+                && BlockDataCompat.getInt(data, "getAge") >= BlockDataCompat.getInt(data, "getMaximumAge")) {
+            drop = getDropFromCrop(blockType);
         }
 
         AndroidInstance instance = new AndroidInstance(this, b);
@@ -63,8 +62,8 @@ public class FarmerAndroid extends ProgrammableAndroid {
             if (drop != null && menu.pushItem(drop, getOutputSlots()) == null) {
                 block.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, blockType);
 
-                if (data instanceof Ageable) {
-                    Ageable ageable = (Ageable) data;                    ageable.setAge(0);
+                if (BlockDataCompat.isInstance(data, "org.bukkit.block.data.Ageable")) {
+                    BlockDataCompat.set(data, "setAge", 0);
                     BlockDataCompat.setBlockData(block, data);
                 }
             }

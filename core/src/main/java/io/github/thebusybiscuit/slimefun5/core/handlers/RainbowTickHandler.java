@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.core.handlers;
 
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 import java.util.Arrays;
@@ -11,9 +12,6 @@ import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.type.GlassPane;
 
 import io.github.bakedlibs.dough.collections.LoopIterator;
 import io.github.thebusybiscuit.slimefun5.api.MinecraftVersion;
@@ -84,7 +82,7 @@ public class RainbowTickHandler extends BlockTicker {
               no impact on performance, in fact it should save performance as it preloads
               the data but also saves heavy calls for other Materials
              */
-            if (BlockDataCompat.createBlockData(type) instanceof GlassPane) {
+            if (BlockDataCompat.isInstance(BlockDataCompat.createBlockData(type), "org.bukkit.block.data.type.GlassPane")) {
                 return true;
             }
         }
@@ -103,15 +101,17 @@ public class RainbowTickHandler extends BlockTicker {
         }
 
         if (glassPanes) {
-            BlockData blockData = BlockDataCompat.getBlockData(b);
+            Object previousData = BlockDataCompat.getBlockData(b);
 
-            if (blockData instanceof GlassPane) {
-                GlassPane previousData = (GlassPane) blockData;                BlockData block = BlockDataCompat.createBlockData(material, bd -> {
-                    if (bd instanceof GlassPane) {
-                        GlassPane nextData = (GlassPane) bd;                        nextData.setWaterlogged(previousData.isWaterlogged());
+            if (BlockDataCompat.isInstance(previousData, "org.bukkit.block.data.type.GlassPane")) {
+                Object block = BlockDataCompat.createBlockData(material, bd -> {
+                    BlockDataCompat.set(bd, "setWaterlogged", BlockDataCompat.get(previousData, "isWaterlogged"));
 
-                        for (BlockFace face : previousData.getAllowedFaces()) {
-                            nextData.setFace(face, previousData.hasFace(face));
+                    Object allowedFaces = BlockDataCompat.get(previousData, "getAllowedFaces");
+
+                    if (allowedFaces instanceof Iterable) {
+                        for (Object face : (Iterable<?>) allowedFaces) {
+                            ReflectionCompat.invoke(bd, "setFace", face, ReflectionCompat.invoke(previousData, "hasFace", face));
                         }
                     }
                 });

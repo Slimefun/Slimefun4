@@ -15,8 +15,6 @@ import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Skull;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -145,9 +143,9 @@ public class DebugFishListener implements Listener {
 
             // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
             if (b.getType() == XMaterial.PLAYER_WALL_HEAD.parseMaterial()) {
-                p.sendMessage(ChatColors.color("  &dFacing: &e" + ((Directional) BlockDataCompat.getBlockData(b)).getFacing().toString()));
+                p.sendMessage(ChatColors.color("  &dFacing: &e" + BlockDataCompat.get(BlockDataCompat.getBlockData(b), "getFacing")));
             } else {
-                p.sendMessage(ChatColors.color("  &dRotation: &e" + ((Rotatable) BlockDataCompat.getBlockData(b)).getRotation().toString()));
+                p.sendMessage(ChatColors.color("  &dRotation: &e" + BlockDataCompat.get(BlockDataCompat.getBlockData(b), "getRotation")));
             }
         }
 

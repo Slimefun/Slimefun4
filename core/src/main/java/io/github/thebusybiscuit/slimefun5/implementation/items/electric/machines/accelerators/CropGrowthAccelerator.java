@@ -4,7 +4,6 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ParticleCompat;
 
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -57,15 +56,15 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
     }
 
     private boolean grow(Block machine, BlockMenu inv, Block crop) {
-        Ageable ageable = (Ageable) BlockDataCompat.getBlockData(crop);
+        Object ageable = BlockDataCompat.getBlockData(crop);
 
-        if (ageable.getAge() < ageable.getMaximumAge()) {
+        if (BlockDataCompat.getInt(ageable, "getAge") < BlockDataCompat.getInt(ageable, "getMaximumAge")) {
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), organicFertilizer, false, false)) {
                     removeCharge(machine.getLocation(), getEnergyConsumption());
                     inv.consumeItem(slot);
 
-                    ageable.setAge(ageable.getAge() + 1);
+                    BlockDataCompat.set(ageable, "setAge", BlockDataCompat.getInt(ageable, "getAge") + 1);
                     BlockDataCompat.setBlockData(crop, ageable);
 
                     ParticleCompat.spawn(crop.getWorld(), VersionedParticle.HAPPY_VILLAGER, crop.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);

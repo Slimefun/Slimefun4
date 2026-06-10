@@ -10,7 +10,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Ageable;
 import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 
@@ -45,10 +44,10 @@ public class InfernalBonemeal extends SimpleSlimefunItem<ItemUseHandler> {
                 Block b = block.get();
 
                 if (b.getType() == XMaterial.NETHER_WART.parseMaterial()) {
-                    Ageable ageable = (Ageable) BlockDataCompat.getBlockData(b);
+                    Object ageable = BlockDataCompat.getBlockData(b);
 
-                    if (ageable.getAge() < ageable.getMaximumAge()) {
-                        ageable.setAge(ageable.getMaximumAge());
+                    if (BlockDataCompat.getInt(ageable, "getAge") < BlockDataCompat.getInt(ageable, "getMaximumAge")) {
+                        BlockDataCompat.set(ageable, "setAge", BlockDataCompat.getInt(ageable, "getMaximumAge"));
                         BlockDataCompat.setBlockData(b, ageable);
                         b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, Material.REDSTONE_BLOCK);
 

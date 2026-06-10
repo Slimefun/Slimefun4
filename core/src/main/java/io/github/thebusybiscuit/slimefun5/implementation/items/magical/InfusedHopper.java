@@ -8,7 +8,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.Hopper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
@@ -69,13 +68,14 @@ public class InfusedHopper extends SimpleSlimefunItem<BlockTicker> {
 
                 // Check if this was enabled in the config
                 if (toggleable.getValue()) {
-                    Hopper hopper = (Hopper) BlockDataCompat.getBlockData(b);
+                    Object hopper = BlockDataCompat.getBlockData(b);
 
                     /*
                      * If the Hopper was disabled by a redstone signal,
-                     * we just don't do anything.
+                     * we just don't do anything. (On legacy servers without block data we can't
+                     * tell, so we assume it is enabled.)
                      */
-                    if (!hopper.isEnabled()) {
+                    if (Boolean.FALSE.equals(BlockDataCompat.get(hopper, "isEnabled"))) {
                         return;
                     }
                 }

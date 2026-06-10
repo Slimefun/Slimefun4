@@ -24,8 +24,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Rotatable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -156,11 +154,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 BlockStorage.addBlockInfo(b, "rotation", EntityCompat.getFacing(p).getOppositeFace().toString());
                 BlockStorage.addBlockInfo(b, "paused", "true");
 
-                BlockData blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> {
-                    if (data instanceof Rotatable) {
-                        Rotatable rotatable = (Rotatable) data;                        rotatable.setRotation(EntityCompat.getFacing(p));
-                    }
-                });
+                Object blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> BlockDataCompat.set(data, "setRotation", EntityCompat.getFacing(p)));
 
                 BlockDataCompat.setBlockData(b, blockData);
             }
@@ -766,11 +760,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
         BlockFace rotation = POSSIBLE_ROTATIONS.get(index);
 
-        BlockData blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> {
-            if (data instanceof Rotatable) {
-                Rotatable rotatable = (Rotatable) data;                rotatable.setRotation(rotation.getOppositeFace());
-            }
-        });
+        Object blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> BlockDataCompat.set(data, "setRotation", rotation.getOppositeFace()));
 
         BlockDataCompat.setBlockData(b, blockData);
         BlockStorage.addBlockInfo(b, "rotation", rotation.name());
@@ -887,11 +877,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
                 return;
             }
 
-            BlockData blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> {
-                if (data instanceof Rotatable) {
-                    Rotatable rotatable = (Rotatable) data;                    rotatable.setRotation(face.getOppositeFace());
-                }
-            });
+            Object blockData = BlockDataCompat.createBlockData(XMaterial.PLAYER_HEAD.parseMaterial(), data -> BlockDataCompat.set(data, "setRotation", face.getOppositeFace()));
 
             BlockDataCompat.setBlockData(block, blockData);
 

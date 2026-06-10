@@ -6,14 +6,11 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Axis;
 import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.Orientable;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.Vein;
@@ -93,11 +90,13 @@ public class LumberAxe extends SlimefunItem implements NotPlaceable {
     private void stripLog(@Nonnull Block b) {
         // No need for a SoundEffect here, this is supposed to be a vanilla sound.
         SoundCompat.playAt(b.getLocation(), "ITEM_AXE_STRIP", null, 1, 1);
-        Axis axis = ((Orientable) BlockDataCompat.getBlockData(b)).getAxis();
+        // Block data is held as an opaque Object and its axis read/written reflectively, so this
+        // class references no 1.13+ block.data type in its bytecode (required for legacy loading).
+        Object axis = BlockDataCompat.get(BlockDataCompat.getBlockData(b), "getAxis");
         b.setType(Material.valueOf("STRIPPED_" + b.getType().name()));
 
-        Orientable orientable = (Orientable) BlockDataCompat.getBlockData(b);
-        orientable.setAxis(axis);
+        Object orientable = BlockDataCompat.getBlockData(b);
+        BlockDataCompat.set(orientable, "setAxis", axis);
         BlockDataCompat.setBlockData(b, orientable);
     }
 

@@ -23,8 +23,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
-import org.bukkit.block.data.type.Piston;
-import org.bukkit.block.data.type.PistonHead;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -358,10 +356,10 @@ class MiningTask implements Runnable {
 
                 // Check if the above block is valid
                 if (above.isEmpty() || above.getType() == XMaterial.PISTON_HEAD.parseMaterial()) {
-                    Piston piston = (Piston) BlockDataCompat.getBlockData(block);
+                    Object piston = BlockDataCompat.getBlockData(block);
 
                     // Check if the piston is actually facing upwards
-                    if (piston.getFacing() == BlockFace.UP) {
+                    if (BlockDataCompat.get(piston, "getFacing") == BlockFace.UP) {
                         setExtended(block, piston, extended);
                     } else {
                         // The pistons must be facing upwards
@@ -381,14 +379,14 @@ class MiningTask implements Runnable {
         }
     }
 
-    private void setExtended(@Nonnull Block block, @Nonnull Piston piston, boolean extended) {
-        piston.setExtended(extended);
+    private void setExtended(@Nonnull Block block, @Nonnull Object piston, boolean extended) {
+        BlockDataCompat.set(piston, "setExtended", extended);
         BlockDataCompat.setBlockData(block, piston, false);
 
         // Updating the Piston Head
         if (extended) {
-            PistonHead head = (PistonHead) BlockDataCompat.createBlockData(XMaterial.PISTON_HEAD.parseMaterial());
-            head.setFacing(BlockFace.UP);
+            Object head = BlockDataCompat.createBlockData(XMaterial.PISTON_HEAD.parseMaterial());
+            BlockDataCompat.set(head, "setFacing", BlockFace.UP);
 
             BlockDataCompat.setBlockData(block.getRelative(BlockFace.UP), head, false);
         } else {

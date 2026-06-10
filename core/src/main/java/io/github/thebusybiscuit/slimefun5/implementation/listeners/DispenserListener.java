@@ -8,7 +8,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Dispenser;
-import org.bukkit.block.data.Directional;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDispenseEvent;
@@ -49,9 +48,13 @@ public class DispenserListener implements Listener {
                     BlockState state = PaperLib.getBlockState(b, false).getState();
 
                     if (state instanceof Dispenser) {
-                        Dispenser dispenser = (Dispenser) state;                        BlockFace face = ((Directional) BlockDataCompat.getBlockData(b)).getFacing();
-                        Block block = b.getRelative(face);
-                        handler.onBlockDispense(e, dispenser, block, machine);
+                        Dispenser dispenser = (Dispenser) state;
+                        Object facing = BlockDataCompat.get(BlockDataCompat.getBlockData(b), "getFacing");
+
+                        if (facing instanceof BlockFace) {
+                            Block block = b.getRelative((BlockFace) facing);
+                            handler.onBlockDispense(e, dispenser, block, machine);
+                        }
                     }
                 });
             }
