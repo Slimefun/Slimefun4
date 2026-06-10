@@ -127,7 +127,7 @@ public final class SlimefunGuideSettings {
            "&7Forks: &e" + github.getForks(),
            "&7Stars: &e" + github.getStars(),
            "",
-           "&7&oSlimefun 4 is a community project,",
+           "&7&oSlimefun is a community project,",
            "&7&othe source code is available on GitHub",
            "&7&oand if you want to keep this Plugin alive,",
            "&7&othen please consider contributing to it",

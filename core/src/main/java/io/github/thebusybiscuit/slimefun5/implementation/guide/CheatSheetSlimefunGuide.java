@@ -55,7 +55,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
             if (!(group instanceof FlexItemGroup) || ((FlexItemGroup) group).isVisible(p, profile, getMode())) {
-                FlexItemGroup flexItemGroup = (FlexItemGroup) group;                groups.add(group);
+                groups.add(group);
             }
         }
 
