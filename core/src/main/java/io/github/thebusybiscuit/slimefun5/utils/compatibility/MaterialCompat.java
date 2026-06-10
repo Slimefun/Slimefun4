@@ -109,4 +109,36 @@ public final class MaterialCompat {
     public static boolean isFuel(@Nullable Material material) {
         return Boolean.TRUE.equals(ReflectionCompat.invoke(material, "isFuel"));
     }
+
+    /**
+     * Whether the given {@link Material} can be placed as a block, version-aware.
+     * <p>
+     * On 1.13+ this is just {@link Material#isBlock()}. On legacy versions (pre-1.13) some placeable
+     * blocks only have an <em>item</em> form whose {@code isBlock()} returns {@code false} - most
+     * importantly {@code SKULL_ITEM} (player/mob heads), which Slimefun uses for the vast majority of
+     * its machine blocks. Those are treated as placeable here so head-textured machines can register
+     * and function on 1.8-1.12 instead of being rejected.
+     *
+     * @param material
+     *            The {@link Material} (may be {@code null})
+     *
+     * @return Whether it can be placed as a block
+     */
+    public static boolean isPlaceableBlock(@Nullable Material material) {
+        if (material == null) {
+            return false;
+        }
+
+        if (material.isBlock()) {
+            return true;
+        }
+
+        // Legacy item-form materials that are nonetheless placeable as blocks.
+        switch (material.name()) {
+            case "SKULL_ITEM": // player/mob heads (the placed form is SKULL)
+                return true;
+            default:
+                return false;
+        }
+    }
 }

@@ -7,6 +7,7 @@ import io.github.thebusybiscuit.slimefun5.api.exceptions.IncompatibleItemHandler
 import io.github.thebusybiscuit.slimefun5.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 @FunctionalInterface
 public interface BlockUseHandler extends ItemHandler {
@@ -15,7 +16,7 @@ public interface BlockUseHandler extends ItemHandler {
 
     @Override
     default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
-        if (item instanceof NotPlaceable || !item.getItem().getType().isBlock()) {
+        if (item instanceof NotPlaceable || !MaterialCompat.isPlaceableBlock(item.getItem().getType())) {
             return Optional.of(new IncompatibleItemHandlerException("Only blocks that are not marked as 'NotPlaceable' can have a BlockUseHandler.", item, this));
         }
 

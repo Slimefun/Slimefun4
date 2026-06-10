@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun5.api.exceptions.IncompatibleItemHandler
 import io.github.thebusybiscuit.slimefun5.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.attributes.NotPlaceable;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
@@ -24,7 +25,7 @@ public abstract class BlockTicker implements ItemHandler {
 
     @Override
     public Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
-        if (!item.getItem().getType().isBlock()) {
+        if (!MaterialCompat.isPlaceableBlock(item.getItem().getType())) {
             return Optional.of(new IncompatibleItemHandlerException("Only Materials that are blocks can have a BlockTicker.", item, this));
         }
 

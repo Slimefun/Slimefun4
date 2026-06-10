@@ -41,7 +41,14 @@ public final class VersionedPlayerHead {
     private VersionedPlayerHead() {}
 
     public static @Nonnull ItemStack getItemStack(@Nonnull String base64) {
-        ItemStack item = MaterialCompat.stack(XMaterial.PLAYER_HEAD);
+        // XMaterial#parseItem carries the legacy data value (SKULL_ITEM:3 = player head) on 1.8-1.12,
+        // unlike parseMaterial() which drops it and would yield a skeleton skull (data 0).
+        ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
+
+        if (item == null) {
+            item = MaterialCompat.stack(XMaterial.PLAYER_HEAD);
+        }
+
         SkullMeta meta = (SkullMeta) item.getItemMeta();
 
         applyTextureToMeta(meta, base64);
@@ -52,17 +59,53 @@ public final class VersionedPlayerHead {
 
     public static void applyTextureToMeta(@Nonnull SkullMeta meta, @Nonnull String base64) {
         UUID uuid = UUID.nameUUIDFromBytes(base64.getBytes(StandardCharsets.UTF_8));
-        URL skinUrl = extractSkinUrl(base64);
+        PlayerProfile profile = ProfileCompat.createProfile(uuid, PROFILE_NAME);
 
-        if (skinUrl != null) {
-            PlayerProfile profile = ProfileCompat.createProfile(uuid, PROFILE_NAME);
+        if (profile != null) {
+            // Modern path (1.18+): the Bukkit PlayerProfile / PlayerTextures API.
+            URL skinUrl = extractSkinUrl(base64);
 
-            if (profile != null) {
+            if (skinUrl != null) {
                 PlayerTextures textures = profile.getTextures();
                 textures.setSkin(skinUrl);
                 profile.setTextures(textures);
                 ProfileCompat.setOwnerProfile(meta, profile);
             }
+        } else {
+            // Legacy path (1.8-1.17): set the GameProfile "textures" property directly on the meta.
+            applyLegacyTexture(meta, uuid, base64);
+        }
+    }
+
+    /**
+     * Applies a head texture on servers without the {@code PlayerProfile} API (pre-1.18) by reflectively
+     * setting a {@code com.mojang.authlib.GameProfile} (with a {@code textures} property) on the
+     * {@code CraftMetaSkull#profile} field. No-op if the server's internals don't match.
+     *
+     * @param meta
+     *            The {@link SkullMeta} to modify
+     * @param uuid
+     *            A stable UUID derived from the texture
+     * @param base64
+     *            The base64-encoded textures value
+     */
+    private static void applyLegacyTexture(@Nonnull SkullMeta meta, @Nonnull UUID uuid, @Nonnull String base64) {
+        try {
+            Class<?> gameProfileClass = Class.forName("com.mojang.authlib.GameProfile");
+            Class<?> propertyClass = Class.forName("com.mojang.authlib.properties.Property");
+
+            Object gameProfile = gameProfileClass.getConstructor(UUID.class, String.class).newInstance(uuid, PROFILE_NAME);
+            Object properties = gameProfileClass.getMethod("getProperties").invoke(gameProfile);
+            Object property = propertyClass.getConstructor(String.class, String.class).newInstance("textures", base64);
+
+            // PropertyMap extends Guava's ForwardingMultimap -> put(key, value)
+            properties.getClass().getMethod("put", Object.class, Object.class).invoke(properties, "textures", property);
+
+            java.lang.reflect.Field profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, gameProfile);
+        } catch (Throwable e) {
+            // Server internals differ - leave the head without a custom texture rather than crashing.
         }
     }
 

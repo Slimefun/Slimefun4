@@ -506,6 +506,12 @@ public class SlimefunItem implements Placeable {
                 info("Item was registered during runtime.");
                 load();
             }
+        } catch (IncompatibleItemHandlerException x) {
+            // Java-8 universal port: on legacy servers an item's material may not be a placeable block
+            // (a 1.13+ block material falls back to a non-block item), so a BlockTicker/BlockUseHandler
+            // cannot attach. This is an expected version limitation, not a bug - log it concisely on a
+            // single line instead of a full error stacktrace, and leave the item unregistered.
+            Slimefun.logger().log(Level.WARNING, "{0} is unavailable on this Minecraft version ({1})", new Object[] { this, x.getMessage() });
         } catch (Exception x) {
             error("Registering " + toString() + " has failed!", x);
         }
