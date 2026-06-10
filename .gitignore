@@ -18,3 +18,9 @@ target/
 
 # Server runtime (test server)
 run/
+
+# Transient port/debugging artifacts
+*.hprof
+*.stackdump
+compile_*.txt
+test_tasks*.txt
