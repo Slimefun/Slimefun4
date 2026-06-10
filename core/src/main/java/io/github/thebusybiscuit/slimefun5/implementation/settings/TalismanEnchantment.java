@@ -6,6 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.enchantments.Enchantment;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.KeyedCompat;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.talismans.MagicianTalisman;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
 
@@ -24,7 +25,7 @@ public class TalismanEnchantment extends ItemSetting<Boolean> {
 
     @ParametersAreNonnullByDefault
     public TalismanEnchantment(MagicianTalisman talisman, Enchantment enchantment, int level) {
-        super(talisman, "allow-enchantments." + enchantment.getKey().getNamespace() + '.' + enchantment.getKey().getKey() + ".level." + level, true);
+        super(talisman, "allow-enchantments." + KeyedCompat.namespace(enchantment) + '.' + KeyedCompat.key(enchantment) + ".level." + level, true);
 
         this.enchantment = enchantment;
         this.level = level;
