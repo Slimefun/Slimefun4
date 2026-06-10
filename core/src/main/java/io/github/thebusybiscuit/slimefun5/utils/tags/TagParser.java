@@ -11,13 +11,17 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
 import org.bukkit.Material;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
+
+import com.cryptomorin.xseries.XMaterial;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -133,12 +137,15 @@ public class TagParser implements Keyed {
     private void parsePrimitiveValue(String value, Set<Material> materials, Set<Tag<Material>> tags, boolean throwException) throws TagMisconfigurationException {
         if (PatternUtils.MINECRAFT_NAMESPACEDKEY.matcher(value).matches()) {
             // Match the NamespacedKey against Materials
-            Material material = Material.matchMaterial(value);
+            Material material = matchMaterialCompat(value);
 
             if (material != null) {
                 // If the Material could be matched, simply add it to our Set
                 materials.add(material);
-            } else if (throwException) {
+            } else if (throwException && !isLegacyServer()) {
+                // On a legacy server an unresolved material almost always means it was added in a
+                // newer Minecraft version, not a misconfiguration - skip it silently so the rest of
+                // the tag still loads. On modern servers this stays a hard error.
                 throw new TagMisconfigurationException(key, "Minecraft Material '" + value + "' seems to not exist!");
             }
         } else if (PatternUtils.MINECRAFT_TAG.matcher(value).matches()) {
@@ -153,8 +160,8 @@ public class TagParser implements Keyed {
             } else if (blocksTag != null) {
                 // If no item tag exists, fall back to the block tag
                 tags.add(blocksTag);
-            } else if (throwException) {
-                // If both fail, then the tag does not exist.
+            } else if (throwException && !isLegacyServer()) {
+                // Vanilla tags only exist on 1.13+; on legacy servers a missing tag is expected.
                 throw new TagMisconfigurationException(key, "There is no '" + value + "' tag in Minecraft.");
             }
         } else if (PatternUtils.SLIMEFUN_TAG.matcher(value).matches()) {
@@ -171,6 +178,37 @@ public class TagParser implements Keyed {
             // If no RegEx pattern matched, it's malformed.
             throw new TagMisconfigurationException(key, "Could not recognize value '" + value + "'");
         }
+    }
+
+    /**
+     * Resolves a (possibly namespaced/lowercase) material id to a {@link Material} across versions.
+     * {@code Material#matchMaterial} understands namespaced ids only from 1.13 onwards, so on legacy
+     * servers we strip the namespace and resolve the legacy enum via XSeries.
+     *
+     * @param value
+     *            The material id, e.g. {@code "minecraft:coal_ore"}
+     *
+     * @return The matching {@link Material}, or {@code null} if it does not exist on this version
+     */
+    @Nullable
+    private static Material matchMaterialCompat(@Nonnull String value) {
+        Material material = Material.matchMaterial(value);
+
+        if (material == null) {
+            String name = value.contains(":") ? CommonPatterns.COLON.split(value)[1] : value;
+            material = XMaterial.matchXMaterial(name).map(XMaterial::parseMaterial).orElse(null);
+        }
+
+        return material;
+    }
+
+    /**
+     * @return Whether the running server predates Minecraft 1.13, where many modern materials and all
+     *         vanilla tags are absent (so missing entries are expected rather than misconfigured).
+     */
+    private static boolean isLegacyServer() {
+        MinecraftVersion version = Slimefun.getMinecraftVersion();
+        return version != null && version.isBefore(MinecraftVersion.MINECRAFT_1_13);
     }
 
     @ParametersAreNonnullByDefault

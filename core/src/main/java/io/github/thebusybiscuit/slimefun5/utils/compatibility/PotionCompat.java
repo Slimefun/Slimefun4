@@ -37,6 +37,31 @@ public final class PotionCompat {
         ReflectionCompat.invoke(meta, "setBasePotionData", data);
     }
 
+    /**
+     * Builds a {@code PotionData} reflectively from its components and applies it, so callers never
+     * reference the {@link PotionData} type directly in their bytecode. {@link PotionData} only exists
+     * from 1.9 onwards; on a 1.8 server this is a no-op (the potion simply keeps no base potion data).
+     *
+     * @param meta
+     *            The {@link PotionMeta} to modify
+     * @param type
+     *            The {@link PotionType}
+     * @param extended
+     *            Whether the potion is extended
+     * @param upgraded
+     *            Whether the potion is upgraded
+     */
+    public static void setBasePotionData(PotionMeta meta, PotionType type, boolean extended, boolean upgraded) {
+        try {
+            Class<?> potionDataClass = Class.forName("org.bukkit.potion.PotionData");
+            Object data = potionDataClass.getConstructor(PotionType.class, boolean.class, boolean.class)
+                .newInstance(type, extended, upgraded);
+            ReflectionCompat.invoke(meta, "setBasePotionData", data);
+        } catch (ReflectiveOperationException | LinkageError ignored) {
+            // PotionData is 1.9+; legacy servers have no base potion data
+        }
+    }
+
     public static boolean hasBasePotionType(PotionMeta meta) {
         return Boolean.TRUE.equals(ReflectionCompat.invoke(meta, "hasBasePotionType"));
     }
