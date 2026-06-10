@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -23,7 +23,6 @@ import org.bukkit.entity.Piglin;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.collections.KeyMap;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun5.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -81,7 +80,9 @@ public final class SlimefunRegistry {
     private NamespacedKey itemChargeKey;
     private NamespacedKey guideKey;
 
-    private final KeyMap<GEOResource> geoResources = new KeyMap<>();
+    // Java-8 universal port: keyed by Slimefun's own NamespacedKey (GEOResource implements our own
+    // Keyed), so a plain Map is used instead of dough's KeyMap (which is bound to org.bukkit.Keyed).
+    private final Map<NamespacedKey, GEOResource> geoResources = new HashMap<>();
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
@@ -335,7 +336,7 @@ public final class SlimefunRegistry {
     }
 
     @Nonnull
-    public KeyMap<GEOResource> getGEOResources() {
+    public Map<NamespacedKey, GEOResource> getGEOResources() {
         return geoResources;
     }
 

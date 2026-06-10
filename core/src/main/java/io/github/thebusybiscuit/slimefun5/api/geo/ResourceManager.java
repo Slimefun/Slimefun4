@@ -81,7 +81,7 @@ public class ResourceManager {
         boolean enabled = config.getOrSetDefault(key + ".enabled", true);
 
         if (enabled) {
-            Slimefun.getRegistry().getGEOResources().add(resource);
+            Slimefun.getRegistry().getGEOResources().put(resource.getKey(), resource);
         }
 
         if (Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {

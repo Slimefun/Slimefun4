@@ -3,7 +3,7 @@ package io.github.thebusybiscuit.slimefun5.api.geo;
 import javax.annotation.Nonnull;
 
 import org.bukkit.Chunk;
-import org.bukkit.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;

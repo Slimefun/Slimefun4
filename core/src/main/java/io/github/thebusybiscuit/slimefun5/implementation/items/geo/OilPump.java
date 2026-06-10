@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -39,7 +39,7 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
     public OilPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        oil = Slimefun.getRegistry().getGEOResources().get(new NamespacedKey(Slimefun.instance(), "oil")).orElse(null);
+        oil = Slimefun.getRegistry().getGEOResources().get(new NamespacedKey(Slimefun.instance(), "oil"));
 
         new BlockMenuPreset(getId(), getInventoryTitle()) {
 
