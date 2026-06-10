@@ -46,6 +46,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
  * The {@link SlimefunItemStack} functions as the base for any
@@ -303,7 +304,7 @@ public class SlimefunItemStack {
 
     private static @Nonnull ItemStack getSkull(@Nonnull String id, @Nonnull String texture) {
         if (Slimefun.getMinecraftVersion() == MinecraftVersion.UNIT_TEST) {
-            return new ItemStack(XMaterial.PLAYER_HEAD.parseMaterial());
+            return MaterialCompat.stack(XMaterial.PLAYER_HEAD);
         }
 
         return VersionedPlayerHead.getItemStack(getTexture(id, texture));
