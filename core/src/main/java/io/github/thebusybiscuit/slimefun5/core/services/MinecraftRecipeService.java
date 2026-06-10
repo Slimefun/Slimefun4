@@ -15,8 +15,8 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.Keyed;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -190,11 +190,15 @@ public class MinecraftRecipeService {
     public @Nullable Recipe getRecipe(@Nonnull NamespacedKey key) {
         Validate.notNull(key, "The NamespacedKey should not be null");
 
+        // Recipe keys are a 1.12+ concept; convert our own key to the real org.bukkit.NamespacedKey
+        // at this boundary (null on legacy, where this lookup is not meaningfully used).
+        Object bukkitKey = io.github.thebusybiscuit.slimefun5.utils.compatibility.BukkitKeys.toBukkit(key);
+
         if (snapshot != null) {
             // We operate on a cached HashMap which is much faster than Bukkit's method.
-            return snapshot.getRecipe(key);
+            return snapshot.getRecipe((org.bukkit.NamespacedKey) bukkitKey);
         } else {
-            return (Recipe) ReflectionCompat.invokeStatic(Bukkit.class, "getRecipe", key);
+            return (Recipe) ReflectionCompat.invokeStatic(Bukkit.class, "getRecipe", bukkitKey);
         }
     }
 

@@ -18,7 +18,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -253,13 +253,13 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             Skull skull = (Skull) state;
             if (recipe == null) {
                 // Clear the value from persistent data storage
-                PersistentDataAPI.remove(PdcCompat.holder(skull), recipeStorageKey);
+                PdcCompat.remove(skull, recipeStorageKey);
 
                 // Also remove the "enabled" state since this should be per-recipe.
-                PersistentDataAPI.remove(PdcCompat.holder(skull), recipeEnabledKey);
+                PdcCompat.remove(skull, recipeEnabledKey);
             } else {
                 // Store the value to persistent data storage
-                PersistentDataAPI.setString(PdcCompat.holder(skull), recipeStorageKey, recipe.toString());
+                PdcCompat.setString(skull, recipeStorageKey, recipe.toString());
             }
 
             // Fixes #2899 - Update the BlockState if necessary
@@ -339,10 +339,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (state instanceof Skull) {
             Skull skull = (Skull) state;
             if (enabled) {
-                PersistentDataAPI.remove(PdcCompat.holder(skull), recipeEnabledKey);
+                PdcCompat.remove(skull, recipeEnabledKey);
                 Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.re-enabled");
             } else {
-                PersistentDataAPI.setByte(PdcCompat.holder(skull), recipeEnabledKey, (byte) 1);
+                PdcCompat.setByte(skull, recipeEnabledKey, (byte) 1);
                 Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.temporarily-disabled");
             }
         }

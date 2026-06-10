@@ -8,7 +8,7 @@ import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 
 import org.apache.commons.lang.Validate;
-import org.bukkit.Keyed;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
@@ -108,11 +108,10 @@ class VanillaRecipe extends AbstractRecipe {
 
     @Override
     public String toString() {
-        if (recipe instanceof Keyed) {
-            Keyed keyed = (Keyed) recipe;            return keyed.getKey().toString();
-        } else {
-            return "invalid-recipe";
-        }
+        // recipe is a real org.bukkit Recipe; getKey() (Keyed, 1.12+) is reached reflectively so we
+        // never reference org.bukkit.Keyed (absent on 1.8-1.11).
+        Object key = ReflectionCompat.invoke(recipe, "getKey");
+        return key != null ? key.toString() : "invalid-recipe";
     }
 }
 

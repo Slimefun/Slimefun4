@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import org.bukkit.Keyed;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -96,8 +95,12 @@ public class AutoCrafterListener implements Listener {
     @ParametersAreNonnullByDefault
     private boolean hasUnlockedRecipe(Player p, ItemStack item) {
         for (Recipe recipe : Slimefun.getMinecraftRecipeService().getRecipesFor(item)) {
-            if (recipe instanceof Keyed && !Boolean.TRUE.equals(ReflectionCompat.invoke(p, "hasDiscoveredRecipe", ((Keyed) recipe).getKey()))) {
-                Keyed keyed = (Keyed) recipe;                return false;
+            // recipe is a real org.bukkit Recipe; its key (Keyed, 1.12+) and hasDiscoveredRecipe (1.12+)
+            // are reached reflectively so we never reference org.bukkit.Keyed (absent on 1.8-1.11).
+            Object key = ReflectionCompat.invoke(recipe, "getKey");
+
+            if (key != null && !Boolean.TRUE.equals(ReflectionCompat.invoke(p, "hasDiscoveredRecipe", key))) {
+                return false;
             }
         }
 

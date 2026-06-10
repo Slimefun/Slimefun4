@@ -16,7 +16,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
-import org.bukkit.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -69,8 +69,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
 
         if (state instanceof Skull) {
             Skull skull = (Skull) state;            // Read the stored value from persistent data storage
-            PersistentDataContainer container = PdcCompat.container(skull);
-            String value = container.get(recipeStorageKey, PersistentDataType.STRING);
+            String value = (String) PdcCompat.get(skull, recipeStorageKey, "STRING");
 
             if (value != null) {
                 String[] values = CommonPatterns.COLON.split(value);
@@ -85,7 +84,7 @@ public class VanillaAutoCrafter extends AbstractAutoCrafter {
                 Recipe keyedRecipe = Slimefun.getMinecraftRecipeService().getRecipe(key);
 
                 if (keyedRecipe != null) {
-                    boolean enabled = !container.has(recipeEnabledKey, PersistentDataType.BYTE);
+                    boolean enabled = !PdcCompat.has(skull, recipeEnabledKey, "BYTE");
                     AbstractRecipe recipe = AbstractRecipe.of(keyedRecipe);
                     recipe.setEnabled(enabled);
 
