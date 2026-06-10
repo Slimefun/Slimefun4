@@ -205,13 +205,18 @@ val cloneAndBuildAddons by tasks.registering {
 
     doLast {
         var addonsProp = project.findProperty("addons") as String? ?: ""
-        
+
+        // The interactive runServer picker publishes its selection here.
+        if (addonsProp.isBlank()) {
+            addonsProp = project.findProperty("resolvedAddons") as String? ?: ""
+        }
+
         if (addonsProp.isBlank()) {
             addonsProp = project.findProperty("slimefunAddons") as String? ?: ""
         }
 
         if (addonsProp.isBlank()) {
-            println("No addons specified in -Paddons or default-addons.txt")
+            println("No addons specified (use -Paddons=Owner/Repo,... or the interactive runServer menu)")
             return@doLast
         }
 
@@ -401,6 +406,98 @@ if (project.hasProperty("mcVersion")) {
     }
 }
 
+// Editable list of Slimefun addons offered by the interactive runServer picker (format: Owner/Repo).
+// InfinityLib and Networks are shared libraries other addons depend on, so they are listed first.
+// NB: the addons are not Java-8-ported yet, so building any of them will currently fail - the picker
+// is wired up ready for the addon-port phase. Edit the owner/repos here as the forks are finalised.
+val availableAddons = listOf(
+    "intisy/InfinityLib",
+    "intisy/Networks",
+    "intisy/InfinityExpansion",
+    "intisy/ExoticGarden",
+    "intisy/DynaTech",
+    "intisy/Galactifun",
+    "intisy/SlimeTinker",
+    "intisy/FluffyMachines",
+    "intisy/LiteXpansion",
+    "intisy/SensibleToolbox",
+    "intisy/ChestTerminal",
+    "intisy/ExtraGear",
+    "intisy/LuckyBlocks",
+    "intisy/MissileWarfare",
+    "intisy/SlimefunAdvancements"
+)
+
+// Resolve which addons runServer should build: explicit -Paddons wins; -PskipAddons forces none;
+// otherwise an interactive checkbox menu is shown (only for an interactive runServer invocation).
+// The result is published as the "resolvedAddons" extra property so cloneAndBuildAddons can read it.
+var runServerAddons = ""
+if (project.hasProperty("addons")) {
+    runServerAddons = project.property("addons") as String
+} else if (!project.hasProperty("skipAddons")
+        && gradle.startParameter.taskNames.joinToString(" ").contains("runServer", ignoreCase = true)) {
+    val addonsPsArray = availableAddons.joinToString(", ") { "\"$it\"" }
+    val psScript = """
+        \${'$'}addons = @($addonsPsArray)
+        \${'$'}selected = New-Object bool[] \${'$'}addons.Length
+        \${'$'}index = 0
+        try {
+            if (\${'$'}Host.UI.RawUI.KeyAvailable -ne \${'$'}null) {}
+        } catch {
+            Write-Output ""
+            exit
+        }
+        while (\${'$'}true) {
+            Clear-Host
+            Write-Host "=========================================" -ForegroundColor Cyan
+            Write-Host "   Slimefun5 - Select Addons to Build    " -ForegroundColor Cyan
+            Write-Host "=========================================" -ForegroundColor Cyan
+            Write-Host "Use [W]/[S] or [Up]/[Down] to move, [Space] to toggle, [Enter] to confirm." -ForegroundColor DarkGray
+            Write-Host "Select none to run the core only." -ForegroundColor DarkGray
+            Write-Host ""
+            for (\${'$'}i = 0; \${'$'}i -lt \${'$'}addons.Length; \${'$'}i++) {
+                \${'$'}mark = if (\${'$'}selected[\${'$'}i]) { "[x]" } else { "[ ]" }
+                if (\${'$'}i -eq \${'$'}index) { Write-Host "  > \${'$'}mark \${'$'}(\${'$'}addons[\${'$'}i])" -ForegroundColor Green }
+                else { Write-Host "    \${'$'}mark \${'$'}(\${'$'}addons[\${'$'}i])" }
+            }
+            \${'$'}keyInfo = \${'$'}Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+            \${'$'}keyCode = \${'$'}keyInfo.VirtualKeyCode
+            \${'$'}char = \${'$'}keyInfo.Character
+            if (\${'$'}keyCode -eq 38 -or \${'$'}char -eq 'w' -or \${'$'}char -eq 'W') {
+                \${'$'}index--
+                if (\${'$'}index -lt 0) { \${'$'}index = \${'$'}addons.Length - 1 }
+            } elseif (\${'$'}keyCode -eq 40 -or \${'$'}char -eq 's' -or \${'$'}char -eq 'S') {
+                \${'$'}index++
+                if (\${'$'}index -ge \${'$'}addons.Length) { \${'$'}index = 0 }
+            } elseif (\${'$'}keyCode -eq 32) {
+                \${'$'}selected[\${'$'}index] = -not \${'$'}selected[\${'$'}index]
+            } elseif (\${'$'}keyCode -eq 13) {
+                break
+            }
+        }
+        Clear-Host
+        \${'$'}chosen = @()
+        for (\${'$'}i = 0; \${'$'}i -lt \${'$'}addons.Length; \${'$'}i++) {
+            if (\${'$'}selected[\${'$'}i]) { \${'$'}chosen += \${'$'}addons[\${'$'}i] }
+        }
+        Write-Output (\${'$'}chosen -join ",")
+    """.trimIndent()
+
+    try {
+        val tmpFile = file("build/tmp/select_addons.ps1")
+        tmpFile.parentFile.mkdirs()
+        tmpFile.writeText(psScript)
+
+        val res = providers.exec {
+            commandLine("powershell", "-ExecutionPolicy", "Bypass", "-File", tmpFile.absolutePath)
+        }.standardOutput.asText.get().trim()
+        runServerAddons = res
+    } catch (e: Exception) {
+        println("Interactive addon menu skipped: \${e.message}")
+    }
+}
+project.extra.set("resolvedAddons", runServerAddons)
+
 // The plugin jar is Java-8 bytecode (loads on every server), but the SERVER JVM must match the
 // Minecraft version's own Java requirement. Map the selected MC version to the right launcher JDK.
 fun requiredJavaFor(mc: String): Int {
@@ -420,8 +517,9 @@ fun requiredJavaFor(mc: String): Int {
 
 tasks.runServer {
     dependsOn(tasks.shadowJar)
-    // Java-8 port: the addons are not ported yet, so allow booting core alone with -PskipAddons.
-    if (!project.hasProperty("skipAddons")) {
+    // Build addons only when the picker (or -Paddons) selected at least one. Selecting none in the
+    // menu, or passing -PskipAddons, or a non-interactive invocation = core-only boot.
+    if (runServerAddons.isNotBlank()) {
         dependsOn(cloneAndBuildAddons)
     }
     minecraftVersion(runServerMcVer)
