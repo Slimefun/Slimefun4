@@ -272,12 +272,17 @@ val cloneAndBuildAddons by tasks.registering {
         }
 
         for (addon in addons) {
-            val parts = addon.split("/")
+            // Each entry is Owner/Repo or Owner/Repo@branch (run.ps1 appends the chosen branch).
+            val ownerRepo = addon.substringBefore("@").trim()
+            val branch = addon.substringAfter("@", "").trim()
+            val parts = ownerRepo.split("/")
             if (parts.size != 2) {
-                println("Invalid addon format: $addon. Expected Owner/Repo")
+                println("Invalid addon format: $addon. Expected Owner/Repo or Owner/Repo@branch")
                 continue
             }
             val repo = parts[1]
+            val upstreamRef = if (branch.isNotBlank()) "origin/$branch" else "origin/HEAD"
+            val label = if (branch.isNotBlank()) "$ownerRepo ($branch)" else ownerRepo
 
             val repoDir = File(addonsSrcDir, repo)
             val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
@@ -285,21 +290,27 @@ val cloneAndBuildAddons by tasks.registering {
             val oldHash = if (repoDir.exists()) getGitHash(repoDir) else ""
 
             if (repoDir.exists()) {
-                println("Pulling latest for $addon...")
+                println("Pulling latest for $label...")
                 runProcess(ProcessBuilder("git", "fetch", "--all").directory(repoDir), 2)
                 runProcess(ProcessBuilder("git", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
-                val aheadProc = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
+                if (branch.isNotBlank()) {
+                    runProcess(ProcessBuilder("git", "checkout", branch).directory(repoDir), 1)
+                }
+                val aheadProc = ProcessBuilder("git", "rev-list", "--count", "$upstreamRef..HEAD")
                     .directory(repoDir).redirectErrorStream(true).start()
                 aheadProc.waitFor()
                 val aheadCount = aheadProc.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
                 if (aheadCount > 0) {
                     println("  Local branch is $aheadCount commit(s) ahead of origin - preserving local fixes.")
                 } else {
-                    runProcess(ProcessBuilder("git", "reset", "--hard", "origin/HEAD").directory(repoDir), 1)
+                    runProcess(ProcessBuilder("git", "reset", "--hard", upstreamRef).directory(repoDir), 1)
                 }
             } else {
-                println("Cloning $addon...")
-                runProcess(ProcessBuilder("git", "clone", "https://github.com/$addon.git").directory(addonsSrcDir), 5)
+                println("Cloning $label...")
+                val cloneCmd = mutableListOf("git", "clone")
+                if (branch.isNotBlank()) { cloneCmd.add("-b"); cloneCmd.add(branch) }
+                cloneCmd.add("https://github.com/$ownerRepo.git")
+                runProcess(ProcessBuilder(cloneCmd).directory(addonsSrcDir), 5)
             }
 
             val newHash = getGitHash(repoDir)
@@ -307,7 +318,7 @@ val cloneAndBuildAddons by tasks.registering {
             val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
             val hasCompiledJar = jars != null && jars.isNotEmpty()
 
-            val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "origin/HEAD..HEAD")
+            val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "$upstreamRef..HEAD")
                 .directory(repoDir).redirectErrorStream(true).start()
             aheadCheck.waitFor()
             val localAhead = aheadCheck.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
