@@ -31,14 +31,14 @@ java {
 repositories {
     mavenLocal() // Java-8 dough modules (io.github.baked-libs:*:8.0.0-j8) built into the local Maven repo
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")      // Spigot
-    maven("https://repo.papermc.io/repository/maven-public/")                   // Paper
-    maven("https://jitpack.io")                                                 // dough, MockBukkit, ItemsAdder
-    maven("https://maven.enginehub.org/repo/")                                  // WorldEdit
-    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")  // PlaceholderAPI
-    maven("https://nexus.neetgames.com/repository/maven-public")                // mcMMO
-    maven("https://repo.walshy.dev/public")                                     // ClearLag
-    maven("https://repo.codemc.io/repository/maven-public/")                    // Orebfuscator
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
+    maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://jitpack.io")
+    maven("https://maven.enginehub.org/repo/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi")
+    maven("https://nexus.neetgames.com/repository/maven-public")
+    maven("https://repo.walshy.dev/public")
+    maven("https://repo.codemc.io/repository/maven-public/")
 }
 
 dependencies {
@@ -68,7 +68,7 @@ dependencies {
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     // Java-8 universal floor: compile core against the oldest Bukkit API (1.8.8). Anything newer is
     // routed through compat-api / NMS modules. (Was: paper-api 26.1.2.)
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") // transitive: gson, guava, bungeechat, snakeyaml (all Java-8, server-provided at runtime)
+    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     // Compile-only shadow stubs of post-1.8 org.bukkit types (NamespacedKey, Keyed). NOT shaded into
     // the jar; the server's real classes are used on 1.12+. Legacy paths are version-guarded. See compat-stubs.
     compileOnly(project(":compat-stubs"))
@@ -284,7 +284,6 @@ val cloneAndBuildAddons by tasks.registering {
             val upstreamRef = if (branch.isNotBlank()) "origin/$branch" else "origin/HEAD"
             val label = if (branch.isNotBlank()) "$ownerRepo ($branch)" else ownerRepo
 
-            // All 15 addons live locally under addons/<Repo> — check there before trying GitHub.
             val localAddonsRoot = project.projectDir.parentFile.parentFile.parentFile.resolve("addons")
             val localAddonDir = localAddonsRoot.resolve(repo)
             val isLocalAddon = localAddonDir.isDirectory
@@ -406,8 +405,6 @@ fun requiredJavaFor(mc: String): Int {
 
 tasks.runServer {
     dependsOn(tasks.shadowJar)
-    // Build addons only when the picker (or -Paddons) selected at least one. Selecting none in the
-    // menu, or passing -PskipAddons, or a non-interactive invocation = core-only boot.
     if (runServerAddons.isNotBlank()) {
         dependsOn(cloneAndBuildAddons)
     }
