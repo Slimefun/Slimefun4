@@ -661,8 +661,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new AutoCrafterListener(this));
         register(() -> new SlimefunItemHitListener(this));
         register(() -> new MiddleClickListener(this));
-        register(() -> new BeeListener(this));
-        register(() -> new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem()));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_15)) {
+            register(() -> new BeeListener(this));
+            register(() -> new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem()));
+        }
         register(() -> new PiglinListener(this));
         register(() -> new SmithingTableListener(this));
         register(() -> new JoinListener(this));
