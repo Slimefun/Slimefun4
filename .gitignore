@@ -14,19 +14,12 @@ bin/
 *.tmp
 *.log
 
-target/
-
 # Server runtime (test server)
 run/
 
-# run.ps1 remembered selection
-scripts/.last-run.json
-
-# Transient port/debugging artifacts
+# JVM crash artifacts
 *.hprof
 *.stackdump
-compile_*.txt
-test_tasks*.txt
 
 # Accidentally-committed server runtime data
 /plugins/

@@ -8,7 +8,7 @@
     keyboard access, and we then invoke gradlew with the chosen flags. Building the flags
     programmatically also avoids PowerShell 5.1 splitting "-PmcVersion=1.8.8" at the dot.
 
-    The previous selection is remembered in scripts/.last-run.json, so pressing Enter through the
+    The previous selection is remembered in build/.last-run.json, so pressing Enter through the
     menus immediately re-runs the last configuration.
 
     Usage:   ./run.ps1
@@ -18,7 +18,7 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $projectRoot
 
-$stateFile = Join-Path $PSScriptRoot ".last-run.json"
+$stateFile = Join-Path $projectRoot "build/.last-run.json"
 
 $versions = @(
     "1.8.8", "1.9.4", "1.10.2", "1.11.2", "1.12.2", "1.13.2", "1.14.4", "1.15.2",
@@ -46,22 +46,29 @@ function Load-State {
 }
 
 function Save-State($version, $selections) {
-    $state = [PSCustomObject]@{ version = $version; selections = $selections }
-    $state | ConvertTo-Json -Depth 4 | Set-Content -Path $stateFile -Encoding UTF8
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $stateFile) | Out-Null
+    [PSCustomObject]@{ version = $version; selections = $selections } |
+        ConvertTo-Json -Depth 4 | Set-Content -Path $stateFile -Encoding UTF8
 }
 
-# Renders the changing menu rows in place. The header is drawn once by the caller, which records the
-# row below it as $script:menuTop; we move the cursor back there each frame and overwrite the rows
-# (padded to the buffer width) instead of clearing the whole screen, which removes the flicker.
-function Write-Rows($rows) {
-    $ui = $Host.UI.RawUI
-    $pos = $ui.CursorPosition
-    $pos.X = 0
-    $pos.Y = $script:menuTop
-    $ui.CursorPosition = $pos
-    $width = $ui.BufferSize.Width - 1
-    foreach ($row in $rows) {
-        Write-Host ($row.Text.PadRight($width)) -ForegroundColor $row.Color
+# Draws a whole frame anchored at the top-left, padding each line to the visible window width so the
+# previous frame is overwritten in place. Anchoring at (0,0) and padding to the *window* (not buffer)
+# width is what prevents the flicker and the wrapped/leftover rows: a buffer-width pad wraps lines in a
+# narrower window, which breaks the one-row-per-item cursor math. Callers clear once on entry so a
+# shorter frame cannot leave stale rows below.
+function Write-Frame($lines) {
+    [Console]::SetCursorPosition(0, 0)
+    $width = [Console]::WindowWidth - 1
+    if ($width -lt 1) { $width = 79 }
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        $text = $lines[$i].Text
+        if ($text.Length -gt $width) { $text = $text.Substring(0, $width) }
+        $text = $text.PadRight($width)
+        if ($i -lt $lines.Count - 1) {
+            Write-Host $text -ForegroundColor $lines[$i].Color
+        } else {
+            Write-Host $text -ForegroundColor $lines[$i].Color -NoNewline
+        }
     }
 }
 
@@ -69,22 +76,24 @@ function Read-MenuKey {
     return $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
 }
 
+function New-Row($text, $color) { return @{ Text = $text; Color = $color } }
+
 function Select-Version($startIndex) {
     $index = $startIndex
-    Clear-Host
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "   Slimefun5 - Select Server Version     " -ForegroundColor Cyan
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "Use [W]/[S] or [Up]/[Down] to move, [Enter] to select." -ForegroundColor DarkGray
-    Write-Host ""
-    $script:menuTop = $Host.UI.RawUI.CursorPosition.Y
-
+    [Console]::Clear()
     while ($true) {
-        $rows = for ($i = 0; $i -lt $versions.Length; $i++) {
-            if ($i -eq $index) { @{ Text = "  > $($versions[$i])"; Color = "Green" } }
-            else { @{ Text = "    $($versions[$i])"; Color = "Gray" } }
+        $lines = @(
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "   Slimefun5 - Select Server Version     " "Cyan"),
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "[W]/[S] or [Up]/[Down] to move, [Enter] to select." "DarkGray"),
+            (New-Row "" "Gray")
+        )
+        for ($i = 0; $i -lt $versions.Length; $i++) {
+            if ($i -eq $index) { $lines += New-Row "  > $($versions[$i])" "Green" }
+            else { $lines += New-Row "    $($versions[$i])" "Gray" }
         }
-        Write-Rows $rows
+        Write-Frame $lines
         switch (Read-MenuKey) {
             { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $versions.Length - 1 } }
             { $_ -in 40, 83 } { $index++; if ($index -ge $versions.Length) { $index = 0 } }
@@ -93,67 +102,31 @@ function Select-Version($startIndex) {
     }
 }
 
-function Select-Addons($preselected) {
-    $selected = New-Object bool[] $availableAddons.Length
-    for ($i = 0; $i -lt $availableAddons.Length; $i++) {
-        if ($preselected -contains $availableAddons[$i]) { $selected[$i] = $true }
-    }
-    $index = 0
-    Clear-Host
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "   Slimefun5 - Select Addons to Build    " -ForegroundColor Cyan
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "[W]/[S] or [Up]/[Down] to move, [Space] to toggle, [Enter] to confirm." -ForegroundColor DarkGray
-    Write-Host "Select none to run the core only." -ForegroundColor DarkGray
-    Write-Host ""
-    $script:menuTop = $Host.UI.RawUI.CursorPosition.Y
-
-    while ($true) {
-        $rows = for ($i = 0; $i -lt $availableAddons.Length; $i++) {
-            $mark = if ($selected[$i]) { "[x]" } else { "[ ]" }
-            if ($i -eq $index) { @{ Text = "  > $mark $($availableAddons[$i])"; Color = "Green" } }
-            else { @{ Text = "    $mark $($availableAddons[$i])"; Color = "Gray" } }
-        }
-        Write-Rows $rows
-        switch (Read-MenuKey) {
-            { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $availableAddons.Length - 1 } }
-            { $_ -in 40, 83 } { $index++; if ($index -ge $availableAddons.Length) { $index = 0 } }
-            32 { $selected[$index] = -not $selected[$index] }
-            13 {
-                $chosen = @()
-                for ($i = 0; $i -lt $availableAddons.Length; $i++) {
-                    if ($selected[$i]) { $chosen += $availableAddons[$i] }
-                }
-                return ,$chosen
-            }
-        }
-    }
-}
-
 function Select-Branch($addon, $current) {
     $index = [Math]::Max(0, [Array]::IndexOf($branchChoices, $current))
-    Clear-Host
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "   Branch for $addon" -ForegroundColor Cyan
-    Write-Host "=========================================" -ForegroundColor Cyan
-    Write-Host "Use [W]/[S] or [Up]/[Down] to move, [Enter] to select." -ForegroundColor DarkGray
-    Write-Host ""
-    $script:menuTop = $Host.UI.RawUI.CursorPosition.Y
-
+    [Console]::Clear()
     while ($true) {
-        $rows = for ($i = 0; $i -lt $branchChoices.Length; $i++) {
-            if ($i -eq $index) { @{ Text = "  > $($branchChoices[$i])"; Color = "Green" } }
-            else { @{ Text = "    $($branchChoices[$i])"; Color = "Gray" } }
+        $lines = @(
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "   Branch for $addon" "Cyan"),
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "[W]/[S] or [Up]/[Down] to move, [Enter] to select." "DarkGray"),
+            (New-Row "" "Gray")
+        )
+        for ($i = 0; $i -lt $branchChoices.Length; $i++) {
+            if ($i -eq $index) { $lines += New-Row "  > $($branchChoices[$i])" "Green" }
+            else { $lines += New-Row "    $($branchChoices[$i])" "Gray" }
         }
-        Write-Rows $rows
+        Write-Frame $lines
         switch (Read-MenuKey) {
             { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $branchChoices.Length - 1 } }
             { $_ -in 40, 83 } { $index++; if ($index -ge $branchChoices.Length) { $index = 0 } }
             13 {
                 $choice = $branchChoices[$index]
                 if ($choice -eq "Custom...") {
-                    Clear-Host
+                    [Console]::Clear()
                     $custom = Read-Host "Enter branch name for $addon"
+                    if ([string]::IsNullOrWhiteSpace($custom)) { return $current }
                     return $custom.Trim()
                 }
                 return $choice
@@ -162,28 +135,74 @@ function Select-Branch($addon, $current) {
     }
 }
 
+function Select-Addons($lastSelections) {
+    $count = $availableAddons.Length
+    $doneIndex = $count
+    $selected = New-Object bool[] $count
+    $branches = New-Object string[] $count
+    for ($i = 0; $i -lt $count; $i++) {
+        $previous = $lastSelections | Where-Object { $_.repo -eq $availableAddons[$i] } | Select-Object -First 1
+        if ($previous) { $selected[$i] = $true; $branches[$i] = $previous.branch }
+        else { $branches[$i] = $defaultBranch }
+    }
+    $index = 0
+    [Console]::Clear()
+    while ($true) {
+        $lines = @(
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "   Slimefun5 - Select Addons to Build    " "Cyan"),
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "[Space] toggle, [Enter] pick its branch, [Enter] on Done to launch." "DarkGray"),
+            (New-Row "Select none to run the core only." "DarkGray"),
+            (New-Row "" "Gray")
+        )
+        for ($i = 0; $i -lt $count; $i++) {
+            $mark = if ($selected[$i]) { "[x]" } else { "[ ]" }
+            $suffix = if ($selected[$i]) { "  ($($branches[$i]))" } else { "" }
+            $text = "$mark $($availableAddons[$i])$suffix"
+            if ($i -eq $index) { $lines += New-Row "  > $text" "Green" }
+            else { $lines += New-Row "    $text" "Gray" }
+        }
+        $doneText = "Done - launch server"
+        if ($index -eq $doneIndex) { $lines += New-Row "  > $doneText" "Yellow" }
+        else { $lines += New-Row "    $doneText" "Yellow" }
+
+        Write-Frame $lines
+        switch (Read-MenuKey) {
+            { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $doneIndex } }
+            { $_ -in 40, 83 } { $index++; if ($index -gt $doneIndex) { $index = 0 } }
+            32 { if ($index -lt $count) { $selected[$index] = -not $selected[$index] } }
+            13 {
+                if ($index -eq $doneIndex) {
+                    $chosen = @()
+                    for ($i = 0; $i -lt $count; $i++) {
+                        if ($selected[$i]) {
+                            $chosen += [PSCustomObject]@{ repo = $availableAddons[$i]; branch = $branches[$i] }
+                        }
+                    }
+                    return ,$chosen
+                } else {
+                    $selected[$index] = $true
+                    $branches[$index] = Select-Branch $availableAddons[$index] $branches[$index]
+                    [Console]::Clear()
+                }
+            }
+        }
+    }
+}
+
 $state = Load-State
 $lastVersion = if ($state) { $state.version } else { $versions[-1] }
-$lastSelections = if ($state) { $state.selections } else { @() }
-$lastAddons = @($lastSelections | ForEach-Object { $_.repo })
+$lastSelections = if ($state -and $state.selections) { @($state.selections) } else { @() }
 
 $startIndex = [Array]::IndexOf($versions, $lastVersion)
 if ($startIndex -lt 0) { $startIndex = $versions.Length - 1 }
 
-$versionIndex = Select-Version $startIndex
-$version = $versions[$versionIndex]
-$addons = Select-Addons $lastAddons
-
-$selections = @()
-foreach ($addon in $addons) {
-    $previous = $lastSelections | Where-Object { $_.repo -eq $addon } | Select-Object -First 1
-    $current = if ($previous) { $previous.branch } else { $defaultBranch }
-    $branch = Select-Branch $addon $current
-    $selections += [PSCustomObject]@{ repo = $addon; branch = $branch }
-}
+$version = $versions[(Select-Version $startIndex)]
+$selections = Select-Addons $lastSelections
 
 Save-State $version $selections
-Clear-Host
+[Console]::Clear()
 
 $gradleArgs = @("runServer", "-PmcVersion=$version")
 if ($selections.Count -gt 0) {
