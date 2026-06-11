@@ -104,7 +104,8 @@ public class MetricsService {
         if (!metricsModuleFile.exists()) {
             plugin.getLogger().info(JAR_NAME + " does not exist, downloading...");
 
-            if (!download(getLatestVersion())) {
+            // Fall back to the bundled copy when GitHub has no release to download (avoids a 404).
+            if (!download(getLatestVersion()) && !extractBundledModule()) {
                 plugin.getLogger().warning("Failed to start metrics as the file could not be downloaded.");
                 return;
             }
@@ -147,6 +148,30 @@ public class MetricsService {
             });
         } catch (Exception | LinkageError e) {
             plugin.getLogger().log(Level.WARNING, "Failed to load the metrics module. Maybe the jar is corrupt?", e);
+        }
+    }
+
+    /**
+     * Extracts the metrics module that is bundled inside the Slimefun jar to the cache folder.
+     * <p>
+     * This is the offline fallback used when the module could not be downloaded from GitHub (for
+     * example when no release is published on the Metrics repository), so that bStats metrics still
+     * work without any manual setup.
+     *
+     * @return Whether the bundled module was successfully extracted.
+     */
+    private boolean extractBundledModule() {
+        try (InputStream input = Slimefun.class.getClassLoader().getResourceAsStream(JAR_NAME + ".jar")) {
+            if (input == null) {
+                return false;
+            }
+
+            Files.copy(input, metricsModuleFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            plugin.getLogger().info("Using bundled " + JAR_NAME + " module (offline fallback).");
+            return true;
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.WARNING, "Failed to extract the bundled metrics module: {0}", e.getMessage());
+            return false;
         }
     }
 

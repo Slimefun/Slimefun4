@@ -30,6 +30,15 @@ import io.github.thebusybiscuit.slimefun5.utils.HeadTexture;
  */
 public class GitHubService {
 
+    /**
+     * This fork's primary development branch. GitHub's {@code /contributors} endpoint only reports
+     * authors of the default branch, so commits that live on a feature branch of this fork are never
+     * credited. We additionally aggregate this branch's commit history (see {@link CommitsConnector})
+     * so every fork contributor is shown. Maintainers should set this to the branch their fork work
+     * lives on; it must be pushed to the fork repository for GitHub to return its commits.
+     */
+    private static final String DEVELOPMENT_BRANCH = "feature/java8-universal-jar";
+
     private final String repository;
     private final Set<GitHubConnector> connectors;
     private final ConcurrentMap<String, Contributor> contributors;
@@ -136,6 +145,10 @@ public class GitHubService {
         connectors.add(new ContributionsConnector(this, "code", 1, repository, ContributorRole.DEVELOPER));
         connectors.add(new ContributionsConnector(this, "code2", 2, repository, ContributorRole.DEVELOPER));
         connectors.add(new ContributionsConnector(this, "code3", 3, repository, ContributorRole.DEVELOPER));
+
+        // /contributors only lists default-branch authors; aggregate the dev branch's commits too.
+        connectors.add(new CommitsConnector(this, "branch_commits", 1, repository, DEVELOPMENT_BRANCH, ContributorRole.FORK_DEVELOPER));
+        connectors.add(new CommitsConnector(this, "branch_commits2", 2, repository, DEVELOPMENT_BRANCH, ContributorRole.FORK_DEVELOPER));
 
         // TheBusyBiscuit/Slimefun5-Wiki
         connectors.add(new ContributionsConnector(this, "wiki", 1, "Slimefun/Wiki", ContributorRole.WIKI_EDITOR));

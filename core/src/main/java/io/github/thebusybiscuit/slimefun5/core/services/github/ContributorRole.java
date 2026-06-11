@@ -16,6 +16,12 @@ import javax.annotation.Nonnull;
 enum ContributorRole {
 
     DEVELOPER("developer"),
+    /**
+     * Credit for commits made on this fork's development branch (see {@link CommitsConnector}).
+     * The id starts with '&' so it is rendered as a literal label instead of being looked up as a
+     * translation key, which keeps fork-specific crediting self-contained (no language files needed).
+     */
+    FORK_DEVELOPER("&aFork Developer"),
     RESOURCEPACK_ARTIST("resourcepack"),
     TRANSLATOR("translator"),
     WIKI_EDITOR("wiki");
