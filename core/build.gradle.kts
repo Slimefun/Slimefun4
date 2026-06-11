@@ -284,12 +284,22 @@ val cloneAndBuildAddons by tasks.registering {
             val upstreamRef = if (branch.isNotBlank()) "origin/$branch" else "origin/HEAD"
             val label = if (branch.isNotBlank()) "$ownerRepo ($branch)" else ownerRepo
 
-            val repoDir = File(addonsSrcDir, repo)
+            // All 15 addons live locally under addons/<Repo> — check there before trying GitHub.
+            val localAddonsRoot = project.projectDir.parentFile.parentFile.parentFile.resolve("addons")
+            val localAddonDir = localAddonsRoot.resolve(repo)
+            val isLocalAddon = localAddonDir.isDirectory
+            val repoDir = if (isLocalAddon) localAddonDir else File(addonsSrcDir, repo)
             val isWindows = org.gradle.internal.os.OperatingSystem.current().isWindows
 
             val oldHash = if (repoDir.exists()) getGitHash(repoDir) else ""
 
-            if (repoDir.exists()) {
+            if (isLocalAddon) {
+                val branchProc = ProcessBuilder("git", "rev-parse", "--abbrev-ref", "HEAD")
+                    .directory(repoDir).redirectErrorStream(true).start()
+                branchProc.waitFor()
+                val currentBranch = branchProc.inputStream.bufferedReader().readText().trim().ifEmpty { "unknown" }
+                println("Using local addon at ${repoDir.path} (branch: $currentBranch)")
+            } else if (repoDir.exists()) {
                 println("Pulling latest for $label...")
                 runProcess(ProcessBuilder("git", "fetch", "--all").directory(repoDir), 2)
                 runProcess(ProcessBuilder("git", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
@@ -318,10 +328,16 @@ val cloneAndBuildAddons by tasks.registering {
             val jars = libsDir.listFiles { file: File -> file.name.endsWith(".jar") && !file.name.endsWith("-javadoc.jar") && !file.name.endsWith("-sources.jar") }
             val hasCompiledJar = jars != null && jars.isNotEmpty()
 
-            val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "$upstreamRef..HEAD")
-                .directory(repoDir).redirectErrorStream(true).start()
-            aheadCheck.waitFor()
-            val localAhead = aheadCheck.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
+            // For local addons there is no meaningful "ahead of origin" — treat as 0 so the
+            // hash-change check governs whether a rebuild is needed.
+            val localAhead = if (isLocalAddon) {
+                0
+            } else {
+                val aheadCheck = ProcessBuilder("git", "rev-list", "--count", "$upstreamRef..HEAD")
+                    .directory(repoDir).redirectErrorStream(true).start()
+                aheadCheck.waitFor()
+                aheadCheck.inputStream.bufferedReader().readText().trim().toIntOrNull() ?: 0
+            }
 
             if (oldHash == newHash && oldHash.isNotBlank() && hasCompiledJar && localAhead == 0) {
                 println("No updates found for $addon. Skipping build.")

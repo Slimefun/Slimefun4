@@ -25,18 +25,47 @@ $versions = @(
     "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.6", "1.21.11", "26.1.2"
 )
 
-# Format: Owner/Repo. InfinityLib and Networks are shared libraries other addons depend on.
+# Format: Owner/Repo. Build order matters: InfinityLib first, then InfinityExpansion (Networks depends on it), then Networks.
 $availableAddons = @(
-    "intisy/InfinityLib", "intisy/Networks", "intisy/InfinityExpansion", "intisy/ExoticGarden",
+    "intisy/InfinityLib", "intisy/InfinityExpansion", "intisy/Networks", "intisy/ExoticGarden",
     "intisy/DynaTech", "intisy/Galactifun", "intisy/SlimeTinker", "intisy/FluffyMachines",
     "intisy/LiteXpansion", "intisy/SensibleToolbox", "intisy/ChestTerminal", "intisy/ExtraGear",
     "intisy/LuckyBlocks", "intisy/MissileWarfare", "intisy/SlimefunAdvancements"
 )
 
-# Offered when picking an addon branch; "Custom..." lets you type any ref. The Java-8 port lives on
-# feature/java8-universal-jar, so it is the default.
-$branchChoices = @("feature/java8-universal-jar", "master", "main", "Custom...")
-$defaultBranch = $branchChoices[0]
+$defaultBranch = "main"
+
+$addonsRoot = Join-Path (Split-Path -Parent (Split-Path -Parent $projectRoot)) "addons"
+
+function Get-LocalBranch([string]$repo) {
+    $repoName = $repo.Split("/")[-1]
+    $localDir = Join-Path $addonsRoot $repoName
+    if (Test-Path (Join-Path $localDir ".git")) {
+        try {
+            $b = & git -C $localDir rev-parse --abbrev-ref HEAD 2>$null
+            if ($b) { return $b.Trim() }
+        } catch {}
+    }
+    return $defaultBranch
+}
+
+function Get-LocalBranches([string]$repo) {
+    $repoName = $repo.Split("/")[-1]
+    $localDir = Join-Path $addonsRoot $repoName
+    if (Test-Path (Join-Path $localDir ".git")) {
+        try {
+            $raw = & git -C $localDir branch --format="%(refname:short)" 2>$null
+            $branches = @($raw | Where-Object { $_ -ne "" })
+            if ($branches.Count -gt 0) { return $branches + @("Custom...") }
+        } catch {}
+    }
+    return @("main", "master", "Custom...")
+}
+
+function IsLocalAddon([string]$repo) {
+    $repoName = $repo.Split("/")[-1]
+    return Test-Path (Join-Path $addonsRoot $repoName)
+}
 
 function Load-State {
     if (Test-Path $stateFile) {
@@ -103,7 +132,8 @@ function Select-Version($startIndex) {
 }
 
 function Select-Branch($addon, $current) {
-    $index = [Math]::Max(0, [Array]::IndexOf($branchChoices, $current))
+    $choices = Get-LocalBranches $addon
+    $index = [Math]::Max(0, [Array]::IndexOf($choices, $current))
     [Console]::Clear()
     while ($true) {
         $lines = @(
@@ -113,16 +143,16 @@ function Select-Branch($addon, $current) {
             (New-Row "[W]/[S] or [Up]/[Down] to move, [Enter] to select." "DarkGray"),
             (New-Row "" "Gray")
         )
-        for ($i = 0; $i -lt $branchChoices.Length; $i++) {
-            if ($i -eq $index) { $lines += New-Row "  > $($branchChoices[$i])" "Green" }
-            else { $lines += New-Row "    $($branchChoices[$i])" "Gray" }
+        for ($i = 0; $i -lt $choices.Length; $i++) {
+            if ($i -eq $index) { $lines += New-Row "  > $($choices[$i])" "Green" }
+            else { $lines += New-Row "    $($choices[$i])" "Gray" }
         }
         Write-Frame $lines
         switch (Read-MenuKey) {
-            { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $branchChoices.Length - 1 } }
-            { $_ -in 40, 83 } { $index++; if ($index -ge $branchChoices.Length) { $index = 0 } }
+            { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $choices.Length - 1 } }
+            { $_ -in 40, 83 } { $index++; if ($index -ge $choices.Length) { $index = 0 } }
             13 {
-                $choice = $branchChoices[$index]
+                $choice = $choices[$index]
                 if ($choice -eq "Custom...") {
                     [Console]::Clear()
                     $custom = Read-Host "Enter branch name for $addon"
@@ -143,7 +173,7 @@ function Select-Addons($lastSelections) {
     for ($i = 0; $i -lt $count; $i++) {
         $previous = $lastSelections | Where-Object { $_.repo -eq $availableAddons[$i] } | Select-Object -First 1
         if ($previous) { $selected[$i] = $true; $branches[$i] = $previous.branch }
-        else { $branches[$i] = $defaultBranch }
+        else { $branches[$i] = Get-LocalBranch $availableAddons[$i] }
     }
     $index = 0
     [Console]::Clear()
