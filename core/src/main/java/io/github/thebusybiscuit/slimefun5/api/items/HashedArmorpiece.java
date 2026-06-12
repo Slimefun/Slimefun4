@@ -8,11 +8,11 @@ import javax.annotation.Nullable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.SlimefunArmorPiece;
 import io.github.thebusybiscuit.slimefun5.implementation.tasks.armor.SlimefunArmorTask;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 /**
  * This class serves as a way of checking whether a {@link Player} has changed their armor
@@ -28,6 +28,9 @@ import io.github.thebusybiscuit.slimefun5.implementation.tasks.armor.SlimefunArm
  * @see SlimefunArmorTask
  */
 public final class HashedArmorpiece {
+
+    // org.bukkit.inventory.meta.Damageable is 1.13+; pre-1.13 stores durability on the ItemStack instead.
+    private static final boolean DAMAGEABLE_META = classExists("org.bukkit.inventory.meta.Damageable");
 
     private int hash;
     private Optional<SlimefunArmorPiece> item;
@@ -54,11 +57,7 @@ public final class HashedArmorpiece {
         if (stack == null || stack.getType() == Material.AIR) {
             this.hash = 0;
         } else {
-            ItemStack copy = stack.clone();
-            ItemMeta meta = copy.getItemMeta();
-            ((Damageable) meta).setDamage(0);
-            copy.setItemMeta(meta);
-            this.hash = copy.hashCode();
+            this.hash = normalizedHash(stack);
         }
 
         if (item instanceof SlimefunArmorPiece) {
@@ -80,11 +79,36 @@ public final class HashedArmorpiece {
         if (stack == null || stack.getType() == Material.AIR) {
             return hash != 0;
         } else {
-            ItemStack copy = stack.clone();
+            return normalizedHash(stack) != hash;
+        }
+    }
+
+    /**
+     * Hashes the {@link ItemStack} with its durability normalised to zero, so that natural durability
+     * loss does not register as a divergence. On 1.13+ the damage lives on the {@link ItemMeta}
+     * ({@code Damageable#setDamage}, invoked reflectively to avoid referencing a 1.13+ type); on older
+     * versions it lives on the {@link ItemStack} ({@code setDurability}).
+     */
+    private static int normalizedHash(@Nonnull ItemStack stack) {
+        ItemStack copy = stack.clone();
+
+        if (DAMAGEABLE_META) {
             ItemMeta meta = copy.getItemMeta();
-            ((Damageable) meta).setDamage(0);
+            ReflectionCompat.invoke(meta, "setDamage", 0);
             copy.setItemMeta(meta);
-            return copy.hashCode() != hash;
+        } else {
+            copy.setDurability((short) 0);
+        }
+
+        return copy.hashCode();
+    }
+
+    private static boolean classExists(@Nonnull String name) {
+        try {
+            Class.forName(name);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
         }
     }
 
