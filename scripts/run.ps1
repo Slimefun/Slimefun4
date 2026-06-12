@@ -27,44 +27,48 @@ $versions = @(
 
 # Format: Owner/Repo. Build order matters: InfinityLib first, then InfinityExpansion (Networks depends on it), then Networks.
 $availableAddons = @(
-    "intisy/InfinityLib", "intisy/InfinityExpansion", "intisy/Networks", "intisy/ExoticGarden",
-    "intisy/DynaTech", "intisy/Galactifun", "intisy/SlimeTinker", "intisy/FluffyMachines",
-    "intisy/LiteXpansion", "intisy/SensibleToolbox", "intisy/ChestTerminal", "intisy/ExtraGear",
-    "intisy/LuckyBlocks", "intisy/MissileWarfare", "intisy/SlimefunAdvancements"
+    "Slimefun5/InfinityLib", "Slimefun5/InfinityExpansion", "Slimefun5/Networks", "Slimefun5/ExoticGarden",
+    "Slimefun5/DynaTech", "Slimefun5/Galactifun", "Slimefun5/SlimeTinker", "Slimefun5/FluffyMachines",
+    "Slimefun5/LiteXpansion", "Slimefun5/SensibleToolbox", "Slimefun5/ChestTerminal", "Slimefun5/ExtraGear",
+    "Slimefun5/LuckyBlocks", "Slimefun5/MissileWarfare", "Slimefun5/SlimefunAdvancements"
 )
 
-$defaultBranch = "main"
+function Resolve-AllBranches($repos) {
+    Write-Host "Resolving addon branches from GitHub..." -ForegroundColor DarkGray
 
-$addonsRoot = Join-Path (Split-Path -Parent (Split-Path -Parent $projectRoot)) "addons"
-
-function Get-LocalBranch([string]$repo) {
-    $repoName = $repo.Split("/")[-1]
-    $localDir = Join-Path $addonsRoot $repoName
-    if (Test-Path (Join-Path $localDir ".git")) {
-        try {
-            $b = & git -C $localDir rev-parse --abbrev-ref HEAD 2>$null
-            if ($b) { return $b.Trim() }
-        } catch {}
+    $work = {
+        param($r)
+        $out = & git ls-remote --symref "https://github.com/$r.git" 2>$null
+        if ($LASTEXITCODE -ne 0 -or -not $out) { return $null }
+        $default = $null
+        $branches = @()
+        foreach ($line in $out) {
+            if ($line -match '^ref:\s+refs/heads/(\S+)\s+HEAD') { $default = $matches[1] }
+            elseif ($line -match 'refs/heads/(\S+)$') { $branches += $matches[1] }
+        }
+        return @{ Default = $default; Branches = @($branches) }
     }
-    return $defaultBranch
-}
 
-function Get-LocalBranches([string]$repo) {
-    $repoName = $repo.Split("/")[-1]
-    $localDir = Join-Path $addonsRoot $repoName
-    if (Test-Path (Join-Path $localDir ".git")) {
-        try {
-            $raw = & git -C $localDir branch --format="%(refname:short)" 2>$null
-            $branches = @($raw | Where-Object { $_ -ne "" })
-            if ($branches.Count -gt 0) { return $branches + @("Custom...") }
-        } catch {}
+    $pool = [RunspaceFactory]::CreateRunspacePool(1, [Math]::Min(16, $repos.Count))
+    $pool.Open()
+
+    $tasks = foreach ($repo in $repos) {
+        $ps = [PowerShell]::Create()
+        $ps.RunspacePool = $pool
+        $null = $ps.AddScript($work).AddArgument($repo)
+        [PSCustomObject]@{ Repo = $repo; PS = $ps; Handle = $ps.BeginInvoke() }
     }
-    return @("main", "master", "Custom...")
-}
 
-function IsLocalAddon([string]$repo) {
-    $repoName = $repo.Split("/")[-1]
-    return Test-Path (Join-Path $addonsRoot $repoName)
+    $map = @{}
+    foreach ($task in $tasks) {
+        $result = $task.PS.EndInvoke($task.Handle)
+        $map[$task.Repo] = if ($result.Count -gt 0) { $result[0] } else { $null }
+        $task.PS.Dispose()
+    }
+
+    $pool.Close()
+    $pool.Dispose()
+    return $map
 }
 
 function Load-State {
@@ -80,11 +84,6 @@ function Save-State($version, $selections) {
         ConvertTo-Json -Depth 4 | Set-Content -Path $stateFile -Encoding UTF8
 }
 
-# Draws a whole frame anchored at the top-left, padding each line to the visible window width so the
-# previous frame is overwritten in place. Anchoring at (0,0) and padding to the *window* (not buffer)
-# width is what prevents the flicker and the wrapped/leftover rows: a buffer-width pad wraps lines in a
-# narrower window, which breaks the one-row-per-item cursor math. Callers clear once on entry so a
-# shorter frame cannot leave stale rows below.
 function Write-Frame($lines) {
     [Console]::SetCursorPosition(0, 0)
     $width = [Console]::WindowWidth - 1
@@ -132,7 +131,27 @@ function Select-Version($startIndex) {
 }
 
 function Select-Branch($addon, $current) {
-    $choices = Get-LocalBranches $addon
+    $info = $script:branchMap[$addon]
+
+    # Repo unreachable, or resolved with zero branches: nothing to pick. Show why and go back.
+    if ($null -eq $info -or @($info.Branches).Count -eq 0) {
+        $reason = if ($null -eq $info) { "could not be reached on GitHub" } else { "is empty (no branches)" }
+        [Console]::Clear()
+        Write-Frame @(
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "   Branch for $addon" "Cyan"),
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "" "Gray"),
+            (New-Row "  This repository $reason." "Yellow"),
+            (New-Row "" "Gray"),
+            (New-Row "  Press [Enter] to go back." "DarkGray")
+        )
+        while ((Read-MenuKey) -ne 13) {}
+        return $current
+    }
+
+    # Live branches from GitHub, plus a manual-entry escape hatch.
+    $choices = @($info.Branches) + @("Custom...")
     $index = [Math]::Max(0, [Array]::IndexOf($choices, $current))
     [Console]::Clear()
     while ($true) {
@@ -172,8 +191,16 @@ function Select-Addons($lastSelections) {
     $branches = New-Object string[] $count
     for ($i = 0; $i -lt $count; $i++) {
         $previous = $lastSelections | Where-Object { $_.repo -eq $availableAddons[$i] } | Select-Object -First 1
-        if ($previous) { $selected[$i] = $true; $branches[$i] = $previous.branch }
-        else { $branches[$i] = Get-LocalBranch $availableAddons[$i] }
+        if ($previous) {
+            $selected[$i] = $true
+            $branches[$i] = $previous.branch
+        } else {
+            # No hardcoded default: use the repo's resolved HEAD, else its first branch, else blank.
+            $info = $script:branchMap[$availableAddons[$i]]
+            if ($info -and $info.Default) { $branches[$i] = $info.Default }
+            elseif ($info -and @($info.Branches).Count -gt 0) { $branches[$i] = @($info.Branches)[0] }
+            else { $branches[$i] = "" }
+        }
     }
     $index = 0
     [Console]::Clear()
@@ -187,9 +214,18 @@ function Select-Addons($lastSelections) {
             (New-Row "" "Gray")
         )
         for ($i = 0; $i -lt $count; $i++) {
+            $info = $script:branchMap[$availableAddons[$i]]
             $mark = if ($selected[$i]) { "[x]" } else { "[ ]" }
-            $suffix = if ($selected[$i]) { "  ($($branches[$i]))" } else { "" }
-            $text = "$mark $($availableAddons[$i])$suffix"
+            if ($null -eq $info) {
+                $status = "  <unreachable>"
+            } elseif (@($info.Branches).Count -eq 0) {
+                $status = "  <empty>"
+            } elseif ($selected[$i]) {
+                $status = "  ($($branches[$i]))"
+            } else {
+                $status = ""
+            }
+            $text = "$mark $($availableAddons[$i])$status"
             if ($i -eq $index) { $lines += New-Row "  > $text" "Green" }
             else { $lines += New-Row "    $text" "Gray" }
         }
@@ -229,6 +265,10 @@ $startIndex = [Array]::IndexOf($versions, $lastVersion)
 if ($startIndex -lt 0) { $startIndex = $versions.Length - 1 }
 
 $version = $versions[(Select-Version $startIndex)]
+
+# Resolve every addon's branches from GitHub up front (parallel) so the addon menu is instant.
+$script:branchMap = Resolve-AllBranches $availableAddons
+
 $selections = Select-Addons $lastSelections
 
 Save-State $version $selections
