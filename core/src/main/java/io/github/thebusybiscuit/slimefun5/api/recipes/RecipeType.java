@@ -93,7 +93,17 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(NamespacedKey key, SlimefunItemStack slimefunItem, String... lore) {
-        this(key, slimefunItem.item(), null, lore);
+        this.item = CustomItemStack.create(slimefunItem.item(), null, lore);
+        this.key = key;
+        this.consumer = null;
+        this.machine = slimefunItem.getItemId();
+    }
+
+    public RecipeType(NamespacedKey key, SlimefunItemStack slimefunItem) {
+        this.item = slimefunItem.item().clone();
+        this.key = key;
+        this.consumer = null;
+        this.machine = slimefunItem.getItemId();
     }
 
     public RecipeType(NamespacedKey key, ItemStack item, BiConsumer<ItemStack[], ItemStack> callback, String... lore) {
