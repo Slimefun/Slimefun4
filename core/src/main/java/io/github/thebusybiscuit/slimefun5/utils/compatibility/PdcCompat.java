@@ -21,6 +21,24 @@ public final class PdcCompat {
 
     private PdcCompat() {}
 
+    private static final boolean SUPPORTED = resolveSupported();
+
+    /**
+     * @return whether this server exposes the 1.14+ PersistentDataContainer API.
+     */
+    public static boolean isSupported() {
+        return SUPPORTED;
+    }
+
+    private static boolean resolveSupported() {
+        try {
+            Class.forName("org.bukkit.persistence.PersistentDataContainer");
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
     @Nullable
     private static Object container(Object holder) {
         return ReflectionCompat.invoke(holder, "getPersistentDataContainer");
