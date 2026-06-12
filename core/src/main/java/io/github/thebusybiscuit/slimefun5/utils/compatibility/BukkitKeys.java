@@ -29,11 +29,25 @@ public final class BukkitKeys {
             return null;
         }
 
+        Class<?> bukkitKey;
         try {
-            Class<?> bukkitKey = Class.forName("org.bukkit.NamespacedKey");
+            bukkitKey = Class.forName("org.bukkit.NamespacedKey");
+        } catch (Throwable ignored) {
+            return null;
+        }
+
+        // 1.14-1.20 expose the (String, String) constructor; 1.21+/26.x removed it, so fall back to
+        // the fromString("namespace:key") factory.
+        try {
             Constructor<?> ctor = bukkitKey.getDeclaredConstructor(String.class, String.class);
             ctor.setAccessible(true);
             return ctor.newInstance(key.getNamespace(), key.getKey());
+        } catch (Throwable ignored) {
+            // fall through
+        }
+
+        try {
+            return bukkitKey.getMethod("fromString", String.class).invoke(null, key.getNamespace() + ":" + key.getKey());
         } catch (Throwable ignored) {
             return null;
         }
