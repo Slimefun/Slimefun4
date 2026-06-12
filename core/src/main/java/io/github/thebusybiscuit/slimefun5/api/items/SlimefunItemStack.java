@@ -317,7 +317,7 @@ public class SlimefunItemStack {
         if (texture.startsWith("ey")) {
             return texture;
         } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
-            String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
+            String value = "{\"textures\":{\"SKIN\":{\"url\":\"https://textures.minecraft.net/texture/" + texture + "\"}}}";
             return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
         } else {
             throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");

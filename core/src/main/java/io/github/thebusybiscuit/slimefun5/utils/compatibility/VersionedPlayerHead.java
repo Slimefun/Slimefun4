@@ -155,7 +155,7 @@ public final class VersionedPlayerHead {
     }
 
     public static @Nonnull String hashToBase64(@Nonnull String hashCode) {
-        String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + hashCode + "\"}}}";
+        String value = "{\"textures\":{\"SKIN\":{\"url\":\"https://textures.minecraft.net/texture/" + hashCode + "\"}}}";
         return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -253,7 +253,7 @@ public final class VersionedPlayerHead {
     @Nullable
     private static URL getTextureUrl(@Nonnull String hashCode) {
         try {
-            return URI.create("http://textures.minecraft.net/texture/" + hashCode).toURL();
+            return URI.create("https://textures.minecraft.net/texture/" + hashCode).toURL();
         } catch (MalformedURLException e) {
             return null;
         }
