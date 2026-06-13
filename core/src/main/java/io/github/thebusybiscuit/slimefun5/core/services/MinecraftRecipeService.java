@@ -73,10 +73,25 @@ public class MinecraftRecipeService {
      * This method refreshes the {@link RecipeSnapshot} that is used by the {@link MinecraftRecipeService}.
      */
     public void refresh() {
+        // RecipeSnapshot relies on org.bukkit.Keyed (1.12+); on older servers it cannot be built, so the
+        // recipe service is left empty - every getter already tolerates a null snapshot.
+        if (!classExists("org.bukkit.Keyed")) {
+            return;
+        }
+
         snapshot = new RecipeSnapshot(plugin);
 
         for (Consumer<RecipeSnapshot> subscriber : subscriptions) {
             subscriber.accept(snapshot);
+        }
+    }
+
+    private static boolean classExists(@Nonnull String name) {
+        try {
+            Class.forName(name);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
         }
     }
 
