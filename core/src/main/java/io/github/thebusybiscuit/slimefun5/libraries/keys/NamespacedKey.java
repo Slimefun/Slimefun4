@@ -20,6 +20,9 @@ import org.bukkit.plugin.Plugin;
  */
 public final class NamespacedKey {
 
+    public static final String MINECRAFT = "minecraft";
+    public static final String BUKKIT = "bukkit";
+
     private final String namespace;
     private final String key;
 
@@ -35,6 +38,24 @@ public final class NamespacedKey {
 
     public static NamespacedKey minecraft(String key) {
         return new NamespacedKey("minecraft", key);
+    }
+
+    /**
+     * Mirrors {@code org.bukkit.NamespacedKey#fromString}: parses a {@code "namespace:key"} string,
+     * defaulting the namespace to {@code minecraft} when no colon is present.
+     */
+    public static NamespacedKey fromString(String string) {
+        if (string == null || string.isEmpty()) {
+            return null;
+        }
+
+        int index = string.indexOf(':');
+
+        if (index < 0) {
+            return new NamespacedKey(MINECRAFT, string);
+        }
+
+        return new NamespacedKey(string.substring(0, index), string.substring(index + 1));
     }
 
     public String getNamespace() {
