@@ -18,7 +18,6 @@ import org.bukkit.Material;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.TileState;
 import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -35,7 +34,19 @@ import io.papermc.lib.PaperLib;
  */
 public class BlockDataService implements Keyed {
 
+    // org.bukkit.block.TileState is 1.14+; resolve it reflectively so this class still loads on older
+    // servers, where block identity is handled entirely by the file-based BlockStorage instead.
+    private static final Class<?> TILE_STATE = resolveTileState();
+
     private final NamespacedKey namespacedKey;
+
+    private static Class<?> resolveTileState() {
+        try {
+            return Class.forName("org.bukkit.block.TileState");
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
 
     /**
      * This creates a new {@link BlockDataService} for the given {@link Plugin}.
@@ -74,7 +85,7 @@ public class BlockDataService implements Keyed {
          */
         BlockState state = b.getState();
 
-        if (state instanceof TileState) {
+        if (TILE_STATE != null && TILE_STATE.isInstance(state)) {
             try {
                 PdcCompat.set(state, namespacedKey, "STRING", value);
                 state.update();
@@ -102,7 +113,7 @@ public class BlockDataService implements Keyed {
 
         BlockState state = PaperLib.getBlockState(b, false).getState();
 
-        if (state instanceof TileState) {
+        if (TILE_STATE != null && TILE_STATE.isInstance(state)) {
             return Optional.ofNullable((String) PdcCompat.get(state, namespacedKey, "STRING"));
         } else {
             return Optional.empty();
