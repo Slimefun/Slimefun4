@@ -93,6 +93,21 @@ public final class PdcCompat {
         return Boolean.TRUE.equals(ReflectionCompat.invoke(c, "has", k, t));
     }
 
+    /**
+     * Version-safe equality of two holders' PersistentDataContainers. On servers without PDC
+     * (1.8&ndash;1.13) the containers resolve to {@code null}; two such holders are treated as equal.
+     */
+    public static boolean containersEqual(Object holderA, Object holderB) {
+        Object a = container(holderA);
+        Object b = container(holderB);
+
+        if (a == null || b == null) {
+            return a == b;
+        }
+
+        return a.equals(b);
+    }
+
     public static void remove(Object holder, NamespacedKey key) {
         Object c = container(holder);
         Object k = BukkitKeys.toBukkit(key);
