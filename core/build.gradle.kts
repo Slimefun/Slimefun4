@@ -201,6 +201,12 @@ val cloneAndBuildAddons by tasks.registering {
 
         val addons = addonsProp.split(",")
 
+        // -PlocalAddons builds the existing addons-src working copy as-is: skips the git fetch/reset
+        // (so local edits survive) and forces a rebuild. For iterating addon source against a live boot
+        // before committing. Does NOT introduce any hard-coded paths - it reuses addonsSrcDir/<repo>.
+        val localAddons = project.hasProperty("localAddons")
+        if (localAddons) println("[localAddons] building working copies as-is (no git fetch/reset)")
+
         // Addon build files reference the core jar by a relative path valid only in the old layout;
         // rewrite it to the absolute jar path after each checkout (reset --hard reverts it every run).
         val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun v${project.version}-MC26.1.2.jar").get().asFile
@@ -353,7 +359,21 @@ val cloneAndBuildAddons by tasks.registering {
             }
             println("Copying ${jar.name} to plugins folder...")
             val dest = File(pluginsDir, jar.name)
-            jar.copyTo(dest, overwrite = true)
+            // A stale jar may be locked by an orphaned server JVM from a previous run; copyTo(overwrite)
+            // would then throw FileAlreadyExistsException and fail the whole build. Try a plain delete +
+            // copy, and if the lock persists fall back to streaming over the existing file rather than
+            // aborting - the addon is still updated and the next run starts clean.
+            try {
+                if (dest.exists() && !dest.delete()) {
+                    dest.outputStream().use { out -> jar.inputStream().use { it.copyTo(out) } }
+                } else {
+                    jar.copyTo(dest, overwrite = true)
+                }
+            } catch (e: Exception) {
+                println("WARNING: could not refresh ${dest.name} (locked by a stale server?): ${e.message}. Using existing copy.")
+                if (!dest.exists()) throw e
+                return
+            }
             relocateSlimefun4InJar(dest)
         }
 
@@ -433,7 +453,9 @@ val cloneAndBuildAddons by tasks.registering {
 
             val oldHash = if (repoDir.exists()) getGitHash(repoDir) else ""
 
-            if (repoDir.exists()) {
+            if (localAddons && repoDir.exists()) {
+                println("[localAddons] using working copy of $label as-is")
+            } else if (repoDir.exists()) {
                 println("Pulling latest for $label...")
                 runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "fetch", "--all").directory(repoDir), 2)
                 runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
@@ -470,7 +492,7 @@ val cloneAndBuildAddons by tasks.registering {
             val existingJarVersion = existingJar?.let { pluginMainClassVersion(it) }
             val recipeMarker = File(libsDir, ".addon-recipe")
             val recipeMatches = recipeMarker.exists() && recipeMarker.readText().trim() == addonBuildRecipe
-            if (oldHash == newHash && oldHash.isNotBlank() && existingJar != null && existingJarVersion != null && existingJarVersion <= 52 && recipeMatches) {
+            if (!localAddons && oldHash == newHash && oldHash.isNotBlank() && existingJar != null && existingJarVersion != null && existingJarVersion <= 52 && recipeMatches) {
                 println("No updates found for $addon. Skipping build.")
                 copyAddonJar(existingJar)
                 continue
@@ -480,11 +502,15 @@ val cloneAndBuildAddons by tasks.registering {
             libsDir.listFiles { file: File -> file.name.endsWith(".jar") }?.forEach { it.delete() }
 
             println("Building $addon...")
-            val gradlewCmd = if (isWindows) "gradlew.bat" else "./gradlew"
+            // Use the wrapper's absolute path; "gradlew.bat" alone relies on cmd resolving the cwd, which
+            // intermittently fails with "'gradlew.bat' is not recognized" even when the file is present.
+            val wrapperName = if (isWindows) "gradlew.bat" else "gradlew"
+            val wrapperFile = File(repoDir, wrapperName)
+            val gradlewCmd = if (wrapperFile.exists()) wrapperFile.absolutePath else if (isWindows) "gradlew.bat" else "./gradlew"
             val buildPb = if (isWindows) {
-                ProcessBuilder("cmd", "/c", "$gradlewCmd shadowJar")
+                ProcessBuilder("cmd", "/c", gradlewCmd, "shadowJar")
             } else {
-                ProcessBuilder("sh", "-c", "$gradlewCmd shadowJar")
+                ProcessBuilder("sh", "-c", "\"$gradlewCmd\" shadowJar")
             }
             buildPb.directory(repoDir)
             val exitCode = runProcess(buildPb, buildTimeoutMinutes)
