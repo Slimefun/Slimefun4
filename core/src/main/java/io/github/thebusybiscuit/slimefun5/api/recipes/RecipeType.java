@@ -120,9 +120,16 @@ public class RecipeType implements Keyed {
     }
 
     public RecipeType(MinecraftRecipe<?> recipe) {
-        this.item = new ItemStack(recipe.getMachine());
         this.machine = "";
-        this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
+        // A MinecraftRecipe constant can be null on older servers that lack that recipe type or its
+        // machine material (e.g. SHAPED_CRAFTING's CRAFTING_TABLE on 1.8) - degrade to a generic type.
+        if (recipe == null) {
+            this.item = new ItemStack(XMaterial.CRAFTING_TABLE.parseMaterial());
+            this.key = NamespacedKey.minecraft("crafting");
+        } else {
+            this.item = new ItemStack(recipe.getMachine());
+            this.key = NamespacedKey.minecraft(recipe.getRecipeClass().getSimpleName().toLowerCase(Locale.ROOT).replace("recipe", ""));
+        }
     }
 
     public void register(ItemStack[] recipe, ItemStack result) {
