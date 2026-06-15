@@ -33,6 +33,8 @@ jobs:
 
       - name: Build universal jar (version from tag)
         run: ./gradlew :core:shadowJar -Partifact_version=${{ github.ref_name }} --no-daemon
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Stage a clean jar name
         run: |
