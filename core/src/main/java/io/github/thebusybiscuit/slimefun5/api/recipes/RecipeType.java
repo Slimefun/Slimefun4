@@ -183,7 +183,13 @@ public class RecipeType implements Keyed {
     @ParametersAreNonnullByDefault
     private static void registerMobDrop(ItemStack[] recipe, ItemStack output) {
         String mob = ChatColor.stripColor(recipe[4].getItemMeta().getDisplayName()).toUpperCase(Locale.ROOT).replace(' ', '_');
-        EntityType entity = EntityType.valueOf(mob);
+        EntityType entity;
+        try {
+            entity = EntityType.valueOf(mob);
+        } catch (IllegalArgumentException e) {
+            // Mob type doesn't exist on this Minecraft version (e.g. VEX on 1.8); skip its drop.
+            return;
+        }
         Set<ItemStack> dropping = Slimefun.getRegistry().getMobDrops().getOrDefault(entity, new HashSet<>());
         dropping.add(output);
         Slimefun.getRegistry().getMobDrops().put(entity, dropping);
