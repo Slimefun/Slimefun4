@@ -15,7 +15,9 @@ plugins {
 }
 
 group = "com.github.slimefun"
-version = "5.0.0-UNOFFICIAL"
+// Release builds pass -Partifact_version=<tag> (e.g. v5.2.2) so plugin.yml reports the real version;
+// local/dev builds fall back to the current release number.
+version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() } ?: "5.2.2"
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 
 github {
