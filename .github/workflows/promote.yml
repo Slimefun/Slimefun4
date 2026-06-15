@@ -1,14 +1,13 @@
 name: Promote experimental to stable
 
-# Updates stable ONLY through CI (never a direct push). Trigger deliberately:
-#   git tag promote-<date> <experimental-commit> && git push origin promote-<date>
-# or run manually from the Actions tab once this file is on the default branch.
+# Updates stable ONLY through CI (never a direct push). Fires on a release tag (v*) or an
+# explicit promote-* tag / manual run.
 #
-# experimental currently holds the full universal-jar rewrite, which is divergent from the
-# old stable. The first run therefore cannot fast-forward: it records a merge commit whose
-# tree EQUALS experimental (stable becomes the universal-jar codebase; the old stable history
-# is preserved via the merge parent and is recoverable). Once stable == experimental, later
-# runs fast-forward normally.
+# experimental holds the universal-jar rewrite, divergent from the old stable. The first run
+# cannot fast-forward: it records a merge whose tree EQUALS experimental (old stable history is
+# preserved via the merge parent). Later runs fast-forward. experimental has no README.md (it is
+# generated only on stable), so this workflow regenerates it after the merge — a GITHUB_TOKEN push
+# does NOT trigger readme.yaml, so promotion must regenerate the README itself.
 
 on:
   push:
@@ -42,4 +41,15 @@ jobs:
             git read-tree --reset -u origin/experimental
             git commit --no-edit -m "release: promote experimental (universal-jar) to stable"
           fi
-          git push origin stable
+
+      - name: Regenerate README on stable
+        run: |
+          curl -sL https://raw.githubusercontent.com/Slimefun5/workflows/stable/.github/scripts/generate-readme.py -o /tmp/generate-readme.py
+          python3 /tmp/generate-readme.py --repository "${{ github.repository }}"
+          if ! git diff --quiet README.md 2>/dev/null || [ -n "$(git status --porcelain README.md)" ]; then
+            git add README.md
+            git commit -m "docs: auto-generate README.md [skip ci]"
+          fi
+
+      - name: Push stable
+        run: git push origin stable

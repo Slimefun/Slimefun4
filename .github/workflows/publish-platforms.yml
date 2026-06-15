@@ -13,5 +13,5 @@ jobs:
     with:
       project_name: Slimefun
       gradle_task: ":core:shadowJar"
-      jar_glob: "core/build/libs/Slimefun*.jar"
+      jar_dir: "core/build/libs"
     secrets: inherit
