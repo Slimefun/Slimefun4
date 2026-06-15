@@ -8,6 +8,7 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCompat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -75,6 +76,9 @@ public interface DamageableItem extends ItemAttribute {
                     // No need for a SoundEffect equivalent here since this is supposed to be a vanilla sound.
                     SoundCompat.playFor(p, p.getEyeLocation(), "ENTITY_ITEM_BREAK", null, 1, 1);
                     item.setAmount(0);
+                    // On 1.8 a 0-amount in-hand stack isn't reliably cleared (it lingers and stays
+                    // usable); blanking the type to AIR empties the slot on every version.
+                    item.setType(Material.AIR);
                 } else if (DAMAGEABLE_META) {
                     ReflectionCompat.invoke(meta, "setDamage", damage + 1);
                     item.setItemMeta(meta);
