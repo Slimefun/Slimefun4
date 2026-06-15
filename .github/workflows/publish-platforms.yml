@@ -35,7 +35,9 @@ jobs:
       - name: Build universal jar (version from tag)
         run: ./gradlew :core:shadowJar -Partifact_version=${{ github.ref_name }} --no-daemon
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # github-gradle resolves dough/InfinityLib from release assets; PAT covers cross-repo
+          # reads if the default token can't, falling back to it otherwise.
+          GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
 
       - name: Stage a clean jar name
         run: |
