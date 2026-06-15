@@ -13,6 +13,7 @@ name: Promote experimental to stable
 on:
   push:
     tags:
+      - "v*"
       - "promote-*"
   workflow_dispatch:
 
