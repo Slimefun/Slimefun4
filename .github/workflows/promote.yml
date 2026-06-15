@@ -1,0 +1,44 @@
+name: Promote experimental to stable
+
+# Updates stable ONLY through CI (never a direct push). Trigger deliberately:
+#   git tag promote-<date> <experimental-commit> && git push origin promote-<date>
+# or run manually from the Actions tab once this file is on the default branch.
+#
+# experimental currently holds the full universal-jar rewrite, which is divergent from the
+# old stable. The first run therefore cannot fast-forward: it records a merge commit whose
+# tree EQUALS experimental (stable becomes the universal-jar codebase; the old stable history
+# is preserved via the merge parent and is recoverable). Once stable == experimental, later
+# runs fast-forward normally.
+
+on:
+  push:
+    tags:
+      - "promote-*"
+  workflow_dispatch:
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout stable
+        uses: actions/checkout@v4
+        with:
+          ref: stable
+          fetch-depth: 0
+
+      - name: Promote experimental into stable
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin experimental
+          if git merge --ff-only origin/experimental; then
+            echo "Fast-forwarded stable to experimental."
+          else
+            echo "Divergent: recording a merge whose tree equals experimental."
+            git merge -s ours --no-commit origin/experimental
+            git read-tree --reset -u origin/experimental
+            git commit --no-edit -m "release: promote experimental (universal-jar) to stable"
+          fi
+          git push origin stable
