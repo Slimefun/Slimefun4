@@ -3,8 +3,8 @@ name: Generate README
 on:
   workflow_dispatch:
   push:
-    branches:
-      - experimental
+    tags:
+      - "v*"
 
 jobs:
   readme:
