@@ -38,6 +38,14 @@ public final class MaterialCompat {
      */
     @Nonnull
     public static ItemStack stack(@Nonnull XMaterial xMaterial) {
+        // parseItem() carries the legacy data value on 1.8-1.12 (e.g. SKULL_ITEM:3 = player head,
+        // SKULL_ITEM:1 = wither skull, wool/dye colors). parseMaterial() drops it, yielding the data-0
+        // variant - so a player head would render as a skeleton skull. Fall back only if parseItem fails.
+        ItemStack item = xMaterial.parseItem();
+        if (item != null) {
+            item.setAmount(1);
+            return item;
+        }
         Material material = xMaterial.parseMaterial();
         return new ItemStack(material != null ? material : FALLBACK);
     }
@@ -54,6 +62,12 @@ public final class MaterialCompat {
      */
     @Nonnull
     public static ItemStack stack(@Nonnull XMaterial xMaterial, int amount) {
+        // See stack(XMaterial): parseItem() preserves the legacy data value that parseMaterial() drops.
+        ItemStack item = xMaterial.parseItem();
+        if (item != null) {
+            item.setAmount(amount);
+            return item;
+        }
         Material material = xMaterial.parseMaterial();
         return new ItemStack(material != null ? material : FALLBACK, amount);
     }
