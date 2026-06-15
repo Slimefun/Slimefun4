@@ -7,7 +7,8 @@ name: Publish to platforms
 # upload the same jar manually to the SpigotMC resource page after the release.
 #
 # Required repo secrets:  MODRINTH_TOKEN, HANGAR_TOKEN
-# Required repo variables: MODRINTH_ID (project id/slug), HANGAR_ID (project slug, e.g. Slimefun5/Slimefun)
+# Required repo variables: MODRINTH_ID (project id/slug), HANGAR_ID (project slug only, e.g. Slimefun
+#                          — NOT owner/slug; the org is resolved from HANGAR_TOKEN's account)
 on:
   push:
     tags:
