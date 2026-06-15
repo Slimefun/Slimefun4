@@ -94,6 +94,9 @@ tasks {
     test { enabled = false }
 
     processResources {
+        // Declare the version as an input so changing -Partifact_version re-expands plugin.yml
+        // instead of reusing a stale cached copy (which once shipped 5.0.0-UNOFFICIAL).
+        inputs.property("version", project.version)
         filesMatching("plugin.yml") {
             expand("version" to project.version)
         }
