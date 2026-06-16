@@ -72,6 +72,12 @@ public interface DamageableItem extends ItemAttribute {
                 // 1.13+ type reference); older versions store it on the ItemStack's durability.
                 int damage = DAMAGEABLE_META ? (Integer) ReflectionCompat.invoke(meta, "getDamage") : item.getDurability();
 
+                if (DUR_DEBUG.compareAndSet(false, true)) {
+                    ItemStack hand = p.getInventory().getItemInHand();
+                    org.bukkit.Bukkit.getLogger().warning("[SF-DUR-DEBUG] type=" + item.getType() + " itemDur=" + damage + " max=" + maxDurability
+                        + " sameRefAsHand=" + (hand == item) + " equalsHand=" + (hand != null && hand.equals(item)) + " handDur=" + (hand == null ? "null" : hand.getDurability()));
+                }
+
                 if (damage >= maxDurability) {
                     // No need for a SoundEffect equivalent here since this is supposed to be a vanilla sound.
                     SoundCompat.playFor(p, p.getEyeLocation(), "ENTITY_ITEM_BREAK", null, 1, 1);
@@ -91,6 +97,9 @@ public interface DamageableItem extends ItemAttribute {
 
     // org.bukkit.inventory.meta.Damageable is 1.13+; pre-1.13 uses ItemStack durability instead.
     boolean DAMAGEABLE_META = classExists("org.bukkit.inventory.meta.Damageable");
+
+    // TEMP one-shot durability diagnostic (remove once #3 is fixed).
+    java.util.concurrent.atomic.AtomicBoolean DUR_DEBUG = new java.util.concurrent.atomic.AtomicBoolean(false);
 
     static boolean classExists(@Nonnull String name) {
         try {
