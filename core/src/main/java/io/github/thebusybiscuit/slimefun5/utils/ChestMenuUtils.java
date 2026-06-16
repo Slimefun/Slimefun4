@@ -9,6 +9,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -29,9 +30,9 @@ public final class ChestMenuUtils {
 
     private ChestMenuUtils() {}
 
-    private static final ItemStack UI_BACKGROUND = new SlimefunItemStack("_UI_BACKGROUND", XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial(), " ").item();
-    private static final ItemStack INPUT_SLOT = new SlimefunItemStack("_UI_INPUT_SLOT", XMaterial.CYAN_STAINED_GLASS_PANE.parseMaterial(), " ").item();
-    private static final ItemStack OUTPUT_SLOT = new SlimefunItemStack("_UI_OUTPUT_SLOT", XMaterial.ORANGE_STAINED_GLASS_PANE.parseMaterial(), " ").item();
+    private static final ItemStack UI_BACKGROUND = new SlimefunItemStack("_UI_BACKGROUND", MaterialCompat.stack(XMaterial.GRAY_STAINED_GLASS_PANE), " ").item();
+    private static final ItemStack INPUT_SLOT = new SlimefunItemStack("_UI_INPUT_SLOT", MaterialCompat.stack(XMaterial.CYAN_STAINED_GLASS_PANE), " ").item();
+    private static final ItemStack OUTPUT_SLOT = new SlimefunItemStack("_UI_OUTPUT_SLOT", MaterialCompat.stack(XMaterial.ORANGE_STAINED_GLASS_PANE), " ").item();
 
     private static final ItemStack NO_PERMISSION = new SlimefunItemStack("_UI_NO_PERMISSION", Material.BARRIER, "No Permission").item();
     private static final ItemStack NOT_RESEARCHED = new SlimefunItemStack("_UI_NOT_RESEARCHED", Material.BARRIER, "Not researched").item();
@@ -41,10 +42,10 @@ public final class ChestMenuUtils {
     private static final ItemStack SEARCH_BUTTON = new SlimefunItemStack("_UI_SEARCH", Material.NAME_TAG, "&bSearch").item();
     private static final ItemStack WIKI_BUTTON = new SlimefunItemStack("_UI_WIKI", XMaterial.KNOWLEDGE_BOOK.parseMaterial(), "&3Slimefun Wiki").item();
 
-    private static final ItemStack PREV_BUTTON_ACTIVE = new SlimefunItemStack("_UI_PREVIOUS_ACTIVE", XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(), "&r\u21E6 Previous Page").item();
-    private static final ItemStack NEXT_BUTTON_ACTIVE = new SlimefunItemStack("_UI_NEXT_ACTIVE", XMaterial.LIME_STAINED_GLASS_PANE.parseMaterial(), "&rNext Page \u21E8").item();
-    private static final ItemStack PREV_BUTTON_INACTIVE = new SlimefunItemStack("_UI_PREVIOUS_INACTIVE", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), "&8\u21E6 Previous Page").item();
-    private static final ItemStack NEXT_BUTTON_INACTIVE = new SlimefunItemStack("_UI_NEXT_INACTIVE", XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial(), "&8Next Page \u21E8").item();
+    private static final ItemStack PREV_BUTTON_ACTIVE = new SlimefunItemStack("_UI_PREVIOUS_ACTIVE", MaterialCompat.stack(XMaterial.LIME_STAINED_GLASS_PANE), "&r\u21E6 Previous Page").item();
+    private static final ItemStack NEXT_BUTTON_ACTIVE = new SlimefunItemStack("_UI_NEXT_ACTIVE", MaterialCompat.stack(XMaterial.LIME_STAINED_GLASS_PANE), "&rNext Page \u21E8").item();
+    private static final ItemStack PREV_BUTTON_INACTIVE = new SlimefunItemStack("_UI_PREVIOUS_INACTIVE", MaterialCompat.stack(XMaterial.BLACK_STAINED_GLASS_PANE), "&8\u21E6 Previous Page").item();
+    private static final ItemStack NEXT_BUTTON_INACTIVE = new SlimefunItemStack("_UI_NEXT_INACTIVE", MaterialCompat.stack(XMaterial.BLACK_STAINED_GLASS_PANE), "&8Next Page \u21E8").item();
 
     private static final ChestMenu.AdvancedMenuClickHandler OUTPUT_HANDLER = new ChestMenu.AdvancedMenuClickHandler() {
 

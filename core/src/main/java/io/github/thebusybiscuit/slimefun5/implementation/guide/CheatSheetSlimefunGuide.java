@@ -1,4 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.implementation.guide;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -77,9 +79,12 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     public void createHeader(Player p, PlayerProfile profile, ChestMenu menu) {
         super.createHeader(p, profile, menu);
 
-        // Remove Settings Panel
-        menu.addItem(1, ChestMenuUtils.getBackground());
-        menu.addMenuClickHandler(1, ChestMenuUtils.getEmptyClickHandler());
+        // Settings / Info panel (also available in the cheat-sheet guide)
+        menu.addItem(1, ChestMenuUtils.getMenuButton(p));
+        menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+            SlimefunGuideSettings.openSettings(pl, HandCompat.getMainHand(pl.getInventory()));
+            return false;
+        });
     }
 }
 
