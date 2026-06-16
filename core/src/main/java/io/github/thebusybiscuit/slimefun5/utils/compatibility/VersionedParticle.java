@@ -23,6 +23,19 @@ public class VersionedParticle {
     public static final Particle ENCHANT;
 
     static {
+        // org.bukkit.Particle is a 1.9+ type. On 1.8 it doesn't exist, so touching Particle.class or
+        // Particle.X here would fail class initialization (NoClassDefFoundError). Guard on the API's
+        // presence and leave every field null pre-1.9 - ParticleCompat already no-ops on a null particle.
+        if (!classExists("org.bukkit.Particle")) {
+            DUST = null;
+            SMOKE = null;
+            HAPPY_VILLAGER = null;
+            ENCHANTED_HIT = null;
+            EXPLOSION = null;
+            WITCH = null;
+            FIREWORK = null;
+            ENCHANT = null;
+        } else {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
 
         // REDSTONE is renamed to DUST in 1.20.5
@@ -64,6 +77,16 @@ public class VersionedParticle {
         ENCHANT = version.isAtLeast(MinecraftVersion.MINECRAFT_1_20_5)
             ? Particle.ENCHANT
             : getKey("ENCHANTMENT_TABLE");
+        }
+    }
+
+    private static boolean classExists(@Nonnull String name) {
+        try {
+            Class.forName(name);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     @Nullable
