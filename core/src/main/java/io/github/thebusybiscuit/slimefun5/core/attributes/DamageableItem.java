@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCompat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -72,24 +71,26 @@ public interface DamageableItem extends ItemAttribute {
                 // 1.13+ type reference); older versions store it on the ItemStack's durability.
                 int damage = DAMAGEABLE_META ? (Integer) ReflectionCompat.invoke(meta, "getDamage") : item.getDurability();
 
-                if (DUR_DEBUG.compareAndSet(false, true)) {
-                    ItemStack hand = p.getInventory().getItemInHand();
-                    org.bukkit.Bukkit.getLogger().warning("[SF-DUR-DEBUG] type=" + item.getType() + " itemDur=" + damage + " max=" + maxDurability
-                        + " sameRefAsHand=" + (hand == item) + " equalsHand=" + (hand != null && hand.equals(item)) + " handDur=" + (hand == null ? "null" : hand.getDurability()));
-                }
+                // On 1.8 the interaction event hands us a COPY of the held item, so mutating `item`
+                // below never reaches the inventory (confirmed: sameRef=false, equalsHand=true). Capture
+                // whether it came from the main hand so we can write the result back. On 1.9+ the item is
+                // live, so this write-back is a harmless no-op (or simply skipped for off-hand/non-hand items).
+                ItemStack heldBefore = p.getInventory().getItemInHand();
+                boolean fromHand = heldBefore != null && heldBefore.equals(item);
 
                 if (damage >= maxDurability) {
                     // No need for a SoundEffect equivalent here since this is supposed to be a vanilla sound.
                     SoundCompat.playFor(p, p.getEyeLocation(), "ENTITY_ITEM_BREAK", null, 1, 1);
                     item.setAmount(0);
-                    // On 1.8 a 0-amount in-hand stack isn't reliably cleared (it lingers and stays
-                    // usable); blanking the type to AIR empties the slot on every version.
-                    item.setType(Material.AIR);
                 } else if (DAMAGEABLE_META) {
                     ReflectionCompat.invoke(meta, "setDamage", damage + 1);
                     item.setItemMeta(meta);
                 } else {
                     item.setDurability((short) (damage + 1));
+                }
+
+                if (fromHand) {
+                    p.getInventory().setItemInHand(item.getAmount() <= 0 ? null : item);
                 }
             }
         }
@@ -97,9 +98,6 @@ public interface DamageableItem extends ItemAttribute {
 
     // org.bukkit.inventory.meta.Damageable is 1.13+; pre-1.13 uses ItemStack durability instead.
     boolean DAMAGEABLE_META = classExists("org.bukkit.inventory.meta.Damageable");
-
-    // TEMP one-shot durability diagnostic (remove once #3 is fixed).
-    java.util.concurrent.atomic.AtomicBoolean DUR_DEBUG = new java.util.concurrent.atomic.AtomicBoolean(false);
 
     static boolean classExists(@Nonnull String name) {
         try {
