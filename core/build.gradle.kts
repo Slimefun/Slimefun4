@@ -1,6 +1,7 @@
 import java.util.concurrent.TimeUnit
 import java.io.ByteArrayOutputStream
 import java.net.URI
+import java.net.HttpURLConnection
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.util.zip.ZipEntry
@@ -573,7 +574,7 @@ fun installViaPlugin(slug: String, mcVersion: String, pluginsDir: java.io.File) 
         val viaMc = if (mcVersion.startsWith("1.8")) "1.8.9" else mcVersion
         val api = "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$viaMc%22%5D" +
             "&loaders=%5B%22paper%22%2C%22spigot%22%2C%22bukkit%22%5D"
-        val conn = java.net.URI.create(api).toURL().openConnection() as java.net.HttpURLConnection
+        val conn = URI.create(api).toURL().openConnection() as HttpURLConnection
         conn.setRequestProperty("User-Agent", "Slimefun5-universal-build")
         conn.connectTimeout = 15000
         conn.readTimeout = 15000
@@ -596,7 +597,7 @@ fun installViaPlugin(slug: String, mcVersion: String, pluginsDir: java.io.File) 
         }
         // Remove older versions of this plugin so it's an update, not a duplicate.
         pluginsDir.listFiles()?.filter { it.name.startsWith(slug, ignoreCase = true) && it.name.endsWith(".jar") }?.forEach { it.delete() }
-        java.net.URI.create(url).toURL().openStream().use { input -> dest.outputStream().use { input.copyTo(it) } }
+        URI.create(url).toURL().openStream().use { input -> dest.outputStream().use { input.copyTo(it) } }
         logger.lifecycle("[via] installed $name")
     } catch (e: Exception) {
         logger.warn("[via] failed to install $slug for MC $mcVersion: ${e.message}")
