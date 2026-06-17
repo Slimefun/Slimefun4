@@ -51,6 +51,14 @@ public class DispenserListener implements Listener {
                         Dispenser dispenser = (Dispenser) state;
                         Object facing = BlockDataCompat.get(BlockDataCompat.getBlockData(b), "getFacing");
 
+                        if (!(facing instanceof BlockFace)) {
+                            // 1.8-1.12 have no BlockData; the facing lives on the legacy MaterialData.
+                            org.bukkit.material.MaterialData data = state.getData();
+                            if (data instanceof org.bukkit.material.Directional) {
+                                facing = ((org.bukkit.material.Directional) data).getFacing();
+                            }
+                        }
+
                         if (facing instanceof BlockFace) {
                             Block block = b.getRelative((BlockFace) facing);
                             handler.onBlockDispense(e, dispenser, block, machine);
