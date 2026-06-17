@@ -174,6 +174,35 @@ public final class MaterialCompat {
     }
 
     /**
+     * Whether the given {@link Material} is a vanilla furnace, treating the legacy lit-furnace material
+     * as equivalent. On 1.8-1.12 an actively burning/smelting furnace is a <em>separate</em> material,
+     * {@code BURNING_FURNACE} (id 62), distinct from the unlit {@code FURNACE} (id 61); the 1.13
+     * flattening merged them into {@code FURNACE} with a {@code lit} block state. Code that gated on
+     * {@code type == Material.FURNACE} therefore silently ignored any lit furnace on legacy servers
+     * (breaking the {@link io.github.thebusybiscuit.slimefun5.implementation.items.blocks.EnhancedFurnace}
+     * speed/efficiency/fortune, which only act while it is burning). Blast furnaces and smokers are
+     * deliberately excluded (exact name match).
+     *
+     * @param material
+     *            The {@link Material} (may be {@code null})
+     *
+     * @return Whether it is a vanilla furnace (lit or unlit) across versions
+     */
+    public static boolean isVanillaFurnace(@Nullable Material material) {
+        if (material == null) {
+            return false;
+        }
+
+        switch (material.name()) {
+            case "FURNACE":
+            case "BURNING_FURNACE": // 1.8-1.12 lit furnace, flattened into FURNACE on 1.13+
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * Whether the given {@link Material} can be placed as a block, version-aware.
      * <p>
      * On 1.13+ this is just {@link Material#isBlock()}. On legacy versions (pre-1.13) some placeable
