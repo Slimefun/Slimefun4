@@ -38,10 +38,6 @@ public final class VersionedPlayerHead {
 
     private static final String PROFILE_NAME = "CS-CoreLib";
 
-    // TEMP 1.8 head-texture diagnostics (one-shot). Remove once the texture path is fixed.
-    private static final java.util.concurrent.atomic.AtomicBoolean HEAD_DEBUG = new java.util.concurrent.atomic.AtomicBoolean(false);
-    private static final java.util.concurrent.atomic.AtomicBoolean LEGACY_DEBUG = new java.util.concurrent.atomic.AtomicBoolean(false);
-
     private VersionedPlayerHead() {}
 
     public static @Nonnull ItemStack getItemStack(@Nonnull String base64) {
@@ -58,11 +54,6 @@ public final class VersionedPlayerHead {
         applyTextureToMeta(meta, base64);
 
         item.setItemMeta(meta);
-
-        if (HEAD_DEBUG.compareAndSet(false, true)) {
-            org.bukkit.Bukkit.getLogger().warning("[SF-HEAD-DEBUG] baseType=" + item.getType() + " durability=" + item.getDurability()
-                + " metaClass=" + meta.getClass().getName() + " profileApiAvailable=" + (ProfileCompat.createProfile(java.util.UUID.randomUUID(), PROFILE_NAME) != null));
-        }
         return item;
     }
 
@@ -113,15 +104,7 @@ public final class VersionedPlayerHead {
             java.lang.reflect.Field profileField = meta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);
             profileField.set(meta, gameProfile);
-
-            if (LEGACY_DEBUG.compareAndSet(false, true)) {
-                org.bukkit.Bukkit.getLogger().warning("[SF-HEAD-DEBUG] legacy texture applied OK: metaClass=" + meta.getClass().getName()
-                    + " profileFieldType=" + profileField.getType().getName());
-            }
         } catch (Throwable e) {
-            if (LEGACY_DEBUG.compareAndSet(false, true)) {
-                org.bukkit.Bukkit.getLogger().warning("[SF-HEAD-DEBUG] legacy texture FAILED on metaClass=" + meta.getClass().getName() + " -> " + e);
-            }
             // Server internals differ - leave the head without a custom texture rather than crashing.
         }
     }
