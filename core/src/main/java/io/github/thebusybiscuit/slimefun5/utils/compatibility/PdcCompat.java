@@ -39,6 +39,38 @@ public final class PdcCompat {
         }
     }
 
+    // --- Legacy (pre-1.14) fallback ---
+    // The PersistentDataContainer API doesn't exist before 1.14, so the reflective calls below resolve
+    // to null and do nothing. For holders with a stable id (players/entities) we instead persist data
+    // in a YAML keyed by UUID, so e.g. the player's chosen guide language actually sticks on 1.8.
+    // Item holders have no id here and keep the no-op (their data flows through item-NBT paths).
+    private static org.bukkit.configuration.file.YamlConfiguration legacyStore;
+    private static java.io.File legacyFile;
+
+    private static synchronized org.bukkit.configuration.file.YamlConfiguration legacy() {
+        if (legacyStore == null) {
+            legacyFile = new java.io.File(io.github.thebusybiscuit.slimefun5.implementation.Slimefun.instance().getDataFolder(), "legacy-pdc.yml");
+            legacyStore = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(legacyFile);
+        }
+        return legacyStore;
+    }
+
+    @Nullable
+    private static String legacyPath(Object holder, NamespacedKey key) {
+        Object id = ReflectionCompat.invoke(holder, "getUniqueId");
+        return id != null ? id + "." + key.toString().replace(':', '_').replace('.', '_') : null;
+    }
+
+    private static synchronized void legacySave() {
+        try {
+            if (legacyFile != null) {
+                legacyStore.save(legacyFile);
+            }
+        } catch (Exception ignored) {
+            // Best-effort persistence; never break a data write on a save failure.
+        }
+    }
+
     @Nullable
     private static Object container(Object holder) {
         return ReflectionCompat.invoke(holder, "getPersistentDataContainer");
@@ -60,6 +92,13 @@ public final class PdcCompat {
 
         if (c != null && t != null && k != null) {
             ReflectionCompat.invoke(c, "set", k, t, value);
+            return;
+        }
+
+        String path = legacyPath(holder, key);
+        if (path != null) {
+            legacy().set(path, value);
+            legacySave();
         }
     }
 
@@ -69,11 +108,12 @@ public final class PdcCompat {
         Object t = dataType(typeName);
         Object k = BukkitKeys.toBukkit(key);
 
-        if (c == null || t == null || k == null) {
-            return null;
+        if (c != null && t != null && k != null) {
+            return ReflectionCompat.invoke(c, "get", k, t);
         }
 
-        return ReflectionCompat.invoke(c, "get", k, t);
+        String path = legacyPath(holder, key);
+        return path != null ? legacy().get(path) : null;
     }
 
     public static Object getOrDefault(Object holder, NamespacedKey key, String typeName, Object defaultValue) {
@@ -86,11 +126,12 @@ public final class PdcCompat {
         Object t = dataType(typeName);
         Object k = BukkitKeys.toBukkit(key);
 
-        if (c == null || t == null || k == null) {
-            return false;
+        if (c != null && t != null && k != null) {
+            return Boolean.TRUE.equals(ReflectionCompat.invoke(c, "has", k, t));
         }
 
-        return Boolean.TRUE.equals(ReflectionCompat.invoke(c, "has", k, t));
+        String path = legacyPath(holder, key);
+        return path != null && legacy().contains(path);
     }
 
     /**
@@ -114,6 +155,13 @@ public final class PdcCompat {
 
         if (c != null && k != null) {
             ReflectionCompat.invoke(c, "remove", k);
+            return;
+        }
+
+        String path = legacyPath(holder, key);
+        if (path != null) {
+            legacy().set(path, null);
+            legacySave();
         }
     }
 
