@@ -105,7 +105,7 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     @ParametersAreNonnullByDefault
     private void createJumpingBlock(Block ground, Block blockAbove, int index) {
         Location loc = ground.getRelative(BlockFace.UP).getLocation().add(0.5, 0.0, 0.5);
-        FallingBlock block = BlockDataCompat.spawnFallingBlock(ground.getWorld(), loc, BlockDataCompat.getBlockData(ground));
+        FallingBlock block = BlockDataCompat.spawnFallingBlock(ground.getWorld(), loc, ground);
         block.setDropItem(false);
         block.setVelocity(new Vector(0, 0.4 + index * 0.01, 0));
         block.setMetadata("seismic_axe", new FixedMetadataValue(Slimefun.instance(), "fake_block"));

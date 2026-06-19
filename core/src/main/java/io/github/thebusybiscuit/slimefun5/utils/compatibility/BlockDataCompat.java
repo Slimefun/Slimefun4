@@ -320,4 +320,33 @@ public final class BlockDataCompat {
             return null;
         }
     }
+
+    /**
+     * Spawns a {@link FallingBlock} matching the given source {@link Block}. On 1.13+ it uses the
+     * block's {@code BlockData}; on 1.8-1.12 it spawns from the block's real {@link Material} and legacy
+     * data byte (so the falling block is the actual block, not a STONE placeholder).
+     *
+     * @param world     The {@link World}
+     * @param location  The spawn {@link Location}
+     * @param source    The {@link Block} to copy
+     *
+     * @return The spawned {@link FallingBlock}, or {@code null} if unsupported
+     */
+    @Nullable
+    public static FallingBlock spawnFallingBlock(World world, Location location, Block source) {
+        Object data = getBlockData(source);
+        if (data != null) {
+            FallingBlock fb = spawnFallingBlock(world, location, data);
+            if (fb != null) {
+                return fb;
+            }
+        }
+
+        try {
+            Method legacy = World.class.getMethod("spawnFallingBlock", Location.class, Material.class, byte.class);
+            return (FallingBlock) legacy.invoke(world, location, source.getType(), source.getData());
+        } catch (Throwable e) {
+            return null;
+        }
+    }
 }

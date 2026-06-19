@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.EnhancedFurnace;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 
@@ -40,8 +41,9 @@ public class EnhancedFurnaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onFuelBurn(FurnaceBurnEvent e) {
-        if (e.getBlock().getType() != Material.FURNACE) {
-            // We don't care about Smokers, Blast Furnaces and all that fancy stuff
+        if (!MaterialCompat.isVanillaFurnace(e.getBlock().getType())) {
+            // We don't care about Smokers, Blast Furnaces and all that fancy stuff.
+            // (isVanillaFurnace also matches the legacy lit-furnace material on 1.8-1.12.)
             return;
         }
 
@@ -62,8 +64,9 @@ public class EnhancedFurnaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onItemSmelt(FurnaceSmeltEvent e) {
-        if (e.getBlock().getType() != Material.FURNACE) {
-            // We don't care about Smokers, Blast Furnaces and all that fancy stuff
+        if (!MaterialCompat.isVanillaFurnace(e.getBlock().getType())) {
+            // We don't care about Smokers, Blast Furnaces and all that fancy stuff.
+            // (isVanillaFurnace also matches the legacy lit-furnace material on 1.8-1.12.)
             return;
         }
 

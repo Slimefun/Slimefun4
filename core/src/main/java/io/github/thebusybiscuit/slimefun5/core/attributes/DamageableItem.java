@@ -71,6 +71,13 @@ public interface DamageableItem extends ItemAttribute {
                 // 1.13+ type reference); older versions store it on the ItemStack's durability.
                 int damage = DAMAGEABLE_META ? (Integer) ReflectionCompat.invoke(meta, "getDamage") : item.getDurability();
 
+                // On 1.8 the interaction event hands us a COPY of the held item, so mutating `item`
+                // below never reaches the inventory (confirmed: sameRef=false, equalsHand=true). Capture
+                // whether it came from the main hand so we can write the result back. On 1.9+ the item is
+                // live, so this write-back is a harmless no-op (or simply skipped for off-hand/non-hand items).
+                ItemStack heldBefore = p.getInventory().getItemInHand();
+                boolean fromHand = heldBefore != null && heldBefore.equals(item);
+
                 if (damage >= maxDurability) {
                     // No need for a SoundEffect equivalent here since this is supposed to be a vanilla sound.
                     SoundCompat.playFor(p, p.getEyeLocation(), "ENTITY_ITEM_BREAK", null, 1, 1);
@@ -80,6 +87,10 @@ public interface DamageableItem extends ItemAttribute {
                     item.setItemMeta(meta);
                 } else {
                     item.setDurability((short) (damage + 1));
+                }
+
+                if (fromHand) {
+                    p.getInventory().setItemInHand(item.getAmount() <= 0 ? null : item);
                 }
             }
         }

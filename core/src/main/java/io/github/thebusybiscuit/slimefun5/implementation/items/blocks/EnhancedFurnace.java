@@ -4,13 +4,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.Nonnull;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
@@ -80,8 +80,10 @@ public class EnhancedFurnace extends SimpleSlimefunItem<BlockTicker> {
 
             @Override
             public void tick(Block b, SlimefunItem item, Config data) {
-                if (b.getType() != Material.FURNACE) {
-                    // The Furnace has been destroyed, we can clear the block data
+                if (!MaterialCompat.isVanillaFurnace(b.getType())) {
+                    // The Furnace has been destroyed, we can clear the block data.
+                    // (isVanillaFurnace keeps the lit-furnace material valid on 1.8-1.12, so the speed
+                    // boost still applies while burning instead of wiping the block data.)
                     BlockStorage.clearBlockInfo(b);
                 } else {
                     BlockStateSnapshotResult result = PaperLib.getBlockState(b, false);

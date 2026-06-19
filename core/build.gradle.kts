@@ -1,6 +1,7 @@
 import java.util.concurrent.TimeUnit
 import java.io.ByteArrayOutputStream
 import java.net.URI
+import java.net.HttpURLConnection
 import java.nio.file.FileSystems
 import java.nio.file.Files
 import java.util.zip.ZipEntry
@@ -561,6 +562,48 @@ fun requiredJavaFor(mc: String): Int {
     }
 }
 
+// ViaVersion + ViaBackwards + ViaRewind let the test server accept clients of other versions.
+// On by default for runServer (the scripts rely on it); disable with -PnoVia.
+val installVia = !project.hasProperty("noVia")
+
+// Downloads the latest <slug> build that supports <mcVersion> from Modrinth into pluginsDir,
+// replacing any older copy. Best-effort: a failure logs a warning and never blocks the launch.
+fun installViaPlugin(slug: String, mcVersion: String, pluginsDir: java.io.File) {
+    try {
+        // Modrinth tags the 1.8 line as "1.8.9"; map 1.8.x to it so the query resolves.
+        val viaMc = if (mcVersion.startsWith("1.8")) "1.8.9" else mcVersion
+        val api = "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$viaMc%22%5D" +
+            "&loaders=%5B%22paper%22%2C%22spigot%22%2C%22bukkit%22%5D"
+        val conn = URI.create(api).toURL().openConnection() as HttpURLConnection
+        conn.setRequestProperty("User-Agent", "Slimefun5-universal-build")
+        conn.connectTimeout = 15000
+        conn.readTimeout = 15000
+        val body = conn.inputStream.bufferedReader().use { it.readText() }
+        @Suppress("UNCHECKED_CAST")
+        val versions = groovy.json.JsonSlurper().parseText(body) as List<Map<String, Any?>>
+        if (versions.isEmpty()) {
+            logger.warn("[via] no $slug build found for MC $viaMc")
+            return
+        }
+        @Suppress("UNCHECKED_CAST")
+        val files = versions[0]["files"] as List<Map<String, Any?>>
+        val file = files.firstOrNull { it["primary"] == true } ?: files[0]
+        val url = file["url"] as String
+        val name = file["filename"] as String
+        val dest = pluginsDir.resolve(name)
+        if (dest.exists()) {
+            logger.lifecycle("[via] $name already present")
+            return
+        }
+        // Remove older versions of this plugin so it's an update, not a duplicate.
+        pluginsDir.listFiles()?.filter { it.name.startsWith(slug, ignoreCase = true) && it.name.endsWith(".jar") }?.forEach { it.delete() }
+        URI.create(url).toURL().openStream().use { input -> dest.outputStream().use { input.copyTo(it) } }
+        logger.lifecycle("[via] installed $name")
+    } catch (e: Exception) {
+        logger.warn("[via] failed to install $slug for MC $mcVersion: ${e.message}")
+    }
+}
+
 tasks.runServer {
     dependsOn(tasks.shadowJar)
     if (runServerAddons.isNotBlank()) {
@@ -578,6 +621,11 @@ tasks.runServer {
         val runDirFile = perVersionRunDir.asFile
         runDirFile.mkdirs()
         runDirFile.resolve("eula.txt").writeText("eula=true\n")
+
+        if (installVia) {
+            val pluginsDir = runDirFile.resolve("plugins").also { it.mkdirs() }
+            listOf("viaversion", "viabackwards", "viarewind").forEach { installViaPlugin(it, runServerMcVer, pluginsDir) }
+        }
     }
 }
 
