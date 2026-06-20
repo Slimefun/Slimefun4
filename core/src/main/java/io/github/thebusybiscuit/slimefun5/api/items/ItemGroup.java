@@ -136,6 +136,33 @@ public class ItemGroup implements Keyed {
     }
 
     /**
+     * The optional guide-theme id this {@link ItemGroup} belongs to (see GuideTheme). Declared by the
+     * category's owner (Slimefun or an addon). {@code null} = untagged, which the guide buckets into Misc.
+     */
+    @Nullable
+    private String themeId;
+
+    /**
+     * Tags this {@link ItemGroup} with a guide-theme id. Fluent; safe to call once during setup.
+     *
+     * @param themeId the theme id, or {@code null} to clear
+     * @return this {@link ItemGroup}
+     */
+    @Nonnull
+    public ItemGroup setTheme(@Nullable String themeId) {
+        this.themeId = themeId;
+        return this;
+    }
+
+    /**
+     * @return the guide-theme id, or {@code null} if untagged.
+     */
+    @Nullable
+    public String getThemeId() {
+        return themeId;
+    }
+
+    /**
      * This sets the tier of this {@link ItemGroup}.
      * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      *
