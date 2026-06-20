@@ -39,7 +39,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
  */
 public final class WikiPage {
 
-    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
 
     private static final int HEADER_SLOT = 4;
     private static final int DESCRIPTION_SLOT = 19;
@@ -55,6 +55,11 @@ public final class WikiPage {
     private static final ReverseRecipeIndex REVERSE_INDEX = new ReverseRecipeIndex();
 
     private WikiPage() {}
+
+    /** Pre-builds the shared reverse-recipe index so the first wiki click is instant. */
+    public static void warmUpIndex() {
+        REVERSE_INDEX.warmUp();
+    }
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item) {
         ChestMenu menu = new ChestMenu("Wiki: " + item.getItemName());
@@ -80,7 +85,13 @@ public final class WikiPage {
     }
 
     private static void addHeader(@Nonnull ChestMenu menu, @Nonnull SlimefunItem item) {
-        menu.addItem(HEADER_SLOT, item.getItem());
+        ItemStack display = item.getItem();
+
+        if (display == null || display.getType() == org.bukkit.Material.AIR) {
+            display = MaterialCompat.stack(XMaterial.BARRIER);
+        }
+
+        menu.addItem(HEADER_SLOT, display);
         menu.addMenuClickHandler(HEADER_SLOT, ChestMenuUtils.getEmptyClickHandler());
     }
 
@@ -113,7 +124,7 @@ public final class WikiPage {
     private static void addRecipeButton(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull SlimefunItem item) {
         menu.addItem(RECIPE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.CRAFTING_TABLE), "&aView recipe"));
         menu.addMenuClickHandler(RECIPE_SLOT, (pl, slot, clicked, action) -> {
-            PlayerProfile.get(pl, profile -> SlimefunGuide.displayItem(profile, item, true));
+            PlayerProfile.get(pl, profile -> Slimefun.runSync(() -> SlimefunGuide.displayItem(profile, item, true)));
             return false;
         });
     }

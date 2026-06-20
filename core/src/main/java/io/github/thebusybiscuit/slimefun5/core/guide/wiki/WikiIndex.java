@@ -27,7 +27,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class WikiIndex {
 
-    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 45, 47, 49, 50, 51, 53 };
 
     private static final int CONTENT_START = 9;
     private static final int CONTENT_END = 44;
@@ -84,7 +84,7 @@ public final class WikiIndex {
 
     /** Lists the items of a single group; clicking one opens its wiki page. Back returns to the group list. */
     private static void openItemList(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull ItemGroup itemGroup, int page) {
-        List<SlimefunItem> items = itemGroup.getItems();
+        List<SlimefunItem> items = new ArrayList<>(itemGroup.getItems());
 
         ChestMenu menu = new ChestMenu(title(p));
         menu.setEmptySlotsClickable(false);

@@ -101,6 +101,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemH
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiPage;
 import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiText;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanBlockDropListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
@@ -367,6 +368,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
             // Now that every addon has enabled, drop "restart to apply" flags for ones that loaded
             AddonInstallerMenu.installer().reconcileRestartFlags();
+
+            // Pre-build the wiki's reverse-recipe index once here so the first player click is instant
+            WikiPage.warmUpIndex();
 
         }), 0);
 

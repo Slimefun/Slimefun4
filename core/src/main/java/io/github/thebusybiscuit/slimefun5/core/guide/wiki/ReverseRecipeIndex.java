@@ -38,6 +38,28 @@ public final class ReverseRecipeIndex {
      */
     @Nonnull
     public List<SlimefunItem> getConsumers(@Nonnull SlimefunItem target) {
+        Map<String, List<SlimefunItem>> index = ensureBuilt();
+
+        List<SlimefunItem> consumers = index.get(target.getId());
+
+        if (consumers == null) {
+            return Collections.emptyList();
+        }
+
+        return Collections.unmodifiableList(consumers);
+    }
+
+    /**
+     * Eagerly builds the index (e.g. at server startup on the main thread) so the first
+     * {@link #getConsumers(SlimefunItem)} call does not pay the one-time scan cost.
+     */
+    public void warmUp() {
+        ensureBuilt();
+    }
+
+    /** Returns the cached index, building it once under a lock on first access. */
+    @Nonnull
+    private Map<String, List<SlimefunItem>> ensureBuilt() {
         Map<String, List<SlimefunItem>> index = cache;
 
         if (index == null) {
@@ -50,13 +72,7 @@ public final class ReverseRecipeIndex {
             }
         }
 
-        List<SlimefunItem> consumers = index.get(target.getId());
-
-        if (consumers == null) {
-            return Collections.emptyList();
-        }
-
-        return Collections.unmodifiableList(consumers);
+        return index;
     }
 
     /** Scans every enabled item once and groups consumers by the ingredient ids they use. */
