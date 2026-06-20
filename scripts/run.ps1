@@ -78,9 +78,9 @@ function Load-State {
     return $null
 }
 
-function Save-State($version, $selections, $options) {
+function Save-State($version, $selections, $options, $branches) {
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $stateFile) | Out-Null
-    [PSCustomObject]@{ version = $version; selections = $selections; options = $options } |
+    [PSCustomObject]@{ version = $version; selections = $selections; options = $options; branches = $branches } |
         ConvertTo-Json -Depth 4 | Set-Content -Path $stateFile -Encoding UTF8
 }
 
@@ -184,16 +184,25 @@ function Select-Branch($addon, $current) {
     }
 }
 
-function Select-Addons($lastSelections) {
+function Select-Addons($lastSelections, $lastBranches) {
     $count = $availableAddons.Length
     $doneIndex = $count
     $selected = New-Object bool[] $count
     $branches = New-Object string[] $count
     for ($i = 0; $i -lt $count; $i++) {
         $previous = $lastSelections | Where-Object { $_.repo -eq $availableAddons[$i] } | Select-Object -First 1
+        # Branch remembered from a prior run even if the addon was deselected, so toggling it off then
+        # back on keeps the previously chosen branch instead of resetting to the default.
+        $remembered = $null
+        if ($lastBranches) {
+            $prop = $lastBranches.PSObject.Properties[$availableAddons[$i]]
+            if ($prop) { $remembered = $prop.Value }
+        }
         if ($previous) {
             $selected[$i] = $true
             $branches[$i] = $previous.branch
+        } elseif ($remembered) {
+            $branches[$i] = $remembered
         } else {
             # No hardcoded default: use the repo's resolved HEAD, else its first branch, else blank.
             $info = $script:branchMap[$availableAddons[$i]]
@@ -242,7 +251,10 @@ function Select-Addons($lastSelections) {
             13 {
                 if ($index -eq $doneIndex) {
                     $chosen = @()
+                    # Remember every addon's branch (selected or not) so deselecting doesn't lose the choice.
+                    $script:rememberedBranches = [ordered]@{}
                     for ($i = 0; $i -lt $count; $i++) {
+                        if ($branches[$i]) { $script:rememberedBranches[$availableAddons[$i]] = $branches[$i] }
                         if ($selected[$i]) {
                             $chosen += [PSCustomObject]@{ repo = $availableAddons[$i]; branch = $branches[$i] }
                         }
@@ -263,12 +275,14 @@ function Select-Options($lastOptions) {
     # ViaVersion auto-install is ON (the build enables it unless -PnoVia), localAddons is OFF.
     $via = if ($null -ne $lastOptions -and $null -ne $lastOptions.via) { [bool]$lastOptions.via } else { $true }
     $localAddons = if ($null -ne $lastOptions -and $null -ne $lastOptions.localAddons) { [bool]$lastOptions.localAddons } else { $false }
+    $keepPlugins = if ($null -ne $lastOptions -and $null -ne $lastOptions.keepPlugins) { [bool]$lastOptions.keepPlugins } else { $false }
 
     $items = @(
         "Auto-install ViaVersion + ViaBackwards + ViaRewind",
-        "Build addon working copies as-is (skip git fetch/reset)"
+        "Build addon working copies as-is (skip git fetch/reset)",
+        "Keep existing plugin jars (don't clear the plugins folder)"
     )
-    $values = @($via, $localAddons)
+    $values = @($via, $localAddons, $keepPlugins)
     $count = $items.Length
     $doneIndex = $count
     # Start on "Done" so pressing Enter immediately launches with the remembered options.
@@ -299,7 +313,7 @@ function Select-Options($lastOptions) {
             32 { if ($index -lt $count) { $values[$index] = -not $values[$index] } }
             13 {
                 if ($index -eq $doneIndex) {
-                    return [PSCustomObject]@{ via = $values[0]; localAddons = $values[1] }
+                    return [PSCustomObject]@{ via = $values[0]; localAddons = $values[1]; keepPlugins = $values[2] }
                 }
             }
         }
@@ -310,6 +324,7 @@ $state = Load-State
 $lastVersion = if ($state) { $state.version } else { $versions[-1] }
 $lastSelections = if ($state -and $state.selections) { @($state.selections) } else { @() }
 $lastOptions = if ($state -and $state.options) { $state.options } else { $null }
+$lastBranches = if ($state -and $state.branches) { $state.branches } else { $null }
 
 $startIndex = [Array]::IndexOf($versions, $lastVersion)
 if ($startIndex -lt 0) { $startIndex = $versions.Length - 1 }
@@ -319,10 +334,10 @@ $version = $versions[(Select-Version $startIndex)]
 # Resolve every addon's branches from GitHub up front (parallel) so the addon menu is instant.
 $script:branchMap = Resolve-AllBranches $availableAddons
 
-$selections = Select-Addons $lastSelections
+$selections = Select-Addons $lastSelections $lastBranches
 $options = Select-Options $lastOptions
 
-Save-State $version $selections $options
+Save-State $version $selections $options $script:rememberedBranches
 [Console]::Clear()
 
 $gradleArgs = @("runServer", "-PmcVersion=$version")
@@ -339,7 +354,8 @@ if ($selections.Count -gt 0) {
 # Translate launch options to gradle -P flags (the build defaults to Via on, localAddons off).
 if (-not $options.via) { $gradleArgs += "-PnoVia" }
 if ($options.localAddons) { $gradleArgs += "-PlocalAddons" }
-Write-Host ("Options: ViaVersion={0}, localAddons={1}" -f $options.via, $options.localAddons) -ForegroundColor DarkGray
+if ($options.keepPlugins) { $gradleArgs += "-PkeepPlugins" }
+Write-Host ("Options: ViaVersion={0}, localAddons={1}, keepPlugins={2}" -f $options.via, $options.localAddons, $options.keepPlugins) -ForegroundColor DarkGray
 Write-Host ""
 
 & "$projectRoot\gradlew.bat" @gradleArgs
