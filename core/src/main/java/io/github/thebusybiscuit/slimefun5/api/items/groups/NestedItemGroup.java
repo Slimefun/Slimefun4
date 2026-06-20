@@ -72,6 +72,12 @@ public class NestedItemGroup extends FlexItemGroup {
     @Override
     @ParametersAreNonnullByDefault
     public void open(Player p, PlayerProfile profile, SlimefunGuideMode mode) {
+        // A nested group with a single sub-group opens it directly, skipping the one-item menu.
+        if (subGroups.size() == 1) {
+            SlimefunGuide.openItemGroup(profile, subGroups.get(0), mode, 1);
+            return;
+        }
+
         openGuide(p, profile, mode, 1);
     }
 

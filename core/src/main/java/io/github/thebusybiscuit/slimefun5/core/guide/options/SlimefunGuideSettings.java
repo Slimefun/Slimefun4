@@ -221,17 +221,6 @@ public final class SlimefunGuideSettings {
             menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(51, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
-            "&3" + locale.getMessage(p, "guide.title.addon-visibility"),
-            "",
-            "&7Choose which addons appear in your guide.",
-            "&7Hidden addons are removed from browsing",
-            "&7and search — just for you.",
-            "",
-            "&7⇨ &eClick to manage"), (pl, slot, item, action) -> {
-            AddonVisibilityMenu.open(pl, guide);
-            return false;
-        });
     }
 
     @ParametersAreNonnullByDefault

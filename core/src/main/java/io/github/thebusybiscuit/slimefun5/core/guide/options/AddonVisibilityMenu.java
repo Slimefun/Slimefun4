@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -13,6 +14,7 @@ import com.cryptomorin.xseries.XMaterial;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility;
+import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -35,11 +37,21 @@ public final class AddonVisibilityMenu {
         ChestMenuUtils.drawBackground(menu, BORDER);
 
         menu.addItem(49, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
-            "&e⇦ Back to Settings"));
+            "&e⇦ Back"));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
-            SlimefunGuideSettings.openSettings(pl, guide);
+            SlimefunGuide.openGuide(pl, guide);
             return false;
         });
+
+        // Info header explaining the toggle + the "at least one" rule.
+        menu.addItem(4, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK),
+            "&eAddon Visibility",
+            "",
+            "&7Click an addon to toggle whether it",
+            "&7appears in your guide (browse + search).",
+            "",
+            "&7At least one addon must stay shown."));
+        menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
         // Map of addon id (the category NamespacedKey namespace, lowercased) -> display name. A map also
         // dedupes in case Slimefun lists itself among the installed addons.
@@ -59,13 +71,30 @@ public final class AddonVisibilityMenu {
 
             String addonId = entry.getKey();
             boolean visible = !AddonVisibility.isHidden(p, addonId);
-            String state = visible ? "&aShown" : "&cHidden";
             ItemStack icon = CustomItemStack.create(
-                MaterialCompat.stack(visible ? XMaterial.LIME_DYE : XMaterial.GRAY_DYE),
-                "&f" + entry.getValue(), "", "&7State: " + state, "", "&7⇨ &eClick to toggle");
+                MaterialCompat.stack(visible ? XMaterial.LIME_STAINED_GLASS_PANE : XMaterial.GRAY_STAINED_GLASS_PANE),
+                (visible ? "&a" : "&7") + entry.getValue(),
+                "",
+                visible ? "&a✔ Shown" : "&c✖ Hidden",
+                "",
+                "&7⇨ &eClick to toggle");
 
             menu.addItem(slot, icon);
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
+                // Enforce at least one shown: refuse to hide the last visible addon.
+                if (visible) {
+                    int shown = 0;
+                    for (String id : addons.keySet()) {
+                        if (!AddonVisibility.isHidden(pl, id)) {
+                            shown++;
+                        }
+                    }
+                    if (shown <= 1) {
+                        pl.sendMessage(ChatColor.RED + "At least one addon must stay visible.");
+                        return false;
+                    }
+                }
+
                 AddonVisibility.setHidden(pl, addonId, visible);
                 open(pl, guide);
                 return false;

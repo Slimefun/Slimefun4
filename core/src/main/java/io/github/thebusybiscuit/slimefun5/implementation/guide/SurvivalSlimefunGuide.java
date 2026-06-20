@@ -43,7 +43,9 @@ import io.github.thebusybiscuit.slimefun5.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun5.core.guide.options.AddonVisibilityMenu;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
@@ -163,6 +165,20 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         int index = 9;
         createHeader(p, profile, menu);
 
+        // Addon Visibility entry (main menu only).
+        menu.addItem(4, CustomItemStack.create(XMaterial.BOOKSHELF.parseMaterial(),
+            "&3Addon Visibility",
+            "",
+            "&7Choose which addons appear in your guide.",
+            "&7Hidden addons are removed from browsing",
+            "&7and search — just for you.",
+            "",
+            "&7⇨ &eClick to manage"));
+        menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
+            AddonVisibilityMenu.open(pl, this.item);
+            return false;
+        });
+
         int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
 
         while (target < (itemGroups.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
@@ -212,11 +228,18 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
+        List<ItemGroup> categories = themeGroup.getCategories();
+
+        // A theme with a single category opens that category directly. The empty theme view is skipped
+        // and not added to history, so back-navigation returns to the main menu.
+        if (categories.size() == 1) {
+            openItemGroup(profile, categories.get(0), 1);
+            return;
+        }
+
         if (isSurvivalMode()) {
             profile.getGuideHistory().add(themeGroup, page);
         }
-
-        List<ItemGroup> categories = themeGroup.getCategories();
 
         ChestMenu menu = create(p);
         createHeader(p, profile, menu);
@@ -433,7 +456,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
-                    meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
+                    GuideTheme theme = GuideTheme.byId(itemGroup.getThemeId());
+                    if (theme == null) {
+                        theme = GuideTheme.MISC;
+                    }
+                    String themeName = Slimefun.getLocalization().getMessage(p, "guide.themes." + theme.getId());
+                    meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + themeName + ChatColor.GRAY + " \u25B8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
                     VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES, VersionedItemFlag.HIDE_ENCHANTS, VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
                 });
 
