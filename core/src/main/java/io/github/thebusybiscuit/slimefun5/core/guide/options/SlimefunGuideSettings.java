@@ -25,6 +25,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
@@ -199,8 +200,15 @@ public final class SlimefunGuideSettings {
             menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(51, CustomItemStack.create(XMaterial.TOTEM_OF_UNDYING.parseMaterial(), ChatColor.RED + locale.getMessage(p, "guide.work-in-progress")), (pl, slot, item, action) -> {
-            // Add something here
+        menu.addItem(51, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
+            "&3" + locale.getMessage(p, "guide.title.addon-visibility"),
+            "",
+            "&7Choose which addons appear in your guide.",
+            "&7Hidden addons are removed from browsing",
+            "&7and search — just for you.",
+            "",
+            "&7⇨ &eClick to manage"), (pl, slot, item, action) -> {
+            AddonVisibilityMenu.open(pl, guide);
             return false;
         });
     }
