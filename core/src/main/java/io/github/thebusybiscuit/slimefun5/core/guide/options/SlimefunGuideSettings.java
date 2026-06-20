@@ -46,7 +46,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 51, 52, 53 };
+    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -178,26 +178,8 @@ public final class SlimefunGuideSettings {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
-        } else {
-            // @formatter:off
-            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
-                "&3" + locale.getMessage(p, "guide.title.addons"),
-                "",
-                "&7Slimefun is huge. But its addons are what makes",
-                "&7this plugin truly shine. Go check them out, some",
-                "&7of them may be exactly what you were missing out on!",
-                "",
-                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
-                "",
-                "&7\u21E8 &eClick to see all available addons for Slimefun5"));
-            // @formatter:on
-
-            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
-                return false;
-            });
         }
+        // Non-permitted players see no entry here (slot 47 stays background) \u2014 no external links.
 
         if (Slimefun.getUpdater().getBranch().isOfficial()) {
             // @formatter:off

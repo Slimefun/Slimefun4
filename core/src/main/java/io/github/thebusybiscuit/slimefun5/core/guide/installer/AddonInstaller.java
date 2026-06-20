@@ -42,6 +42,25 @@ public final class AddonInstaller {
         return inProgress.contains(id);
     }
 
+    /**
+     * Clears stale "restart pending" flags. An entry flagged restart-pending whose plugin is now
+     * loaded was activated by the restart that just happened, so the badge should no longer nag.
+     * Must run after all plugins have enabled (e.g. once the server has finished loading).
+     */
+    public void reconcileRestartFlags() {
+        for (String id : state.getTrackedIds()) {
+            InstallState.Record record = state.get(id);
+
+            if (record != null && record.isRestartPending()) {
+                AddonCatalog.Entry entry = AddonCatalog.getById(id);
+
+                if (entry != null && isLoaded(entry)) {
+                    state.clearRestartPending(id);
+                }
+            }
+        }
+    }
+
     /** True when a plugin matching the entry's display/jar name is currently loaded. */
     public boolean isLoaded(@Nonnull AddonCatalog.Entry entry) {
         if (entry.isCore()) {

@@ -100,6 +100,8 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemC
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemHitListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SoulboundListener;
+import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanBlockDropListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.AnvilListener;
@@ -357,6 +359,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             } catch (Exception | LinkageError x) {
                 logger.log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
             }
+
+            // Now that every addon has enabled, drop "restart to apply" flags for ones that loaded
+            AddonInstallerMenu.installer().reconcileRestartFlags();
 
         }), 0);
 
@@ -634,7 +639,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new DispenserListener(this));
         register(() -> new BlockListener(this));
         register(() -> new EnhancedFurnaceListener(this));
-        register(() -> new ItemPickupListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_12)) {
+            register(() -> new ItemPickupListener(this));
+        }
         register(() -> new ItemDropListener(this));
         register(() -> new DeathpointListener(this));
         register(() -> new ExplosionsListener(this));
@@ -645,7 +652,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new EntityInteractionListener(this));
         register(() -> new MobDropListener(this));
         register(() -> new VillagerTradingListener(this));
-        register(() -> new ElytraImpactListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_9)) {
+            register(() -> new ElytraImpactListener(this));
+        }
         register(() -> new CraftingTableListener(this));
         register(() -> new AnvilListener(this));
         register(() -> new BrewingStandListener(this));
@@ -657,6 +666,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new NetworkListener(this, networkManager));
         register(() -> new HopperListener(this));
         register(() -> new TalismanListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_13)) {
+            register(() -> new TalismanBlockDropListener(this));
+        }
         register(() -> new SoulboundListener(this));
         register(() -> new AutoCrafterListener(this));
         register(() -> new SlimefunItemHitListener(this));
@@ -665,8 +677,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             register(() -> new BeeListener(this));
             register(() -> new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem()));
         }
-        register(() -> new PiglinListener(this));
-        register(() -> new SmithingTableListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            register(() -> new PiglinListener(this));
+            register(() -> new SmithingTableListener(this));
+        }
         register(() -> new JoinListener(this));
 
         // Item-specific Listeners

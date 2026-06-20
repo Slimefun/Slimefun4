@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun5.core.guide.installer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -89,6 +90,20 @@ public final class InstallState {
         config.set(id + ".version", version);
         config.set(id + ".restart-pending", restartPending);
         save();
+    }
+
+    /** All entry ids the installer has staged at least once. */
+    @Nonnull
+    public synchronized Set<String> getTrackedIds() {
+        return config.getKeys(false);
+    }
+
+    /** Clears a pending restart for an entry while keeping its recorded method/version. */
+    public synchronized void clearRestartPending(@Nonnull String id) {
+        if (config.contains(id) && config.getBoolean(id + ".restart-pending", false)) {
+            config.set(id + ".restart-pending", false);
+            save();
+        }
     }
 
     private void save() {
