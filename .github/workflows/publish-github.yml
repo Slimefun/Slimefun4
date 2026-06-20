@@ -5,22 +5,24 @@ name: Publish to GitHub only
 # ItemGroup#setTheme) but that aren't worth a full Modrinth/Hangar release.
 #
 # Trigger either way:
-#   - push a tag matching gh-v* (e.g. gh-v5.2.3), or
+#   - push a digit-leading version tag, e.g. 5.2.3.1 (or gh-v5.2.3), or
 #   - run this workflow manually (Actions tab) with a version input.
 #
-# github-gradle consumers reference the resulting tag, e.g.  Slimefun5:Slimefun5:gh-v5.2.3
+# github-gradle consumers reference the resulting tag, e.g.  Slimefun5:Slimefun5:5.2.3.1
 #
-# The normal full release path (v* -> GitHub + Modrinth + Hangar via the @stable reusable in
-# publish-platforms.yml) is unaffected: gh-v* does not match the v* filter.
+# The full release path (tag v* -> GitHub + Modrinth + Hangar via the @stable reusable in
+# publish-platforms.yml) is unaffected: full releases are v-prefixed (v5.2.3), GitHub-only builds
+# are not (5.2.3.1), so the two tag filters never overlap.
 
 on:
   push:
     tags:
-      - "gh-v*"
+      - "[0-9]*"   # digit-leading version tags = GitHub-only builds (full releases use v*)
+      - "gh-v*"    # also accepted, for explicitness
   workflow_dispatch:
     inputs:
       version:
-        description: "Version to publish (e.g. 5.2.3) — creates/uses tag gh-v<version>"
+        description: "Version to publish (e.g. 5.2.3.1) — also used as the release tag"
         required: true
         type: string
 
@@ -43,12 +45,13 @@ jobs:
         id: ver
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-            TAG="gh-v${VERSION}"
+            TAG="${{ github.event.inputs.version }}"
           else
             TAG="${GITHUB_REF_NAME}"
-            VERSION="${TAG#gh-v}"
           fi
+          # Derive the artifact version by stripping an optional gh-v or v prefix (5.2.3.1 stays 5.2.3.1).
+          VERSION="${TAG#gh-v}"
+          VERSION="${VERSION#v}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
