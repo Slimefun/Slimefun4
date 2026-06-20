@@ -148,6 +148,20 @@ guide:
     bugs: 'Bug Reports'
     source: 'Source Code'
     versions: 'Installed versions'
+    addon-visibility: 'Addon Visibility'
+
+  themes:
+    weapons: '&cWeapons'
+    tools: '&aTools'
+    armor: '&bArmor'
+    machines: '&6Machines'
+    energy_tech: '&eEnergy & Tech'
+    resources: '&fResources'
+    magic: '&dMagic'
+    food: '&2Food & Farming'
+    logistics: '&3Logistics'
+    decoration: '&5Decoration'
+    misc: '&7Misc'
 
   credits:
     commit: 'Commit'
