@@ -48,6 +48,7 @@ import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettin
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiPage;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
@@ -613,16 +614,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        Optional<String> wiki = item.getWikipage();
 
-        if (wiki.isPresent()) {
-            menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
-            menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, wiki.get());
-                return false;
-            });
-        }
+        // Every item has at least an auto-generated wiki page, so this button is always shown.
+        ItemStack guide = SlimefunGuide.getItem(getMode());
+        menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), "&eOpen Wiki", "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+        menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
+            WikiPage.open(pl, guide, item);
+            return false;
+        });
 
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
 

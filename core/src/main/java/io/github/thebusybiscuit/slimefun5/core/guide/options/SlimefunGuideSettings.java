@@ -20,15 +20,14 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiIndex;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
-import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -46,7 +45,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 50, 51, 52, 53 };
+    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -124,40 +123,17 @@ public final class SlimefunGuideSettings {
         // @formatter:on
 
         // @formatter:off
-        menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
-           "&e" + locale.getMessage(p, "guide.title.source"),
-           "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(github.getLastUpdate()) + " ago",
-           "&7Forks: &e" + github.getForks(),
-           "&7Stars: &e" + github.getStars(),
-           "",
-           "&7&oSlimefun is a community project,",
-           "&7&othe source code is available on GitHub",
-           "&7&oand if you want to keep this Plugin alive,",
-           "&7&othen please consider contributing to it",
-           "",
-           "&7\u21E8 &eClick to go to GitHub"));
-        // @formatter:on
-
-        menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
-            return false;
-        });
-
-        // @formatter:off
         menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(),
             "&3" + locale.getMessage(p, "guide.title.wiki"),
             "", "&7Do you need help with an Item or machine?",
             "&7You cannot figure out what to do?",
-            "&7Check out our community-maintained Wiki",
-            "&7and become one of our Editors!",
+            "&7Browse the in-game wiki for any item.",
             "",
-            "&7\u21E8 &eClick to go to the official Slimefun Wiki"));
+            "&7\u21E8 &eClick to open the in-game Wiki"));
         // @formatter:on
 
         menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki");
+            WikiIndex.open(pl, guide);
             return false;
         });
 
@@ -180,29 +156,7 @@ public final class SlimefunGuideSettings {
             });
         }
         // Non-permitted players see no entry here (slot 47 stays background) \u2014 no external links.
-
-        if (Slimefun.getUpdater().getBranch().isOfficial()) {
-            // @formatter:off
-            menu.addItem(49, CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(),
-                "&4" + locale.getMessage(p, "guide.title.bugs"),
-                "",
-                "&7&oBug reports have to be made in English!",
-                "",
-                "&7Open Issues: &a" + github.getOpenIssues(),
-                "&7Pending Pull Requests: &a" + github.getPendingPullRequests(),
-                "",
-                "&7\u21E8 &eClick to go to the Slimefun5 Bug Tracker"));
-            // @formatter:on
-
-            menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/issues");
-                return false;
-            });
-        } else {
-            menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
-
+        // Slots 6 and 49 are background panes now (no external source/issue links).
     }
 
     @ParametersAreNonnullByDefault

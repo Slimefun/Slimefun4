@@ -18,10 +18,7 @@ import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun5.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
@@ -87,12 +84,6 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             if (i == 1) {
                 menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.settings")), (pl, slot, item, action) -> {
                     SlimefunGuideSettings.openSettings(pl, guide);
-                    return false;
-                });
-            } else if (i == 7) {
-                menu.addItem(7, CustomItemStack.create(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), Slimefun.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
-                    ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Translating-Slimefun");
-                    pl.closeInventory();
                     return false;
                 });
             } else {

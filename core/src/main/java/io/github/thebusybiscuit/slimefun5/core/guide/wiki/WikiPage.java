@@ -73,10 +73,8 @@ public final class WikiPage {
 
     private static void addBackButton(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide) {
         menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
-        // No WikiIndex exists yet, so back returns to the survival guide. A later task can
-        // route this to the wiki index instead.
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
-            SlimefunGuide.openGuide(pl, guide);
+            WikiIndex.open(pl, guide);
             return false;
         });
     }
