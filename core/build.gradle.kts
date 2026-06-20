@@ -48,8 +48,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":compat-api"))
-
     githubImplementation("Slimefun5:dough:4.0.6:all")
 
     implementation("io.papermc:paperlib:1.0.8")
@@ -58,7 +56,7 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.10.0")
 
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through compat-api / NMS.
+    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through compat-stubs + reflection.
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     // Compile-only stubs of post-1.8 org.bukkit types; not shaded, real classes used at runtime.
     compileOnly(project(":compat-stubs"))
