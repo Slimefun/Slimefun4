@@ -68,7 +68,8 @@ public final class AddonDetailMenu {
         menu.addItem(29, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), label, "", "&7Downloads the latest GitHub release", "&7and stages it for the next restart.", "", "&7⇨ &eClick"));
         menu.addMenuClickHandler(29, (pl, slot, item, action) -> {
             inst.installRelease(pl, entry);
-            pl.closeInventory();
+            // Keep the guide open; re-render so the header badge shows "Working…".
+            open(pl, guide, entry);
             return false;
         });
 

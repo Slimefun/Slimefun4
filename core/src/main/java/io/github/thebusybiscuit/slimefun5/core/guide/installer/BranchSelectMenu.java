@@ -56,7 +56,8 @@ public final class BranchSelectMenu {
             menu.addItem(i - page * 36 + 9, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), "&a" + branch, "", "&7⇨ &eClick to build this branch"));
             menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
                 inst().buildFromBranch(pl, entry, branch, System.currentTimeMillis());
-                pl.closeInventory();
+                // Keep the guide open; return to the detail menu (header badge shows "Working…").
+                AddonDetailMenu.open(pl, guide, entry);
                 return false;
             });
         }
