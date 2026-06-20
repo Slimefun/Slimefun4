@@ -202,7 +202,8 @@ function Select-Addons($lastSelections) {
             else { $branches[$i] = "" }
         }
     }
-    $index = 0
+    # Start on "Done" so pressing Enter immediately re-runs the remembered configuration.
+    $index = $doneIndex
     [Console]::Clear()
     while ($true) {
         $lines = @(
@@ -270,7 +271,8 @@ function Select-Options($lastOptions) {
     $values = @($via, $localAddons)
     $count = $items.Length
     $doneIndex = $count
-    $index = 0
+    # Start on "Done" so pressing Enter immediately launches with the remembered options.
+    $index = $doneIndex
     [Console]::Clear()
     while ($true) {
         $lines = @(
