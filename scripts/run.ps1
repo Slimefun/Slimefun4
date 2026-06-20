@@ -22,7 +22,7 @@ $stateFile = Join-Path $projectRoot "build/.last-run.json"
 
 $versions = @(
     "1.8.8", "1.9.4", "1.10.2", "1.11.2", "1.12.2", "1.13.2", "1.14.4", "1.15.2",
-    "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.6", "1.21.11", "26.1.2"
+    "1.16.5", "1.17.1", "1.18.2", "1.19.4", "1.20.6", "1.21.11", "26.1.2", "26.2"
 )
 
 # Format: Owner/Repo. Build order matters: InfinityLib first, then InfinityExpansion (Networks depends on it), then Networks.
@@ -78,9 +78,9 @@ function Load-State {
     return $null
 }
 
-function Save-State($version, $selections) {
+function Save-State($version, $selections, $options) {
     New-Item -ItemType Directory -Force -Path (Split-Path -Parent $stateFile) | Out-Null
-    [PSCustomObject]@{ version = $version; selections = $selections } |
+    [PSCustomObject]@{ version = $version; selections = $selections; options = $options } |
         ConvertTo-Json -Depth 4 | Set-Content -Path $stateFile -Encoding UTF8
 }
 
@@ -257,9 +257,57 @@ function Select-Addons($lastSelections) {
     }
 }
 
+function Select-Options($lastOptions) {
+    # Toggleable launch options, each mapped to a gradle -P flag below. Defaults match the build:
+    # ViaVersion auto-install is ON (the build enables it unless -PnoVia), localAddons is OFF.
+    $via = if ($null -ne $lastOptions -and $null -ne $lastOptions.via) { [bool]$lastOptions.via } else { $true }
+    $localAddons = if ($null -ne $lastOptions -and $null -ne $lastOptions.localAddons) { [bool]$lastOptions.localAddons } else { $false }
+
+    $items = @(
+        "Auto-install ViaVersion + ViaBackwards + ViaRewind",
+        "Build addon working copies as-is (skip git fetch/reset)"
+    )
+    $values = @($via, $localAddons)
+    $count = $items.Length
+    $doneIndex = $count
+    $index = 0
+    [Console]::Clear()
+    while ($true) {
+        $lines = @(
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "   Slimefun5 - Launch Options            " "Cyan"),
+            (New-Row "=========================================" "Cyan"),
+            (New-Row "[Space] toggle, [Enter] on Done to launch." "DarkGray"),
+            (New-Row "" "Gray")
+        )
+        for ($i = 0; $i -lt $count; $i++) {
+            $mark = if ($values[$i]) { "[x]" } else { "[ ]" }
+            $text = "$mark $($items[$i])"
+            if ($i -eq $index) { $lines += New-Row "  > $text" "Green" }
+            else { $lines += New-Row "    $text" "Gray" }
+        }
+        $doneText = "Done - launch server"
+        if ($index -eq $doneIndex) { $lines += New-Row "  > $doneText" "Yellow" }
+        else { $lines += New-Row "    $doneText" "Yellow" }
+
+        Write-Frame $lines
+        switch (Read-MenuKey) {
+            { $_ -in 38, 87 } { $index--; if ($index -lt 0) { $index = $doneIndex } }
+            { $_ -in 40, 83 } { $index++; if ($index -gt $doneIndex) { $index = 0 } }
+            32 { if ($index -lt $count) { $values[$index] = -not $values[$index] } }
+            13 {
+                if ($index -eq $doneIndex) {
+                    return [PSCustomObject]@{ via = $values[0]; localAddons = $values[1] }
+                }
+            }
+        }
+    }
+}
+
 $state = Load-State
 $lastVersion = if ($state) { $state.version } else { $versions[-1] }
 $lastSelections = if ($state -and $state.selections) { @($state.selections) } else { @() }
+$lastOptions = if ($state -and $state.options) { $state.options } else { $null }
 
 $startIndex = [Array]::IndexOf($versions, $lastVersion)
 if ($startIndex -lt 0) { $startIndex = $versions.Length - 1 }
@@ -270,8 +318,9 @@ $version = $versions[(Select-Version $startIndex)]
 $script:branchMap = Resolve-AllBranches $availableAddons
 
 $selections = Select-Addons $lastSelections
+$options = Select-Options $lastOptions
 
-Save-State $version $selections
+Save-State $version $selections $options
 [Console]::Clear()
 
 $gradleArgs = @("runServer", "-PmcVersion=$version")
@@ -284,6 +333,11 @@ if ($selections.Count -gt 0) {
     $gradleArgs += "-PskipAddons"
     Write-Host "Launching Minecraft $version (core only)" -ForegroundColor Green
 }
+
+# Translate launch options to gradle -P flags (the build defaults to Via on, localAddons off).
+if (-not $options.via) { $gradleArgs += "-PnoVia" }
+if ($options.localAddons) { $gradleArgs += "-PlocalAddons" }
+Write-Host ("Options: ViaVersion={0}, localAddons={1}" -f $options.via, $options.localAddons) -ForegroundColor DarkGray
 Write-Host ""
 
 & "$projectRoot\gradlew.bat" @gradleArgs
