@@ -149,6 +149,7 @@ guide:
     source: 'Source Code'
     versions: 'Installed versions'
     addon-visibility: 'Addon Visibility'
+    installer: 'Addon Installer'
 
   themes:
     weapons: '&cWeapons'

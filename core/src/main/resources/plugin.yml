@@ -86,3 +86,6 @@ permissions:
   slimefun.debugging:
     description: Allows you to use the debugging tool from Slimefun
     default: op
+  slimefun.installer:
+    description: Allows you to use the in-game Addon Installer
+    default: op

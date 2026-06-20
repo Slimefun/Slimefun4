@@ -160,23 +160,42 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
-            "&3" + locale.getMessage(p, "guide.title.addons"),
-            "",
-            "&7Slimefun is huge. But its addons are what makes",
-            "&7this plugin truly shine. Go check them out, some",
-            "&7of them may be exactly what you were missing out on!",
-            "",
-            "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
-            "",
-            "&7\u21E8 &eClick to see all available addons for Slimefun5"));
-        // @formatter:on
+        if (p.hasPermission(io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog.PERMISSION)) {
+            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
+                "&3" + locale.getMessage(p, "guide.title.installer"),
+                "",
+                "&7Install, update or build Slimefun and its",
+                "&7addons without leaving the game.",
+                "",
+                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
+                "",
+                "&7\u21E8 &eClick to open the Addon Installer"));
+            // @formatter:on
 
-        menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
-            return false;
-        });
+            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
+                io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu.open(pl, guide);
+                return false;
+            });
+        } else {
+            // @formatter:off
+            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
+                "&3" + locale.getMessage(p, "guide.title.addons"),
+                "",
+                "&7Slimefun is huge. But its addons are what makes",
+                "&7this plugin truly shine. Go check them out, some",
+                "&7of them may be exactly what you were missing out on!",
+                "",
+                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
+                "",
+                "&7\u21E8 &eClick to see all available addons for Slimefun5"));
+            // @formatter:on
+
+            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
+                return false;
+            });
+        }
 
         if (Slimefun.getUpdater().getBranch().isOfficial()) {
             // @formatter:off
