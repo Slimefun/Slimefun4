@@ -11,6 +11,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.SeasonalItemGroup;
+import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
@@ -67,5 +68,30 @@ class DefaultItemGroups {
 
     // Flex Item Groups
     protected final FlexItemGroup rickFlexGroup = new RickFlexGroup(new NamespacedKey(Slimefun.instance(), "rick"));
+
+    DefaultItemGroups() {
+        weapons.setTheme(GuideTheme.WEAPONS.getId());
+        tools.setTheme(GuideTheme.TOOLS.getId());
+        usefulItems.setTheme(GuideTheme.MISC.getId());
+        basicMachines.setTheme(GuideTheme.MACHINES.getId());
+        food.setTheme(GuideTheme.FOOD.getId());
+        armor.setTheme(GuideTheme.ARMOR.getId());
+        magicalResources.setTheme(GuideTheme.MAGIC.getId());
+        magicalGadgets.setTheme(GuideTheme.MAGIC.getId());
+        magicalArmor.setTheme(GuideTheme.ARMOR.getId());
+        misc.setTheme(GuideTheme.MISC.getId());
+        technicalComponents.setTheme(GuideTheme.ENERGY_TECH.getId());
+        technicalGadgets.setTheme(GuideTheme.ENERGY_TECH.getId());
+        resources.setTheme(GuideTheme.RESOURCES.getId());
+        electricity.setTheme(GuideTheme.ENERGY_TECH.getId());
+        androids.setTheme(GuideTheme.ENERGY_TECH.getId());
+        cargo.setTheme(GuideTheme.LOGISTICS.getId());
+        gps.setTheme(GuideTheme.ENERGY_TECH.getId());
+        christmas.setTheme(GuideTheme.MISC.getId());
+        valentinesDay.setTheme(GuideTheme.MISC.getId());
+        easter.setTheme(GuideTheme.MISC.getId());
+        birthday.setTheme(GuideTheme.MISC.getId());
+        halloween.setTheme(GuideTheme.MISC.getId());
+    }
 }
 
