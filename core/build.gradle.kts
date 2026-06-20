@@ -356,14 +356,70 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
+        // Reads the plugin name from a jar's plugin.yml (the "name:" field), so we can give every addon
+        // jar a consistent "<PluginName>.jar" filename in the plugins folder.
+        fun pluginNameFromJar(jar: File): String? {
+            try {
+                ZipFile(jar).use { zf ->
+                    val entry = zf.getEntry("plugin.yml") ?: return null
+                    val text = zf.getInputStream(entry).bufferedReader(Charsets.UTF_8).readText()
+                    for (raw in text.lines()) {
+                        val match = Regex("""^name:\s*["']?([^"'#\s]+)["']?.*$""").find(raw.trim())
+                        if (match != null) return match.groupValues[1]
+                    }
+                }
+            } catch (e: Exception) {
+                return null
+            }
+            return null
+        }
+
+        // Removes core's own classes (io.github.thebusybiscuit.slimefun5.*) that an addon accidentally
+        // bundled, while keeping the addon's relocated shaded libraries (.../slimefun5/libraries/**). A
+        // bundled copy of core gets loaded by the addon's own classloader with a null static instance,
+        // causing "Slimefun instance is null" on enable; the running Slimefun plugin provides these classes.
+        fun stripBundledCoreClasses(jar: File) {
+            val prefix = "io/github/thebusybiscuit/slimefun5/"
+            val keep = "io/github/thebusybiscuit/slimefun5/libraries/"
+            val temp = File(jar.parentFile, jar.name + ".strip.tmp")
+            var removed = 0
+            ZipInputStream(jar.inputStream()).use { zin ->
+                ZipOutputStream(temp.outputStream()).use { zout ->
+                    var entry = zin.nextEntry
+                    while (entry != null) {
+                        val data = zin.readBytes()
+                        val name = entry.name
+                        if (name.startsWith(prefix) && !name.startsWith(keep)) {
+                            removed++
+                        } else {
+                            zout.putNextEntry(ZipEntry(name))
+                            zout.write(data)
+                            zout.closeEntry()
+                        }
+                        entry = zin.nextEntry
+                    }
+                }
+            }
+            if (removed > 0) {
+                jar.delete()
+                temp.renameTo(jar)
+                println("Stripped $removed bundled core class(es) from ${jar.name}")
+            } else {
+                temp.delete()
+            }
+        }
+
         // Only plugin jars (with plugin.yml) go in the plugins folder; library addons are shaded into consumers.
         fun copyAddonJar(jar: File) {
             if (!jarHasPluginYml(jar)) {
                 println("Not copying ${jar.name} to plugins (library jar, no plugin.yml).")
                 return
             }
-            println("Copying ${jar.name} to plugins folder...")
-            val dest = File(pluginsDir, jar.name)
+            // Unify the filename: every addon lands as "<PluginName>.jar" so the plugins folder has one
+            // consistent naming theme instead of mixed version/qualifier suffixes.
+            val destName = (pluginNameFromJar(jar) ?: jar.nameWithoutExtension) + ".jar"
+            println("Copying ${jar.name} to plugins folder as $destName...")
+            val dest = File(pluginsDir, destName)
             // A stale jar may be locked by an orphaned server JVM from a previous run; copyTo(overwrite)
             // would then throw FileAlreadyExistsException and fail the whole build. Try a plain delete +
             // copy, and if the lock persists fall back to streaming over the existing file rather than
@@ -380,6 +436,7 @@ val cloneAndBuildAddons by tasks.registering {
                 return
             }
             relocateSlimefun4InJar(dest)
+            stripBundledCoreClasses(dest)
         }
 
         // bStats refuses to run unless org.bstats is relocated; the committed builds omit it, so inject it.
@@ -438,7 +495,12 @@ val cloneAndBuildAddons by tasks.registering {
         }
 
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
-        pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+        // Optional: -PkeepPlugins leaves the plugins folder untouched (e.g. to keep manually-added jars).
+        if (project.hasProperty("keepPlugins")) {
+            println("[keepPlugins] leaving existing plugin jars in place")
+        } else {
+            pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+        }
 
         for (addon in addons) {
             // Each entry is Owner/Repo or Owner/Repo@branch (run.ps1 appends the chosen branch).
