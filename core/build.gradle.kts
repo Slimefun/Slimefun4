@@ -107,7 +107,9 @@ tasks {
     }
 
     shadowJar {
-        archiveFileName.set("Slimefun v${project.version}-MC26.1.2.jar")
+        archiveBaseName.set("Slimefun")
+        archiveVersion.set("${project.version}-UNOFFICIAL")
+        archiveClassifier.set("")
 
         relocate("io.github.bakedlibs.dough", "io.github.thebusybiscuit.slimefun5.libraries.dough")
         relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun5.libraries.paperlib")
@@ -214,7 +216,7 @@ val cloneAndBuildAddons by tasks.registering {
 
         // Addon build files reference the core jar by a relative path valid only in the old layout;
         // rewrite it to the absolute jar path after each checkout (reset --hard reverts it every run).
-        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun v${project.version}-MC26.1.2.jar").get().asFile
+        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun-${project.version}-UNOFFICIAL.jar").get().asFile
         val coreJarPath = coreJarFile.absolutePath.replace("\\", "/")
         if (!coreJarFile.exists()) {
             println("WARNING: Core jar not found at ${coreJarFile.absolutePath} - addon compiles will fail until :core:shadowJar produces it.")
@@ -356,24 +358,6 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
-        // Reads the plugin name from a jar's plugin.yml (the "name:" field), so we can give every addon
-        // jar a consistent "<PluginName>.jar" filename in the plugins folder.
-        fun pluginNameFromJar(jar: File): String? {
-            try {
-                ZipFile(jar).use { zf ->
-                    val entry = zf.getEntry("plugin.yml") ?: return null
-                    val text = zf.getInputStream(entry).bufferedReader(Charsets.UTF_8).readText()
-                    for (raw in text.lines()) {
-                        val match = Regex("""^name:\s*["']?([^"'#\s]+)["']?.*$""").find(raw.trim())
-                        if (match != null) return match.groupValues[1]
-                    }
-                }
-            } catch (e: Exception) {
-                return null
-            }
-            return null
-        }
-
         // The set of .class entries the core jar provides. An addon must not ship duplicates of any of
         // them: a duplicate loaded by the addon's own classloader either has null static state (e.g.
         // core's Slimefun -> "Slimefun instance is null") or, when it appears in a shared core API
@@ -439,11 +423,10 @@ val cloneAndBuildAddons by tasks.registering {
                 println("Not copying ${jar.name} to plugins (library jar, no plugin.yml).")
                 return
             }
-            // Unify the filename: every addon lands as "<PluginName>.jar" so the plugins folder has one
-            // consistent naming theme instead of mixed version/qualifier suffixes.
-            val destName = (pluginNameFromJar(jar) ?: jar.nameWithoutExtension) + ".jar"
-            println("Copying ${jar.name} to plugins folder as $destName...")
-            val dest = File(pluginsDir, destName)
+            // Copy the build's jar as-is: each addon's own shadowJar names it "<PluginName>-<version>-UNOFFICIAL.jar".
+            // Stale jars are cleared each run, so there is exactly one jar per addon (no "Ambiguous plugin name").
+            println("Copying ${jar.name} to plugins folder...")
+            val dest = File(pluginsDir, jar.name)
             // A stale jar may be locked by an orphaned server JVM from a previous run; copyTo(overwrite)
             // would then throw FileAlreadyExistsException and fail the whole build. Try a plain delete +
             // copy, and if the lock persists fall back to streaming over the existing file rather than
