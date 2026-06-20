@@ -22,7 +22,8 @@ public enum GuideTheme {
     FOOD("food", "&2Food & Farming", XMaterial.BREAD, 80),
     LOGISTICS("logistics", "&3Logistics", XMaterial.CHEST, 90),
     DECORATION("decoration", "&5Decoration", XMaterial.PAINTING, 100),
-    MISC("misc", "&7Misc", XMaterial.CHEST_MINECART, 110);
+    ADVANCEMENTS("advancements", "&6Advancements", XMaterial.EXPERIENCE_BOTTLE, 105),
+    MISC("misc", "&7Misc", XMaterial.CHEST_MINECART, 110); // CHEST_MINECART + EXPERIENCE_BOTTLE both exist on 1.8
 
     private final String id;
     private final String defaultName;

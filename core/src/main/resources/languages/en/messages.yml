@@ -162,6 +162,7 @@ guide:
     food: '&2Food & Farming'
     logistics: '&3Logistics'
     decoration: '&5Decoration'
+    advancements: '&6Advancements'
     misc: '&7Misc'
 
   credits:
