@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
@@ -119,6 +120,12 @@ public final class WikiIndex {
         List<ItemGroup> groups = new ArrayList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            // FlexItemGroups (the Advancements group, installer, etc.) render their own UI and have no
+            // enumerable item list - getItems() throws on them - so they are not browsable wiki categories.
+            if (group instanceof FlexItemGroup) {
+                continue;
+            }
+
             if (!group.isHidden(p)) {
                 groups.add(group);
             }
