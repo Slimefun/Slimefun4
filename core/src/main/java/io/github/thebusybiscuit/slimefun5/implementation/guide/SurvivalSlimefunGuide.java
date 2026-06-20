@@ -38,6 +38,7 @@ import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.api.researches.Research;
 import io.github.thebusybiscuit.slimefun5.core.attributes.RecipeDisplayItem;
+import io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility;
 import io.github.thebusybiscuit.slimefun5.core.guide.GuideHistory;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation;
@@ -426,7 +427,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 break;
             }
 
-            if (!slimefunItem.isHidden() && isItemGroupAccessible(p, slimefunItem) && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+            if (!slimefunItem.isHidden()
+                && !AddonVisibility.isHidden(p, slimefunItem.getItemGroup().getKey().getNamespace())
+                && isItemGroupAccessible(p, slimefunItem)
+                && isSearchFilterApplicable(slimefunItem, searchTerm)) {
                 ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
