@@ -641,6 +641,22 @@ tasks.runServer {
         runDirFile.mkdirs()
         runDirFile.resolve("eula.txt").writeText("eula=true\n")
 
+        // Always pin the server to port 25566. Written before boot so Paper keeps it; other
+        // properties are preserved (only the server-port line is set/replaced).
+        val serverProps = runDirFile.resolve("server.properties")
+        val pinnedPort = "server-port=25566"
+        if (serverProps.exists()) {
+            val lines = serverProps.readLines()
+            val newLines = if (lines.any { it.startsWith("server-port=") }) {
+                lines.map { if (it.startsWith("server-port=")) pinnedPort else it }
+            } else {
+                lines + pinnedPort
+            }
+            serverProps.writeText(newLines.joinToString("\n") + "\n")
+        } else {
+            serverProps.writeText("$pinnedPort\n")
+        }
+
         if (installVia) {
             val pluginsDir = runDirFile.resolve("plugins").also { it.mkdirs() }
             // Dependency chain: ViaBackwards needs ViaVersion, ViaRewind needs ViaBackwards. Installing a
