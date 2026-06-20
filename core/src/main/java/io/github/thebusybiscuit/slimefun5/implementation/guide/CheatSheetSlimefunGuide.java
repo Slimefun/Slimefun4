@@ -18,6 +18,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.itemstack.SlimefunGuideItem;
@@ -52,10 +53,14 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     @Override
-    protected List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+    protected List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            if (group instanceof ThemeItemGroup) {
+                continue;
+            }
+
             if (!(group instanceof FlexItemGroup) || ((FlexItemGroup) group).isVisible(p, profile, getMode())) {
                 groups.add(group);
             }

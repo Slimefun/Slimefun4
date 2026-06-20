@@ -43,6 +43,8 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
+import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
@@ -107,9 +109,17 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        return ThemeRegistry.buildThemeGroups(p, collectVisibleCategories(p, profile));
+    }
+
+    protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            if (group instanceof ThemeItemGroup) {
+                continue;
+            }
+
             try {
                 if (group instanceof FlexItemGroup) {
                     FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
@@ -182,6 +192,63 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (next != page && next <= pages) {
                 openMainMenu(profile, next);
+            }
+
+            return false;
+        });
+
+        menu.open(p);
+    }
+
+    /**
+     * Opens the contents of a single theme: a paginated grid of that theme's member categories, with a
+     * back button to the main menu. Pushed onto guide history so back-navigation from a category returns here.
+     */
+    public void openThemeContents(@Nonnull PlayerProfile profile, @Nonnull ThemeItemGroup themeGroup, int page) {
+        Player p = profile.getPlayer();
+
+        if (p == null) {
+            return;
+        }
+
+        if (isSurvivalMode()) {
+            profile.getGuideHistory().add(themeGroup, page);
+        }
+
+        List<ItemGroup> categories = themeGroup.getCategories();
+
+        ChestMenu menu = create(p);
+        createHeader(p, profile, menu);
+        addBackButton(menu, 1, p, profile);
+
+        int index = 9;
+        int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
+
+        while (target < (categories.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
+            target++;
+            showItemGroup(menu, p, profile, categories.get(target), index);
+            index++;
+        }
+
+        int pages = target == categories.size() - 1 ? page : (categories.size() - 1) / MAX_ITEM_GROUPS + 1;
+
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            int next = page - 1;
+
+            if (next != page && next > 0) {
+                openThemeContents(profile, themeGroup, next);
+            }
+
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            int next = page + 1;
+
+            if (next != page && next <= pages) {
+                openThemeContents(profile, themeGroup, next);
             }
 
             return false;
