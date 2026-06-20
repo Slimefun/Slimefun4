@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.options;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -30,7 +30,7 @@ public final class AddonVisibilityMenu {
     private AddonVisibilityMenu() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide) {
-        ChestMenu menu = new ChestMenu("Addon Visibility");
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.addon-visibility"));
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
@@ -41,23 +41,28 @@ public final class AddonVisibilityMenu {
             return false;
         });
 
-        List<String> addonIds = new ArrayList<>();
-        addonIds.add("slimefun");
+        // Map of addon id (the category NamespacedKey namespace, lowercased) -> display name. A map also
+        // dedupes in case Slimefun lists itself among the installed addons.
+        Map<String, String> addons = new LinkedHashMap<>();
+        addons.put("slimefun", "Slimefun");
         for (Plugin addon : Slimefun.getInstalledAddons()) {
-            addonIds.add(addon.getName().toLowerCase());
+            addons.put(addon.getName().toLowerCase(), addon.getName());
         }
 
         int slot = 9;
-        for (String addonId : addonIds) {
+        for (Map.Entry<String, String> entry : addons.entrySet()) {
             if (slot >= 45) {
+                Slimefun.logger().warning("[Guide] Addon Visibility menu is full; "
+                    + (addons.size() - (slot - 9)) + " addon(s) beyond the first " + (slot - 9) + " are not listed.");
                 break;
             }
 
+            String addonId = entry.getKey();
             boolean visible = !AddonVisibility.isHidden(p, addonId);
             String state = visible ? "&aShown" : "&cHidden";
             ItemStack icon = CustomItemStack.create(
                 MaterialCompat.stack(visible ? XMaterial.LIME_DYE : XMaterial.GRAY_DYE),
-                "&f" + addonId, "", "&7State: " + state, "", "&7⇨ &eClick to toggle");
+                "&f" + entry.getValue(), "", "&7State: " + state, "", "&7⇨ &eClick to toggle");
 
             menu.addItem(slot, icon);
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
