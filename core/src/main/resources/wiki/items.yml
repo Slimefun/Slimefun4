@@ -1,12 +1,1138 @@
-ENHANCED_FURNACE:
-  - "&7The Enhanced Furnace is a vanilla furnace upgraded with a Slimefun"
-  - "&7multiblock. Higher tiers smelt faster, burn fuel more efficiently"
-  - "&7and grant a chance for bonus output via the luck multiplier."
-ELECTRIC_SMELTERY:
-  - "&7The Electric Smeltery is an end-game machine that fuses metal dusts"
-  - "&7into alloys. It runs on energy rather than fuel and only produces"
-  - "&7alloys, so it cannot smelt dust directly into ingots."
+# In-game wiki explanations, keyed by SlimefunItem id.
+# Items without an entry here fall back to an auto-generated description (see WikiText#get).
+# Authored for the high-value items; trivial crafting components rely on the fallback.
+
+# --- Gadgets ---
+GOLD_PAN:
+  - '&7Right-click gravel to sift out'
+  - '&7nuggets, flint, clay and more.'
+  - '&eA great early-game resource source.'
+NETHER_GOLD_PAN:
+  - '&7Right-click soul sand to collect'
+  - '&7Nether resources like quartz.'
+  - '&7The Nether counterpart to the Gold Pan.'
+PARACHUTE:
+  - '&7Wear as a chestplate and crouch'
+  - '&7while falling to slow your descent.'
+  - '&ePrevents fatal fall damage.'
+GRAPPLING_HOOK:
+  - '&7Right-click to fire a hook that'
+  - '&7pulls you toward where it lands.'
+  - '&eGreat for scaling cliffs and gaps.'
+SOLAR_HELMET:
+  - '&7Wear it in sunlight to passively'
+  - '&7charge held items and worn armor.'
+  - '&eOnly works under open daylight.'
+CLOTH:
+  - '&7A basic crafting component made'
+  - '&7from string.'
+  - '&7Used in many armor and gadget recipes.'
+REINFORCED_CLOTH:
+  - '&7Cloth reinforced with lead to'
+  - '&7shield against radioactive items.'
+  - '&7Used to craft a Hazmat Suit.'
+NIGHT_VISION_GOGGLES:
+  - '&7A helmet that grants permanent'
+  - '&9Night Vision &7while worn.'
+  - '&7See clearly in caves and at night.'
+ELYTRA_CAP:
+  - '&7A helmet that protects you from'
+  - '&7crash damage while flying an elytra.'
+  - '&eNo more deadly wall collisions.'
+FARMER_SHOES:
+  - '&7Boots that stop you from trampling'
+  - '&7farmland as you walk over crops.'
+  - '&eKeep your fields intact.'
+INFUSED_MAGNET:
+  - '&7Hold &eShift &7with this in your'
+  - '&7inventory to attract nearby items.'
+  - '&7Pulls drops straight to you.'
+RAG:
+  - '&7A Level I medical supply.'
+  - '&7Right-click to restore 2 hearts'
+  - '&7and extinguish fire.'
+BANDAGE:
+  - '&7A Level II medical supply.'
+  - '&7Right-click to restore 4 hearts'
+  - '&7and extinguish fire.'
+SPLINT:
+  - '&7A Level I medical supply.'
+  - '&7Right-click to restore 2 hearts.'
+VITAMINS:
+  - '&7A Level III medical supply.'
+  - '&7Restores 4 hearts, douses fire and'
+  - '&7cures poison, wither and radiation.'
+MEDICINE:
+  - '&7A Level III medical drink.'
+  - '&7Restores 4 hearts, douses fire and'
+  - '&7cures poison, wither and radiation.'
+MAGICAL_ZOMBIE_PILLS:
+  - '&7Right-click a zombified villager or'
+  - '&7piglin to instantly cure it.'
+  - '&eNo weakness potion needed.'
+FLASK_OF_KNOWLEDGE:
+  - '&7Store your experience in a bottle.'
+  - '&7Each use costs &a1 level&7.'
+  - '&7Fills into a portable XP flask.'
+FILLED_FLASK_OF_KNOWLEDGE:
+  - '&7A Flask of Knowledge holding stored'
+  - '&7experience, ready to be drained back.'
+
+# --- Backpacks ---
+BACKPACK_SMALL:
+  - '&7A portable storage backpack with'
+  - '&79 slots.'
+  - '&eRight-click to open it.'
+BACKPACK_MEDIUM:
+  - '&7A portable backpack with 18 slots.'
+  - '&eRight-click to open it.'
+BACKPACK_LARGE:
+  - '&7A portable backpack with 27 slots.'
+  - '&eRight-click to open it.'
+WOVEN_BACKPACK:
+  - '&7A roomy portable backpack with'
+  - '&736 slots.'
+  - '&eRight-click to open it.'
+GILDED_BACKPACK:
+  - '&7A large portable backpack with'
+  - '&745 slots.'
+  - '&eRight-click to open it.'
+RADIANT_BACKPACK:
+  - '&7A huge backpack with 54 slots'
+  - '&7- a full double chest on the go.'
+  - '&eRight-click to open it.'
+BOUND_BACKPACK:
+  - '&cSoulbound &7backpack with 36 slots.'
+  - '&7Stays with you when you die.'
+  - '&eYour items are never lost.'
+COOLER:
+  - '&7A 27-slot backpack for juices and'
+  - '&7smoothies.'
+  - '&aAuto-drinks them when you get hungry.'
+RESTORED_BACKPACK:
+  - '&7A repaired backpack used to retrieve'
+  - '&7items lost from a broken backpack.'
+  - '&eRight-click to open it.'
+
+# --- Jetpacks ---
+DURALUMIN_JETPACK:
+  - '&7Tier I electric jetpack worn as a'
+  - '&7chestplate. Crouch to thrust upward.'
+  - '&eEntry-level flight; needs charging.'
+SOLDER_JETPACK:
+  - '&7Tier II electric jetpack with more'
+  - '&7thrust and a bigger power buffer.'
+  - '&eCrouch to fly upward.'
+BILLON_JETPACK:
+  - '&7Tier III electric jetpack with'
+  - '&7stronger thrust than earlier models.'
+  - '&eCrouch to fly upward.'
+STEEL_JETPACK:
+  - '&7Tier IV electric jetpack offering'
+  - '&7solid thrust and charge capacity.'
+  - '&eCrouch to fly upward.'
+DAMASCUS_STEEL_JETPACK:
+  - '&7Tier V electric jetpack with'
+  - '&7improved thrust and power storage.'
+  - '&eCrouch to fly upward.'
+REINFORCED_ALLOY_JETPACK:
+  - '&7Tier VI electric jetpack with high'
+  - '&7thrust and a large power buffer.'
+  - '&eCrouch to fly upward.'
+CARBONADO_JETPACK:
+  - '&7Tier VII jetpack, the strongest'
+  - '&7thrust and biggest power buffer.'
+  - '&eThe ultimate flight chestplate.'
+ARMORED_JETPACK:
+  - '&7A jetpack built into iron armor,'
+  - '&7trading capacity for protection.'
+  - '&eFly while staying armored.'
+
+# --- Jetboots ---
+DURALUMIN_JETBOOTS:
+  - '&7Tier I jet boots. Crouch to glide'
+  - '&7horizontally with limited accuracy.'
+  - '&eEntry-level dash boots; need charge.'
+SOLDER_JETBOOTS:
+  - '&7Tier II jet boots with more speed'
+  - '&7and better directional accuracy.'
+  - '&eCrouch to dash through the air.'
+BILLON_JETBOOTS:
+  - '&7Tier III jet boots offering higher'
+  - '&7speed and improved control.'
+  - '&eCrouch to dash through the air.'
+STEEL_JETBOOTS:
+  - '&7Tier IV jet boots with good speed'
+  - '&7and 70% directional accuracy.'
+  - '&eCrouch to dash through the air.'
+DAMASCUS_STEEL_JETBOOTS:
+  - '&7Tier V jet boots with strong speed'
+  - '&7and 75% accuracy.'
+  - '&eCrouch to dash through the air.'
+REINFORCED_ALLOY_JETBOOTS:
+  - '&7Tier VI jet boots with high speed'
+  - '&7and 80% accuracy.'
+  - '&eCrouch to dash through the air.'
+CARBONADO_JETBOOTS:
+  - '&7Tier VII jet boots, top speed and'
+  - '&7near-perfect 99.9% accuracy.'
+  - '&eThe best dash boots available.'
+ARMORED_JETBOOTS:
+  - '&7Jet boots built into iron armor,'
+  - '&7balancing dash speed with defense.'
+  - '&eDash while staying armored.'
+
+# --- Multi Tools ---
+DURALUMIN_MULTI_TOOL:
+  - '&7Tier I rechargeable tool combining'
+  - '&7several gadgets in one.'
+  - '&eCrouch + right-click to switch modes.'
+SOLDER_MULTI_TOOL:
+  - '&7Tier II multi tool with a larger'
+  - '&7power buffer.'
+  - '&eCrouch + right-click to switch modes.'
+BILLON_MULTI_TOOL:
+  - '&7Tier III multi tool holding more'
+  - '&7charge for its built-in gadgets.'
+  - '&eCrouch + right-click to switch modes.'
+STEEL_MULTI_TOOL:
+  - '&7Tier IV multi tool with a solid'
+  - '&7power buffer.'
+  - '&eCrouch + right-click to switch modes.'
+DAMASCUS_STEEL_MULTI_TOOL:
+  - '&7Tier V multi tool with increased'
+  - '&7charge capacity.'
+  - '&eCrouch + right-click to switch modes.'
+REINFORCED_ALLOY_MULTI_TOOL:
+  - '&7Tier VI multi tool with a large'
+  - '&7power buffer.'
+  - '&eCrouch + right-click to switch modes.'
+CARBONADO_MULTI_TOOL:
+  - '&7Tier VII multi tool, the highest'
+  - '&7charge capacity available.'
+  - '&eCrouch + right-click to switch modes.'
+
+# --- Androids ---
+PROGRAMMABLE_ANDROID:
+  - '&7A basic android you place and script'
+  - '&7with a sequence of actions.'
+  - '&7Runs on fuel; assign a profession.'
+PROGRAMMABLE_ANDROID_FARMER:
+  - '&7A scriptable android that harvests'
+  - '&7and replants nearby crops.'
+  - '&7Runs on fuel; automate your farm.'
+PROGRAMMABLE_ANDROID_MINER:
+  - '&7A scriptable android that mines the'
+  - '&7block in front of it.'
+  - '&7Runs on fuel; automate digging.'
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  - '&7A scriptable android that chops'
+  - '&7trees in front of it.'
+  - '&7Runs on fuel; automate logging.'
+PROGRAMMABLE_ANDROID_BUTCHER:
+  - '&7A scriptable android that attacks'
+  - '&7nearby animals (4 damage).'
+  - '&7Runs on fuel; automate mob farms.'
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  - '&7A scriptable android that fishes'
+  - '&7over water (10% success rate).'
+  - '&7Runs on fuel; automate fishing.'
+PROGRAMMABLE_ANDROID_2:
+  - '&7Advanced android with 1.5x fuel'
+  - '&7efficiency over the basic model.'
+  - '&7Script it to perform tasks.'
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  - '&7Advanced fisherman android with'
+  - '&720% success and 1.5x efficiency.'
+  - '&7Runs on fuel; automate fishing.'
+PROGRAMMABLE_ANDROID_2_FARMER:
+  - '&7Advanced farmer android, 1.5x'
+  - '&7efficiency.'
+  - '&7Also harvests ExoticGarden plants.'
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  - '&7Advanced butcher android dealing'
+  - '&78 damage at 1.5x fuel efficiency.'
+  - '&7Runs on fuel; automate mob farms.'
+PROGRAMMABLE_ANDROID_3:
+  - '&7Empowered android with 3.0x fuel'
+  - '&7efficiency, the top normal model.'
+  - '&7Script it to perform tasks.'
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  - '&7Empowered fisherman android with'
+  - '&730% success and 8.0x efficiency.'
+  - '&7The best automated fishing option.'
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  - '&7Empowered butcher android dealing'
+  - '&720 damage at 8.0x fuel efficiency.'
+  - '&7The strongest mob-farm android.'
+ANDROID_INTERFACE_FUEL:
+  - '&7A dispenser an android can pull fuel'
+  - '&7from when its script commands it.'
+  - '&7Keeps your android refueled.'
+ANDROID_INTERFACE_ITEMS:
+  - '&7A dispenser an android empties its'
+  - '&7inventory into on script command.'
+  - '&7Collect your android''s harvest.'
+
+# --- GPS ---
+GPS_TRANSMITTER:
+  - '&7Place and power it to put a satellite'
+  - '&7into orbit for GPS coverage.'
+  - '&7Required before tracking waypoints.'
+GPS_TRANSMITTER_2:
+  - '&7An advanced GPS transmitter with a'
+  - '&7larger buffer and faster charge.'
+  - '&7Adds more satellite complexity.'
+GPS_TRANSMITTER_3:
+  - '&7A Carbonado GPS transmitter with'
+  - '&7high power capacity.'
+  - '&7Boosts your network complexity.'
+GPS_TRANSMITTER_4:
+  - '&7An energized GPS transmitter, the'
+  - '&7most powerful tier.'
+  - '&7Greatly raises network complexity.'
+GPS_MARKER_TOOL:
+  - '&7Place it to set a GPS waypoint at'
+  - '&7that exact location.'
+  - '&7Mark spots for later teleporting.'
+GPS_CONTROL_PANEL:
+  - '&7Opens a menu to track your'
+  - '&7satellites and manage waypoints.'
+  - '&eYour hub for the GPS network.'
+GPS_EMERGENCY_TRANSMITTER:
+  - '&7Carry it in your inventory to auto-'
+  - '&7mark a waypoint where you die.'
+  - '&eFind your way back to your stuff.'
+GPS_GEO_SCANNER:
+  - '&7Scans the current chunk for buried'
+  - '&7resources like oil.'
+  - '&7Scan before placing a GEO Miner.'
+PORTABLE_GEO_SCANNER:
+  - '&7A handheld scanner for chunk'
+  - '&7resources.'
+  - '&eRight-click to scan where you stand.'
+PORTABLE_TELEPORTER:
+  - '&7A rechargeable device to teleport to'
+  - '&7your waypoints from anywhere.'
+  - '&eRight-click to open the menu.'
+GPS_TELEPORTER_PYLON:
+  - '&7A structural component used to build'
+  - '&7a GPS Teleporter.'
+  - '&7Place several around the matrix.'
+GPS_TELEPORTATION_MATRIX:
+  - '&7The core block of a Teleporter.'
+  - '&7Lets players pick from the builder''s'
+  - '&7waypoints to travel to.'
+GPS_ACTIVATION_DEVICE_SHARED:
+  - '&7Place on a Teleportation Matrix and'
+  - '&7step on it to start teleporting.'
+  - '&7Anyone may use this version.'
+GPS_ACTIVATION_DEVICE_PERSONAL:
+  - '&7Place on a Teleportation Matrix and'
+  - '&7step on it to teleport.'
+  - '&7Only its owner can use this version.'
+
+# --- Weapons ---
+GRANDMAS_WALKING_STICK:
+  - '&7A walking stick with extra knockback.'
+  - '&7Hits send mobs flying back (Knockback II).'
+  - '&7More forceful than it looks.'
+GRANDPAS_WALKING_STICK:
+  - '&7An upgraded walking stick.'
+  - '&7Launches enemies with Knockback V.'
+  - '&7Great for shoving foes off cliffs.'
+SWORD_OF_BEHEADING:
+  - '&7An iron sword with Beheading II.'
+  - '&7Chance to drop a mobs head on kill.'
+  - '&7Even higher odds for Wither Skeletons.'
+BLADE_OF_VAMPIRES:
+  - '&7A golden sword that steals life.'
+  - '&745% chance to heal 2 hearts per hit.'
+  - '&7Also burns enemies with Fire Aspect.'
+SEISMIC_AXE:
+  - '&7A portable earthquake in axe form.'
+  - '&7Right-click to launch nearby enemies'
+  - '&7into the air with a shockwave.'
+
+# --- Bows ---
+EXPLOSIVE_BOW:
+  - '&7A bow with explosive arrows.'
+  - '&7Hits launch struck enemies into the air.'
+  - '&7Great for crowd control.'
+ICY_BOW:
+  - '&7A bow that freezes targets.'
+  - '&7Hit enemies cannot move for 2 seconds.'
+  - '&7Useful for locking down foes.'
+
+# --- Tools ---
+SMELTERS_PICKAXE:
+  - '&7Auto-smelts ores as you mine them.'
+  - '&7Drops ingots instead of raw blocks.'
+  - '&7Still works with the Fortune enchant.'
+LUMBER_AXE:
+  - '&7Fells an entire tree in one swing.'
+  - '&7Breaks all connected logs at once.'
+  - '&7Massively speeds up wood gathering.'
+PICKAXE_OF_CONTAINMENT:
+  - '&7Lets you mine and keep spawners.'
+  - '&7Pick up a spawner to relocate it.'
+  - '&7Normal pickaxes destroy them instead.'
+EXPLOSIVE_PICKAXE:
+  - '&7Mines a wide area of blocks at once.'
+  - '&7Clears stone fast in big chunks.'
+  - '&7Works with the Fortune enchant.'
+EXPLOSIVE_SHOVEL:
+  - '&7Digs a wide area of soft blocks.'
+  - '&7Great for dirt, sand and gravel.'
+  - '&7The digging counterpart to the pickaxe.'
+PICKAXE_OF_THE_SEEKER:
+  - '&7Points you to the nearest ore.'
+  - '&7Right-click to find buried ores.'
+  - '&7May take some durability when used.'
+COBALT_PICKAXE:
+  - '&7A highly durable pickaxe.'
+  - '&7Comes with Unbreaking X and'
+  - '&7Efficiency VI for fast, lasting mining.'
+PICKAXE_OF_VEIN_MINING:
+  - '&7Mines whole ore veins at once.'
+  - '&7Breaks all connected ore blocks.'
+  - '&7Perfect for clearing rich deposits.'
+CLIMBING_PICK:
+  - '&7Lets you scale certain surfaces.'
+  - '&7Right-click a wall to climb it.'
+  - '&7Add Efficiency to climb even faster.'
+
+# --- Armor ---
+GLOWSTONE_HELMET:
+  - '&7Part of the glowing Glowstone set.'
+  - '&7Grants permanent Night Vision while worn.'
+  - '&7Lights your way in dark caves.'
+GLOWSTONE_CHESTPLATE:
+  - '&7Part of the glowing Glowstone set.'
+  - '&7Grants Night Vision while worn.'
+GLOWSTONE_LEGGINGS:
+  - '&7Part of the glowing Glowstone set.'
+  - '&7Grants Night Vision while worn.'
+GLOWSTONE_BOOTS:
+  - '&7Part of the glowing Glowstone set.'
+  - '&7Grants Night Vision while worn.'
+RAINBOW_LEATHER:
+  - '&7A vibrant crafting material.'
+  - '&7Used to craft the Rainbow armor set.'
+RAINBOW_HELMET:
+  - '&7Part of the colorful Rainbow set.'
+  - '&7Its color cycles through the rainbow.'
+  - '&7Purely cosmetic flair.'
+RAINBOW_CHESTPLATE:
+  - '&7Part of the colorful Rainbow set.'
+  - '&7Its color cycles through the rainbow.'
+RAINBOW_LEGGINGS:
+  - '&7Part of the colorful Rainbow set.'
+  - '&7Its color cycles through the rainbow.'
+RAINBOW_BOOTS:
+  - '&7Part of the colorful Rainbow set.'
+  - '&7Its color cycles through the rainbow.'
+ENDER_HELMET:
+  - '&7Part of the teleporting Ender set.'
+  - '&7Sometimes blinks you a short distance.'
+ENDER_CHESTPLATE:
+  - '&7Part of the teleporting Ender set.'
+  - '&7Sometimes blinks you a short distance.'
+ENDER_LEGGINGS:
+  - '&7Part of the teleporting Ender set.'
+  - '&7Sometimes blinks you a short distance.'
+ENDER_BOOTS:
+  - '&7Part of the teleporting Ender set.'
+  - '&7Removes all Enderpearl teleport damage.'
+SLIME_HELMET:
+  - '&7Part of the bouncy Slime set.'
+  - '&7Soft and springy to wear.'
+SLIME_CHESTPLATE:
+  - '&7Part of the bouncy Slime set.'
+  - '&7Soft and springy to wear.'
+SLIME_LEGGINGS:
+  - '&7Part of the bouncy Slime set.'
+  - '&7Grants a Speed boost while worn.'
+SLIME_BOOTS:
+  - '&7Part of the bouncy Slime set.'
+  - '&7Grants Jump Boost and negates'
+  - '&7all fall damage.'
+CACTUS_HELMET:
+  - '&7Part of the prickly Cactus set.'
+  - '&7Enchanted with Thorns to hurt attackers.'
+CACTUS_CHESTPLATE:
+  - '&7Part of the prickly Cactus set.'
+  - '&7Thorns damages anyone who hits you.'
+CACTUS_LEGGINGS:
+  - '&7Part of the prickly Cactus set.'
+  - '&7Thorns damages anyone who hits you.'
+CACTUS_BOOTS:
+  - '&7Part of the prickly Cactus set.'
+  - '&7Thorns damages anyone who hits you.'
+DAMASCUS_STEEL_HELMET:
+  - '&7Sturdy Damascus Steel armor.'
+  - '&7Built-in Protection and Unbreaking.'
+DAMASCUS_STEEL_CHESTPLATE:
+  - '&7Sturdy Damascus Steel armor.'
+  - '&7Built-in Protection and Unbreaking.'
+DAMASCUS_STEEL_LEGGINGS:
+  - '&7Sturdy Damascus Steel armor.'
+  - '&7Built-in Protection and Unbreaking.'
+DAMASCUS_STEEL_BOOTS:
+  - '&7Sturdy Damascus Steel armor.'
+  - '&7Built-in Protection and Unbreaking.'
+REINFORCED_ALLOY_HELMET:
+  - '&7Top-tier Reinforced armor.'
+  - '&7Very high Protection and Unbreaking.'
+  - '&7Among the toughest armor available.'
+REINFORCED_ALLOY_CHESTPLATE:
+  - '&7Top-tier Reinforced armor.'
+  - '&7Very high Protection and Unbreaking.'
+REINFORCED_ALLOY_LEGGINGS:
+  - '&7Top-tier Reinforced armor.'
+  - '&7Very high Protection and Unbreaking.'
+REINFORCED_ALLOY_BOOTS:
+  - '&7Top-tier Reinforced armor.'
+  - '&7Very high Protection and Unbreaking.'
+SCUBA_HELMET:
+  - '&7Part of the Hazmat protective set.'
+  - '&7Lets you breathe underwater.'
+  - '&7Full set grants radiation immunity.'
+HAZMAT_CHESTPLATE:
+  - '&7Core piece of the Hazmat suit.'
+  - '&7Lets you walk through fire and lava.'
+  - '&7Full set grants radiation immunity.'
+HAZMAT_LEGGINGS:
+  - '&7Part of the Hazmat protective suit.'
+  - '&7Full set grants radiation immunity'
+  - '&7and bee sting protection.'
+HAZMAT_BOOTS:
+  - '&7Rubber boots of the Hazmat suit.'
+  - '&7Full set grants radiation immunity'
+  - '&7and bee sting protection.'
+GILDED_IRON_HELMET:
+  - '&7Gilded Iron armor piece.'
+  - '&7Strong Protection with Unbreaking.'
+GILDED_IRON_CHESTPLATE:
+  - '&7Gilded Iron armor piece.'
+  - '&7Strong Protection with Unbreaking.'
+GILDED_IRON_LEGGINGS:
+  - '&7Gilded Iron armor piece.'
+  - '&7Strong Protection with Unbreaking.'
+GILDED_IRON_BOOTS:
+  - '&7Gilded Iron armor piece.'
+  - '&7Strong Protection with Unbreaking.'
+GOLDEN_HELMET_12K:
+  - '&712-Carat golden armor piece.'
+  - '&7Enchanted with Unbreaking X for'
+  - '&7much better durability than gold.'
+GOLDEN_CHESTPLATE_12K:
+  - '&712-Carat golden armor piece.'
+  - '&7Enchanted with Unbreaking X.'
+GOLDEN_LEGGINGS_12K:
+  - '&712-Carat golden armor piece.'
+  - '&7Enchanted with Unbreaking X.'
+GOLDEN_BOOTS_12K:
+  - '&712-Carat golden armor piece.'
+  - '&7Enchanted with Unbreaking X.'
+SLIME_HELMET_STEEL:
+  - '&7Reinforced version of the Slime set.'
+  - '&7Adds Protection and Unbreaking.'
+SLIME_CHESTPLATE_STEEL:
+  - '&7Reinforced version of the Slime set.'
+  - '&7Adds Protection and Unbreaking.'
+SLIME_LEGGINGS_STEEL:
+  - '&7Reinforced Slime leggings.'
+  - '&7Grants a Speed boost while worn.'
+SLIME_BOOTS_STEEL:
+  - '&7Reinforced Slime boots.'
+  - '&7Grants Jump Boost and negates'
+  - '&7all fall damage.'
+BOOTS_OF_THE_STOMPER:
+  - '&7Turns falling into an attack.'
+  - '&7Fall damage you take is dealt to'
+  - '&7nearby mobs instead, and you take none.'
+BEE_HELMET:
+  - '&7Part of the buzzing Bee set.'
+  - '&7Themed armor with Protection.'
+BEE_WINGS:
+  - '&7Elytra-style wings of the Bee set.'
+  - '&7Activate Slow Falling near the ground'
+  - '&7for a soft, safe landing.'
+BEE_LEGGINGS:
+  - '&7Part of the buzzing Bee set.'
+  - '&7Themed armor with Protection.'
+BEE_BOOTS:
+  - '&7Part of the buzzing Bee set.'
+  - '&7Grants Jump Boost and no fall damage.'
+
+# --- Talismans ---
+COMMON_TALISMAN:
+  - '&7A base talisman component.'
+  - '&7Used to craft most other Talismans.'
+ENDER_TALISMAN:
+  - '&7An upgraded talisman component.'
+  - '&7Used to craft the Ender Talismans,'
+  - '&7which also work from your Ender Chest.'
+TALISMAN_ANVIL:
+  - '&7Prevents one tool from breaking,'
+  - '&7then is consumed. Keep it in your'
+  - '&7inventory. Wont save complex tools.'
+TALISMAN_MINER:
+  - '&7Keep it in your inventory.'
+  - '&720% chance to double any ore you mine.'
+TALISMAN_FARMER:
+  - '&7Keep it in your inventory.'
+  - '&720% chance to double harvested crops.'
+TALISMAN_HUNTER:
+  - '&7Keep it in your inventory.'
+  - '&720% chance to double mob drops.'
+TALISMAN_LAVA:
+  - '&7Grants Fire Resistance the moment'
+  - '&7you touch lava, then is consumed.'
+  - '&7Keep it in your inventory as a backup.'
+TALISMAN_WATER:
+  - '&7Lets you breathe underwater the moment'
+  - '&7you start drowning, then is consumed.'
+  - '&7Keep it in your inventory as a backup.'
+TALISMAN_ANGEL:
+  - '&7Keep it in your inventory.'
+  - '&775% chance to prevent fall damage.'
+TALISMAN_FIRE:
+  - '&7Grants Fire Resistance the moment you'
+  - '&7start burning, then is consumed.'
+  - '&7Keep it in your inventory as a backup.'
+TALISMAN_MAGICIAN:
+  - '&7Keep it in your inventory.'
+  - '&7Gives an 80% luck bonus when enchanting.'
+  - '&7Sometimes adds an extra enchantment.'
+TALISMAN_TRAVELLER:
+  - '&7Keep it in your inventory.'
+  - '&760% chance for a Speed buff when'
+  - '&7you start sprinting.'
+TALISMAN_WARRIOR:
+  - '&7Grants Strength III when you get hit,'
+  - '&7then is consumed. Keep it in your'
+  - '&7inventory for emergencies.'
+TALISMAN_KNIGHT:
+  - '&730% chance for 5s of Regeneration when'
+  - '&7hit, then is consumed. Keep it in'
+  - '&7your inventory as a backup.'
+TALISMAN_WHIRLWIND:
+  - '&7Keep it in your inventory.'
+  - '&7Reflects 60% of projectiles fired at you.'
+  - '&7Only a thrown Trident can pierce it.'
+TALISMAN_WIZARD:
+  - '&7Keep it in your inventory.'
+  - '&7Can grant Fortune IV/V, but may also'
+  - '&7lower other enchantment levels.'
+TALISMAN_CAVEMAN:
+  - '&7Keep it in your inventory.'
+  - '&750% chance for a Haste buff when'
+  - '&7you mine any ore.'
+TALISMAN_WISE:
+  - '&7Keep it in your inventory.'
+  - '&720% chance to double any experience'
+  - '&7you obtain.'
+
+# --- Staves ---
+STAFF_ELEMENTAL:
+  - '&7The base Elemental Staff.'
+  - '&7Crafting component for the elemental'
+  - '&7staves (Wind, Fire, Water, Storm).'
+STAFF_WIND:
+  - '&7The Wind Elemental Staff.'
+  - '&7Right-click to launch yourself forward.'
+  - '&7Great for crossing gaps quickly.'
+STAFF_FIRE:
+  - '&7The Fire Elemental Staff.'
+  - '&7Sets struck enemies ablaze with a'
+  - '&7powerful Fire Aspect effect.'
+STAFF_WATER:
+  - '&7The Water Elemental Staff.'
+  - '&7Right-click to extinguish yourself'
+  - '&7when you are on fire.'
+STAFF_STORM:
+  - '&7The Storm Elemental Staff.'
+  - '&7Right-click to summon a lightning bolt.'
+  - '&7Has a limited number of uses.'
+
+# --- Multiblocks ---
+ENHANCED_CRAFTING_TABLE:
+  - '&7A multiblock crafting station for'
+  - '&7many Slimefun recipes. Build it,'
+  - '&7add ingredients and right-click to craft.'
 GRIND_STONE:
-  - "&7The Grind Stone is an early multiblock that grinds items down into"
-  - "&7other items, such as ores into dust or blocks into resources."
-  - "&7Right-click it with the input item to process it."
+  - '&7A multiblock that grinds items into'
+  - '&7others, like ores into dust.'
+  - '&7Right-click the dispenser with materials.'
+ARMOR_FORGE:
+  - '&7A multiblock used to forge powerful'
+  - '&7armor sets. Add the components and'
+  - '&7right-click to assemble them.'
+MAKESHIFT_SMELTERY:
+  - '&7An improvised early-game smeltery.'
+  - '&7Only smelts dusts into ingots,'
+  - '&7not full alloy crafting.'
+SMELTERY:
+  - '&7A high-temperature multiblock furnace.'
+  - '&7Smelts dusts into ingots and combines'
+  - '&7metals into alloys. Needs a fire source.'
+ORE_CRUSHER:
+  - '&7A multiblock that crushes ores to'
+  - '&7double their yield. Right-click the'
+  - '&7dispenser with ores to process them.'
+COMPRESSOR:
+  - '&7A multiblock that compresses items'
+  - '&7into denser forms, such as dust'
+  - '&7into compressed ingots.'
+PRESSURE_CHAMBER:
+  - '&7A multiblock that compresses items'
+  - '&7even further than the Compressor.'
+MAGIC_WORKBENCH:
+  - '&7A multiblock that infuses items with'
+  - '&7magical energy to craft enchanted'
+  - '&7and arcane Slimefun items.'
+ORE_WASHER:
+  - '&7Washes Sifted Ore into pure ores and'
+  - '&7gives Small Stone Chunks. Right-click'
+  - '&7the cauldron-based multiblock to use it.'
+TABLE_SAW:
+  - '&7A multiblock that cuts one log into'
+  - '&78 planks. Works with every log type.'
+JUICER:
+  - '&7A multiblock for turning fruit into'
+  - '&7refreshing juices. Right-click with'
+  - '&7the ingredients to make a drink.'
+AUTOMATED_PANNING_MACHINE:
+  - '&7A multiblock Gold Pan and Nether Gold'
+  - '&7Pan in one. Pans gravel and soul sand'
+  - '&7without doing it by hand.'
+INDUSTRIAL_MINER:
+  - '&7A multiblock that mines all ores in a'
+  - '&77x7 area beneath it. Put coal or'
+  - '&7similar fuel in its chest to run it.'
+ADVANCED_INDUSTRIAL_MINER:
+  - '&7An upgraded miner covering an 11x11'
+  - '&7area and mining with Silk Touch.'
+  - '&7Fuel it with lava or a fuel bucket.'
+
+# --- Machines ---
+COMPOSTER:
+  - '&7A multiblock that slowly converts'
+  - '&7various plant materials into other'
+  - '&7useful items over time.'
+CRUCIBLE:
+  - '&7A multiblock that melts items down'
+  - '&7into liquids like lava or water.'
+  - '&7Right-click it with the input item.'
+OUTPUT_CHEST:
+  - '&7Place next to a basic machine''s'
+  - '&7dispenser and finished items will'
+  - '&7be pushed into this chest.'
+IGNITION_CHAMBER:
+  - '&7Stops the Smeltery from consuming its'
+  - '&7fire. Fill it with Flint and Steel and'
+  - '&7place it beside the Smeltery dispenser.'
+HOLOGRAM_PROJECTOR:
+  - '&7Projects a floating text hologram.'
+  - '&7Right-click it to edit the text shown.'
+BLOCK_PLACER:
+  - '&7A modified dispenser that physically'
+  - '&7places its blocks instead of dropping'
+  - '&7them. Useful in automation setups.'
+
+# --- Enhanced Furnaces ---
+ENHANCED_FURNACE:
+  - '&7A vanilla-style furnace upgrade.'
+  - '&7This first tier smelts at normal'
+  - '&7speed, fuel use and luck.'
+ENHANCED_FURNACE_2:
+  - '&7Tier II furnace upgrade.'
+  - '&7Smelts at 2x speed.'
+ENHANCED_FURNACE_3:
+  - '&7Tier III furnace upgrade.'
+  - '&7Faster smelting with improved'
+  - '&7fuel efficiency.'
+ENHANCED_FURNACE_4:
+  - '&7Tier IV furnace upgrade with'
+  - '&7even higher smelting speed.'
+ENHANCED_FURNACE_5:
+  - '&7Tier V furnace upgrade. Adds a'
+  - '&7luck multiplier for bonus drops.'
+ENHANCED_FURNACE_6:
+  - '&7Tier VI furnace upgrade with'
+  - '&7stronger speed and efficiency.'
+ENHANCED_FURNACE_7:
+  - '&7Tier VII furnace upgrade.'
+  - '&7High smelting speed.'
+ENHANCED_FURNACE_8:
+  - '&7Tier VIII furnace upgrade with'
+  - '&7matched speed and efficiency.'
+ENHANCED_FURNACE_9:
+  - '&7Tier IX furnace upgrade.'
+  - '&7Very fast smelting.'
+ENHANCED_FURNACE_10:
+  - '&7Tier X furnace upgrade with'
+  - '&7top speed and efficiency.'
+ENHANCED_FURNACE_11:
+  - '&7Tier XI furnace upgrade, the'
+  - '&7highest standard tier with the'
+  - '&7best luck multiplier.'
+REINFORCED_FURNACE:
+  - '&7A greatly upgraded furnace smelting'
+  - '&7far faster and more efficiently'
+  - '&7than the numbered tiers.'
+CARBONADO_EDGED_FURNACE:
+  - '&7The ultimate enhanced furnace.'
+  - '&7Extremely high smelting speed and'
+  - '&7efficiency with a strong luck bonus.'
+
+# --- Electricity ---
+SOLAR_GENERATOR:
+  - '&7A basic generator that produces'
+  - '&7energy from daylight. Connect it to'
+  - '&7an energy network; only works in the sun.'
+SOLAR_GENERATOR_2:
+  - '&7An advanced solar generator producing'
+  - '&7more energy in daylight than the basic'
+  - '&7model. Part of an energy network.'
+SOLAR_GENERATOR_3:
+  - '&7An end-game solar generator with a'
+  - '&7much higher daytime energy output.'
+SOLAR_GENERATOR_4:
+  - '&7An energized solar generator that also'
+  - '&7works at night, though slower than by'
+  - '&7day. Feeds an energy network.'
+COAL_GENERATOR:
+  - '&7Burns coal and similar fuels to'
+  - '&7generate energy. Add fuel and wire'
+  - '&7it into your energy network.'
+COAL_GENERATOR_2:
+  - '&7An upgraded coal generator with a'
+  - '&7larger buffer and faster energy output.'
+LAVA_GENERATOR:
+  - '&7Burns lava buckets to generate'
+  - '&7energy. Fuel it and connect it to'
+  - '&7an energy network.'
+LAVA_GENERATOR_2:
+  - '&7An upgraded lava generator with a'
+  - '&7bigger buffer and higher output.'
+ELECTRIC_FURNACE:
+  - '&7Smelts items using energy instead of'
+  - '&7fuel. Connect it to an energy network'
+  - '&7and add items to smelt.'
+ELECTRIC_FURNACE_2:
+  - '&7A faster electric furnace.'
+  - '&7Smelts at 2x speed using more energy.'
+ELECTRIC_FURNACE_3:
+  - '&7An even faster electric furnace'
+  - '&7for high-volume smelting.'
+ELECTRIC_ORE_GRINDER:
+  - '&7Works as both an Ore Crusher and a'
+  - '&7Grind Stone, powered by energy.'
+  - '&7Connect it to an energy network.'
+ELECTRIC_ORE_GRINDER_2:
+  - '&7A faster powered ore grinder'
+  - '&7for crushing and grinding.'
+ELECTRIC_ORE_GRINDER_3:
+  - '&7The fastest electric ore grinder,'
+  - '&7for heavy ore processing.'
+ELECTRIC_INGOT_PULVERIZER:
+  - '&7Pulverizes ingots back into dust'
+  - '&7using energy. Wire it into an'
+  - '&7energy network to run it.'
+AUTO_DRIER:
+  - '&7Automatically dries items, such as'
+  - '&7sponges or kelp, using energy.'
+AUTO_ENCHANTER:
+  - '&7Transfers an enchanted book''s'
+  - '&7enchantments onto an item using'
+  - '&7energy. Needs an energy network.'
+AUTO_ENCHANTER_2:
+  - '&7A faster auto enchanter for'
+  - '&7quicker enchanting.'
+AUTO_DISENCHANTER:
+  - '&7Removes enchantments from items and'
+  - '&7stores them on a book, using energy.'
+AUTO_DISENCHANTER_2:
+  - '&7A faster auto disenchanter.'
+AUTO_ANVIL:
+  - '&7Automatically repairs items over time'
+  - '&7using energy, without an XP cost.'
+AUTO_ANVIL_2:
+  - '&7An upgraded auto anvil that repairs'
+  - '&7items at a higher repair factor.'
+AUTO_BREWER:
+  - '&7Automatically brews potions using'
+  - '&7energy. Supply ingredients and'
+  - '&7connect it to a power network.'
+BOOK_BINDER:
+  - '&7Combines several enchanted books into'
+  - '&7a single book, powered by energy.'
+BIO_REACTOR:
+  - '&7Generates energy by burning plant'
+  - '&7matter. Fill it with organic fuel'
+  - '&7and wire it to your network.'
+MULTIMETER:
+  - '&7A handheld tool that measures the'
+  - '&7stored energy inside a block.'
+  - '&7Right-click a machine to read it.'
+SMALL_CAPACITOR:
+  - '&7Stores energy on an energy network.'
+  - '&7Place it within range of your'
+  - '&7regulator to buffer power.'
+MEDIUM_CAPACITOR:
+  - '&7A capacitor with more storage than'
+  - '&7the small one. Buffers energy on'
+  - '&7your network.'
+BIG_CAPACITOR:
+  - '&7A larger capacitor for storing'
+  - '&7more energy on a network.'
+LARGE_CAPACITOR:
+  - '&7A high-capacity capacitor for'
+  - '&7buffering large amounts of energy.'
+CARBONADO_EDGED_CAPACITOR:
+  - '&7An end-game capacitor with very'
+  - '&7large energy storage.'
+ENERGIZED_CAPACITOR:
+  - '&7The biggest capacitor, storing a'
+  - '&7huge amount of energy on a network.'
+HEATED_PRESSURE_CHAMBER:
+  - '&7An electric machine combining heat'
+  - '&7and pressure to craft advanced items.'
+  - '&7Connect it to an energy network.'
+HEATED_PRESSURE_CHAMBER_2:
+  - '&7A faster heated pressure chamber'
+  - '&7for quicker processing.'
+ELECTRIC_SMELTERY:
+  - '&7Crafts alloys using energy instead'
+  - '&7of fuel. Alloys only, it will not'
+  - '&7smelt dust into ingots.'
+ELECTRIC_SMELTERY_2:
+  - '&7A faster electric smeltery for'
+  - '&7producing alloys in bulk.'
+ELECTRIC_PRESS:
+  - '&7Presses items into compressed forms'
+  - '&7using energy. Wire it into an'
+  - '&7energy network to run it.'
+ELECTRIC_PRESS_2:
+  - '&7A faster electric press for'
+  - '&7high-volume pressing.'
+ELECTRIFIED_CRUCIBLE:
+  - '&7Melts items into liquids using'
+  - '&7energy instead of heat.'
+ELECTRIFIED_CRUCIBLE_2:
+  - '&7A faster electrified crucible.'
+ELECTRIFIED_CRUCIBLE_3:
+  - '&7The fastest electrified crucible'
+  - '&7for melting items quickly.'
+CARBON_PRESS:
+  - '&7Compresses coal and carbon into'
+  - '&7higher-grade materials using energy.'
+CARBON_PRESS_2:
+  - '&7A faster carbon press.'
+CARBON_PRESS_3:
+  - '&7The fastest carbon press for'
+  - '&7mass carbon production.'
+COMBUSTION_REACTOR:
+  - '&7Burns fuel and buckets of fuel to'
+  - '&7generate large amounts of energy.'
+  - '&7Connect it to your energy network.'
+ENERGY_REGULATOR:
+  - '&7The core component of every energy'
+  - '&7network. Place one and link your'
+  - '&7generators, capacitors and machines.'
+ENERGY_CONNECTOR:
+  - '&7Place between machines and generators'
+  - '&7to wire them to your regulator and'
+  - '&7extend the energy network.'
+
+# --- Food ---
+FORTUNE_COOKIE:
+  - '&7A fun snack that shares a random'
+  - '&7fortune message when you eat it.'
+DIET_COOKIE:
+  - '&7A lightweight cookie that fills you'
+  - '&7up without the extra calories.'
+MAGIC_SUGAR:
+  - '&7Right-click to gain a strong burst'
+  - '&7of Speed for a short time.'
+  - '&7One of the oldest Slimefun items.'
+MONSTER_JERKY:
+  - '&7Made from rotten flesh, but safe to eat.'
+  - '&7Fills hunger without the poison risk.'
+APPLE_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from apples in a Juicer.'
+MELON_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from melon in a Juicer.'
+CARROT_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from carrots in a Juicer.'
+PUMPKIN_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from pumpkin in a Juicer.'
+SWEET_BERRY_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from sweet berries in a Juicer.'
+GLOW_BERRY_JUICE:
+  - '&7A refreshing drink that restores hunger.'
+  - '&7Crafted from glow berries in a Juicer.'
+GOLDEN_APPLE_JUICE:
+  - '&7A premium drink that grants Absorption,'
+  - '&7giving you bonus golden hearts.'
+BEEF_JERKY:
+  - '&7Dried beef that restores extra saturation.'
+  - '&7Keeps you full far longer than steak.'
+PORK_JERKY:
+  - '&7Dried pork that restores extra saturation.'
+  - '&7Keeps you full far longer than usual.'
+CHICKEN_JERKY:
+  - '&7Dried chicken that restores extra saturation.'
+  - '&7Keeps you full far longer than usual.'
+MUTTON_JERKY:
+  - '&7Dried mutton that restores extra saturation.'
+  - '&7Keeps you full far longer than usual.'
+RABBIT_JERKY:
+  - '&7Dried rabbit that restores extra saturation.'
+  - '&7Keeps you full far longer than usual.'
+FISH_JERKY:
+  - '&7Dried fish that restores extra saturation.'
+  - '&7Keeps you full far longer than usual.'
+KELP_COOKIE:
+  - '&7A simple snack baked from dried kelp.'
+
+# --- Soulbound Items ---
+SOULBOUND_SWORD:
+  - '&7A diamond sword that stays with you on'
+  - '&7death instead of dropping. Keeps its'
+  - '&7enchantments safe through any fall.'
+SOULBOUND_BOW:
+  - '&7A bow that stays in your inventory'
+  - '&7when you die, never lost on respawn.'
+SOULBOUND_PICKAXE:
+  - '&7A pickaxe that stays with you on death'
+  - '&7instead of dropping where you fell.'
+SOULBOUND_AXE:
+  - '&7An axe that stays with you on death'
+  - '&7instead of dropping where you fell.'
+SOULBOUND_SHOVEL:
+  - '&7A shovel that stays with you on death'
+  - '&7instead of dropping where you fell.'
+SOULBOUND_HOE:
+  - '&7A hoe that stays with you on death'
+  - '&7instead of dropping where you fell.'
+SOULBOUND_TRIDENT:
+  - '&7A trident that stays with you on death'
+  - '&7instead of dropping where you fell.'
+SOULBOUND_HELMET:
+  - '&7Diamond helmet that stays on death.'
+  - '&7Never lose your armor on respawn.'
+SOULBOUND_CHESTPLATE:
+  - '&7Diamond chestplate that stays on death.'
+  - '&7Never lose your armor on respawn.'
+SOULBOUND_LEGGINGS:
+  - '&7Diamond leggings that stay on death.'
+  - '&7Never lose your armor on respawn.'
+SOULBOUND_BOOTS:
+  - '&7Diamond boots that stay on death.'
+  - '&7Never lose your armor on respawn.'
+
+# --- Runes ---
+BLANK_RUNE:
+  - '&7An empty rune, the base for all others.'
+  - '&7Infuse it with elements to make Ancient'
+  - '&7Runes at an Ancient Altar.'
+AIR_RUNE:
+  - '&7An Ancient Rune of Air.'
+  - '&7Used as an ingredient in Altar rituals.'
+WATER_RUNE:
+  - '&7An Ancient Rune of Water.'
+  - '&7Used as an ingredient in Altar rituals.'
+FIRE_RUNE:
+  - '&7An Ancient Rune of Fire.'
+  - '&7Used as an ingredient in Altar rituals.'
+EARTH_RUNE:
+  - '&7An Ancient Rune of Earth.'
+  - '&7Used as an ingredient in Altar rituals.'
+ENDER_RUNE:
+  - '&7An Ancient Rune of Ender.'
+  - '&7Used as an ingredient in Altar rituals.'
+RAINBOW_RUNE:
+  - '&7An Ancient Rune of Rainbow.'
+  - '&7Used to craft colorful rainbow items.'
+LIGHTNING_RUNE:
+  - '&7An Ancient Rune of Lightning.'
+  - '&7Used as an ingredient in Altar rituals.'
+SOULBOUND_RUNE:
+  - '&7Drop this rune onto a dropped item to'
+  - '&7bind it to your soul. Soulbound items'
+  - '&7are not lost when you die. Use it only'
+  - '&7on items that truly matter.'
+ENCHANTMENT_RUNE:
+  - '&7Drop this rune onto a dropped item to'
+  - '&7add a random enchantment to it.'
+VILLAGER_RUNE:
+  - '&7Right-click a villager to reset its job'
+  - '&7and trades. It will pick a new job later.'
+
+# --- Cargo ---
+CARGO_MANAGER:
+  - '&7The core block of a cargo network.'
+  - '&7Place one, then attach nodes to chests'
+  - '&7and machines to move items around.'
+CARGO_CONNECTOR_NODE:
+  - '&7A connector pipe that links your cargo'
+  - '&7network together without moving items.'
+CARGO_INPUT_NODE:
+  - '&7Place on a chest or machine to pull'
+  - '&7items out and send them into the network.'
+CARGO_OUTPUT_NODE:
+  - '&7Place on a chest or machine to receive'
+  - '&7items. Set channels and filters to'
+  - '&7control exactly what arrives here.'
+CARGO_OUTPUT_NODE_2:
+  - '&7An upgraded output node with whitelist'
+  - '&7and blacklist item filtering built in.'
+
+# --- Animal farm ---
+AUTO_BREEDER:
+  - '&7Automatically breeds nearby animals.'
+  - '&7Runs on Organic Food and stored power.'
+  - '&7Costs 60 J per animal it feeds.'
+PRODUCE_COLLECTOR:
+  - '&7Collects produce from nearby animals,'
+  - '&7such as eggs, milk and wool, for you.'
+  - '&7Needs power to keep running.'
+ORGANIC_FOOD:
+  - '&7Animal feed used by the Auto-Breeder.'
+  - '&7Made by composting crops in a Composter.'
+WHEAT_ORGANIC_FOOD:
+  - '&7Organic Food made from wheat.'
+  - '&7Feeds animals in the Auto-Breeder.'
+CARROT_ORGANIC_FOOD:
+  - '&7Organic Food made from carrots.'
+  - '&7Feeds animals in the Auto-Breeder.'
+POTATO_ORGANIC_FOOD:
+  - '&7Organic Food made from potatoes.'
+  - '&7Feeds animals in the Auto-Breeder.'
+SEEDS_ORGANIC_FOOD:
+  - '&7Organic Food made from seeds.'
+  - '&7Feeds animals in the Auto-Breeder.'
+BEETROOT_ORGANIC_FOOD:
+  - '&7Organic Food made from beetroot.'
+  - '&7Feeds animals in the Auto-Breeder.'
+MELON_ORGANIC_FOOD:
+  - '&7Organic Food made from melon.'
+  - '&7Feeds animals in the Auto-Breeder.'
+APPLE_ORGANIC_FOOD:
+  - '&7Organic Food made from apples.'
+  - '&7Feeds animals in the Auto-Breeder.'
+SWEET_BERRIES_ORGANIC_FOOD:
+  - '&7Organic Food made from sweet berries.'
+  - '&7Feeds animals in the Auto-Breeder.'
+KELP_ORGANIC_FOOD:
+  - '&7Organic Food made from dried kelp.'
+  - '&7Feeds animals in the Auto-Breeder.'

@@ -1,16 +1,26 @@
+# In-game wiki mechanic-hub topics, keyed by topic id (see WikiText#getMechanic).
 research:
-  - "&7Many Slimefun items must be researched before you can use them."
-  - "&7Researching costs experience levels and unlocks the item permanently"
-  - "&7for your profile, gating progression behind exploration and effort."
+  - '&7Most items in your Guide start locked.'
+  - '&7Click a locked item to research it,'
+  - '&7spending experience levels to unlock it'
+  - '&7permanently for crafting and use.'
+  - '&7Admins can grant any research with'
+  - '&7&f/sf research <player> <all/reset/id>&7.'
 energy:
-  - "&7Machines and gadgets run on an energy network. Generators produce"
-  - "&7energy, capacitors store it, and machines consume it. Connect them"
-  - "&7with an Energy Regulator to power your setup."
+  - '&7Slimefun machines run on an energy'
+  - '&7network. Place an Energy Regulator to'
+  - '&7start one. Generators add power,'
+  - '&7Capacitors store it, machines use it.'
+  - '&7All blocks must connect to the network.'
 cargo:
-  - "&7The cargo network moves items between machines and chests."
-  - "&7Cargo nodes filter and route items along a Cargo Manager, letting"
-  - "&7you automate sorting, input and output across your base."
+  - '&7Cargo networks move items between'
+  - '&7chests and machines automatically.'
+  - '&7Place a Cargo Manager, then add Input'
+  - '&7nodes to pull items and Output nodes to'
+  - '&7receive them. Use channels and filters.'
 multiblocks:
-  - "&7Multiblocks are structures built from vanilla blocks in a fixed shape."
-  - "&7Once assembled, interacting with the trigger block performs a recipe."
-  - "&7They require no energy and are ideal for early-game automation."
+  - '&7Multiblock machines need no power.'
+  - '&7Build the exact block structure shown'
+  - '&7in the Guide, then right-click the'
+  - '&7trigger block while holding the right'
+  - '&7items to craft. There is no GUI.'
