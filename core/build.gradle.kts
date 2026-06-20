@@ -374,13 +374,37 @@ val cloneAndBuildAddons by tasks.registering {
             return null
         }
 
-        // Removes core's own classes (io.github.thebusybiscuit.slimefun5.*) that an addon accidentally
-        // bundled, while keeping the addon's relocated shaded libraries (.../slimefun5/libraries/**). A
-        // bundled copy of core gets loaded by the addon's own classloader with a null static instance,
-        // causing "Slimefun instance is null" on enable; the running Slimefun plugin provides these classes.
+        // The set of .class entries the core jar provides. An addon must not ship duplicates of any of
+        // them: a duplicate loaded by the addon's own classloader either has null static state (e.g.
+        // core's Slimefun -> "Slimefun instance is null") or, when it appears in a shared core API
+        // signature (e.g. the relocated slimefun5.libraries.keys.NamespacedKey or dough Config), triggers
+        // a LinkageError "loader constraint violation". Core supplies every such class at runtime via the
+        // addon's `depend: [Slimefun]` classloader link.
+        val coreClassEntries: Set<String> = run {
+            val names = HashSet<String>()
+            if (coreJarFile.exists()) {
+                try {
+                    ZipFile(coreJarFile).use { zf ->
+                        val en = zf.entries()
+                        while (en.hasMoreElements()) {
+                            val n = en.nextElement().name
+                            if (n.endsWith(".class")) names.add(n)
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("WARNING: could not read core jar entries for strip: ${e.message}")
+                }
+            }
+            names
+        }
+
+        // Strips from an addon jar every .class the core jar also provides (core's own classes + its
+        // relocated libraries like keys/dough), while keeping addon-only classes and libs core does not
+        // ship (e.g. the addon's relocated xseries). Never touches plugin.yml or other resources.
         fun stripBundledCoreClasses(jar: File) {
-            val prefix = "io/github/thebusybiscuit/slimefun5/"
-            val keep = "io/github/thebusybiscuit/slimefun5/libraries/"
+            if (coreClassEntries.isEmpty()) {
+                return
+            }
             val temp = File(jar.parentFile, jar.name + ".strip.tmp")
             var removed = 0
             ZipInputStream(jar.inputStream()).use { zin ->
@@ -389,7 +413,7 @@ val cloneAndBuildAddons by tasks.registering {
                     while (entry != null) {
                         val data = zin.readBytes()
                         val name = entry.name
-                        if (name.startsWith(prefix) && !name.startsWith(keep)) {
+                        if (name.endsWith(".class") && coreClassEntries.contains(name)) {
                             removed++
                         } else {
                             zout.putNextEntry(ZipEntry(name))
