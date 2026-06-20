@@ -101,6 +101,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemH
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SoulboundListener;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiText;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanBlockDropListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.VillagerTradingListener;
@@ -169,6 +170,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
+    private final WikiText wikiText = new WikiText();
     private final SlimefunCommand command = new SlimefunCommand(this);
     private final TickerTask ticker = new TickerTask();
 
@@ -343,6 +345,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
         PostSetup.setupWiki();
+
+        logger.log(Level.INFO, "Loading in-game wiki text...");
+        wikiText.loadBundled();
 
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
@@ -989,6 +994,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull SlimefunRegistry getRegistry() {
         validateInstance();
         return instance.registry;
+    }
+
+    public static @Nonnull WikiText getWikiText() {
+        validateInstance();
+        return instance.wikiText;
     }
 
     public static @Nonnull GrapplingHookListener getGrapplingHookListener() {

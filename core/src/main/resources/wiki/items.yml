@@ -1,0 +1,12 @@
+ENHANCED_FURNACE:
+  - "&7The Enhanced Furnace is a vanilla furnace upgraded with a Slimefun"
+  - "&7multiblock. Higher tiers smelt faster, burn fuel more efficiently"
+  - "&7and grant a chance for bonus output via the luck multiplier."
+ELECTRIC_SMELTERY:
+  - "&7The Electric Smeltery is an end-game machine that fuses metal dusts"
+  - "&7into alloys. It runs on energy rather than fuel and only produces"
+  - "&7alloys, so it cannot smelt dust directly into ingots."
+GRIND_STONE:
+  - "&7The Grind Stone is an early multiblock that grinds items down into"
+  - "&7other items, such as ores into dust or blocks into resources."
+  - "&7Right-click it with the input item to process it."

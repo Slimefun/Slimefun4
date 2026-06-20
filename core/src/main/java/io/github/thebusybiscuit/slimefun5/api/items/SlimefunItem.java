@@ -887,6 +887,17 @@ public class SlimefunItem implements Placeable {
     }
 
     /**
+     * Assigns authored in-game wiki text to this item. Each argument is one line and may
+     * contain color codes. Addons call this to describe what their items do.
+     *
+     * @param lines
+     *            The explanation lines for this item's in-game wiki page
+     */
+    public void setWikiText(@Nonnull String... lines) {
+        Slimefun.getWikiText().set(getId(), Arrays.asList(lines));
+    }
+
+    /**
      * This method will return this Item's Name (The name that is displayed when
      * hovering over this {@link ItemStack} in an {@link Inventory}).
      * 
