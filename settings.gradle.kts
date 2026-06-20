@@ -16,4 +16,4 @@ plugins {
 rootProject.name = "Slimefun"
 
 include("core")
-include("compat-stubs")
+include("stubs")

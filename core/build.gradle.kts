@@ -56,10 +56,10 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.10.0")
 
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through compat-stubs + reflection.
+    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through the stubs module + reflection.
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     // Compile-only stubs of post-1.8 org.bukkit types; not shaded, real classes used at runtime.
-    compileOnly(project(":compat-stubs"))
+    compileOnly(project(":stubs"))
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
