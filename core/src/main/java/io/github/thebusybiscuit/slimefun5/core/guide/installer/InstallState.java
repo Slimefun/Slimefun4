@@ -64,7 +64,7 @@ public final class InstallState {
     }
 
     @Nullable
-    public Record get(@Nonnull String id) {
+    public synchronized Record get(@Nonnull String id) {
         if (!config.contains(id)) {
             return null;
         }
@@ -84,7 +84,7 @@ public final class InstallState {
     }
 
     /** Records a staged install and immediately persists. */
-    public void set(@Nonnull String id, @Nonnull Method method, @Nonnull String version, boolean restartPending) {
+    public synchronized void set(@Nonnull String id, @Nonnull Method method, @Nonnull String version, boolean restartPending) {
         config.set(id + ".method", method.name());
         config.set(id + ".version", version);
         config.set(id + ".restart-pending", restartPending);

@@ -92,8 +92,8 @@ public final class AddonReleaseService {
             JsonObject asset = element.getAsJsonObject();
             String name = asset.has("name") ? asset.get("name").getAsString() : "";
 
-            if (name.endsWith(".jar") && !name.contains("-sources") && !name.contains("-javadoc")) {
-                return asset.has("browser_download_url") ? asset.get("browser_download_url").getAsString() : null;
+            if (name.endsWith(".jar") && !name.contains("-sources") && !name.contains("-javadoc") && asset.has("browser_download_url")) {
+                return asset.get("browser_download_url").getAsString();
             }
         }
 
@@ -109,10 +109,11 @@ public final class AddonReleaseService {
     public boolean downloadJar(@Nonnull String jarUrl, @Nonnull File targetDir, @Nonnull String fileName) {
         File tmp = new File(targetDir, fileName + ".tmp");
         File dest = new File(targetDir, fileName);
+        HttpURLConnection connection = null;
 
         try {
             URL url = new URI(jarUrl).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setInstanceFollowRedirects(true);
             connection.setConnectTimeout(TIMEOUT);
@@ -136,14 +137,20 @@ public final class AddonReleaseService {
         } catch (IOException | URISyntaxException e) {
             tmp.delete();
             return false;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 
     @Nullable
     private static JsonElement get(@Nonnull String endpoint) {
+        HttpURLConnection connection = null;
+
         try {
             URL url = new URI(endpoint).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
@@ -157,6 +164,10 @@ public final class AddonReleaseService {
             return JsonUtils.parseString(readBody(connection.getInputStream()));
         } catch (Exception e) {
             return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 

@@ -18,6 +18,8 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.researches.Research;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
+import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog;
+import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
@@ -160,7 +162,7 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        if (p.hasPermission(io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog.PERMISSION)) {
+        if (p.hasPermission(AddonCatalog.PERMISSION)) {
             menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
                 "",
@@ -173,7 +175,7 @@ public final class SlimefunGuideSettings {
             // @formatter:on
 
             menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-                io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu.open(pl, guide);
+                AddonInstallerMenu.open(pl, guide);
                 return false;
             });
         } else {

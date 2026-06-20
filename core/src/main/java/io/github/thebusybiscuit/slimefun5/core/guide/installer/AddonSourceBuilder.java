@@ -85,8 +85,12 @@ public final class AddonSourceBuilder {
     }
 
     private boolean runGradle(File repoDir, File logFile) {
-        String wrapper = EnvironmentDetector.isWindows() ? "gradlew.bat" : "./gradlew";
-        return run(repoDir, logFile, wrapper, "assemble", "--no-daemon");
+        // gradlew.bat is a batch script: ProcessBuilder needs cmd /c to run it on Windows.
+        if (EnvironmentDetector.isWindows()) {
+            return run(repoDir, logFile, "cmd", "/c", "gradlew.bat", "assemble", "--no-daemon");
+        }
+
+        return run(repoDir, logFile, "./gradlew", "assemble", "--no-daemon");
     }
 
     /**

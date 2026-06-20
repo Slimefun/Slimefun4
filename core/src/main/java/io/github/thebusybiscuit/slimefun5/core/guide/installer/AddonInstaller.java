@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun5.core.guide.installer;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -61,25 +62,35 @@ public final class AddonInstaller {
      * Runs entirely off the main thread; messages the player on completion.
      */
     public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry) {
-        if (!inProgress.add(entry.getId())) {
+        // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins) on the calling
+        // (main) thread, then reserve all ids before going async.
+        List<AddonCatalog.Entry> targets = new ArrayList<>();
+
+        for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
+            if (!isLoaded(dep)) {
+                targets.add(dep);
+            }
+        }
+
+        targets.add(entry);
+
+        Set<String> loadedIds = new HashSet<>();
+
+        for (AddonCatalog.Entry target : targets) {
+            if (isLoaded(target)) {
+                loadedIds.add(target.getId());
+            }
+        }
+
+        if (!reserve(targets)) {
             return;
         }
 
         runAsync(() -> {
-            List<AddonCatalog.Entry> toInstall = new ArrayList<>();
-
-            for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
-                if (!isLoaded(dep)) {
-                    toInstall.add(dep);
-                }
-            }
-
-            toInstall.add(entry);
-
             List<String> staged = new ArrayList<>();
             boolean failure = false;
 
-            for (AddonCatalog.Entry target : toInstall) {
+            for (AddonCatalog.Entry target : targets) {
                 AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(target);
 
                 if (info == null) {
@@ -88,7 +99,7 @@ public final class AddonInstaller {
                     break;
                 }
 
-                File dir = InstallTargets.targetDir(isLoaded(target));
+                File dir = InstallTargets.targetDir(loadedIds.contains(target.getId()));
                 boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, target.getRepo() + ".jar");
 
                 if (!ok) {
@@ -101,7 +112,7 @@ public final class AddonInstaller {
                 staged.add(target.getDisplayName() + " " + info.getTag());
             }
 
-            inProgress.remove(entry.getId());
+            release(targets);
 
             if (!failure) {
                 message(player, ChatColor.GREEN + "✔ Staged: " + String.join(", ", staged) + ChatColor.GRAY + " — restart the server to apply.");
@@ -114,21 +125,33 @@ public final class AddonInstaller {
      * source — they are installed from their latest release if missing.
      */
     public void buildFromBranch(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @Nonnull String branch, long timestamp) {
-        if (!inProgress.add(entry.getId())) {
+        // Resolve Bukkit-API state on the main thread.
+        List<AddonCatalog.Entry> missingDeps = new ArrayList<>();
+
+        for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
+            if (!isLoaded(dep)) {
+                missingDeps.add(dep);
+            }
+        }
+
+        boolean entryLoaded = isLoaded(entry);
+
+        List<AddonCatalog.Entry> reserved = new ArrayList<>(missingDeps);
+        reserved.add(entry);
+
+        if (!reserve(reserved)) {
             return;
         }
 
         runAsync(() -> {
             // Release-install any missing hard dependencies first.
-            for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
-                if (!isLoaded(dep)) {
-                    AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(dep);
+            for (AddonCatalog.Entry dep : missingDeps) {
+                AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(dep);
 
-                    if (info != null) {
-                        File dir = InstallTargets.targetDir(false);
-                        releaseService.downloadJar(info.getJarUrl(), dir, dep.getRepo() + ".jar");
-                        state.set(dep.getId(), InstallState.Method.RELEASE, info.getTag(), true);
-                    }
+                if (info != null) {
+                    File dir = InstallTargets.targetDir(false);
+                    releaseService.downloadJar(info.getJarUrl(), dir, dep.getRepo() + ".jar");
+                    state.set(dep.getId(), InstallState.Method.RELEASE, info.getTag(), true);
                 }
             }
 
@@ -142,14 +165,14 @@ public final class AddonInstaller {
                     message(player, ChatColor.DARK_GRAY + line);
                 }
 
-                inProgress.remove(entry.getId());
+                release(reserved);
                 return;
             }
 
-            File dir = InstallTargets.targetDir(isLoaded(entry));
+            File dir = InstallTargets.targetDir(entryLoaded);
             File dest = new File(dir, entry.getRepo() + ".jar");
             boolean copied = copy(result.getJar(), dest);
-            inProgress.remove(entry.getId());
+            release(reserved);
 
             if (copied) {
                 state.set(entry.getId(), InstallState.Method.BRANCH, branch, true);
@@ -160,13 +183,33 @@ public final class AddonInstaller {
         });
     }
 
-    private static boolean copy(File from, File to) {
-        try {
-            if (to.exists() && !to.delete()) {
+    /** Reserves all ids in inProgress atomically; returns false (and rolls back) if any is already in flight. */
+    private boolean reserve(List<AddonCatalog.Entry> entries) {
+        List<String> added = new ArrayList<>();
+
+        for (AddonCatalog.Entry e : entries) {
+            if (inProgress.add(e.getId())) {
+                added.add(e.getId());
+            } else {
+                inProgress.removeAll(added);
                 return false;
             }
+        }
 
-            try (java.io.InputStream in = new java.io.FileInputStream(from); java.io.OutputStream out = new java.io.FileOutputStream(to)) {
+        return true;
+    }
+
+    private void release(List<AddonCatalog.Entry> entries) {
+        for (AddonCatalog.Entry e : entries) {
+            inProgress.remove(e.getId());
+        }
+    }
+
+    private static boolean copy(File from, File to) {
+        File tmp = new File(to.getParentFile(), to.getName() + ".tmp");
+
+        try {
+            try (java.io.InputStream in = new java.io.FileInputStream(from); java.io.OutputStream out = new java.io.FileOutputStream(tmp)) {
                 byte[] buffer = new byte[8192];
                 int read;
 
@@ -175,8 +218,14 @@ public final class AddonInstaller {
                 }
             }
 
-            return true;
+            if (to.exists() && !to.delete()) {
+                tmp.delete();
+                return false;
+            }
+
+            return tmp.renameTo(to);
         } catch (java.io.IOException e) {
+            tmp.delete();
             return false;
         }
     }

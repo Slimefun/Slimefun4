@@ -59,9 +59,11 @@ public final class BranchService {
 
     @Nullable
     private static JsonElement get(@Nonnull String endpoint) {
+        HttpURLConnection connection = null;
+
         try {
             URL url = new URI(endpoint).toURL();
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
@@ -75,6 +77,10 @@ public final class BranchService {
             return JsonUtils.parseString(readBody(connection.getInputStream()));
         } catch (Exception e) {
             return null;
+        } finally {
+            if (connection != null) {
+                connection.disconnect();
+            }
         }
     }
 

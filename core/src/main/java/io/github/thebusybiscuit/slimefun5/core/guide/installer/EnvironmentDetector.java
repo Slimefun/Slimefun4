@@ -9,7 +9,7 @@ import java.io.File;
  */
 public final class EnvironmentDetector {
 
-    private static Boolean cached;
+    private static volatile Boolean cached;
 
     private EnvironmentDetector() {}
 
