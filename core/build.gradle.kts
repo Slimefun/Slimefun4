@@ -571,79 +571,54 @@ fun removeViaJars(pluginsDir: java.io.File, slug: String) {
     pluginsDir.listFiles()?.filter { it.name.startsWith(slug, ignoreCase = true) && it.name.endsWith(".jar") }?.forEach { it.delete() }
 }
 
-// Reads the major class-file version of a jar's Bukkit plugin main class (bytes 6-7 of the .class).
-// Java 8 = 52, 16 = 60, 17 = 61, 21 = 65. Returns -1 if it cannot be determined.
-fun jarMainClassMajor(jar: java.io.File): Int {
-    try {
-        ZipFile(jar).use { zf ->
-            val ymlEntry = zf.getEntry("plugin.yml") ?: return -1
-            val yml = zf.getInputStream(ymlEntry).bufferedReader().use { it.readText() }
-            val main = Regex("(?m)^main:\\s*\"?([\\w.]+)").find(yml)?.groupValues?.get(1) ?: return -1
-            val classEntry = zf.getEntry(main.replace('.', '/') + ".class") ?: return -1
-            zf.getInputStream(classEntry).use { ins ->
-                val header = ByteArray(8)
-                if (ins.read(header) < 8) return -1
-                return ((header[6].toInt() and 0xff) shl 8) or (header[7].toInt() and 0xff)
-            }
-        }
-    } catch (e: Exception) {
-        return -1
-    }
-}
+// Each Via plugin's Jenkins job that publishes the latest release "downgraded" to Java 8 bytecode.
+// These run on EVERY server (Java 8 -> 25) and still support all modern Minecraft client versions, so
+// they work on the legacy servers (MC <= 1.16.4, Java 8) this universal jar targets - unlike the Modrinth
+// releases, which are Java 17+ and fail with UnsupportedClassVersionError on a Java-8 server.
+val viaJava8Jobs = mapOf(
+    "viaversion" to "ViaVersion-Java8",
+    "viabackwards" to "ViaBackwards-Java8",
+    "viarewind" to "ViaRewind-Java8"
+)
 
-// Downloads the latest <slug> build that supports <mcVersion> from Modrinth into pluginsDir, but ONLY if
-// its plugin main class is loadable on the server's Java runtime: the latest Via* builds are Java 17+,
-// while legacy servers (MC <= 1.16.4) run Java 8, and Modrinth hosts no Java-8 Via* build - installing a
-// too-new jar just yields UnsupportedClassVersionError at load. Returns true iff a compatible jar is now
-// installed (a stale/incompatible copy is removed either way). Best-effort: failures never block launch.
-fun installViaPlugin(slug: String, mcVersion: String, pluginsDir: java.io.File, javaLevel: Int): Boolean {
-    val maxMajor = javaLevel + 44 // class-file major the server's JVM accepts (Java 8 -> 52, 17 -> 61, 21 -> 65)
+// Downloads the latest Java-8 build of <slug> from the ViaVersion Jenkins CI into pluginsDir, replacing
+// any older/stale copy. Returns true iff a jar is now installed. Best-effort: failures never block launch.
+fun installViaPlugin(slug: String, pluginsDir: java.io.File): Boolean {
+    val job = viaJava8Jobs[slug] ?: return false
     try {
-        // Modrinth tags the 1.8 line as "1.8.9"; map 1.8.x to it so the query resolves.
-        val viaMc = if (mcVersion.startsWith("1.8")) "1.8.9" else mcVersion
-        val api = "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$viaMc%22%5D" +
-            "&loaders=%5B%22paper%22%2C%22spigot%22%2C%22bukkit%22%5D"
-        val conn = URI.create(api).toURL().openConnection() as HttpURLConnection
+        val base = "https://ci.viaversion.com/job/$job/lastSuccessfulBuild"
+        val conn = URI.create("$base/api/json").toURL().openConnection() as HttpURLConnection
         conn.setRequestProperty("User-Agent", "Slimefun5-universal-build")
         conn.connectTimeout = 15000
         conn.readTimeout = 15000
         val body = conn.inputStream.bufferedReader().use { it.readText() }
         @Suppress("UNCHECKED_CAST")
-        val versions = groovy.json.JsonSlurper().parseText(body) as List<Map<String, Any?>>
-        if (versions.isEmpty()) {
-            logger.warn("[via] no $slug build supports MC $viaMc - skipping")
+        val json = groovy.json.JsonSlurper().parseText(body) as Map<String, Any?>
+        @Suppress("UNCHECKED_CAST")
+        val artifacts = json["artifacts"] as? List<Map<String, Any?>> ?: emptyList()
+        val artifact = artifacts.firstOrNull { (it["fileName"] as? String)?.endsWith(".jar") == true }
+        if (artifact == null) {
+            logger.warn("[via] no jar artifact published by $job - skipping")
             removeViaJars(pluginsDir, slug)
             return false
         }
-        @Suppress("UNCHECKED_CAST")
-        val files = versions[0]["files"] as List<Map<String, Any?>>
-        val file = files.firstOrNull { it["primary"] == true } ?: files[0]
-        val url = file["url"] as String
-        val name = file["filename"] as String
+        val name = artifact["fileName"] as String
+        val relPath = artifact["relativePath"] as String
         val dest = pluginsDir.resolve(name)
-        // A previously-installed copy of this exact build that is still compatible: keep it, skip the download.
-        if (dest.exists() && jarMainClassMajor(dest) in 1..maxMajor) {
+        if (dest.exists()) {
             logger.lifecycle("[via] $name already present")
             return true
         }
-        // Download to a temp file first so we can verify Java compatibility before installing it.
         val tmp = File.createTempFile(slug, ".jar")
-        URI.create(url).toURL().openStream().use { input -> tmp.outputStream().use { input.copyTo(it) } }
-        val major = jarMainClassMajor(tmp)
-        if (major > maxMajor) {
-            tmp.delete()
-            removeViaJars(pluginsDir, slug) // drop any stale/incompatible copy from a previous run
-            logger.warn("[via] $name needs Java ${major - 44} but MC $mcVersion runs Java $javaLevel - skipping")
-            return false
-        }
-        // Compatible: replace any older copy so it's an update, not a duplicate.
+        URI.create("$base/artifact/$relPath").toURL().openStream().use { input -> tmp.outputStream().use { input.copyTo(it) } }
+        // Replace any older/stale copy (incl. an incompatible Modrinth jar from a previous run).
         removeViaJars(pluginsDir, slug)
         tmp.copyTo(dest, overwrite = true)
         tmp.delete()
-        logger.lifecycle("[via] installed $name")
+        logger.lifecycle("[via] installed $name (Java 8 build)")
         return true
     } catch (e: Exception) {
-        logger.warn("[via] failed to install $slug for MC $mcVersion: ${e.message}")
+        logger.warn("[via] failed to install $slug: ${e.message}")
         return false
     }
 }
@@ -668,13 +643,12 @@ tasks.runServer {
 
         if (installVia) {
             val pluginsDir = runDirFile.resolve("plugins").also { it.mkdirs() }
-            val javaLevel = requiredJavaFor(runServerMcVer)
             // Dependency chain: ViaBackwards needs ViaVersion, ViaRewind needs ViaBackwards. Installing a
             // dependent without its dependency causes UnknownDependencyException at load, so only install
             // each once the one it depends on succeeded.
-            val viaOk = installViaPlugin("viaversion", runServerMcVer, pluginsDir, javaLevel)
-            val backwardsOk = viaOk && installViaPlugin("viabackwards", runServerMcVer, pluginsDir, javaLevel)
-            val rewindOk = backwardsOk && installViaPlugin("viarewind", runServerMcVer, pluginsDir, javaLevel)
+            val viaOk = installViaPlugin("viaversion", pluginsDir)
+            val backwardsOk = viaOk && installViaPlugin("viabackwards", pluginsDir)
+            val rewindOk = backwardsOk && installViaPlugin("viarewind", pluginsDir)
             // Remove any jar we did not (successfully) install, clearing orphans from earlier runs.
             if (!viaOk) removeViaJars(pluginsDir, "viaversion")
             if (!backwardsOk) removeViaJars(pluginsDir, "viabackwards")
