@@ -58,9 +58,7 @@ public class RuneAnvil extends SlimefunItem implements InventoryBlock {
     private static final int ARROW_SLOT = 14;
     private static final int INFO_SLOT = 4;
 
-    private final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 13, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-    private final int[] inputTextures = { 9, 12 };
-    private final int[] outputTextures = { 15, 17 };
+    private final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 12, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
 
     @ParametersAreNonnullByDefault
     public RuneAnvil(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -126,14 +124,6 @@ public class RuneAnvil extends SlimefunItem implements InventoryBlock {
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
-
-        for (int i : inputTextures) {
-            preset.addItem(i, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
-        }
-
-        for (int i : outputTextures) {
-            preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         preset.addItem(INFO_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ANVIL),

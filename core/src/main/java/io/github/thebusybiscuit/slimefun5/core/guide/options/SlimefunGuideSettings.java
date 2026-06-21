@@ -54,6 +54,7 @@ public final class SlimefunGuideSettings {
         options.add(new GuideModeOption());
         options.add(new FireworksOption());
         options.add(new LearningAnimationOption());
+        options.add(new MachineMessagesOption());
         options.add(new PlayerLanguageOption());
     }
 
@@ -270,6 +271,19 @@ public final class SlimefunGuideSettings {
      */
     public static boolean hasLearningAnimationEnabled(@Nonnull Player p) {
         return getOptionValue(p, LearningAnimationOption.class, true);
+    }
+
+    /**
+     * Whether the given {@link Player} wants to receive machine chat feedback (multiblock assembly
+     * tips and "Assembled" messages). Defaults to {@code true}.
+     *
+     * @param p
+     *            The {@link Player}
+     *
+     * @return Whether machine messages should be shown to this {@link Player}
+     */
+    public static boolean hasMachineMessagesEnabled(@Nonnull Player p) {
+        return getOptionValue(p, MachineMessagesOption.class, true);
     }
 
     /**

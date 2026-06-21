@@ -67,7 +67,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
             }
 
             if (InventoryCompat.isEmpty(inv)) {
-                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
+                    Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                }
             } else {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }

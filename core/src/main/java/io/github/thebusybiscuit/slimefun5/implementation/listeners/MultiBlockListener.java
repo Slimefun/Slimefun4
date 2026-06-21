@@ -97,8 +97,12 @@ public class MultiBlockListener implements Listener {
                     for (int dz = -1; dz <= 1; dz++) {
                         if (compareMaterials(placed.getRelative(dx, dy, dz), structure, mb.isSymmetric())) {
                             Player p = e.getPlayer();
-                            io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
-                            p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + mb.getSlimefunItem().getItemName());
+
+                            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
+                                io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
+                                p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + mb.getSlimefunItem().getItemName());
+                            }
+
                             return;
                         }
                     }
