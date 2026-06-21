@@ -293,6 +293,7 @@ public final class ResearchSetup {
         register("trident", 279, "Trident", 20, "TRIDENT");
         register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
         register("rainbow_armor", 281, "I wanna see the rainbow high in the sky", 22, SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS);
+        register("slot_lock", 283, "Locked and Loaded", 8, SlimefunItems.SLOT_LOCK);
     }
 
     private static void register(String key, int id, String name, int defaultCost, SlimefunItemStack... items) {
