@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slimefun Guide — proposed chest layouts</title>
+<style>
+  :root { --bg:#1c1f24; --panel:#c6c6c6; --slot:#8b8b8b; --slot-dark:#373737; --ink:#222; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:#e8e8e8;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace; padding: 24px 16px; }
+  h1 { font-size: 1.15rem; font-weight:700; margin:0 0 4px; }
+  p.lead { color:#aab; margin:0 0 24px; font-size:.85rem; max-width:60ch; }
+  .wrap { display:flex; flex-wrap:wrap; gap:32px; align-items:flex-start; }
+  .menu { background:var(--panel); border:3px solid #fff; border-bottom-color:#555; border-right-color:#555;
+    padding:10px; border-radius:3px; width:max-content; }
+  .menu .title { color:#3a3a3a; font-weight:700; font-size:.82rem; margin:0 2px 8px; }
+  .grid { display:grid; grid-template-columns:repeat(9, 34px); grid-auto-rows:34px; gap:2px; }
+  .cell { width:34px; height:34px; border-radius:2px; display:flex; align-items:center; justify-content:center;
+    font-size:17px; position:relative; }
+  .pane { background:var(--slot-dark); }          /* gray glass pane = intentional backdrop */
+  .item { background:var(--slot); border:2px solid; border-color:#fff #555 #555 #fff; cursor:help; }
+  .legend { margin-top:14px; font-size:.78rem; color:#445; background:#e4e4e4; padding:8px 10px; border-radius:3px; }
+  .legend b { color:#222; }
+  .caption { font-size:.8rem; color:#9fb0c0; margin:10px 2px 0; max-width:34ch; }
+  .tag { display:inline-block; font-size:.7rem; background:#2d6; color:#042; padding:1px 6px; border-radius:8px; margin-left:6px; }
+  code { background:#2a2e35; padding:1px 5px; border-radius:3px; color:#cde; }
+</style>
+</head>
+<body>
+  <h1>New compact chest layouts <span class="tag">shipped — rebuild to see</span></h1>
+  <p class="lead">Real fix: the menus are now <b>sized to their content</b> — 3 rows instead of 6 — so there is
+  no tall empty area at all. The chest auto-shrinks to the highest slot used. Hover any item for its label.</p>
+
+  <div class="wrap">
+    <div>
+      <div class="menu">
+        <div class="title">Slimefun Guide</div>
+        <div class="grid" id="main"></div>
+      </div>
+      <div class="caption">Top row = features (Settings · Wiki · Addon Visibility · Advancements · Search).
+        Below: the theme tiles, then a clean paned backdrop. Page arrows bottom.</div>
+    </div>
+
+    <div>
+      <div class="menu">
+        <div class="title">Settings &amp; Info</div>
+        <div class="grid" id="settings"></div>
+      </div>
+      <div class="caption">Back top-left; Credits &amp; Versions grouped; the four toggles centered as one block;
+        Installer (ops) centered below. Everything else paned.</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <b>Legend:</b> dark slot = gray glass pane (backdrop) · raised slot = a real button/item.
+    The real GUI is 9×6 (54 slots); these are exact slot positions.
+  </div>
+
+<script>
+  // label map: slot -> {icon,label}; any slot not listed renders as a pane.
+  // Guide main menu — 3 rows (27 slots). Feature row, then the 11 themes, then trailing panes.
+  const main = {
+    0:['🏅','Advancements (feature)'], 1:['⚙','Settings'], 3:['📖','Wiki'], 5:['📚','Addon Visibility'], 7:['🔍','Search'],
+    9:['⚔','Weapons'],10:['⛏','Tools'],11:['🛡','Armor'],12:['🔥','Machines'],13:['⚡','Energy & Tech'],
+    14:['🔩','Resources'],15:['✨','Magic'],16:['🍞','Food & Farming'],17:['📦','Logistics'],18:['🎨','Decoration'],19:['🧰','Misc']
+  };
+  // Settings & Info — 3 rows. Back/Credits/Versions on top, toggles centered, installer below.
+  const settings = {
+    0:['◀','Back to Guide'], 3:['❤','Credits'], 5:['📜','Versions'],
+    11:['🎮','Guide Mode'],12:['🎆','Fireworks'],13:['📖','Learning Animation'],14:['🌐','Language'],
+    22:['🛠','Addon Installer (ops)']
+  };
+  function build(id, map){
+    const g = document.getElementById(id);
+    for(let s=0;s<27;s++){
+      const c=document.createElement('div');
+      if(map[s]){ c.className='cell item'; c.textContent=map[s][0]; c.title=map[s][1]+'  (slot '+s+')'; }
+      else { c.className='cell pane'; }
+      g.appendChild(c);
+    }
+  }
+  build('main', main); build('settings', settings);
+</script>
+</body>
+</html>

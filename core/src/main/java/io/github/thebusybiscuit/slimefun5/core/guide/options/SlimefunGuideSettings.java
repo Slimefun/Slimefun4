@@ -44,7 +44,11 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    // A compact 3-row (27-slot) menu: every slot is a background pane, then the functional items are
+    // drawn on top. Sizing the menu to its content avoids the tall, half-empty chest that looked bare.
+    private static final int[] BACKGROUND_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+
+    private static final int INSTALLER_SLOT = 22;
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -123,7 +127,7 @@ public final class SlimefunGuideSettings {
 
         // @formatter:off
         if (p.hasPermission(AddonCatalog.PERMISSION)) {
-            menu.addItem(49, CustomItemStack.create(Material.BOOKSHELF,
+            menu.addItem(INSTALLER_SLOT, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
                 "",
                 "&7Install, update or build Slimefun and its",
@@ -134,31 +138,40 @@ public final class SlimefunGuideSettings {
                 "&7\u21E8 &eClick to open the Addon Installer"));
             // @formatter:on
 
-            menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
+            menu.addMenuClickHandler(INSTALLER_SLOT, (pl, slot, item, action) -> {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
         }
-        // Non-op players see no installer entry (slot 49 stays a background pane).
+        // Non-op players see no installer entry (the slot stays a background pane).
     }
 
     @ParametersAreNonnullByDefault
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
-        // Centered block in the middle row (slots 21-24 for the four built-in options).
-        int i = 21;
+        // Collect the options that are actually shown, then center them as a contiguous block in the
+        // middle row (slots 9-17) so the layout stays balanced regardless of how many there are.
+        List<ItemStack> displays = new ArrayList<>();
+        List<SlimefunGuideOption<?>> shown = new ArrayList<>();
 
         for (SlimefunGuideOption<?> option : options) {
             Optional<ItemStack> item = option.getDisplayItem(p, guide);
 
             if (item.isPresent()) {
-                menu.addItem(i, item.get());
-                menu.addMenuClickHandler(i, (pl, slot, stack, action) -> {
-                    option.onClick(p, guide);
-                    return false;
-                });
-
-                i++;
+                displays.add(item.get());
+                shown.add(option);
             }
+        }
+
+        int count = Math.min(displays.size(), 9);
+        int start = 9 + Math.max(0, (9 - count) / 2);
+
+        for (int i = 0; i < count; i++) {
+            SlimefunGuideOption<?> option = shown.get(i);
+            menu.addItem(start + i, displays.get(i));
+            menu.addMenuClickHandler(start + i, (pl, slot, stack, action) -> {
+                option.onClick(p, guide);
+                return false;
+            });
         }
     }
 
