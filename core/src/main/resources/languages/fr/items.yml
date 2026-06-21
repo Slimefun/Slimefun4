@@ -1,0 +1,38 @@
+# Sample item translations (French). Keyed by Slimefun item id.
+# Each entry: name (single line) and optional lore (list of lines). Colour codes use '&'.
+# Items not listed here fall back to the built-in English name/lore.
+
+ENHANCED_CRAFTING_TABLE:
+  name: "&eÉtabli amélioré"
+  lore:
+    - ""
+    - "&aUn établi ordinaire ne peut pas"
+    - "&acontenir une telle puissance..."
+
+MAGIC_WORKBENCH:
+  name: "&6Établi magique"
+  lore:
+    - ""
+    - "&dInfuse les objets d'énergie magique"
+
+RUNE_ANVIL:
+  name: "&5Enclume runique"
+  lore:
+    - ""
+    - "&7Applique une rune sur un objet."
+    - "&7Placez un objet et une rune d'Âme"
+    - "&7ou d'Enchantement à l'intérieur, et le"
+    - "&7résultat apparaît dans la sortie."
+
+SYNTHETIC_DIAMOND:
+  name: "&bDiamant synthétique"
+  lore:
+    - ""
+    - "&fCet objet peut être utilisé dans un"
+    - "&fétabli et agit comme un diamant normal"
+
+COPPER_DUST:
+  name: "&6Poudre de cuivre"
+
+GOLD_8K:
+  name: "&fLingot d'or &7(8 carats)"

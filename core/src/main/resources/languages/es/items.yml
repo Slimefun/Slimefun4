@@ -1,0 +1,38 @@
+# Sample item translations (Spanish). Keyed by Slimefun item id.
+# Each entry: name (single line) and optional lore (list of lines). Colour codes use '&'.
+# Items not listed here fall back to the built-in English name/lore.
+
+ENHANCED_CRAFTING_TABLE:
+  name: "&eMesa de trabajo mejorada"
+  lore:
+    - ""
+    - "&aUna mesa de trabajo normal no puede"
+    - "&acontener tanta energía..."
+
+MAGIC_WORKBENCH:
+  name: "&6Mesa de trabajo mágica"
+  lore:
+    - ""
+    - "&dInfunde objetos con energía mágica"
+
+RUNE_ANVIL:
+  name: "&5Yunque rúnico"
+  lore:
+    - ""
+    - "&7Aplica una runa a un objeto."
+    - "&7Coloca un objeto y una runa de Alma"
+    - "&7o de Encantamiento dentro, y el"
+    - "&7resultado aparece en la salida."
+
+SYNTHETIC_DIAMOND:
+  name: "&bDiamante sintético"
+  lore:
+    - ""
+    - "&fEste objeto se puede usar en una"
+    - "&fmesa de trabajo como un diamante normal"
+
+COPPER_DUST:
+  name: "&6Polvo de cobre"
+
+GOLD_8K:
+  name: "&fLingote de oro &7(8 quilates)"
