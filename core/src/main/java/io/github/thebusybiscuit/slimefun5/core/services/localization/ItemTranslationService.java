@@ -263,6 +263,32 @@ public class ItemTranslationService {
         return changed;
     }
 
+    /**
+     * Returns the item's display name in the player's language (without colour-stripping), falling back
+     * to the English baseline and then the item's built-in name. Useful where only the name string is
+     * needed (e.g. locked/not-researched guide entries) rather than a full display ItemStack.
+     */
+    @Nonnull
+    public String getName(@Nonnull Player p, @Nonnull SlimefunItem item) {
+        ItemTranslation translation = lookup(languageOf(p), item.getId());
+
+        if (translation != null && translation.name != null) {
+            return ChatColor.translateAlternateColorCodes('&', translation.name);
+        }
+
+        ItemStack baseline = englishBaseline.get(item.getId());
+
+        if (baseline != null) {
+            ItemMeta meta = baseline.getItemMeta();
+
+            if (meta != null && meta.hasDisplayName()) {
+                return meta.getDisplayName();
+            }
+        }
+
+        return item.getItemName();
+    }
+
     @Nullable
     private String languageOf(@Nonnull Player p) {
         Language language = Slimefun.getLocalization().getLanguage(p);
