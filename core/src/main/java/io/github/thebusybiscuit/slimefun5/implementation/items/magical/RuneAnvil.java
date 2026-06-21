@@ -58,7 +58,10 @@ public class RuneAnvil extends SlimefunItem implements InventoryBlock {
     private static final int ARROW_SLOT = 14;
     private static final int INFO_SLOT = 4;
 
-    private final int[] border = { 0, 1, 2, 3, 5, 6, 7, 8, 9, 12, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
+    // Checkerboard border: a coloured (purple) pane is never directly next to another coloured pane -
+    // a gray pane always sits between them (orthogonally), keeping it colourful but tidy.
+    private final int[] purplePanes = { 0, 2, 6, 8, 12, 18, 20, 22, 24, 26 };
+    private final int[] grayPanes = { 1, 3, 5, 7, 9, 13, 15, 17, 19, 21, 23, 25 };
 
     @ParametersAreNonnullByDefault
     public RuneAnvil(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -122,7 +125,13 @@ public class RuneAnvil extends SlimefunItem implements InventoryBlock {
     }
 
     private void constructMenu(BlockMenuPreset preset) {
-        for (int i : border) {
+        ItemStack purplePane = CustomItemStack.create(MaterialCompat.stack(XMaterial.PURPLE_STAINED_GLASS_PANE), " ");
+
+        for (int i : purplePanes) {
+            preset.addItem(i, purplePane, ChestMenuUtils.getEmptyClickHandler());
+        }
+
+        for (int i : grayPanes) {
             preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 

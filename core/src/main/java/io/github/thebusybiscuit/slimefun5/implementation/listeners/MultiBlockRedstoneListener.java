@@ -1,8 +1,12 @@
 package io.github.thebusybiscuit.slimefun5.implementation.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -29,6 +33,11 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
  */
 public class MultiBlockRedstoneListener implements Listener {
 
+    // Dispensers that already auto-crafted within the current debounce window. A single redstone
+    // activation can fire BlockDispenseEvent more than once (multi-tick pulses, comparator/observer
+    // signals), which would otherwise craft multiple times - one signal must craft at most once.
+    private final Set<Location> recentlyCrafted = new HashSet<>();
+
     public MultiBlockRedstoneListener(@Nonnull Slimefun plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
@@ -49,10 +58,20 @@ public class MultiBlockRedstoneListener implements Listener {
             // Cancel the vanilla dispense so recipe ingredients are never spat out; craft instead.
             e.setCancelled(true);
 
+            Location loc = dispenser.getLocation();
+
+            // Debounce: ignore further dispense events for this dispenser until the window clears,
+            // so one redstone activation crafts exactly once even if it pulses several times.
+            if (!recentlyCrafted.add(loc)) {
+                return;
+            }
+
+            Slimefun.runSync(() -> recentlyCrafted.remove(loc), 2L);
+
             try {
                 machine.autoCraft(dispenser);
             } catch (Exception | LinkageError x) {
-                Slimefun.logger().warning("Failed to redstone auto-craft at " + dispenser.getLocation() + ": " + x.getMessage());
+                Slimefun.logger().warning("Failed to redstone auto-craft at " + loc + ": " + x.getMessage());
             }
         }
     }

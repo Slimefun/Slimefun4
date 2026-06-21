@@ -47,10 +47,17 @@ public class BlockPhysicsListener implements Listener {
     public void onBlockFall(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.FALLING_BLOCK && BlockStorage.hasBlockInfo(e.getBlock())) {
             e.setCancelled(true);
-            FallingBlock block = (FallingBlock) e.getEntity();
 
-            if (block.getDropItem()) {
-                block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(BlockDataCompat.getMaterial(block), 1));
+            // Only return the falling block as an item when an EXTERNAL block lands on a protected
+            // Slimefun block (getTo() is the landing material). When a Slimefun gravity block (e.g. the
+            // Rune Anvil placed in mid-air) is itself dislodged into a falling block, getTo() == AIR and
+            // cancelling already keeps the block in place - dropping here would duplicate it (#dupe).
+            if (e.getTo() != Material.AIR) {
+                FallingBlock block = (FallingBlock) e.getEntity();
+
+                if (block.getDropItem()) {
+                    block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(BlockDataCompat.getMaterial(block), 1));
+                }
             }
         }
     }
