@@ -74,6 +74,49 @@ public class MultiBlockListener implements Listener {
         }
     }
 
+    /**
+     * Gives the player feedback when the block they just placed completes a {@link MultiBlock}
+     * structure, so they know the machine is assembled and ready to use.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onMultiBlockComplete(org.bukkit.event.block.BlockPlaceEvent e) {
+        Block placed = e.getBlock();
+
+        for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
+            Material[] structure = mb.getStructure();
+
+            // Cheap pre-filter: only consider a multiblock the placed block could actually be part of.
+            // This also avoids re-announcing an existing machine when placing an unrelated block beside it.
+            if (!structureContains(structure, placed.getType())) {
+                continue;
+            }
+
+            // The placed block can be any cell of the structure, so test every center within one block.
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        if (compareMaterials(placed.getRelative(dx, dy, dz), structure, mb.isSymmetric())) {
+                            Player p = e.getPlayer();
+                            io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
+                            p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + mb.getSlimefunItem().getItemName());
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean structureContains(@Nonnull Material[] structure, @Nonnull Material placed) {
+        for (Material cell : structure) {
+            if (cell != null && equals(placed, cell)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @ParametersAreNonnullByDefault
     private boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
         if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
