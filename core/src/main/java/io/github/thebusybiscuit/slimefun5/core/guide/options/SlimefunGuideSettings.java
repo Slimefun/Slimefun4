@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
-import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiIndex;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
@@ -45,7 +44,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] BACKGROUND_SLOTS = { 1, 2, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -101,18 +100,18 @@ public final class SlimefunGuideSettings {
         contributorsLore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
 
         // @formatter:off
-        menu.addItem(2, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
+        menu.addItem(3, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
             "&c" + locale.getMessage(p, "guide.title.credits"),
             contributorsLore.toArray(new String[0])));
         // @formatter:on
 
-        menu.addMenuClickHandler(2, (pl, slot, action, item) -> {
+        menu.addMenuClickHandler(3, (pl, slot, action, item) -> {
             ContributorsMenu.open(pl, 0);
             return false;
         });
 
         // @formatter:off
-        menu.addItem(4, CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
+        menu.addItem(5, CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
             ChatColor.GREEN + locale.getMessage(p, "guide.title.versions"),
             "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"),
             "",
@@ -123,23 +122,8 @@ public final class SlimefunGuideSettings {
         // @formatter:on
 
         // @formatter:off
-        menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(),
-            "&3" + locale.getMessage(p, "guide.title.wiki"),
-            "", "&7Do you need help with an Item or machine?",
-            "&7You cannot figure out what to do?",
-            "&7Browse the in-game wiki for any item.",
-            "",
-            "&7\u21E8 &eClick to open the in-game Wiki"));
-        // @formatter:on
-
-        menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
-            WikiIndex.open(pl, guide);
-            return false;
-        });
-
-        // @formatter:off
         if (p.hasPermission(AddonCatalog.PERMISSION)) {
-            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
+            menu.addItem(49, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
                 "",
                 "&7Install, update or build Slimefun and its",
@@ -150,18 +134,18 @@ public final class SlimefunGuideSettings {
                 "&7\u21E8 &eClick to open the Addon Installer"));
             // @formatter:on
 
-            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
+            menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
         }
-        // Non-permitted players see no entry here (slot 47 stays background) \u2014 no external links.
-        // Slots 6 and 49 are background panes now (no external source/issue links).
+        // Non-op players see no installer entry (slot 49 stays a background pane).
     }
 
     @ParametersAreNonnullByDefault
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
-        int i = 19;
+        // Centered block in the middle row (slots 21-24 for the four built-in options).
+        int i = 21;
 
         for (SlimefunGuideOption<?> option : options) {
             Optional<ItemStack> item = option.getDisplayItem(p, guide);
