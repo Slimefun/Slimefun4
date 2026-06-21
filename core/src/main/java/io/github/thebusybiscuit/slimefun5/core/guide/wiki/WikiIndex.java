@@ -43,10 +43,9 @@ public final class WikiIndex {
     private static final int PAGE_INDICATOR_SLOT = 48;
     private static final int NEXT_SLOT = 52;
 
-    // Wiki HOME layout (9x6 = 54): a row of topic guides, then the browse button below.
-    private static final int[] HOME_BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
-    private static final int[] TOPIC_SLOTS = { 11, 12, 13, 14, 15 };
-    private static final int BROWSE_SLOT = 31;
+    // Wiki HOME header slots (topic tiles fill the same CONTENT_START..CONTENT_END grid as the browser).
+    private static final int WELCOME_SLOT = 4;
+    private static final int BROWSE_SLOT = 8;
 
     private WikiIndex() {}
 
@@ -60,11 +59,17 @@ public final class WikiIndex {
         return message != null ? message : "&3Slimefun Wiki";
     }
 
-    /** The wiki HOME: explanatory topic guides plus a button into the item-category browser. */
+    /** The wiki HOME: a paginated grid of explanatory topic guides, plus a button into the item browser. */
     private static void openHome(@Nonnull Player p, @Nonnull ItemStack guide) {
+        openHome(p, guide, 1);
+    }
+
+    private static void openHome(@Nonnull Player p, @Nonnull ItemStack guide, int page) {
+        Topic[] topics = topics();
+
         ChestMenu menu = new ChestMenu(title(p));
         menu.setEmptySlotsClickable(false);
-        ChestMenuUtils.drawBackground(menu, HOME_BORDER);
+        ChestMenuUtils.drawBackground(menu, BORDER);
 
         menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.guide")));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
@@ -73,7 +78,7 @@ public final class WikiIndex {
         });
 
         // Welcome header so a new player knows what this screen is for.
-        menu.addItem(4, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
+        menu.addItem(WELCOME_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
             "&3Slimefun Wiki",
             "",
             "&7New here? Read the guides below to learn",
@@ -81,11 +86,24 @@ public final class WikiIndex {
             "&7Or browse items to look something up."),
             ChestMenuUtils.getEmptyClickHandler());
 
-        Topic[] topics = topics();
+        menu.addItem(BROWSE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
+            "&aBrowse items by category",
+            "",
+            "&7Explore every Slimefun category",
+            "&7and look up individual items.",
+            "",
+            "&7⇨ &eClick"));
+        menu.addMenuClickHandler(BROWSE_SLOT, (pl, slot, clicked, action) -> {
+            openGroupList(pl, guide, 1);
+            return false;
+        });
 
-        for (int i = 0; i < topics.length && i < TOPIC_SLOTS.length; i++) {
-            Topic topic = topics[i];
-            int slot = TOPIC_SLOTS[i];
+        int pages = pageCount(topics.length);
+        int offset = (page - 1) * PAGE_SIZE;
+
+        for (int i = 0; i < PAGE_SIZE && offset + i < topics.length; i++) {
+            Topic topic = topics[offset + i];
+            int slot = CONTENT_START + i;
 
             menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.icon), "&b" + topic.displayName, "", topic.summary, "", "&7⇨ &eClick to read"));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
@@ -94,12 +112,7 @@ public final class WikiIndex {
             });
         }
 
-        menu.addItem(BROWSE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF), "&aBrowse items by category", "", "&7Explore every Slimefun category", "&7and look up individual items.", "", "&7⇨ &eClick"));
-        menu.addMenuClickHandler(BROWSE_SLOT, (pl, slot, clicked, action) -> {
-            openGroupList(pl, guide, 1);
-            return false;
-        });
-
+        addPagination(menu, p, page, pages, (pl, target) -> openHome(pl, guide, target));
         menu.open(p);
     }
 
@@ -108,10 +121,23 @@ public final class WikiIndex {
     private static Topic[] topics() {
         return new Topic[] {
             new Topic("getting_started", "Getting Started", XMaterial.MAP, "&7Your first steps in Slimefun"),
-            new Topic("research", "Research", XMaterial.EXPERIENCE_BOTTLE, "&7Unlock items with experience"),
+            new Topic("research", "Research & Unlocking", XMaterial.EXPERIENCE_BOTTLE, "&7Unlock items with experience"),
+            new Topic("multiblocks", "Multiblock Machines", XMaterial.BRICKS, "&7Build structures to craft"),
+            new Topic("ore_processing", "Ore Processing", XMaterial.IRON_ORE, "&7Double your ore yields"),
+            new Topic("smeltery", "Smeltery & Alloys", XMaterial.FURNACE, "&7Smelt dusts and forge alloys"),
             new Topic("energy", "Energy Networks", XMaterial.REDSTONE, "&7Power your machines"),
-            new Topic("cargo", "Cargo Networks", XMaterial.CHEST, "&7Move items automatically"),
-            new Topic("multiblocks", "Multiblocks", XMaterial.BRICKS, "&7Build structures to craft")
+            new Topic("power_generation", "Power Generation", XMaterial.COAL_BLOCK, "&7Generators, reactors, capacitors"),
+            new Topic("electric_machines", "Electric Machines", XMaterial.IRON_BLOCK, "&7Powered automatic machines"),
+            new Topic("cargo", "Cargo Networks", XMaterial.HOPPER, "&7Move items automatically"),
+            new Topic("androids", "Programmable Androids", XMaterial.ARMOR_STAND, "&7Automate tasks with robots"),
+            new Topic("geo_mining", "GEO Mining & Oil", XMaterial.BUCKET, "&7Extract oil and resources"),
+            new Topic("gps", "GPS & Teleportation", XMaterial.COMPASS, "&7Waypoints and teleporters"),
+            new Topic("talismans", "Talismans", XMaterial.EMERALD, "&7Passive luck and protection"),
+            new Topic("magic", "Magic & the Altar", XMaterial.ENDER_EYE, "&7Runes, staves and rituals"),
+            new Topic("armor_gadgets", "Armor & Gadgets", XMaterial.DIAMOND_CHESTPLATE, "&7Jetpacks, sets and tools"),
+            new Topic("backpacks", "Backpacks & Storage", XMaterial.CHEST, "&7Portable storage on the go"),
+            new Topic("food_farming", "Food & Farming", XMaterial.BREAD, "&7Juices, jerky and auto-farms"),
+            new Topic("soulbound", "Soulbound Items", XMaterial.NETHER_STAR, "&7Keep items when you die")
         };
     }
 
