@@ -355,6 +355,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         logger.log(Level.INFO, "Loading item translations...");
         itemTranslationService.loadBundled();
+        itemTranslationService.applyServerDefaults();
 
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();

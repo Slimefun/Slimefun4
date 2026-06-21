@@ -46,6 +46,10 @@ public class ItemTranslationService {
 
     private final Map<String, Map<String, ItemTranslation>> byLanguage = new HashMap<>();
 
+    // Pre-bake (English) copies of items whose physical template was re-skinned to the server default.
+    // Lets the Guide still show English to a player whose language has no translation.
+    private final Map<String, ItemStack> englishBaseline = new HashMap<>();
+
     /** Loads the bundled core translations for every supported language. */
     public void loadBundled() {
         for (Language language : Slimefun.getLocalization().getLanguages()) {
@@ -57,7 +61,11 @@ public class ItemTranslationService {
         }
     }
 
-    /** Lets an addon contribute its own {@code languages/<lang>/items.yml} translations. */
+    /**
+     * Lets an addon contribute its own {@code languages/<lang>/items.yml} translations. Call this from
+     * the addon's {@code onEnable} after its items are registered. The addon's items are then also
+     * baked to the server default language (where a translation exists).
+     */
     public void registerTranslations(@Nonnull JavaPlugin addon) {
         for (Language language : Slimefun.getLocalization().getLanguages()) {
             InputStream stream = addon.getResource("languages/" + language.getId() + "/items.yml");
@@ -66,6 +74,8 @@ public class ItemTranslationService {
                 load(language.getId(), stream);
             }
         }
+
+        applyServerDefaults();
     }
 
     private void load(@Nonnull String language, @Nonnull InputStream stream) {
@@ -86,6 +96,45 @@ public class ItemTranslationService {
         }
     }
 
+    /**
+     * Bakes the server's default-language translation into every enabled item's physical template, so
+     * world/inventory items render in the server language. Items without a translation are left as-is
+     * (so an English server, which has no language file, is completely unaffected). Call once after
+     * {@link #loadBundled()} and after all items have registered.
+     */
+    public void applyServerDefaults() {
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+
+        if (defaultLanguage == null) {
+            return;
+        }
+
+        Map<String, ItemTranslation> map = byLanguage.get(defaultLanguage.getId());
+
+        if (map == null || map.isEmpty()) {
+            return;
+        }
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                // Skip items already baked, so this stays idempotent (addons may trigger it again) and
+                // never captures an already-translated template as the English baseline.
+                if (englishBaseline.containsKey(item.getId())) {
+                    continue;
+                }
+
+                ItemTranslation translation = map.get(item.getId());
+
+                if (translation != null) {
+                    englishBaseline.put(item.getId(), item.getItem());
+                    item.bakeTranslatedDisplay(translation.name, translation.lore);
+                }
+            } catch (Exception | LinkageError ignored) {
+                // A single broken item must not abort the whole baking pass.
+            }
+        }
+    }
+
     @Nullable
     private ItemTranslation lookup(@Nullable String language, @Nonnull String itemId) {
         if (language == null) {
@@ -102,11 +151,14 @@ public class ItemTranslationService {
      */
     @Nonnull
     public ItemStack getDisplayItem(@Nonnull Player p, @Nonnull SlimefunItem item) {
-        ItemStack display = item.getItem().clone();
+        ItemStack display = item.getItem();
         ItemTranslation translation = lookup(languageOf(p), item.getId());
 
         if (translation == null) {
-            return display;
+            // No translation for the player's language: show the English baseline if the physical
+            // template was baked to the server default, otherwise the (English) template as-is.
+            ItemStack baseline = englishBaseline.get(item.getId());
+            return baseline != null ? baseline.clone() : display;
         }
 
         ItemMeta meta = display.getItemMeta();
