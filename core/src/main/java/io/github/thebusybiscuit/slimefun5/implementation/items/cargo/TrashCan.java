@@ -37,13 +37,24 @@ public class TrashCan extends SlimefunItem implements InventoryBlock {
     public TrashCan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        createPreset(this, this::constructMenu);
+        createPreset(this, "Trash Can", this::constructMenu);
     }
 
     private void constructMenu(BlockMenuPreset preset) {
         for (int i : border) {
             preset.addItem(i, background, ChestMenuUtils.getEmptyClickHandler());
         }
+
+        // @formatter:off
+        preset.addItem(4, CustomItemStack.create(XMaterial.LAVA_BUCKET.parseMaterial(),
+            "&cTrash Can",
+            "",
+            "&7Any item placed in the slots below",
+            "&7is destroyed permanently.",
+            "",
+            "&c&oThere is no way to get items back!"),
+            ChestMenuUtils.getEmptyClickHandler());
+        // @formatter:on
     }
 
     @Override
