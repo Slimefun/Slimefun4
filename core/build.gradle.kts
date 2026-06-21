@@ -191,20 +191,22 @@ tasks {
                 var moved = false
                 var lastError: Exception? = null
 
-                for (attempt in 1..3) {
+                for (attempt in 1..10) {
                     try {
                         Files.move(temp.toPath(), jarFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
                         moved = true
                         break
                     } catch (e: Exception) {
                         lastError = e
-                        try { Thread.sleep(200) } catch (ignored: InterruptedException) { Thread.currentThread().interrupt() }
+                        try { Thread.sleep(300) } catch (ignored: InterruptedException) { Thread.currentThread().interrupt() }
                     }
                 }
 
                 if (!moved) {
                     temp.delete()
-                    throw GradleException("XSeries 26.x patch: could not replace jar after 3 attempts (${lastError?.message}). Refusing to ship an unpatched core jar.")
+                    throw GradleException("XSeries 26.x patch: could not replace the core jar after 10 attempts (${lastError?.message}). "
+                        + "This usually means a running server still holds the jar - stop it (and any stale Gradle daemon) and rebuild. "
+                        + "Refusing to ship an unpatched core jar (it would fail to start on a 26.x server).")
                 }
 
                 logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
