@@ -15,16 +15,20 @@ import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
+import com.cryptomorin.xseries.XMaterial;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
- * Entry point of the in-game wiki: a paged grid of every enabled {@link ItemGroup}.
- * Clicking a group opens a second paged screen listing that group's {@link SlimefunItem items},
- * and clicking an item opens its {@link WikiPage}.
+ * Entry point of the in-game wiki. {@link #open(Player, ItemStack)} opens a wiki HOME menu that
+ * leads with explanatory topic guides (getting started, research, energy, cargo, multiblocks) and
+ * offers a "Browse items by category" button into the classic group/item browser.
  *
- * Slot layout (9x6 = 54): row 0 and row 5 are the border; rows 1-4 (slots 9-44) hold content,
- * with pagination on slots 46 (previous) and 52 (next).
+ * Clicking a topic guide opens a readable {@link WikiTopicPage}. Clicking the browse button opens
+ * a paged grid of every enabled {@link ItemGroup}; clicking a group lists that group's
+ * {@link SlimefunItem items}, and clicking an item opens its {@link WikiPage}.
  */
 public final class WikiIndex {
 
@@ -39,16 +43,67 @@ public final class WikiIndex {
     private static final int PAGE_INDICATOR_SLOT = 48;
     private static final int NEXT_SLOT = 52;
 
+    // Wiki HOME layout (9x6 = 54): a row of topic guides, then the browse button below.
+    private static final int[] HOME_BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] TOPIC_SLOTS = { 11, 12, 13, 14, 15 };
+    private static final int BROWSE_SLOT = 31;
+
     private WikiIndex() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide) {
-        openGroupList(p, guide, 1);
+        openHome(p, guide);
     }
 
     @Nonnull
     private static String title(@Nonnull Player p) {
         String message = Slimefun.getLocalization().getMessage(p, "guide.title.wiki");
         return message != null ? message : "&3Slimefun Wiki";
+    }
+
+    /** The wiki HOME: explanatory topic guides plus a button into the item-category browser. */
+    private static void openHome(@Nonnull Player p, @Nonnull ItemStack guide) {
+        ChestMenu menu = new ChestMenu(title(p));
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, HOME_BORDER);
+
+        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.guide")));
+        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
+            SlimefunGuide.openGuide(pl, guide);
+            return false;
+        });
+
+        Topic[] topics = topics();
+
+        for (int i = 0; i < topics.length && i < TOPIC_SLOTS.length; i++) {
+            Topic topic = topics[i];
+            int slot = TOPIC_SLOTS[i];
+
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.icon), "&b" + topic.displayName, "", "&7⇨ &eClick to read"));
+            menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                WikiTopicPage.open(pl, guide, topic.id, topic.displayName, topic.icon);
+                return false;
+            });
+        }
+
+        menu.addItem(BROWSE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF), "&aBrowse items by category", "", "&7Explore every Slimefun category", "&7and look up individual items.", "", "&7⇨ &eClick"));
+        menu.addMenuClickHandler(BROWSE_SLOT, (pl, slot, clicked, action) -> {
+            openGroupList(pl, guide, 1);
+            return false;
+        });
+
+        menu.open(p);
+    }
+
+    /** The explanatory topic guides shown on the wiki home, in display order. */
+    @Nonnull
+    private static Topic[] topics() {
+        return new Topic[] {
+            new Topic("getting_started", "Getting Started", XMaterial.MAP),
+            new Topic("research", "Research", XMaterial.EXPERIENCE_BOTTLE),
+            new Topic("energy", "Energy", XMaterial.REDSTONE),
+            new Topic("cargo", "Cargo", XMaterial.CHEST),
+            new Topic("multiblocks", "Multiblocks", XMaterial.BRICKS)
+        };
     }
 
     /** Lists every non-hidden item group; clicking one opens its item list. */
@@ -59,9 +114,9 @@ public final class WikiIndex {
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
-        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.guide")));
+        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.title")));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
-            SlimefunGuide.openGuide(pl, guide);
+            openHome(pl, guide);
             return false;
         });
 
@@ -159,8 +214,27 @@ public final class WikiIndex {
         });
     }
 
+    /** Returns to the wiki home; used by topic pages as their back target. */
+    static void openHomeFromTopic(@Nonnull Player p, @Nonnull ItemStack guide) {
+        openHome(p, guide);
+    }
+
     @FunctionalInterface
     private interface PageNavigator {
         void open(@Nonnull Player p, int page);
+    }
+
+    /** A single explanatory wiki topic: its mechanics.yml id, display name, and icon. */
+    private static final class Topic {
+
+        private final String id;
+        private final String displayName;
+        private final XMaterial icon;
+
+        private Topic(@Nonnull String id, @Nonnull String displayName, @Nonnull XMaterial icon) {
+            this.id = id;
+            this.displayName = displayName;
+            this.icon = icon;
+        }
     }
 }

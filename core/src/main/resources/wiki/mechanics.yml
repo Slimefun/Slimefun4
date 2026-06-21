@@ -1,4 +1,12 @@
 # In-game wiki mechanic-hub topics, keyed by topic id (see WikiText#getMechanic).
+getting_started:
+  - '&7Welcome to Slimefun! Start by crafting'
+  - '&7a Slimefun Guide Book and right-click it'
+  - '&7to open it. Browse a category and click'
+  - '&7a locked item to research it, spending'
+  - '&7experience levels to unlock it for good.'
+  - '&7Build a Smeltery and early machines to'
+  - '&7make alloys, then explore the categories.'
 research:
   - '&7Most items in your Guide start locked.'
   - '&7Click a locked item to research it,'
