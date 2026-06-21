@@ -30,6 +30,7 @@ public final class WikiText {
 
     private final Map<String, List<String>> itemLines = new HashMap<>();
     private final Map<String, List<String>> mechanicLines = new HashMap<>();
+    private final Map<String, List<String>> topicItems = new HashMap<>();
 
     /** Stores authored explanation lines for the given item id. */
     public synchronized void set(@Nonnull String id, @Nonnull List<String> lines) {
@@ -73,16 +74,34 @@ public final class WikiText {
         return Collections.emptyList();
     }
 
+    /** Stores the list of relevant item ids shown alongside a topic guide. */
+    public synchronized void setTopicItems(@Nonnull String topicId, @Nonnull List<String> itemIds) {
+        topicItems.put(topicId, new ArrayList<>(itemIds));
+    }
+
+    /** Returns the item ids relevant to a topic (rendered as clickable icons), or an empty list. */
+    @Nonnull
+    public synchronized List<String> getTopicItems(@Nonnull String topicId) {
+        List<String> ids = topicItems.get(topicId);
+
+        if (ids != null) {
+            return new ArrayList<>(ids);
+        }
+
+        return Collections.emptyList();
+    }
+
     /**
      * Loads the bundled wiki resources from the jar. Missing resources are logged and skipped
      * rather than treated as fatal, mirroring the defensive IO handling used by InstallState.
      */
     public void loadBundled() {
-        loadResource("/wiki/items.yml", false);
-        loadResource("/wiki/mechanics.yml", true);
+        loadResource("/wiki/items.yml", itemLines);
+        loadResource("/wiki/mechanics.yml", mechanicLines);
+        loadResource("/wiki/topic-items.yml", topicItems);
     }
 
-    private void loadResource(@Nonnull String path, boolean mechanic) {
+    private synchronized void loadResource(@Nonnull String path, @Nonnull Map<String, List<String>> target) {
         try {
             InputStream stream = Slimefun.class.getResourceAsStream(path);
 
@@ -94,13 +113,7 @@ public final class WikiText {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
 
             for (String key : config.getKeys(false)) {
-                List<String> lines = config.getStringList(key);
-
-                if (mechanic) {
-                    setMechanic(key, lines);
-                } else {
-                    set(key, lines);
-                }
+                target.put(key, new ArrayList<>(config.getStringList(key)));
             }
         } catch (RuntimeException e) {
             Slimefun.logger().log(Level.WARNING, "Failed to load bundled wiki resource {0}: {1}", new Object[] { path, e.getMessage() });

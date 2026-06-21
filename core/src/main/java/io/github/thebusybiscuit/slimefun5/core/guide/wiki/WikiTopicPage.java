@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -18,20 +19,20 @@ import com.cryptomorin.xseries.XMaterial;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
- * A readable wiki topic page. Shows the authored explanation for a mechanic topic
- * (from {@link WikiText#getMechanic(String)}) as the lore of a centered info item. Long topics are
- * split into pages of {@link #LINES_PER_PAGE} lines with previous/next buttons flanking the item,
- * so a guide can be as detailed as needed and stay readable. Back returns to the wiki home.
+ * A readable wiki topic page. The guide text (from {@link WikiText#getMechanic(String)}) sits at the
+ * top as a paginated tooltip, and below it the items the guide talks about
+ * ({@link WikiText#getTopicItems(String)}) are shown as clickable icons - clicking one opens that
+ * item's {@link WikiPage} (recipe, stats, "used in"). This keeps the page full and turns each guide
+ * into a hub that links straight to the relevant items and their recipes.
  */
 public final class WikiTopicPage {
 
-    // Everything is a background pane except back (0), the info item (22) and its flanking arrows (21/23).
-    private static final int[] BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
-
     private static final int BACK_SLOT = 0;
-    private static final int INFO_SLOT = 22;
-    private static final int PREV_SLOT = 21;
-    private static final int NEXT_SLOT = 23;
+    private static final int PREV_SLOT = 3;
+    private static final int TEXT_SLOT = 4;
+    private static final int NEXT_SLOT = 5;
+    private static final int LABEL_SLOT = 13;
+    private static final int[] ITEM_SLOTS = { 19, 20, 21, 22, 23, 24, 25, 28, 29, 30, 31, 32, 33, 34, 37, 38, 39, 40, 41, 42, 43 };
     private static final int LINES_PER_PAGE = 12;
 
     private WikiTopicPage() {}
@@ -48,7 +49,11 @@ public final class WikiTopicPage {
         String title = "Wiki: " + displayName + (pages > 1 ? " (" + current + "/" + pages + ")" : "");
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
-        ChestMenuUtils.drawBackground(menu, BORDER);
+
+        // Fill the whole menu with panes, then overlay content so there are no bare "ghost" slots.
+        for (int i = 0; i < 54; i++) {
+            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
 
         menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
@@ -56,22 +61,7 @@ public final class WikiTopicPage {
             return false;
         });
 
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-
-        if (lines.isEmpty()) {
-            lore.add("&7(No information available yet.)");
-        } else {
-            int start = (current - 1) * LINES_PER_PAGE;
-            int end = Math.min(start + LINES_PER_PAGE, lines.size());
-
-            for (int i = start; i < end; i++) {
-                lore.add(lines.get(i));
-            }
-        }
-
-        menu.addItem(INFO_SLOT, CustomItemStack.create(MaterialCompat.stack(icon), "&b" + displayName, lore.toArray(new String[0])));
-        menu.addMenuClickHandler(INFO_SLOT, ChestMenuUtils.getEmptyClickHandler());
+        addText(menu, lines, current, displayName, icon);
 
         if (pages > 1) {
             menu.addItem(PREV_SLOT, ChestMenuUtils.getPreviousButton(p, current, pages));
@@ -91,6 +81,62 @@ public final class WikiTopicPage {
             });
         }
 
+        addRelatedItems(menu, p, guide, topicId);
         menu.open(p);
+    }
+
+    private static void addText(@Nonnull ChestMenu menu, @Nonnull List<String> lines, int page, @Nonnull String displayName, @Nonnull XMaterial icon) {
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+
+        if (lines.isEmpty()) {
+            lore.add("&7(No information available yet.)");
+        } else {
+            int start = (page - 1) * LINES_PER_PAGE;
+            int end = Math.min(start + LINES_PER_PAGE, lines.size());
+
+            for (int i = start; i < end; i++) {
+                lore.add(lines.get(i));
+            }
+        }
+
+        menu.addItem(TEXT_SLOT, CustomItemStack.create(MaterialCompat.stack(icon), "&b" + displayName, lore.toArray(new String[0])));
+        menu.addMenuClickHandler(TEXT_SLOT, ChestMenuUtils.getEmptyClickHandler());
+    }
+
+    /** Renders the topic's relevant items as clickable icons; each opens that item's wiki page. */
+    private static void addRelatedItems(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String topicId) {
+        List<String> ids = Slimefun.getWikiText().getTopicItems(topicId);
+        int placed = 0;
+
+        for (String id : ids) {
+            if (placed >= ITEM_SLOTS.length) {
+                break;
+            }
+
+            SlimefunItem item = SlimefunItem.getById(id);
+
+            if (item == null) {
+                continue;
+            }
+
+            int slot = ITEM_SLOTS[placed];
+            placed++;
+
+            menu.addItem(slot, item.getItem());
+            menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                WikiPage.open(pl, guide, item);
+                return false;
+            });
+        }
+
+        if (placed > 0) {
+            menu.addItem(LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
+                "&e▼ Items in this guide",
+                "",
+                "&7Click any item below for its",
+                "&7recipe, stats and where it''s used."),
+                ChestMenuUtils.getEmptyClickHandler());
+        }
     }
 }
