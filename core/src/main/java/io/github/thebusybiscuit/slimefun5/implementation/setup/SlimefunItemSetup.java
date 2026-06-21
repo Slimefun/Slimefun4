@@ -1383,6 +1383,10 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {SlimefunItems.NICKEL_INGOT.item(), SlimefunItems.MAGNET.item(), SlimefunItems.COBALT_INGOT.item(), null, SlimefunItems.BATTERY.item(), null, null, null, null})
                 .register(plugin);
 
+        new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.SLOT_LOCK, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), new ItemStack(Material.REDSTONE), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS)})
+                .register(plugin);
+
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.ELECTRIC_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), null, SlimefunItems.ELECTRO_MAGNET.item(), null, SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item()})
                 .register(plugin);

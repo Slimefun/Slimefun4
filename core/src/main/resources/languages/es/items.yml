@@ -36,3 +36,12 @@ COPPER_DUST:
 
 GOLD_8K:
   name: "&fLingote de oro &7(8 quilates)"
+
+SLOT_LOCK:
+  name: "&cBloqueo de ranura"
+  lore:
+    - ""
+    - "&7Coloca esto en una ranura del dispensador"
+    - "&7de un multibloque para bloquearla (como un Ensamblador):"
+    - "&7la ranura permanece vacía para la receta y"
+    - "&7las tolvas no la llenan."

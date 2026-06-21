@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
@@ -63,6 +64,21 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
      * reuses it.
      */
     protected abstract boolean isCraftable(Inventory inv, ItemStack[] recipe);
+
+    /**
+     * A {@link SlimefunItems#SLOT_LOCK} placed in a dispenser slot locks it, vanilla-Crafter style:
+     * the slot is treated as empty for recipe matching and is never consumed, while occupying the slot
+     * makes hoppers skip it. This returns whether the given item is such a lock marker.
+     */
+    protected static boolean isSlotLock(@Nullable ItemStack item) {
+        return item != null && SlimefunUtils.isItemSimilar(item, SlimefunItems.SLOT_LOCK.item(), false);
+    }
+
+    /** Returns null for a locked slot (so it matches an empty recipe cell), otherwise the item itself. */
+    @Nullable
+    protected static ItemStack ignoreLock(@Nullable ItemStack item) {
+        return isSlotLock(item) ? null : item;
+    }
 
     /**
      * Performs a single craft headlessly (no {@link Player}, no permission check, no
@@ -97,7 +113,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                 for (int j = 0; j < 9; j++) {
                     ItemStack item = inv.getContents()[j];
 
-                    if (item != null && item.getType() != Material.AIR) {
+                    if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
                         ItemUtils.consumeItem(item, true);
                     }
                 }

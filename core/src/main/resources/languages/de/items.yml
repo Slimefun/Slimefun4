@@ -37,3 +37,12 @@ COPPER_DUST:
 
 GOLD_8K:
   name: "&fGoldbarren &7(8 Karat)"
+
+SLOT_LOCK:
+  name: "&cSlot-Sperre"
+  lore:
+    - ""
+    - "&7Lege dies in einen Multiblock-Spender-Slot,"
+    - "&7um ihn zu sperren (wie ein Crafter):"
+    - "&7der Slot bleibt für das Rezept leer und"
+    - "&7Trichter füllen ihn nicht."

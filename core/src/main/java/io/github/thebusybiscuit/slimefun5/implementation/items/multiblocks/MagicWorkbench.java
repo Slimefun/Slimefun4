@@ -89,7 +89,7 @@ public class MagicWorkbench extends AbstractCraftingTable {
             }
 
             for (int j = 0; j < 9; j++) {
-                if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR) {
+                if (inv.getContents()[j] != null && inv.getContents()[j].getType() != Material.AIR && !isSlotLock(inv.getContents()[j])) {
                     if (inv.getContents()[j].getAmount() > 1) {
                         inv.setItem(j, CustomItemStack.create(inv.getContents()[j], inv.getContents()[j].getAmount() - 1));
                     } else {
@@ -140,9 +140,11 @@ public class MagicWorkbench extends AbstractCraftingTable {
     @Override
     protected boolean isCraftable(Inventory inv, ItemStack[] recipe) {
         for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], true, true, false)) {
+            ItemStack slot = ignoreLock(inv.getContents()[j]);
+
+            if (!SlimefunUtils.isItemSimilar(slot, recipe[j], true, true, false)) {
                 if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
-                    if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false, true, false)) {
+                    if (!SlimefunUtils.isItemSimilar(slot, recipe[j], false, true, false)) {
                         return false;
                     }
                 } else {

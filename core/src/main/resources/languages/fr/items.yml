@@ -36,3 +36,12 @@ COPPER_DUST:
 
 GOLD_8K:
   name: "&fLingot d'or &7(8 carats)"
+
+SLOT_LOCK:
+  name: "&cVerrou d'emplacement"
+  lore:
+    - ""
+    - "&7Placez ceci dans un emplacement du distributeur"
+    - "&7d'un multibloc pour le verrouiller (comme un Assembleur) :"
+    - "&7l'emplacement reste vide pour la recette et"
+    - "&7les entonnoirs ne le remplissent pas."
