@@ -5,14 +5,12 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
 import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -55,7 +53,7 @@ public class MultiBlockListener implements Listener {
         for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
             Block center = b.getRelative(mb.getTriggerBlock());
 
-            if (compareMaterials(center, mb.getStructure(), mb.isSymmetric())) {
+            if (mb.matches(center)) {
                 multiblocks.add(mb);
             }
         }
@@ -95,7 +93,7 @@ public class MultiBlockListener implements Listener {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
-                        if (compareMaterials(placed.getRelative(dx, dy, dz), structure, mb.isSymmetric())) {
+                        if (mb.matches(placed.getRelative(dx, dy, dz))) {
                             Player p = e.getPlayer();
 
                             if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
@@ -119,27 +117,6 @@ public class MultiBlockListener implements Listener {
         }
 
         return false;
-    }
-
-    @ParametersAreNonnullByDefault
-    private boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
-        if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
-            return false;
-        }
-
-        BlockFace[] directions = onlyTwoWay ? new BlockFace[] { BlockFace.NORTH, BlockFace.EAST } : new BlockFace[] { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-
-        for (BlockFace direction : directions) {
-            if (compareMaterialsVertical(b.getRelative(direction), blocks[0], blocks[3], blocks[6]) && compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean compareMaterialsVertical(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
-        return (center == null || equals(b.getType(), center)) && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }
 
     @ParametersAreNonnullByDefault

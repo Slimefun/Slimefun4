@@ -91,6 +91,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.JoinListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiningAndroidListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockRedstoneListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.RadioactivityListener;
@@ -654,6 +655,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new BlockPhysicsListener(this));
         register(() -> new CargoNodeListener(this));
         register(() -> new MultiBlockListener(this));
+        register(() -> new MultiBlockRedstoneListener(this));
         register(() -> new GadgetsListener(this));
         register(() -> new DispenserListener(this));
         register(() -> new BlockListener(this));
