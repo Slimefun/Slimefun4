@@ -25,8 +25,10 @@ import io.github.thebusybiscuit.slimefun5.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -44,11 +46,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    // A compact 3-row (27-slot) menu: every slot is a background pane, then the functional items are
-    // drawn on top. Sizing the menu to its content avoids the tall, half-empty chest that looked bare.
-    private static final int[] BACKGROUND_SLOTS = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26 };
-
-    private static final int INSTALLER_SLOT = 22;
+    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 51, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -104,18 +102,18 @@ public final class SlimefunGuideSettings {
         contributorsLore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
 
         // @formatter:off
-        menu.addItem(3, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
+        menu.addItem(2, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
             "&c" + locale.getMessage(p, "guide.title.credits"),
             contributorsLore.toArray(new String[0])));
         // @formatter:on
 
-        menu.addMenuClickHandler(3, (pl, slot, action, item) -> {
+        menu.addMenuClickHandler(2, (pl, slot, action, item) -> {
             ContributorsMenu.open(pl, 0);
             return false;
         });
 
         // @formatter:off
-        menu.addItem(5, CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
+        menu.addItem(4, CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
             ChatColor.GREEN + locale.getMessage(p, "guide.title.versions"),
             "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"),
             "",
@@ -126,8 +124,46 @@ public final class SlimefunGuideSettings {
         // @formatter:on
 
         // @formatter:off
+        menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
+           "&e" + locale.getMessage(p, "guide.title.source"),
+           "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(github.getLastUpdate()) + " ago",
+           "&7Forks: &e" + github.getForks(),
+           "&7Stars: &e" + github.getStars(),
+           "",
+           "&7&oSlimefun is a community project,",
+           "&7&othe source code is available on GitHub",
+           "&7&oand if you want to keep this Plugin alive,",
+           "&7&othen please consider contributing to it",
+           "",
+           "&7\u21E8 &eClick to go to GitHub"));
+        // @formatter:on
+
+        menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
+            pl.closeInventory();
+            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
+            return false;
+        });
+
+        // @formatter:off
+        menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(),
+            "&3" + locale.getMessage(p, "guide.title.wiki"),
+            "", "&7Do you need help with an Item or machine?",
+            "&7You cannot figure out what to do?",
+            "&7Check out our community-maintained Wiki",
+            "&7and become one of our Editors!",
+            "",
+            "&7\u21E8 &eClick to go to the official Slimefun Wiki"));
+        // @formatter:on
+
+        menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
+            pl.closeInventory();
+            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki");
+            return false;
+        });
+
+        // @formatter:off
         if (p.hasPermission(AddonCatalog.PERMISSION)) {
-            menu.addItem(INSTALLER_SLOT, CustomItemStack.create(Material.BOOKSHELF,
+            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
                 "",
                 "&7Install, update or build Slimefun and its",
@@ -138,40 +174,71 @@ public final class SlimefunGuideSettings {
                 "&7\u21E8 &eClick to open the Addon Installer"));
             // @formatter:on
 
-            menu.addMenuClickHandler(INSTALLER_SLOT, (pl, slot, item, action) -> {
+            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
+        } else {
+            // @formatter:off
+            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
+                "&3" + locale.getMessage(p, "guide.title.addons"),
+                "",
+                "&7Slimefun is huge. But its addons are what makes",
+                "&7this plugin truly shine. Go check them out, some",
+                "&7of them may be exactly what you were missing out on!",
+                "",
+                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
+                "",
+                "&7\u21E8 &eClick to see all available addons for Slimefun5"));
+            // @formatter:on
+
+            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
+                return false;
+            });
         }
-        // Non-op players see no installer entry (the slot stays a background pane).
+
+        if (Slimefun.getUpdater().getBranch().isOfficial()) {
+            // @formatter:off
+            menu.addItem(49, CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(),
+                "&4" + locale.getMessage(p, "guide.title.bugs"),
+                "",
+                "&7&oBug reports have to be made in English!",
+                "",
+                "&7Open Issues: &a" + github.getOpenIssues(),
+                "&7Pending Pull Requests: &a" + github.getPendingPullRequests(),
+                "",
+                "&7\u21E8 &eClick to go to the Slimefun5 Bug Tracker"));
+            // @formatter:on
+
+            menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/issues");
+                return false;
+            });
+        } else {
+            menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
+
     }
 
     @ParametersAreNonnullByDefault
     private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
-        // Collect the options that are actually shown, then center them as a contiguous block in the
-        // middle row (slots 9-17) so the layout stays balanced regardless of how many there are.
-        List<ItemStack> displays = new ArrayList<>();
-        List<SlimefunGuideOption<?>> shown = new ArrayList<>();
+        int i = 19;
 
         for (SlimefunGuideOption<?> option : options) {
             Optional<ItemStack> item = option.getDisplayItem(p, guide);
 
             if (item.isPresent()) {
-                displays.add(item.get());
-                shown.add(option);
+                menu.addItem(i, item.get());
+                menu.addMenuClickHandler(i, (pl, slot, stack, action) -> {
+                    option.onClick(p, guide);
+                    return false;
+                });
+
+                i++;
             }
-        }
-
-        int count = Math.min(displays.size(), 9);
-        int start = 9 + Math.max(0, (9 - count) / 2);
-
-        for (int i = 0; i < count; i++) {
-            SlimefunGuideOption<?> option = shown.get(i);
-            menu.addItem(start + i, displays.get(i));
-            menu.addMenuClickHandler(start + i, (pl, slot, stack, action) -> {
-                option.onClick(p, guide);
-                return false;
-            });
         }
     }
 

@@ -48,8 +48,6 @@ import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettin
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
-import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiIndex;
-import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiPage;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
@@ -121,15 +119,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            // ThemeItemGroups are transient (rebuilt from these categories). FlexItemGroups render their
-            // own UI and have no recipes, so they are surfaced as feature buttons on the main menu (see
-            // collectVisibleFlexGroups) instead of being bucketed into a theme/category list.
-            if (group instanceof ThemeItemGroup || group instanceof FlexItemGroup) {
+            if (group instanceof ThemeItemGroup) {
                 continue;
             }
 
             try {
-                if (!group.isHidden(p)) {
+                if (group instanceof FlexItemGroup) {
+                    FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
+                        groups.add(group);
+                    }
+                } else if (!group.isHidden(p)) {
                     groups.add(group);
                 }
             } catch (Exception | LinkageError x) {
@@ -144,40 +143,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         return groups;
-    }
-
-    /**
-     * Collects the {@link FlexItemGroup}s a player can currently see. These are feature UIs (e.g. the
-     * Advancements group) rather than item categories, so the main menu renders them as dedicated
-     * buttons instead of placing them in the themed category grid.
-     *
-     * @param p
-     *            The {@link Player}
-     * @param profile
-     *            Their {@link PlayerProfile}
-     *
-     * @return the visible {@link FlexItemGroup} feature groups
-     */
-    protected @Nonnull List<FlexItemGroup> collectVisibleFlexGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        List<FlexItemGroup> flexGroups = new LinkedList<>();
-
-        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (group instanceof ThemeItemGroup || !(group instanceof FlexItemGroup)) {
-                continue;
-            }
-
-            try {
-                FlexItemGroup flexItemGroup = (FlexItemGroup) group;
-
-                if (flexItemGroup.isVisible(p, profile, getMode())) {
-                    flexGroups.add(flexItemGroup);
-                }
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().log(Level.SEVERE, x, () -> "Could not display item group: " + group);
-            }
-        }
-
-        return flexGroups;
     }
 
     @Override
@@ -195,44 +160,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-
-        // The top level shows a fixed, small set of themes (never more than the 11 GuideThemes), so the
-        // menu is sized to its content: a single feature row (0-8) + up to two rows of theme tiles. No
-        // pagination, no tall empty chest - the inventory auto-shrinks to the highest slot we touch.
         List<ItemGroup> itemGroups = getVisibleItemGroups(p, profile);
 
-        // Feature row (0-8): settings + search + the main-menu-only buttons. Background first, then overlay.
-        for (int i = 0; i < 9; i++) {
-            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
+        int index = 9;
+        createHeader(p, profile, menu);
 
-        menu.addItem(1, ChestMenuUtils.getMenuButton(p));
-        menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
-            SlimefunGuideSettings.openSettings(pl, HandCompat.getMainHand(pl.getInventory()));
-            return false;
-        });
-
-        menu.addItem(7, ChestMenuUtils.getSearchButton(p));
-        menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            Slimefun.getLocalization().sendMessage(pl, "guide.search.message");
-            ChatInput.waitForPlayer(Slimefun.instance(), pl, msg -> SlimefunGuide.openSearch(profile, msg, getMode(), isSurvivalMode()));
-            return false;
-        });
-
-        menu.addItem(3, CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(),
-            "&3Slimefun Wiki",
-            "",
-            "&7Topic guides and per-item help,",
-            "&7all without leaving the game.",
-            "",
-            "&7⇨ &eClick to open the Wiki"));
-        menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
-            WikiIndex.open(pl, this.item);
-            return false;
-        });
-
-        menu.addItem(5, CustomItemStack.create(XMaterial.BOOKSHELF.parseMaterial(),
+        // Addon Visibility entry (main menu only).
+        menu.addItem(4, CustomItemStack.create(XMaterial.BOOKSHELF.parseMaterial(),
             "&3Addon Visibility",
             "",
             "&7Choose which addons appear in your guide.",
@@ -240,41 +174,45 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             "&7and search — just for you.",
             "",
             "&7⇨ &eClick to manage"));
-        menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
+        menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             AddonVisibilityMenu.open(pl, this.item);
             return false;
         });
 
-        // FlexItemGroups (e.g. Advancements) are feature UIs, not item categories - render them as
-        // dedicated header buttons rather than placing them in the themed category grid.
-        List<FlexItemGroup> flexGroups = collectVisibleFlexGroups(p, profile);
-        int[] featureSlots = { 0, 2, 6, 8 };
+        int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
 
-        for (int i = 0; i < flexGroups.size() && i < featureSlots.length; i++) {
-            FlexItemGroup flexGroup = flexGroups.get(i);
-            int featureSlot = featureSlots[i];
+        while (target < (itemGroups.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
+            target++;
 
-            menu.addItem(featureSlot, flexGroup.getItem(p));
-            menu.addMenuClickHandler(featureSlot, (pl, slot, item, action) -> {
-                openItemGroup(profile, flexGroup, 1);
-                return false;
-            });
-        }
-
-        // Theme tiles fill from slot 9; pad the remainder of the last row with panes so there are no
-        // bare "ghost" slots and the menu stays a tidy 3 rows.
-        int index = 9;
-
-        for (ItemGroup group : itemGroups) {
+            ItemGroup group = itemGroups.get(target);
             showItemGroup(menu, p, profile, group, index);
+
             index++;
         }
 
-        int lastRowEnd = ((int) Math.ceil(index / 9.0)) * 9 - 1;
+        int pages = target == itemGroups.size() - 1 ? page : (itemGroups.size() - 1) / MAX_ITEM_GROUPS + 1;
 
-        for (int i = index; i <= lastRowEnd; i++) {
-            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            int next = page - 1;
+
+            if (next != page && next > 0) {
+                openMainMenu(profile, next);
+            }
+
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            int next = page + 1;
+
+            if (next != page && next <= pages) {
+                openMainMenu(profile, next);
+            }
+
+            return false;
+        });
 
         menu.open(p);
     }
@@ -675,14 +613,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
+        Optional<String> wiki = item.getWikipage();
 
-        // Every item has at least an auto-generated wiki page, so this button is always shown.
-        ItemStack guide = SlimefunGuide.getItem(getMode());
-        menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), "&eOpen Wiki", "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
-        menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
-            WikiPage.open(pl, guide, item);
-            return false;
-        });
+        if (wiki.isPresent()) {
+            menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
+            menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, wiki.get());
+                return false;
+            });
+        }
 
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
 
