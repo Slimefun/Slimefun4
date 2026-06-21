@@ -173,8 +173,16 @@ public final class WikiText {
             int groupCount = groupsByAddon.getOrDefault(addon, Collections.emptySet()).size();
             String topicId = "addon_" + addon.toLowerCase(java.util.Locale.ROOT);
 
+            List<String> overview = authoredAddonOverview(addon);
+
             List<String> lines = new ArrayList<>();
-            lines.add("&7Items added by the &b" + addon + "&7 addon.");
+
+            if (overview != null) {
+                lines.addAll(overview);
+            } else {
+                lines.add("&7Items added by the &b" + addon + "&7 addon.");
+            }
+
             lines.add("");
             lines.add("&7Adds &e" + itemIds.size() + "&7 items across");
             lines.add("&e" + groupCount + "&7 " + (groupCount == 1 ? "category" : "categories") + ".");
@@ -182,10 +190,55 @@ public final class WikiText {
             lines.add("&7Click any item below to open its");
             lines.add("&7page with recipe and details.");
 
+            String tagline = (overview != null && !overview.isEmpty()) ? overview.get(0) : ("&7" + itemIds.size() + " items from this addon");
+
             setMechanic(topicId, lines);
             setTopicItems(topicId, itemIds);
-            registerTopic(new WikiTopic(topicId, addon, XMaterial.BOOK, "&7" + itemIds.size() + " items from this addon"));
+            registerTopic(new WikiTopic(topicId, addon, XMaterial.BOOK, tagline));
         }
+    }
+
+    /**
+     * Hand-written overview lines for the well-known addons (first line doubles as the home-screen
+     * tagline). Returns null for an unknown addon, in which case a generic blurb is used.
+     */
+    private List<String> authoredAddonOverview(@Nonnull String addon) {
+        String key = addon.toLowerCase(java.util.Locale.ROOT);
+
+        if (key.contains("infinityexpansion")) {
+            return overview("&7End-game tech and storage.", "&7Infinity-tier machines, huge", "&7storage units, mob & material", "&7chambers and infinite resource", "&7generation for the late game.");
+        } else if (key.contains("networks")) {
+            return overview("&7Item storage & transport networks.", "&7An alternative to cargo: quantum", "&7storage cells, crafting grids and", "&7import/export nodes wired to a", "&7central Network Controller.");
+        } else if (key.contains("chestterminal")) {
+            return overview("&7Remote access to your cargo.", "&7Access Terminals view and withdraw", "&7items from anywhere on a cargo", "&7network; import/export buses move", "&7items in and out automatically.");
+        } else if (key.contains("fluffymachines")) {
+            return overview("&7Quality-of-life machines.", "&7Auto crafters, storage barrels,", "&7ender-chest links and handy utility", "&7machines that streamline automation.");
+        } else if (key.contains("dynatech")) {
+            return overview("&7Machines driven by motion.", "&7Water mills, wind mills and", "&7momentum-based generators, plus", "&7advanced processing machines.");
+        } else if (key.contains("litexpansion")) {
+            return overview("&7IndustrialCraft-style tech.", "&7UU-Matter, a Mass Fabricator,", "&7electric tools and reactors for a", "&7classic industrial progression.");
+        } else if (key.contains("slimetinker")) {
+            return overview("&7Modular, upgradeable tools.", "&7Build tools and armor from parts", "&7at workstations, each with traits", "&7and levels you can customise.");
+        } else if (key.contains("exoticgarden")) {
+            return overview("&7New crops, fruit and food.", "&7Adds berries, fruit trees, bushes", "&7and plants, plus a kitchen to cook", "&7them into new dishes.");
+        } else if (key.contains("sensibletoolbox")) {
+            return overview("&7Ported STB machines & gadgets.", "&7Brings Sensible Toolbox's machines", "&7(mashers, smelters and more) and", "&7gadgets in through Slimefun.");
+        } else if (key.contains("luckyblock")) {
+            return overview("&7Risk it for a surprise.", "&7Break a Lucky Block for a random", "&7reward - or a nasty surprise.");
+        } else if (key.contains("missilewarfare")) {
+            return overview("&7Build, launch and intercept.", "&7Missiles, launchers, anti-air and", "&7mines for large-scale warfare.");
+        } else if (key.contains("extragear")) {
+            return overview("&7Extra tools and armor sets.", "&7Additional gear and full armor", "&7sets crafted through Slimefun.");
+        } else if (key.contains("galactifun")) {
+            return overview("&7Explore space.", "&7Travel to planets and moons in", "&7rockets, wear space suits and", "&7harvest alien resources.");
+        }
+
+        return null;
+    }
+
+    @Nonnull
+    private List<String> overview(@Nonnull String... lines) {
+        return new ArrayList<>(java.util.Arrays.asList(lines));
     }
 
     private synchronized void loadResource(@Nonnull String path, @Nonnull Map<String, List<String>> target) {
