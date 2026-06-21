@@ -84,7 +84,7 @@ public final class WikiTopicPage {
             });
         }
 
-        addRelatedItems(menu, guide, topicId, displayName, icon);
+        addRelatedItems(menu, p, guide, topicId, displayName, icon);
         menu.open(p);
     }
 
@@ -108,7 +108,7 @@ public final class WikiTopicPage {
     }
 
     /** Renders the topic's relevant items as clickable icons; each opens that item's wiki page. */
-    private static void addRelatedItems(@Nonnull ChestMenu menu, @Nonnull ItemStack guide, @Nonnull String topicId, @Nonnull String displayName, @Nonnull XMaterial icon) {
+    private static void addRelatedItems(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String topicId, @Nonnull String displayName, @Nonnull XMaterial icon) {
         List<String> ids = Slimefun.getWikiText().getTopicItems(topicId);
         int placed = 0;
 
@@ -126,7 +126,7 @@ public final class WikiTopicPage {
             int slot = ITEM_SLOTS[placed];
             placed++;
 
-            menu.addItem(slot, item.getItem());
+            menu.addItem(slot, Slimefun.getItemTranslationService().getDisplayItem(p, item));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 WikiPage.open(pl, guide, item, () -> open(pl, guide, topicId, displayName, icon));
                 return false;

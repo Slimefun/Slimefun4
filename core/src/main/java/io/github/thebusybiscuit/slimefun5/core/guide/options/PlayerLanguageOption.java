@@ -15,6 +15,7 @@ import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -134,6 +135,21 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         menu.open(p);
     }
 
+    /** Picks one representative enabled item per addon, to use as that addon's menu icon. */
+    private java.util.Map<String, SlimefunItem> representativeItems() {
+        java.util.Map<String, SlimefunItem> reps = new java.util.HashMap<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                reps.putIfAbsent(item.getAddon().getName(), item);
+            } catch (Exception | LinkageError ignored) {
+                // A broken item should not break the menu.
+            }
+        }
+
+        return reps;
+    }
+
     /** Overall item-translation percentage for a language across all installed plugins. */
     private int itemCoveragePercent(String languageId) {
         int translated = 0;
@@ -164,6 +180,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             }
         }
 
+        java.util.Map<String, SlimefunItem> icons = representativeItems();
         int slot = 9;
 
         for (java.util.Map.Entry<String, int[]> entry : Slimefun.getItemTranslationService().getCoverage(language.getId()).entrySet()) {
@@ -175,7 +192,12 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             int total = entry.getValue()[1];
             int percent = total == 0 ? 0 : (translated * 100) / total;
 
-            menu.addItem(slot, CustomItemStack.create(language.getItem(),
+            // Use one of the addon's own items as the icon (like the addon installer menu) instead of a
+            // generic pane, so the menu visually represents each addon.
+            SlimefunItem rep = icons.get(entry.getKey());
+            ItemStack base = rep != null ? rep.getItem() : language.getItem();
+
+            menu.addItem(slot, CustomItemStack.create(base,
                 "&a" + entry.getKey(),
                 "",
                 "&7Translated: &b" + translated + "&7/&b" + total,
