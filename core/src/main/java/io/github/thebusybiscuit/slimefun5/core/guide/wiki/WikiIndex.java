@@ -65,7 +65,7 @@ public final class WikiIndex {
     }
 
     private static void openHome(@Nonnull Player p, @Nonnull ItemStack guide, int page) {
-        Topic[] topics = topics();
+        List<WikiTopic> topics = Slimefun.getWikiText().getTopics();
 
         ChestMenu menu = new ChestMenu(title(p));
         menu.setEmptySlotsClickable(false);
@@ -98,47 +98,22 @@ public final class WikiIndex {
             return false;
         });
 
-        int pages = pageCount(topics.length);
+        int pages = pageCount(topics.size());
         int offset = (page - 1) * PAGE_SIZE;
 
-        for (int i = 0; i < PAGE_SIZE && offset + i < topics.length; i++) {
-            Topic topic = topics[offset + i];
+        for (int i = 0; i < PAGE_SIZE && offset + i < topics.size(); i++) {
+            WikiTopic topic = topics.get(offset + i);
             int slot = CONTENT_START + i;
 
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.icon), "&b" + topic.displayName, "", topic.summary, "", "&7⇨ &eClick to read"));
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.getIcon()), "&b" + topic.getDisplayName(), "", topic.getSummary(), "", "&7⇨ &eClick to read"));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                WikiTopicPage.open(pl, guide, topic.id, topic.displayName, topic.icon);
+                WikiTopicPage.open(pl, guide, topic.getId(), topic.getDisplayName(), topic.getIcon());
                 return false;
             });
         }
 
         addPagination(menu, p, page, pages, (pl, target) -> openHome(pl, guide, target));
         menu.open(p);
-    }
-
-    /** The explanatory topic guides shown on the wiki home, in display order. */
-    @Nonnull
-    private static Topic[] topics() {
-        return new Topic[] {
-            new Topic("getting_started", "Getting Started", XMaterial.MAP, "&7Your first steps in Slimefun"),
-            new Topic("research", "Research & Unlocking", XMaterial.EXPERIENCE_BOTTLE, "&7Unlock items with experience"),
-            new Topic("multiblocks", "Multiblock Machines", XMaterial.BRICKS, "&7Build structures to craft"),
-            new Topic("ore_processing", "Ore Processing", XMaterial.IRON_ORE, "&7Double your ore yields"),
-            new Topic("smeltery", "Smeltery & Alloys", XMaterial.FURNACE, "&7Smelt dusts and forge alloys"),
-            new Topic("energy", "Energy Networks", XMaterial.REDSTONE, "&7Power your machines"),
-            new Topic("power_generation", "Power Generation", XMaterial.COAL_BLOCK, "&7Generators, reactors, capacitors"),
-            new Topic("electric_machines", "Electric Machines", XMaterial.IRON_BLOCK, "&7Powered automatic machines"),
-            new Topic("cargo", "Cargo Networks", XMaterial.HOPPER, "&7Move items automatically"),
-            new Topic("androids", "Programmable Androids", XMaterial.ARMOR_STAND, "&7Automate tasks with robots"),
-            new Topic("geo_mining", "GEO Mining & Oil", XMaterial.BUCKET, "&7Extract oil and resources"),
-            new Topic("gps", "GPS & Teleportation", XMaterial.COMPASS, "&7Waypoints and teleporters"),
-            new Topic("talismans", "Talismans", XMaterial.EMERALD, "&7Passive luck and protection"),
-            new Topic("magic", "Magic & the Altar", XMaterial.ENDER_EYE, "&7Runes, staves and rituals"),
-            new Topic("armor_gadgets", "Armor & Gadgets", XMaterial.DIAMOND_CHESTPLATE, "&7Jetpacks, sets and tools"),
-            new Topic("backpacks", "Backpacks & Storage", XMaterial.CHEST, "&7Portable storage on the go"),
-            new Topic("food_farming", "Food & Farming", XMaterial.BREAD, "&7Juices, jerky and auto-farms"),
-            new Topic("soulbound", "Soulbound Items", XMaterial.NETHER_STAR, "&7Keep items when you die")
-        };
     }
 
     /** Lists every non-hidden item group; clicking one opens its item list. */
@@ -257,21 +232,5 @@ public final class WikiIndex {
     @FunctionalInterface
     private interface PageNavigator {
         void open(@Nonnull Player p, int page);
-    }
-
-    /** A single explanatory wiki topic: its mechanics.yml id, display name, icon, and one-line summary. */
-    private static final class Topic {
-
-        private final String id;
-        private final String displayName;
-        private final XMaterial icon;
-        private final String summary;
-
-        private Topic(@Nonnull String id, @Nonnull String displayName, @Nonnull XMaterial icon, @Nonnull String summary) {
-            this.id = id;
-            this.displayName = displayName;
-            this.icon = icon;
-            this.summary = summary;
-        }
     }
 }

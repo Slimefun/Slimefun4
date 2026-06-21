@@ -14,6 +14,8 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.cryptomorin.xseries.XMaterial;
+
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -31,6 +33,7 @@ public final class WikiText {
     private final Map<String, List<String>> itemLines = new HashMap<>();
     private final Map<String, List<String>> mechanicLines = new HashMap<>();
     private final Map<String, List<String>> topicItems = new HashMap<>();
+    private final List<WikiTopic> topics = new ArrayList<>();
 
     /** Stores authored explanation lines for the given item id. */
     public synchronized void set(@Nonnull String id, @Nonnull List<String> lines) {
@@ -99,6 +102,90 @@ public final class WikiText {
         loadResource("/wiki/items.yml", itemLines);
         loadResource("/wiki/mechanics.yml", mechanicLines);
         loadResource("/wiki/topic-items.yml", topicItems);
+        registerCoreTopics();
+    }
+
+    /** Registers a guide topic shown on the wiki home. Addons may call this to add their own topics. */
+    public synchronized void registerTopic(@Nonnull WikiTopic topic) {
+        for (WikiTopic existing : topics) {
+            if (existing.getId().equals(topic.getId())) {
+                return;
+            }
+        }
+
+        topics.add(topic);
+    }
+
+    /** All registered guide topics, in registration order (core first, then addons). */
+    @Nonnull
+    public synchronized List<WikiTopic> getTopics() {
+        return new ArrayList<>(topics);
+    }
+
+    /** The fixed set of core Slimefun guide topics. Their text/items live in the bundled YAML. */
+    private void registerCoreTopics() {
+        registerTopic(new WikiTopic("getting_started", "Getting Started", XMaterial.MAP, "&7Your first steps in Slimefun"));
+        registerTopic(new WikiTopic("research", "Research & Unlocking", XMaterial.EXPERIENCE_BOTTLE, "&7Unlock items with experience"));
+        registerTopic(new WikiTopic("multiblocks", "Multiblock Machines", XMaterial.BRICKS, "&7Build structures to craft"));
+        registerTopic(new WikiTopic("ore_processing", "Ore Processing", XMaterial.IRON_ORE, "&7Double your ore yields"));
+        registerTopic(new WikiTopic("smeltery", "Smeltery & Alloys", XMaterial.FURNACE, "&7Smelt dusts and forge alloys"));
+        registerTopic(new WikiTopic("energy", "Energy Networks", XMaterial.REDSTONE, "&7Power your machines"));
+        registerTopic(new WikiTopic("power_generation", "Power Generation", XMaterial.COAL_BLOCK, "&7Generators, reactors, capacitors"));
+        registerTopic(new WikiTopic("electric_machines", "Electric Machines", XMaterial.IRON_BLOCK, "&7Powered automatic machines"));
+        registerTopic(new WikiTopic("cargo", "Cargo Networks", XMaterial.HOPPER, "&7Move items automatically"));
+        registerTopic(new WikiTopic("androids", "Programmable Androids", XMaterial.ARMOR_STAND, "&7Automate tasks with robots"));
+        registerTopic(new WikiTopic("geo_mining", "GEO Mining & Oil", XMaterial.BUCKET, "&7Extract oil and resources"));
+        registerTopic(new WikiTopic("gps", "GPS & Teleportation", XMaterial.COMPASS, "&7Waypoints and teleporters"));
+        registerTopic(new WikiTopic("talismans", "Talismans", XMaterial.EMERALD, "&7Passive luck and protection"));
+        registerTopic(new WikiTopic("magic", "Magic & the Altar", XMaterial.ENDER_EYE, "&7Runes, staves and rituals"));
+        registerTopic(new WikiTopic("armor_gadgets", "Armor & Gadgets", XMaterial.DIAMOND_CHESTPLATE, "&7Jetpacks, sets and tools"));
+        registerTopic(new WikiTopic("backpacks", "Backpacks & Storage", XMaterial.CHEST, "&7Portable storage on the go"));
+        registerTopic(new WikiTopic("food_farming", "Food & Farming", XMaterial.BREAD, "&7Juices, jerky and auto-farms"));
+        registerTopic(new WikiTopic("soulbound", "Soulbound Items", XMaterial.NETHER_STAR, "&7Keep items when you die"));
+    }
+
+    /**
+     * Generates one guide topic per installed addon (skipping core Slimefun), listing that addon's
+     * items as clickable related items. Must run after all addons have registered their items.
+     */
+    public synchronized void generateAddonTopics() {
+        Map<String, List<String>> itemsByAddon = new java.util.LinkedHashMap<>();
+        Map<String, java.util.Set<String>> groupsByAddon = new HashMap<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                String addon = item.getAddon().getName();
+
+                if (addon == null || addon.equalsIgnoreCase("Slimefun")) {
+                    continue;
+                }
+
+                itemsByAddon.computeIfAbsent(addon, k -> new ArrayList<>()).add(item.getId());
+                groupsByAddon.computeIfAbsent(addon, k -> new java.util.HashSet<>()).add(item.getItemGroup().getKey().toString());
+            } catch (Exception | LinkageError ignored) {
+                // An addon item with broken metadata should not break the whole wiki.
+            }
+        }
+
+        for (Map.Entry<String, List<String>> entry : itemsByAddon.entrySet()) {
+            String addon = entry.getKey();
+            List<String> itemIds = entry.getValue();
+            int groupCount = groupsByAddon.getOrDefault(addon, Collections.emptySet()).size();
+            String topicId = "addon_" + addon.toLowerCase(java.util.Locale.ROOT);
+
+            List<String> lines = new ArrayList<>();
+            lines.add("&7Items added by the &b" + addon + "&7 addon.");
+            lines.add("");
+            lines.add("&7Adds &e" + itemIds.size() + "&7 items across");
+            lines.add("&e" + groupCount + "&7 " + (groupCount == 1 ? "category" : "categories") + ".");
+            lines.add("");
+            lines.add("&7Click any item below to open its");
+            lines.add("&7page with recipe and details.");
+
+            setMechanic(topicId, lines);
+            setTopicItems(topicId, itemIds);
+            registerTopic(new WikiTopic(topicId, addon, XMaterial.BOOK, "&7" + itemIds.size() + " items from this addon"));
+        }
     }
 
     private synchronized void loadResource(@Nonnull String path, @Nonnull Map<String, List<String>> target) {

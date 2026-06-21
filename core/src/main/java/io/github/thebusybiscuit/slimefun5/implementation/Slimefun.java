@@ -373,6 +373,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             // Pre-build the wiki's reverse-recipe index once here so the first player click is instant
             WikiPage.warmUpIndex();
 
+            // Now that every addon has registered its items, add a wiki topic per installed addon
+            getWikiText().generateAddonTopics();
+
         }), 0);
 
         // Setting up our commands
