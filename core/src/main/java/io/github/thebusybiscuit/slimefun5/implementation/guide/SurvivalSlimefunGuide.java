@@ -48,6 +48,7 @@ import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettin
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiIndex;
 import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiPage;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
@@ -120,16 +121,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (group instanceof ThemeItemGroup) {
+            // ThemeItemGroups are transient (rebuilt from these categories). FlexItemGroups render their
+            // own UI and have no recipes, so they are surfaced as feature buttons on the main menu (see
+            // collectVisibleFlexGroups) instead of being bucketed into a theme/category list.
+            if (group instanceof ThemeItemGroup || group instanceof FlexItemGroup) {
                 continue;
             }
 
             try {
-                if (group instanceof FlexItemGroup) {
-                    FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
-                        groups.add(group);
-                    }
-                } else if (!group.isHidden(p)) {
+                if (!group.isHidden(p)) {
                     groups.add(group);
                 }
             } catch (Exception | LinkageError x) {
@@ -144,6 +144,40 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         return groups;
+    }
+
+    /**
+     * Collects the {@link FlexItemGroup}s a player can currently see. These are feature UIs (e.g. the
+     * Advancements group) rather than item categories, so the main menu renders them as dedicated
+     * buttons instead of placing them in the themed category grid.
+     *
+     * @param p
+     *            The {@link Player}
+     * @param profile
+     *            Their {@link PlayerProfile}
+     *
+     * @return the visible {@link FlexItemGroup} feature groups
+     */
+    protected @Nonnull List<FlexItemGroup> collectVisibleFlexGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        List<FlexItemGroup> flexGroups = new LinkedList<>();
+
+        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            if (group instanceof ThemeItemGroup || !(group instanceof FlexItemGroup)) {
+                continue;
+            }
+
+            try {
+                FlexItemGroup flexItemGroup = (FlexItemGroup) group;
+
+                if (flexItemGroup.isVisible(p, profile, getMode())) {
+                    flexGroups.add(flexItemGroup);
+                }
+            } catch (Exception | LinkageError x) {
+                Slimefun.logger().log(Level.SEVERE, x, () -> "Could not display item group: " + group);
+            }
+        }
+
+        return flexGroups;
     }
 
     @Override
@@ -179,6 +213,35 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             AddonVisibilityMenu.open(pl, this.item);
             return false;
         });
+
+        // In-game Wiki entry (main menu only).
+        menu.addItem(3, CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(),
+            "&3Slimefun Wiki",
+            "",
+            "&7Topic guides and per-item help,",
+            "&7all without leaving the game.",
+            "",
+            "&7⇨ &eClick to open the Wiki"));
+        menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
+            WikiIndex.open(pl, this.item);
+            return false;
+        });
+
+        // FlexItemGroups (e.g. Advancements) are feature UIs, not item categories - render them as
+        // dedicated header buttons rather than placing them in the themed category grid.
+        List<FlexItemGroup> flexGroups = collectVisibleFlexGroups(p, profile);
+        int[] featureSlots = { 5, 6, 8, 2, 0 };
+
+        for (int i = 0; i < flexGroups.size() && i < featureSlots.length; i++) {
+            FlexItemGroup flexGroup = flexGroups.get(i);
+            int featureSlot = featureSlots[i];
+
+            menu.addItem(featureSlot, flexGroup.getItem(p));
+            menu.addMenuClickHandler(featureSlot, (pl, slot, item, action) -> {
+                openItemGroup(profile, flexGroup, 1);
+                return false;
+            });
+        }
 
         int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
 
