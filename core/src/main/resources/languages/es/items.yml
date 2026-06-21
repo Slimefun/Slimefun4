@@ -112,3 +112,62 @@ ELECTRIC_FURNACE:
   name: "&cHorno eléctrico"
 PORTABLE_DUSTBIN:
   name: "&6Papelera portátil"
+
+BATTERY:
+  name: "&6Batería"
+PLASTIC_SHEET:
+  name: "&fLámina de plástico"
+MAGNET:
+  name: "&cImán"
+SILVER_INGOT:
+  name: "&bLingote de plata"
+ALUMINUM_INGOT:
+  name: "&bLingote de aluminio"
+LEAD_INGOT:
+  name: "&bLingote de plomo"
+ZINC_INGOT:
+  name: "&bLingote de zinc"
+DURALUMIN_INGOT:
+  name: "&bLingote de duraluminio"
+BILLON_INGOT:
+  name: "&bLingote de vellón"
+BRASS_INGOT:
+  name: "&bLingote de latón"
+FERROSILICON:
+  name: "&bFerrosilicio"
+REDSTONE_ALLOY:
+  name: "&cLingote de aleación de redstone"
+NICKEL_INGOT:
+  name: "&bLingote de níquel"
+COBALT_INGOT:
+  name: "&9Lingote de cobalto"
+TIN_DUST:
+  name: "&6Polvo de estaño"
+SILVER_DUST:
+  name: "&6Polvo de plata"
+ALUMINUM_DUST:
+  name: "&6Polvo de aluminio"
+ZINC_DUST:
+  name: "&6Polvo de zinc"
+MAGNESIUM_DUST:
+  name: "&6Magnesio"
+SULFATE:
+  name: "&6Sulfato"
+SMALL_CAPACITOR:
+  name: "&aCondensador de energía pequeño"
+MEDIUM_CAPACITOR:
+  name: "&aCondensador de energía mediano"
+LARGE_CAPACITOR:
+  name: "&aCondensador de energía grande"
+SYNTHETIC_EMERALD:
+  name: "&bEsmeralda sintética"
+  lore:
+    - ""
+    - "&fEste objeto se puede usar para"
+    - "&fcomerciar con los aldeanos"
+SYNTHETIC_SAPPHIRE:
+  name: "&bZafiro sintético"
+  lore:
+    - ""
+    - "&fEste objeto se puede usar en una"
+    - "&fmesa de trabajo y actúa como lapislázuli"

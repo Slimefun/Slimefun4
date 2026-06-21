@@ -112,3 +112,62 @@ ELECTRIC_FURNACE:
   name: "&cFour électrique"
 PORTABLE_DUSTBIN:
   name: "&6Poubelle portable"
+
+BATTERY:
+  name: "&6Batterie"
+PLASTIC_SHEET:
+  name: "&fPlaque de plastique"
+MAGNET:
+  name: "&cAimant"
+SILVER_INGOT:
+  name: "&bLingot d'argent"
+ALUMINUM_INGOT:
+  name: "&bLingot d'aluminium"
+LEAD_INGOT:
+  name: "&bLingot de plomb"
+ZINC_INGOT:
+  name: "&bLingot de zinc"
+DURALUMIN_INGOT:
+  name: "&bLingot de duralumin"
+BILLON_INGOT:
+  name: "&bLingot de billon"
+BRASS_INGOT:
+  name: "&bLingot de laiton"
+FERROSILICON:
+  name: "&bFerrosilicium"
+REDSTONE_ALLOY:
+  name: "&cLingot d'alliage de redstone"
+NICKEL_INGOT:
+  name: "&bLingot de nickel"
+COBALT_INGOT:
+  name: "&9Lingot de cobalt"
+TIN_DUST:
+  name: "&6Poudre d'étain"
+SILVER_DUST:
+  name: "&6Poudre d'argent"
+ALUMINUM_DUST:
+  name: "&6Poudre d'aluminium"
+ZINC_DUST:
+  name: "&6Poudre de zinc"
+MAGNESIUM_DUST:
+  name: "&6Magnésium"
+SULFATE:
+  name: "&6Sulfate"
+SMALL_CAPACITOR:
+  name: "&aPetit condensateur d'énergie"
+MEDIUM_CAPACITOR:
+  name: "&aCondensateur d'énergie moyen"
+LARGE_CAPACITOR:
+  name: "&aGrand condensateur d'énergie"
+SYNTHETIC_EMERALD:
+  name: "&bÉmeraude synthétique"
+  lore:
+    - ""
+    - "&fCet objet peut servir à"
+    - "&fcommercer avec les villageois"
+SYNTHETIC_SAPPHIRE:
+  name: "&bSaphir synthétique"
+  lore:
+    - ""
+    - "&fCet objet peut être utilisé dans un"
+    - "&fétabli et agit comme du lapis-lazuli"

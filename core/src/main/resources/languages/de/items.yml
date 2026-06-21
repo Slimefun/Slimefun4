@@ -113,3 +113,62 @@ ELECTRIC_FURNACE:
   name: "&cElektrischer Ofen"
 PORTABLE_DUSTBIN:
   name: "&6Tragbarer Mülleimer"
+
+BATTERY:
+  name: "&6Batterie"
+PLASTIC_SHEET:
+  name: "&fKunststoffplatte"
+MAGNET:
+  name: "&cMagnet"
+SILVER_INGOT:
+  name: "&bSilberbarren"
+ALUMINUM_INGOT:
+  name: "&bAluminiumbarren"
+LEAD_INGOT:
+  name: "&bBleibarren"
+ZINC_INGOT:
+  name: "&bZinkbarren"
+DURALUMIN_INGOT:
+  name: "&bDuraluminbarren"
+BILLON_INGOT:
+  name: "&bBillonbarren"
+BRASS_INGOT:
+  name: "&bMessingbarren"
+FERROSILICON:
+  name: "&bFerrosilizium"
+REDSTONE_ALLOY:
+  name: "&cRedstone-Legierungsbarren"
+NICKEL_INGOT:
+  name: "&bNickelbarren"
+COBALT_INGOT:
+  name: "&9Kobaltbarren"
+TIN_DUST:
+  name: "&6Zinnstaub"
+SILVER_DUST:
+  name: "&6Silberstaub"
+ALUMINUM_DUST:
+  name: "&6Aluminiumstaub"
+ZINC_DUST:
+  name: "&6Zinkstaub"
+MAGNESIUM_DUST:
+  name: "&6Magnesium"
+SULFATE:
+  name: "&6Sulfat"
+SMALL_CAPACITOR:
+  name: "&aKleiner Energiekondensator"
+MEDIUM_CAPACITOR:
+  name: "&aMittlerer Energiekondensator"
+LARGE_CAPACITOR:
+  name: "&aGroßer Energiekondensator"
+SYNTHETIC_EMERALD:
+  name: "&bSynthetischer Smaragd"
+  lore:
+    - ""
+    - "&fDieser Gegenstand kann zum"
+    - "&fHandeln mit Dorfbewohnern genutzt werden"
+SYNTHETIC_SAPPHIRE:
+  name: "&bSynthetischer Saphir"
+  lore:
+    - ""
+    - "&fDieser Gegenstand kann in einem"
+    - "&fWerktisch wie Lapislazuli genutzt werden"
