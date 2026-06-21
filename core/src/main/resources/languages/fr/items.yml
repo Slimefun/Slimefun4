@@ -45,3 +45,70 @@ SLOT_LOCK:
     - "&7d'un multibloc pour le verrouiller (comme un Assembleur) :"
     - "&7l'emplacement reste vide pour la recette et"
     - "&7les entonnoirs ne le remplissent pas."
+
+ELECTRO_MAGNET:
+  name: "&cÉlectroaimant"
+HEATING_COIL:
+  name: "&cSerpentin chauffant"
+ELECTRIC_MOTOR:
+  name: "&cMoteur électrique"
+REINFORCED_PLATE:
+  name: "&7Plaque renforcée"
+COPPER_INGOT:
+  name: "&bLingot de cuivre"
+TIN_INGOT:
+  name: "&bLingot d'étain"
+STEEL_INGOT:
+  name: "&bLingot d'acier"
+DAMASCUS_STEEL_INGOT:
+  name: "&bLingot d'acier de Damas"
+GILDED_IRON:
+  name: "&6&lFer doré"
+GOLD_DUST:
+  name: "&6Poudre d'or"
+RAW_CARBONADO:
+  name: "&bCarbonado brut"
+CARBONADO:
+  name: "&b&lCarbonado"
+  lore:
+    - ""
+    - "&7&o\"Diamant noir\""
+SOLAR_PANEL:
+  name: "&9Cellule photovoltaïque"
+  lore:
+    - ""
+    - "&7Composant important pour"
+    - "&7fabriquer un &bGénérateur solaire"
+GRIND_STONE:
+  name: "&bMeule"
+  lore:
+    - ""
+    - "&aBroie les objets en d'autres objets"
+ORE_CRUSHER:
+  name: "&bConcasseur de minerai"
+  lore:
+    - ""
+    - "&aConcasse les minerais pour les doubler"
+PRESSURE_CHAMBER:
+  name: "&bChambre de pression"
+  lore:
+    - ""
+    - "&aCompresse les objets encore davantage"
+SMELTERY:
+  name: "&6Fonderie"
+  lore:
+    - ""
+    - "&fUn four à haute température"
+    - "&fqui permet de fondre les poudres en"
+    - "&flingots et de créer des alliages."
+ENERGY_REGULATOR:
+  name: "&6Régulateur d'énergie"
+  lore:
+    - ""
+    - "&fComposant central d'un réseau d'énergie"
+COAL_GENERATOR:
+  name: "&cGénérateur à charbon"
+ELECTRIC_FURNACE:
+  name: "&cFour électrique"
+PORTABLE_DUSTBIN:
+  name: "&6Poubelle portable"

@@ -45,3 +45,70 @@ SLOT_LOCK:
     - "&7de un multibloque para bloquearla (como un Ensamblador):"
     - "&7la ranura permanece vacía para la receta y"
     - "&7las tolvas no la llenan."
+
+ELECTRO_MAGNET:
+  name: "&cElectroimán"
+HEATING_COIL:
+  name: "&cBobina de calor"
+ELECTRIC_MOTOR:
+  name: "&cMotor eléctrico"
+REINFORCED_PLATE:
+  name: "&7Placa reforzada"
+COPPER_INGOT:
+  name: "&bLingote de cobre"
+TIN_INGOT:
+  name: "&bLingote de estaño"
+STEEL_INGOT:
+  name: "&bLingote de acero"
+DAMASCUS_STEEL_INGOT:
+  name: "&bLingote de acero de Damasco"
+GILDED_IRON:
+  name: "&6&lHierro dorado"
+GOLD_DUST:
+  name: "&6Polvo de oro"
+RAW_CARBONADO:
+  name: "&bCarbonado en bruto"
+CARBONADO:
+  name: "&b&lCarbonado"
+  lore:
+    - ""
+    - "&7&o\"Diamante negro\""
+SOLAR_PANEL:
+  name: "&9Célula fotovoltaica"
+  lore:
+    - ""
+    - "&7Componente importante para"
+    - "&7fabricar un &bGenerador solar"
+GRIND_STONE:
+  name: "&bPiedra de molienda"
+  lore:
+    - ""
+    - "&aMuele objetos para convertirlos en otros"
+ORE_CRUSHER:
+  name: "&bTrituradora de mineral"
+  lore:
+    - ""
+    - "&aTritura minerales para duplicarlos"
+PRESSURE_CHAMBER:
+  name: "&bCámara de presión"
+  lore:
+    - ""
+    - "&aComprime los objetos aún más"
+SMELTERY:
+  name: "&6Fundición"
+  lore:
+    - ""
+    - "&fUn horno de alta temperatura"
+    - "&fque permite fundir polvos en"
+    - "&flingotes y crear aleaciones."
+ENERGY_REGULATOR:
+  name: "&6Regulador de energía"
+  lore:
+    - ""
+    - "&fComponente central de una red de energía"
+COAL_GENERATOR:
+  name: "&cGenerador de carbón"
+ELECTRIC_FURNACE:
+  name: "&cHorno eléctrico"
+PORTABLE_DUSTBIN:
+  name: "&6Papelera portátil"

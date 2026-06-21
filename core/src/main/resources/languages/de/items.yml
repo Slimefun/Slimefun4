@@ -46,3 +46,70 @@ SLOT_LOCK:
     - "&7um ihn zu sperren (wie ein Crafter):"
     - "&7der Slot bleibt für das Rezept leer und"
     - "&7Trichter füllen ihn nicht."
+
+ELECTRO_MAGNET:
+  name: "&cElektromagnet"
+HEATING_COIL:
+  name: "&cHeizspule"
+ELECTRIC_MOTOR:
+  name: "&cElektromotor"
+REINFORCED_PLATE:
+  name: "&7Verstärkte Platte"
+COPPER_INGOT:
+  name: "&bKupferbarren"
+TIN_INGOT:
+  name: "&bZinnbarren"
+STEEL_INGOT:
+  name: "&bStahlbarren"
+DAMASCUS_STEEL_INGOT:
+  name: "&bDamaststahlbarren"
+GILDED_IRON:
+  name: "&6&lVergoldetes Eisen"
+GOLD_DUST:
+  name: "&6Goldstaub"
+RAW_CARBONADO:
+  name: "&bRoher Carbonado"
+CARBONADO:
+  name: "&b&lCarbonado"
+  lore:
+    - ""
+    - "&7&o\"Schwarzer Diamant\""
+SOLAR_PANEL:
+  name: "&9Photovoltaikzelle"
+  lore:
+    - ""
+    - "&7Wichtige Komponente zum"
+    - "&7Bau eines &bSolargenerators"
+GRIND_STONE:
+  name: "&bMühlstein"
+  lore:
+    - ""
+    - "&aZermahlt Gegenstände zu anderen Gegenständen"
+ORE_CRUSHER:
+  name: "&bErzbrecher"
+  lore:
+    - ""
+    - "&aZerkleinert Erze, um sie zu verdoppeln"
+PRESSURE_CHAMBER:
+  name: "&bDruckkammer"
+  lore:
+    - ""
+    - "&aKomprimiert Gegenstände noch weiter"
+SMELTERY:
+  name: "&6Schmelzerei"
+  lore:
+    - ""
+    - "&fEin Hochtemperaturofen,"
+    - "&fmit dem du Staub zu Barren schmelzen"
+    - "&fund Legierungen erstellen kannst."
+ENERGY_REGULATOR:
+  name: "&6Energieregler"
+  lore:
+    - ""
+    - "&fKernkomponente eines Energienetzwerks"
+COAL_GENERATOR:
+  name: "&cKohlegenerator"
+ELECTRIC_FURNACE:
+  name: "&cElektrischer Ofen"
+PORTABLE_DUSTBIN:
+  name: "&6Tragbarer Mülleimer"
