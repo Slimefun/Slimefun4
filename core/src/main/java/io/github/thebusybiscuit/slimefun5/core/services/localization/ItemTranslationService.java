@@ -14,6 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -182,6 +183,84 @@ public class ItemTranslationService {
         }
 
         return display;
+    }
+
+    /**
+     * Per-holder translation: rewrites a real {@link ItemStack}'s name (and static lore) in place into
+     * the holding player's language, identifying the item by its Slimefun id so it can be re-translated
+     * from any language. Preserves per-instance data (amount, durability, enchants, PDC) by editing meta
+     * rather than replacing the stack. Lore is only swapped when the item carries no dynamic lore
+     * (its line count still matches the canonical template), so charge/soulbound/backpack lore is left
+     * untouched. Returns whether the stack was changed.
+     */
+    public boolean applyHolderTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
+        if (stack == null || stack.getType() == Material.AIR) {
+            return false;
+        }
+
+        SlimefunItem item;
+
+        try {
+            item = SlimefunItem.getByItem(stack);
+        } catch (Exception | LinkageError e) {
+            return false;
+        }
+
+        if (item == null) {
+            return false; // Vanilla item - nothing to translate.
+        }
+
+        // Canonical English copy: the pre-bake baseline if this item was baked, else its template.
+        ItemStack english = englishBaseline.containsKey(item.getId()) ? englishBaseline.get(item.getId()) : item.getItem();
+        ItemMeta englishMeta = english.getItemMeta();
+        ItemMeta meta = stack.getItemMeta();
+
+        if (meta == null || englishMeta == null) {
+            return false;
+        }
+
+        ItemTranslation translation = lookup(languageOf(p), item.getId());
+
+        String targetName = (translation != null && translation.name != null)
+            ? ChatColor.translateAlternateColorCodes('&', translation.name)
+            : englishMeta.getDisplayName();
+
+        boolean changed = false;
+
+        if (targetName != null && !targetName.equals(meta.getDisplayName())) {
+            meta.setDisplayName(targetName);
+            changed = true;
+        }
+
+        // Only translate lore for an unmodified item (no dynamic lines added), to avoid clobbering
+        // charge/soulbound/backpack lore.
+        List<String> englishLore = englishMeta.getLore();
+        List<String> currentLore = meta.getLore();
+        int englishCount = englishLore != null ? englishLore.size() : 0;
+        int currentCount = currentLore != null ? currentLore.size() : 0;
+
+        if (englishCount == currentCount) {
+            List<String> targetLore = englishLore;
+
+            if (translation != null && !translation.lore.isEmpty()) {
+                targetLore = new ArrayList<>();
+
+                for (String line : translation.lore) {
+                    targetLore.add(ChatColor.translateAlternateColorCodes('&', line));
+                }
+            }
+
+            if (targetLore != null && !targetLore.equals(currentLore)) {
+                meta.setLore(targetLore);
+                changed = true;
+            }
+        }
+
+        if (changed) {
+            stack.setItemMeta(meta);
+        }
+
+        return changed;
     }
 
     @Nullable
