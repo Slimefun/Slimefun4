@@ -172,3 +172,34 @@ SYNTHETIC_SAPPHIRE:
     - ""
     - "&fDieser Gegenstand kann in einem"
     - "&fWerktisch wie Lapislazuli genutzt werden"
+
+GOLD_4K:
+  name: "&fGoldbarren &7(4 Karat)"
+GOLD_6K:
+  name: "&fGoldbarren &7(6 Karat)"
+GOLD_10K:
+  name: "&fGoldbarren &7(10 Karat)"
+GOLD_12K:
+  name: "&fGoldbarren &7(12 Karat)"
+GOLD_14K:
+  name: "&fGoldbarren &7(14 Karat)"
+GOLD_16K:
+  name: "&fGoldbarren &7(16 Karat)"
+GOLD_18K:
+  name: "&fGoldbarren &7(18 Karat)"
+GOLD_20K:
+  name: "&fGoldbarren &7(20 Karat)"
+GOLD_22K:
+  name: "&fGoldbarren &7(22 Karat)"
+GOLD_24K:
+  name: "&fGoldbarren &7(24 Karat)"
+STEEL_PLATE:
+  name: "&7&lStahlplatte"
+CARBON:
+  name: "&eKohlenstoff"
+COMPRESSED_CARBON:
+  name: "&cKomprimierter Kohlenstoff"
+ENDER_BACKPACK:
+  name: "&6Ender-Rucksack"
+PARACHUTE:
+  name: "&f&lFallschirm"
