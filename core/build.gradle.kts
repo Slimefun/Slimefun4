@@ -185,19 +185,37 @@ tasks {
             }
 
             if (didPatch) {
-                try {
-                    Files.move(temp.toPath(), jarFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
-                    logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
-                } catch (e: Exception) {
-                    temp.delete()
-                    logger.warn("XSeries 26.x patch: could not replace jar (${e.message}) - patch skipped")
+                // The move can transiently fail on Windows (jar locked by the daemon/AV); retry, and if
+                // it still fails, FAIL the build rather than silently shipping an unpatched core jar
+                // (which makes Slimefun - and therefore every addon - fail to enable on a 26.x server).
+                var moved = false
+                var lastError: Exception? = null
+
+                for (attempt in 1..3) {
+                    try {
+                        Files.move(temp.toPath(), jarFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                        moved = true
+                        break
+                    } catch (e: Exception) {
+                        lastError = e
+                        try { Thread.sleep(200) } catch (ignored: InterruptedException) { Thread.currentThread().interrupt() }
+                    }
                 }
+
+                if (!moved) {
+                    temp.delete()
+                    throw GradleException("XSeries 26.x patch: could not replace jar after 3 attempts (${lastError?.message}). Refusing to ship an unpatched core jar.")
+                }
+
+                logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
             } else {
                 temp.delete()
                 when {
                     alreadyApplied -> logger.lifecycle("XSeries 26.x patch: already applied")
-                    !found -> logger.warn("XSeries 26.x patch: $entryName not found in jar")
-                    else -> logger.warn("XSeries 26.x patch: version regex constant not found (XSeries version changed?)")
+                    // Never ship an unpatched jar: a missing/changed constant means the 26.x version fix
+                    // is absent, so fail loudly instead of producing a core that cannot start on 26.x.
+                    !found -> throw GradleException("XSeries 26.x patch: $entryName not found in jar - cannot ship core without the version fix")
+                    else -> throw GradleException("XSeries 26.x patch: version regex constant not found (did XSeries change?) - core would fail to parse a 26.x server version")
                 }
             }
         }
