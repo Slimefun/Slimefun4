@@ -58,9 +58,10 @@ public class RuneAnvil extends SlimefunItem implements InventoryBlock {
             preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(ITEM_SLOT, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(RUNE_SLOT, ChestMenuUtils.getInputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(OUTPUT_SLOT, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
+        // The two input slots (ITEM_SLOT, RUNE_SLOT) are left empty so the player (and hoppers/cargo)
+        // can place items into them. The output slot uses the default output handler: items can be
+        // taken out but not inserted. Placeholder textures/handlers on these slots would block them.
+        preset.addMenuClickHandler(OUTPUT_SLOT, ChestMenuUtils.getDefaultOutputHandler());
     }
 
     @Override

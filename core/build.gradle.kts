@@ -97,9 +97,12 @@ tasks {
     processResources {
         // Declare the version as an input so changing -Partifact_version re-expands plugin.yml
         // instead of reusing a stale cached copy (which once shipped 5.0.0-UNOFFICIAL).
-        inputs.property("version", project.version)
+        // The published jar is an UNOFFICIAL build; report that in plugin.yml so the version shown in
+        // logs/guide matches the jar name (Slimefun-<version>-UNOFFICIAL.jar) instead of bare <version>.
+        val pluginVersion = "${project.version}-UNOFFICIAL"
+        inputs.property("version", pluginVersion)
         filesMatching("plugin.yml") {
-            expand("version" to project.version)
+            expand("version" to pluginVersion)
         }
     }
 
