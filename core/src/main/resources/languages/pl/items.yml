@@ -1,0 +1,1072 @@
+PORTABLE_CRAFTER:
+  name: "&6Przenośny Stół Rzemieślniczy"
+PORTABLE_DUSTBIN:
+  name: "&6Przenośny Kosz na Śmieci"
+ENDER_BACKPACK:
+  name: "&6Enderowy Plecak"
+MAGIC_EYE_OF_ENDER:
+  name: "&6&lMagiczne Oko Endera"
+BROKEN_SPAWNER:
+  name: "&cZepsuty Spawner"
+REINFORCED_SPAWNER:
+  name: "&bWzmocniony Spawner"
+INFERNAL_BONEMEAL:
+  name: "&4Piekielna Mączka Kostna"
+TAPE_MEASURE:
+  name: "&6Miara Zwijana"
+GOLD_PAN:
+  name: "&6Patelnia do Płukania Złota"
+NETHER_GOLD_PAN:
+  name: "&4Netherowa Patelnia do Płukania Złota"
+PARACHUTE:
+  name: "&f&lSpadochron"
+GRAPPLING_HOOK:
+  name: "&6Hak z Liną"
+SOLAR_HELMET:
+  name: "&bSłoneczny Hełm"
+CLOTH:
+  name: "&bTkanina"
+REINFORCED_CLOTH:
+  name: "&bWzmocniona Tkanina"
+CAN:
+  name: "&fPuszka Cynowa"
+NIGHT_VISION_GOGGLES:
+  name: "&aGogle Noktowizyjne"
+ELYTRA_CAP:
+  name: "&5Czapka z Elytry"
+FARMER_SHOES:
+  name: "&eButy Farmera"
+INFUSED_MAGNET:
+  name: "&aNasycony Magnes"
+RAG:
+  name: "&cSzmata"
+BANDAGE:
+  name: "&cBandaż"
+SPLINT:
+  name: "&cSzyna"
+VITAMINS:
+  name: "&cWitaminy"
+MEDICINE:
+  name: "&cLekarstwo"
+MAGICAL_ZOMBIE_PILLS:
+  name: "&6Magiczne Pigułki na Zombie"
+FLASK_OF_KNOWLEDGE:
+  name: "&cFiolka Wiedzy"
+FILLED_FLASK_OF_KNOWLEDGE:
+  name: "&aFiolka Wiedzy"
+SMALL_BACKPACK:
+  name: "&eMały Plecak"
+MEDIUM_BACKPACK:
+  name: "&ePlecak"
+LARGE_BACKPACK:
+  name: "&eDuży Plecak"
+WOVEN_BACKPACK:
+  name: "&eTkany Plecak"
+GILDED_BACKPACK:
+  name: "&ePozłacany Plecak"
+RADIANT_BACKPACK:
+  name: "&ePromienny Plecak"
+BOUND_BACKPACK:
+  name: "&cPlecak Związany Duszą"
+COOLER:
+  name: "&bLodówka"
+RESTORED_BACKPACK:
+  name: "&eOdnowiony Plecak"
+DURALUMIN_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eI"
+SOLDER_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eII"
+BILLON_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eIII"
+STEEL_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eIV"
+DAMASCUS_STEEL_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eV"
+REINFORCED_ALLOY_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eVI"
+CARBONADO_JETPACK:
+  name: "&9Elektryczny Plecak Odrzutowy &7- &eVII"
+ARMORED_JETPACK:
+  name: "&9Opancerzony Plecak Odrzutowy"
+DURALUMIN_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eI"
+SOLDER_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eII"
+BILLON_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eIII"
+STEEL_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eIV"
+DAMASCUS_STEEL_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eV"
+REINFORCED_ALLOY_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eVI"
+CARBONADO_JETBOOTS:
+  name: "&9Odrzutowe Buty &7- &eVII"
+ARMORED_JETBOOTS:
+  name: "&9Opancerzone Odrzutowe Buty"
+DURALUMIN_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eI"
+SOLDER_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eII"
+BILLON_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eIII"
+STEEL_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eIV"
+DAMASCUS_STEEL_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eV"
+REINFORCED_ALLOY_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eVI"
+CARBONADO_MULTI_TOOL:
+  name: "&9Multinarzędzie &7- &eVII"
+FORTUNE_COOKIE:
+  name: "&6Ciasteczko z Wróżbą"
+DIET_COOKIE:
+  name: "&6Dietetyczne Ciasteczko"
+MAGIC_SUGAR:
+  name: "&6Magiczny Cukier"
+MONSTER_JERKY:
+  name: "&6Suszone Mięso Potwora"
+APPLE_JUICE:
+  name: "&cSok Jabłkowy"
+MELON_JUICE:
+  name: "&cSok Arbuzowy"
+CARROT_JUICE:
+  name: "&6Sok Marchewkowy"
+PUMPKIN_JUICE:
+  name: "&6Sok Dyniowy"
+SWEET_BERRY_JUICE:
+  name: "&cSok z Słodkich Jagód"
+GLOW_BERRY_JUICE:
+  name: "&6Sok ze Świecących Jagód"
+GOLDEN_APPLE_JUICE:
+  name: "&bSok ze Złotego Jabłka"
+BEEF_JERKY:
+  name: "&6Suszona Wołowina"
+PORK_JERKY:
+  name: "&6Suszona Wieprzowina"
+CHICKEN_JERKY:
+  name: "&6Suszony Kurczak"
+MUTTON_JERKY:
+  name: "&6Suszona Baranina"
+RABBIT_JERKY:
+  name: "&6Suszony Królik"
+FISH_JERKY:
+  name: "&6Suszona Ryba"
+KELP_COOKIE:
+  name: "&2Ciasteczko z Wodorostów"
+CHRISTMAS_MILK:
+  name: "&6Szklanka Mleka"
+CHRISTMAS_CHOCOLATE_MILK:
+  name: "&6Mleko Czekoladowe"
+CHRISTMAS_EGG_NOG:
+  name: "&aKogel-mogel"
+CHRISTMAS_APPLE_CIDER:
+  name: "&cCydr Jabłkowy"
+CHRISTMAS_COOKIE:
+  name: "&fŚwiąteczne Ciasteczko"
+CHRISTMAS_FRUIT_CAKE:
+  name: "&fKeks Owocowy"
+CHRISTMAS_APPLE_PIE:
+  name: "&fSzarlotka"
+CHRISTMAS_HOT_CHOCOLATE:
+  name: "&6Gorąca Czekolada"
+CHRISTMAS_CAKE:
+  name: "&fŚwiąteczne Ciasto"
+CHRISTMAS_CARAMEL:
+  name: "&6Karmel"
+CHRISTMAS_CARAMEL_APPLE:
+  name: "&6Jabłko w Karmelu"
+CHRISTMAS_CHOCOLATE_APPLE:
+  name: "&6Jabłko w Czekoladzie"
+CHRISTMAS_PRESENT:
+  name: "&fŚwiąteczny Prezent"
+EASTER_EGG:
+  name: "&fPisanka"
+CARROT_PIE:
+  name: "&6Ciasto Marchewkowe"
+EASTER_APPLE_PIE:
+  name: "&fSzarlotka"
+GRANDMAS_WALKING_STICK:
+  name: "&7Laska Babci"
+GRANDPAS_WALKING_STICK:
+  name: "&7Laska Dziadka"
+SWORD_OF_BEHEADING:
+  name: "&6Miecz Ścinania Głów"
+BLADE_OF_VAMPIRES:
+  name: "&cOstrze Wampirów"
+SEISMIC_AXE:
+  name: "&aSejsmiczny Topór"
+EXPLOSIVE_BOW:
+  name: "&cWybuchowy Łuk"
+ICY_BOW:
+  name: "&bLodowy Łuk"
+SMELTERS_PICKAXE:
+  name: "&6Kilof Hutnika"
+LUMBER_AXE:
+  name: "&6Topór Drwala"
+PICKAXE_OF_CONTAINMENT:
+  name: "&cKilof Przechwytywania"
+EXPLOSIVE_PICKAXE:
+  name: "&eWybuchowy Kilof"
+EXPLOSIVE_SHOVEL:
+  name: "&eWybuchowa Łopata"
+PICKAXE_OF_THE_SEEKER:
+  name: "&aKilof Poszukiwacza"
+COBALT_PICKAXE:
+  name: "&9Kobaltowy Kilof"
+PICKAXE_OF_VEIN_MINING:
+  name: "&eKilof Wydobycia Żył"
+CLIMBING_PICK:
+  name: "&bCzekan Wspinaczkowy"
+GLOWSTONE_HELMET:
+  name: "&e&lHełm z Pyłu Świetlnego"
+GLOWSTONE_CHESTPLATE:
+  name: "&e&lNapierśnik z Pyłu Świetlnego"
+GLOWSTONE_LEGGINGS:
+  name: "&e&lNogawice z Pyłu Świetlnego"
+GLOWSTONE_BOOTS:
+  name: "&e&lButy z Pyłu Świetlnego"
+RAINBOW_LEATHER:
+  name: "&dTęczowa Skóra"
+RAINBOW_HELMET:
+  name: "&d&lTęczowy Hełm"
+RAINBOW_CHESTPLATE:
+  name: "&d&lTęczowy Napierśnik"
+RAINBOW_LEGGINGS:
+  name: "&d&lTęczowe Nogawice"
+RAINBOW_BOOTS:
+  name: "&d&lTęczowe Buty"
+ENDER_HELMET:
+  name: "&5&lEnderowy Hełm"
+ENDER_CHESTPLATE:
+  name: "&5&lEnderowy Napierśnik"
+ENDER_LEGGINGS:
+  name: "&5&lEnderowe Nogawice"
+ENDER_BOOTS:
+  name: "&5&lEnderowe Buty"
+SLIME_HELMET:
+  name: "&a&lŚluzowy Hełm"
+SLIME_CHESTPLATE:
+  name: "&a&lŚluzowy Napierśnik"
+SLIME_LEGGINGS:
+  name: "&a&lŚluzowe Nogawice"
+SLIME_BOOTS:
+  name: "&a&lŚluzowe Buty"
+CACTUS_HELMET:
+  name: "&2Kaktusowy Hełm"
+CACTUS_CHESTPLATE:
+  name: "&2Kaktusowy Napierśnik"
+CACTUS_LEGGINGS:
+  name: "&2Kaktusowe Nogawice"
+CACTUS_BOOTS:
+  name: "&2Kaktusowe Buty"
+DAMASCUS_STEEL_HELMET:
+  name: "&7Hełm ze Stali Damasceńskiej"
+DAMASCUS_STEEL_CHESTPLATE:
+  name: "&7Napierśnik ze Stali Damasceńskiej"
+DAMASCUS_STEEL_LEGGINGS:
+  name: "&7Nogawice ze Stali Damasceńskiej"
+DAMASCUS_STEEL_BOOTS:
+  name: "&7Buty ze Stali Damasceńskiej"
+REINFORCED_ALLOY_HELMET:
+  name: "&bWzmocniony Hełm"
+REINFORCED_ALLOY_CHESTPLATE:
+  name: "&bWzmocniony Napierśnik"
+REINFORCED_ALLOY_LEGGINGS:
+  name: "&bWzmocnione Nogawice"
+REINFORCED_ALLOY_BOOTS:
+  name: "&bWzmocnione Buty"
+SCUBA_HELMET:
+  name: "&cHełm do Nurkowania"
+HAZMAT_CHESTPLATE:
+  name: "&cKombinezon Ochronny"
+HAZMAT_LEGGINGS:
+  name: "&cNogawice Kombinezonu Ochronnego"
+RUBBER_BOOTS:
+  name: "&cButy Ochronne"
+GILDED_IRON_HELMET:
+  name: "&6Hełm z Pozłacanego Żelaza"
+GILDED_IRON_CHESTPLATE:
+  name: "&6Napierśnik z Pozłacanego Żelaza"
+GILDED_IRON_LEGGINGS:
+  name: "&6Nogawice z Pozłacanego Żelaza"
+GILDED_IRON_BOOTS:
+  name: "&6Buty z Pozłacanego Żelaza"
+GOLD_12K_HELMET:
+  name: "&6Złoty Hełm &7(12 karatów)"
+GOLD_12K_CHESTPLATE:
+  name: "&6Złoty Napierśnik &7(12 karatów)"
+GOLD_12K_LEGGINGS:
+  name: "&6Złote Nogawice &7(12 karatów)"
+GOLD_12K_BOOTS:
+  name: "&6Złote Buty &7(12 karatów)"
+SLIME_STEEL_HELMET:
+  name: "&a&lŚluzowy Hełm"
+SLIME_STEEL_CHESTPLATE:
+  name: "&a&lŚluzowy Napierśnik"
+SLIME_STEEL_LEGGINGS:
+  name: "&a&lŚluzowe Nogawice"
+SLIME_STEEL_BOOTS:
+  name: "&a&lŚluzowe Buty"
+BOOTS_OF_THE_STOMPER:
+  name: "&bButy Tupacza"
+BEE_HELMET:
+  name: "&e&lPszczeli Hełm"
+BEE_WINGS:
+  name: "&e&lPszczele Skrzydła"
+BEE_LEGGINGS:
+  name: "&e&lPszczele Nogawice"
+BEE_BOOTS:
+  name: "&e&lPszczele Buty"
+MAGIC_LUMP_1:
+  name: "&6Magiczna Grudka &7- &eI"
+MAGIC_LUMP_2:
+  name: "&6Magiczna Grudka &7- &eII"
+MAGIC_LUMP_3:
+  name: "&6Magiczna Grudka &7- &eIII"
+ENDER_LUMP_1:
+  name: "&5Enderowa Grudka &7- &eI"
+ENDER_LUMP_2:
+  name: "&5Enderowa Grudka &7- &eII"
+ENDER_LUMP_3:
+  name: "&5Enderowa Grudka &7- &eIII"
+MAGICAL_BOOK_COVER:
+  name: "&6Magiczna Okładka Książki"
+MAGICAL_GLASS:
+  name: "&6Magiczne Szkło"
+SYNTHETIC_SHULKER_SHELL:
+  name: "&dSyntetyczna Skorupa Shulkera"
+BASIC_CIRCUIT_BOARD:
+  name: "&bPodstawowa Płytka Drukowana"
+ADVANCED_CIRCUIT_BOARD:
+  name: "&bZaawansowana Płytka Drukowana"
+WHEAT_FLOUR:
+  name: "&fMąka Pszenna"
+STEEL_PLATE:
+  name: "&7&lPłyta Stalowa"
+BATTERY:
+  name: "&6Bateria"
+CARBON:
+  name: "&eWęgiel"
+COMPRESSED_CARBON:
+  name: "&cSprężony Węgiel"
+CARBON_CHUNK:
+  name: "&4Bryła Węgla"
+STEEL_THRUSTER:
+  name: "&7&lStalowy Silnik Odrzutowy"
+POWER_CRYSTAL:
+  name: "&c&lKryształ Mocy"
+CHAIN:
+  name: "&bŁańcuch"
+HOOK:
+  name: "&bHak"
+SIFTED_ORE:
+  name: "&6Przesiana Ruda"
+STONE_CHUNK:
+  name: "&6Bryła Kamienia"
+LAVA_CRYSTAL:
+  name: "&4Kryształ Lawy"
+SALT:
+  name: "&fSól"
+CHEESE:
+  name: "&fSer"
+BUTTER:
+  name: "&fMasło"
+DUCT_TAPE:
+  name: "&8Taśma Klejąca"
+HEAVY_CREAM:
+  name: "&fGęsta Śmietana"
+CRUSHED_ORE:
+  name: "&6Pokruszona Ruda"
+PULVERIZED_ORE:
+  name: "&6Sproszkowana Ruda"
+PURE_ORE_CLUSTER:
+  name: "&6Skupisko Czystej Rudy"
+SMALL_URANIUM:
+  name: "&cMała Bryłka Uranu"
+TINY_URANIUM:
+  name: "&cMaleńka Garstka Uranu"
+SOLAR_PANEL:
+  name: "&9Ogniwo Fotowoltaiczne"
+PLASTIC_SHEET:
+  name: "&fArkusz Plastiku"
+MAGNET:
+  name: "&cMagnes"
+NECROTIC_SKULL:
+  name: "&cNekrotyczna Czaszka"
+ESSENCE_OF_AFTERLIFE:
+  name: "&4Esencja Zaświatów"
+STRANGE_NETHER_GOO:
+  name: "&5Dziwna Netherowa Maź"
+ELECTRO_MAGNET:
+  name: "&cElektromagnes"
+HEATING_COIL:
+  name: "&cCewka Grzejna"
+COOLING_UNIT:
+  name: "&bModuł Chłodzący"
+ELECTRIC_MOTOR:
+  name: "&cSilnik Elektryczny"
+SLOT_LOCK:
+  name: "&bBlokada Slotu"
+CARGO_MOTOR:
+  name: "&3Silnik Transportowy"
+SCROLL_OF_DIMENSIONAL_TELEPOSITION:
+  name: "&6Zwój Wymiarowej Telepozycji"
+TOME_OF_KNOWLEDGE_SHARING:
+  name: "&6Księga Dzielenia się Wiedzą"
+HARDENED_GLASS:
+  name: "&7Hartowane Szkło"
+WITHER_PROOF_OBSIDIAN:
+  name: "&5Obsydian Odporny na Withera"
+WITHER_PROOF_GLASS:
+  name: "&5Szkło Odporne na Withera"
+REINFORCED_PLATE:
+  name: "&7Wzmocniona Płyta"
+ANCIENT_PEDESTAL:
+  name: "&dStarożytny Postument"
+ANCIENT_ALTAR:
+  name: "&dStarożytny Ołtarz"
+COPPER_WIRE:
+  name: "&6Miedziany Drut"
+CRAFTING_MOTOR:
+  name: "&6Silnik Rzemieślniczy"
+RAINBOW_WOOL:
+  name: "&5Tęczowa Wełna"
+RAINBOW_GLASS:
+  name: "&5Tęczowe Szkło"
+RAINBOW_CLAY:
+  name: "&5Tęczowa Glina"
+RAINBOW_GLASS_PANE:
+  name: "&5Tęczowa Szyba"
+RAINBOW_CONCRETE:
+  name: "&5Tęczowy Beton"
+RAINBOW_GLAZED_TERRACOTTA:
+  name: "&5Tęczowa Glazurowana Terakota"
+RAINBOW_WOOL_XMAS:
+  name: "&5Tęczowa Wełna &7(Boże Narodzenie)"
+RAINBOW_GLASS_XMAS:
+  name: "&5Tęczowe Szkło &7(Boże Narodzenie)"
+RAINBOW_CLAY_XMAS:
+  name: "&5Tęczowa Glina &7(Boże Narodzenie)"
+RAINBOW_GLASS_PANE_XMAS:
+  name: "&5Tęczowa Szyba &7(Boże Narodzenie)"
+RAINBOW_CONCRETE_XMAS:
+  name: "&5Tęczowy Beton &7(Boże Narodzenie)"
+RAINBOW_GLAZED_TERRACOTTA_XMAS:
+  name: "&5Tęczowa Glazurowana Terakota &7(Boże Narodzenie)"
+RAINBOW_WOOL_VALENTINE:
+  name: "&5Tęczowa Wełna &7(Walentynki)"
+RAINBOW_GLASS_VALENTINE:
+  name: "&5Tęczowe Szkło &7(Walentynki)"
+RAINBOW_CLAY_VALENTINE:
+  name: "&5Tęczowa Glina &7(Walentynki)"
+RAINBOW_GLASS_PANE_VALENTINE:
+  name: "&5Tęczowa Szyba &7(Walentynki)"
+RAINBOW_CONCRETE_VALENTINE:
+  name: "&5Tęczowy Beton &7(Walentynki)"
+RAINBOW_GLAZED_TERRACOTTA_VALENTINE:
+  name: "&5Tęczowa Glazurowana Terakota &7(Walentynki)"
+RAINBOW_WOOL_HALLOWEEN:
+  name: "&5Tęczowa Wełna &7(Halloween)"
+RAINBOW_GLASS_HALLOWEEN:
+  name: "&5Tęczowe Szkło &7(Halloween)"
+RAINBOW_CLAY_HALLOWEEN:
+  name: "&5Tęczowa Glina &7(Halloween)"
+RAINBOW_GLASS_PANE_HALLOWEEN:
+  name: "&5Tęczowa Szyba &7(Halloween)"
+RAINBOW_CONCRETE_HALLOWEEN:
+  name: "&5Tęczowy Beton &7(Halloween)"
+RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN:
+  name: "&5Tęczowa Glazurowana Terakota &7(Halloween)"
+COPPER_INGOT:
+  name: "&bSztabka Miedzi"
+TIN_INGOT:
+  name: "&bSztabka Cyny"
+SILVER_INGOT:
+  name: "&bSztabka Srebra"
+ALUMINUM_INGOT:
+  name: "&bSztabka Aluminium"
+LEAD_INGOT:
+  name: "&bSztabka Ołowiu"
+ZINC_INGOT:
+  name: "&bSztabka Cynku"
+MAGNESIUM_INGOT:
+  name: "&bSztabka Magnezu"
+STEEL_INGOT:
+  name: "&bSztabka Stali"
+BRONZE_INGOT:
+  name: "&bSztabka Brązu"
+DURALUMIN_INGOT:
+  name: "&bSztabka Duraluminium"
+BILLON_INGOT:
+  name: "&bSztabka Bilonu"
+BRASS_INGOT:
+  name: "&bSztabka Mosiądzu"
+ALUMINUM_BRASS_INGOT:
+  name: "&bSztabka Mosiądzu Aluminiowego"
+ALUMINUM_BRONZE_INGOT:
+  name: "&bSztabka Brązu Aluminiowego"
+CORINTHIAN_BRONZE_INGOT:
+  name: "&bSztabka Brązu Koryntckiego"
+SOLDER_INGOT:
+  name: "&bSztabka Lutu"
+DAMASCUS_STEEL_INGOT:
+  name: "&bSztabka Stali Damasceńskiej"
+HARDENED_METAL_INGOT:
+  name: "&b&lUtwardzony Metal"
+REINFORCED_ALLOY_INGOT:
+  name: "&b&lSztabka Wzmocnionego Stopu"
+FERROSILICON:
+  name: "&bŻelazokrzem"
+GILDED_IRON:
+  name: "&6&lPozłacane Żelazo"
+REDSTONE_ALLOY:
+  name: "&cSztabka Stopu Czerwienitu"
+NICKEL_INGOT:
+  name: "&bSztabka Niklu"
+COBALT_INGOT:
+  name: "&9Sztabka Kobaltu"
+GOLD_4K:
+  name: "&fSztabka Złota &7(4 karaty)"
+GOLD_6K:
+  name: "&fSztabka Złota &7(6 karatów)"
+GOLD_8K:
+  name: "&fSztabka Złota &7(8 karatów)"
+GOLD_10K:
+  name: "&fSztabka Złota &7(10 karatów)"
+GOLD_12K:
+  name: "&fSztabka Złota &7(12 karatów)"
+GOLD_14K:
+  name: "&fSztabka Złota &7(14 karatów)"
+GOLD_16K:
+  name: "&fSztabka Złota &7(16 karatów)"
+GOLD_18K:
+  name: "&fSztabka Złota &7(18 karatów)"
+GOLD_20K:
+  name: "&fSztabka Złota &7(20 karatów)"
+GOLD_22K:
+  name: "&fSztabka Złota &7(22 karaty)"
+GOLD_24K:
+  name: "&fSztabka Złota &7(24 karaty)"
+IRON_DUST:
+  name: "&6Pył Żelaza"
+GOLD_DUST:
+  name: "&6Pył Złota"
+TIN_DUST:
+  name: "&6Pył Cyny"
+COPPER_DUST:
+  name: "&6Pył Miedzi"
+SILVER_DUST:
+  name: "&6Pył Srebra"
+ALUMINUM_DUST:
+  name: "&6Pył Aluminium"
+LEAD_DUST:
+  name: "&6Pył Ołowiu"
+ZINC_DUST:
+  name: "&6Pył Cynku"
+MAGNESIUM_DUST:
+  name: "&6Magnez"
+SULFATE:
+  name: "&6Siarczan"
+SILICON:
+  name: "&6Krzem"
+GOLD_24K_BLOCK:
+  name: "&fBlok Złota &7(24 karaty)"
+SYNTHETIC_DIAMOND:
+  name: "&bSyntetyczny Diament"
+SYNTHETIC_EMERALD:
+  name: "&bSyntetyczny Szmaragd"
+SYNTHETIC_SAPPHIRE:
+  name: "&bSyntetyczny Szafir"
+CARBONADO:
+  name: "&b&lCarbonado"
+RAW_CARBONADO:
+  name: "&bSurowe Carbonado"
+URANIUM:
+  name: "&4Uran"
+NEPTUNIUM:
+  name: "&aNeptun"
+PLUTONIUM:
+  name: "&7Pluton"
+BOOSTED_URANIUM:
+  name: "&2Wzmocniony Uran"
+COMMON_TALISMAN:
+  name: "&6Zwykły Talizman"
+ENDER_TALISMAN:
+  name: "&5Enderowy Talizman"
+ANVIL_TALISMAN:
+  name: "&aTalizman Kowadła"
+MINER_TALISMAN:
+  name: "&aTalizman Górnika"
+FARMER_TALISMAN:
+  name: "&aTalizman Farmera"
+HUNTER_TALISMAN:
+  name: "&aTalizman Łowcy"
+LAVA_TALISMAN:
+  name: "&aTalizman Chodzącego po Lawie"
+WATER_TALISMAN:
+  name: "&aTalizman Oddychającego pod Wodą"
+ANGEL_TALISMAN:
+  name: "&aTalizman Anioła"
+FIRE_TALISMAN:
+  name: "&aTalizman Strażaka"
+MAGICIAN_TALISMAN:
+  name: "&aTalizman Magika"
+TRAVELLER_TALISMAN:
+  name: "&aTalizman Podróżnika"
+WARRIOR_TALISMAN:
+  name: "&aTalizman Wojownika"
+KNIGHT_TALISMAN:
+  name: "&aTalizman Rycerza"
+WHIRLWIND_TALISMAN:
+  name: "&aTalizman Wichru"
+WIZARD_TALISMAN:
+  name: "&aTalizman Czarodzieja"
+CAVEMAN_TALISMAN:
+  name: "&aTalizman Jaskiniowca"
+WISE_TALISMAN:
+  name: "&aTalizman Mędrca"
+STAFF_ELEMENTAL:
+  name: "&6Kostur Żywiołów"
+STAFF_ELEMENTAL_WIND:
+  name: "&6Kostur Żywiołów &7- &b&oWiatr"
+STAFF_ELEMENTAL_FIRE:
+  name: "&6Kostur Żywiołów &7- &c&oOgień"
+STAFF_ELEMENTAL_WATER:
+  name: "&6Kostur Żywiołów &7- &1&oWoda"
+STAFF_ELEMENTAL_STORM:
+  name: "&6Kostur Żywiołów &7- &8&oBurza"
+ENHANCED_CRAFTING_TABLE:
+  name: "&eUlepszony Stół Rzemieślniczy"
+GRIND_STONE:
+  name: "&bSzlifierka"
+ARMOR_FORGE:
+  name: "&6Kuźnia Zbroi"
+MAKESHIFT_SMELTERY:
+  name: "&eProwizoryczna Odlewnia"
+SMELTERY:
+  name: "&6Odlewnia"
+ORE_CRUSHER:
+  name: "&bKruszarka Rudy"
+COMPRESSOR:
+  name: "&bKompresor"
+PRESSURE_CHAMBER:
+  name: "&bKomora Ciśnieniowa"
+MAGIC_WORKBENCH:
+  name: "&6Magiczny Stół Rzemieślniczy"
+ORE_WASHER:
+  name: "&6Płuczka Rudy"
+TABLE_SAW:
+  name: "&6Piła Stołowa"
+JUICER:
+  name: "&aSokowirówka"
+AUTOMATED_PANNING_MACHINE:
+  name: "&eAutomatyczna Maszyna do Płukania"
+INDUSTRIAL_MINER:
+  name: "&bGórnik Przemysłowy"
+ADVANCED_INDUSTRIAL_MINER:
+  name: "&cZaawansowany Górnik Przemysłowy"
+COMPOSTER:
+  name: "&aKompostownik"
+CRUCIBLE:
+  name: "&cTygiel"
+OUTPUT_CHEST:
+  name: "&4Skrzynia Wyjściowa"
+IGNITION_CHAMBER:
+  name: "&4Automatyczna Komora Zapłonowa"
+HOLOGRAM_PROJECTOR:
+  name: "&bProjektor Hologramów"
+BLOCK_PLACER:
+  name: "&aUkładacz Bloków"
+ENHANCED_FURNACE:
+  name: "&7Ulepszony Piec - &eI"
+ENHANCED_FURNACE_2:
+  name: "&7Ulepszony Piec - &eII"
+ENHANCED_FURNACE_3:
+  name: "&7Ulepszony Piec - &eIII"
+ENHANCED_FURNACE_4:
+  name: "&7Ulepszony Piec - &eIV"
+ENHANCED_FURNACE_5:
+  name: "&7Ulepszony Piec - &eV"
+ENHANCED_FURNACE_6:
+  name: "&7Ulepszony Piec - &eVI"
+ENHANCED_FURNACE_7:
+  name: "&7Ulepszony Piec - &eVII"
+ENHANCED_FURNACE_8:
+  name: "&7Ulepszony Piec - &eVIII"
+ENHANCED_FURNACE_9:
+  name: "&7Ulepszony Piec - &eIX"
+ENHANCED_FURNACE_10:
+  name: "&7Ulepszony Piec - &eX"
+ENHANCED_FURNACE_11:
+  name: "&7Ulepszony Piec - &eXI"
+REINFORCED_FURNACE:
+  name: "&7Wzmocniony Piec"
+CARBONADO_EDGED_FURNACE:
+  name: "&7Piec z Ostrzem z Carbonado"
+SOULBOUND_SWORD:
+  name: "&cMiecz Związany Duszą"
+SOULBOUND_BOW:
+  name: "&cŁuk Związany Duszą"
+SOULBOUND_PICKAXE:
+  name: "&cKilof Związany Duszą"
+SOULBOUND_AXE:
+  name: "&cTopór Związany Duszą"
+SOULBOUND_SHOVEL:
+  name: "&cŁopata Związana Duszą"
+SOULBOUND_HOE:
+  name: "&cMotyka Związana Duszą"
+SOULBOUND_TRIDENT:
+  name: "&cTrójząb Związany Duszą"
+SOULBOUND_HELMET:
+  name: "&cHełm Związany Duszą"
+SOULBOUND_CHESTPLATE:
+  name: "&cNapierśnik Związany Duszą"
+SOULBOUND_LEGGINGS:
+  name: "&cNogawice Związane Duszą"
+SOULBOUND_BOOTS:
+  name: "&cButy Związane Duszą"
+BLANK_RUNE:
+  name: "&8Pusta Runa"
+ANCIENT_RUNE_AIR:
+  name: "&7Starożytna Runa &8&l[&b&lPowietrza&8&l]"
+ANCIENT_RUNE_WATER:
+  name: "&7Starożytna Runa &8&l[&1&lWody&8&l]"
+ANCIENT_RUNE_FIRE:
+  name: "&7Starożytna Runa &8&l[&4&lOgnia&8&l]"
+ANCIENT_RUNE_EARTH:
+  name: "&7Starożytna Runa &8&l[&c&lZiemi&8&l]"
+ANCIENT_RUNE_ENDER:
+  name: "&7Starożytna Runa &8&l[&5&lEndera&8&l]"
+ANCIENT_RUNE_RAINBOW:
+  name: "&7Starożytna Runa &8&l[&d&lTęczy&8&l]"
+ANCIENT_RUNE_LIGHTNING:
+  name: "&7Starożytna Runa &8&l[&e&lBłyskawicy&8&l]"
+ANCIENT_RUNE_SOULBOUND:
+  name: "&7Starożytna Runa &8&l[&5&lZwiązania Duszą&8&l]"
+ANCIENT_RUNE_ENCHANTMENT:
+  name: "&7Starożytna Runa &8&l[&6&lZaklęcia&8&l]"
+ANCIENT_RUNE_VILLAGERS:
+  name: "&7Starożytna Runa &8&l[&4&lWieśniaków&8&l]"
+RUNE_ANVIL:
+  name: "&5Kowadło Run"
+SOLAR_GENERATOR:
+  name: "&bGenerator Słoneczny"
+SOLAR_GENERATOR_2:
+  name: "&cZaawansowany Generator Słoneczny"
+SOLAR_GENERATOR_3:
+  name: "&4Generator Słoneczny z Carbonado"
+SOLAR_GENERATOR_4:
+  name: "&eNaładowany Generator Słoneczny"
+COAL_GENERATOR:
+  name: "&cGenerator Węglowy"
+COAL_GENERATOR_2:
+  name: "&cGenerator Węglowy &7(&eII&7)"
+LAVA_GENERATOR:
+  name: "&4Generator Lawowy"
+LAVA_GENERATOR_2:
+  name: "&4Generator Lawowy &7(&eII&7)"
+ELECTRIC_FURNACE:
+  name: "&cPiec Elektryczny"
+ELECTRIC_FURNACE_2:
+  name: "&cPiec Elektryczny &7- &eII"
+ELECTRIC_FURNACE_3:
+  name: "&cPiec Elektryczny &7- &eIII"
+ELECTRIC_ORE_GRINDER:
+  name: "&cElektryczny Młyn do Rudy"
+ELECTRIC_ORE_GRINDER_2:
+  name: "&cElektryczny Młyn do Rudy &7(&eII&7)"
+ELECTRIC_ORE_GRINDER_3:
+  name: "&cElektryczny Młyn do Rudy &7(&eIII&7)"
+ELECTRIC_INGOT_PULVERIZER:
+  name: "&cElektryczna Rozdrabniarka Sztabek"
+AUTO_DRIER:
+  name: "&6Automatyczna Suszarka"
+AUTO_ENCHANTER:
+  name: "&5Automatyczny Zaklinacz"
+AUTO_ENCHANTER_2:
+  name: "&5Automatyczny Zaklinacz &7- &eII"
+AUTO_DISENCHANTER:
+  name: "&5Automatyczny Odklinacz"
+AUTO_DISENCHANTER_2:
+  name: "&5Automatyczny Odklinacz &7- &eII"
+AUTO_ANVIL:
+  name: "&7Automatyczne Kowadło"
+AUTO_ANVIL_2:
+  name: "&7Automatyczne Kowadło Mk.II"
+AUTO_BREWER:
+  name: "&6Automatyczny Warzelnik"
+BOOK_BINDER:
+  name: "&6Introligator"
+BIO_REACTOR:
+  name: "&2Bioreaktor"
+MULTIMETER:
+  name: "&eMiernik Uniwersalny"
+SMALL_CAPACITOR:
+  name: "&aMały Kondensator Energii"
+MEDIUM_CAPACITOR:
+  name: "&aŚredni Kondensator Energii"
+BIG_CAPACITOR:
+  name: "&aDuży Kondensator Energii"
+LARGE_CAPACITOR:
+  name: "&aWielki Kondensator Energii"
+CARBONADO_EDGED_CAPACITOR:
+  name: "&aKondensator Energii z Ostrzem z Carbonado"
+ENERGIZED_CAPACITOR:
+  name: "&aNaładowany Kondensator Energii"
+PROGRAMMABLE_ANDROID:
+  name: "&cProgramowalny Android &7(Normalny)"
+PROGRAMMABLE_ANDROID_FARMER:
+  name: "&cProgramowalny Android &7(Farmer)"
+PROGRAMMABLE_ANDROID_MINER:
+  name: "&cProgramowalny Android &7(Górnik)"
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  name: "&cProgramowalny Android &7(Drwal)"
+PROGRAMMABLE_ANDROID_BUTCHER:
+  name: "&cProgramowalny Android &7(Rzeźnik)"
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  name: "&cProgramowalny Android &7(Rybak)"
+PROGRAMMABLE_ANDROID_2:
+  name: "&cZaawansowany Programowalny Android &7(Normalny)"
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  name: "&cZaawansowany Programowalny Android &7(Rybak)"
+PROGRAMMABLE_ANDROID_2_FARMER:
+  name: "&cZaawansowany Programowalny Android &7(Farmer)"
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  name: "&cZaawansowany Programowalny Android &7(Rzeźnik)"
+PROGRAMMABLE_ANDROID_3:
+  name: "&eWzmocniony Programowalny Android &7(Normalny)"
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  name: "&eWzmocniony Programowalny Android &7(Rybak)"
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  name: "&eWzmocniony Programowalny Android &7(Rzeźnik)"
+GPS_TRANSMITTER:
+  name: "&bNadajnik GPS"
+GPS_TRANSMITTER_2:
+  name: "&cZaawansowany Nadajnik GPS"
+GPS_TRANSMITTER_3:
+  name: "&4Nadajnik GPS z Carbonado"
+GPS_TRANSMITTER_4:
+  name: "&eNaładowany Nadajnik GPS"
+GPS_MARKER_TOOL:
+  name: "&bNarzędzie do Znaczników GPS"
+GPS_CONTROL_PANEL:
+  name: "&bPanel Sterowania GPS"
+GPS_EMERGENCY_TRANSMITTER:
+  name: "&cAwaryjny Nadajnik GPS"
+ANDROID_INTERFACE_FUEL:
+  name: "&7Interfejs Androida &c(Paliwo)"
+ANDROID_INTERFACE_ITEMS:
+  name: "&7Interfejs Androida &9(Przedmioty)"
+GPS_GEO_SCANNER:
+  name: "&bSkaner Geologiczny GPS"
+PORTABLE_GEO_SCANNER:
+  name: "&bPrzenośny Skaner Geologiczny"
+GEO_MINER:
+  name: "&6Górnik GEO"
+OIL_PUMP:
+  name: "&4Pompa Ropy"
+BUCKET_OF_OIL:
+  name: "&fWiadro Ropy"
+BUCKET_OF_FUEL:
+  name: "&fWiadro Paliwa"
+REFINERY:
+  name: "&cRafineria"
+COMBUSTION_REACTOR:
+  name: "&cReaktor Spalinowy"
+ANDROID_MEMORY_CORE:
+  name: "&bRdzeń Pamięci Androida"
+GPS_TELEPORTER_PYLON:
+  name: "&5Pylon Teleportera GPS"
+GPS_TELEPORTATION_MATRIX:
+  name: "&bMatryca Teleportera GPS"
+GPS_ACTIVATION_DEVICE_SHARED:
+  name: "&fUrządzenie Aktywujące GPS &3(Współdzielone)"
+GPS_ACTIVATION_DEVICE_PERSONAL:
+  name: "&fUrządzenie Aktywujące GPS &a(Osobiste)"
+PORTABLE_TELEPORTER:
+  name: "&bPrzenośny Teleporter"
+ELEVATOR_PLATE:
+  name: "&bPłyta Windy"
+INFUSED_HOPPER:
+  name: "&5Nasycony Lej"
+HEATED_PRESSURE_CHAMBER:
+  name: "&cPodgrzewana Komora Ciśnieniowa"
+HEATED_PRESSURE_CHAMBER_2:
+  name: "&cPodgrzewana Komora Ciśnieniowa &7- &eII"
+ELECTRIC_SMELTERY:
+  name: "&cElektryczna Odlewnia"
+ELECTRIC_SMELTERY_2:
+  name: "&cElektryczna Odlewnia &7- &eII"
+ELECTRIC_PRESS:
+  name: "&eElektryczna Prasa"
+ELECTRIC_PRESS_2:
+  name: "&eElektryczna Prasa &7- &eII"
+ELECTRIFIED_CRUCIBLE:
+  name: "&cNaelektryzowany Tygiel"
+ELECTRIFIED_CRUCIBLE_2:
+  name: "&cNaelektryzowany Tygiel &7- &eII"
+ELECTRIFIED_CRUCIBLE_3:
+  name: "&cNaelektryzowany Tygiel &7- &eIII"
+CARBON_PRESS:
+  name: "&cPrasa Węglowa"
+CARBON_PRESS_2:
+  name: "&cPrasa Węglowa &7- &eII"
+CARBON_PRESS_3:
+  name: "&cPrasa Węglowa &7- &eIII"
+BLISTERING_INGOT:
+  name: "&6Pęcherzykowa Sztabka &7(33%)"
+BLISTERING_INGOT_2:
+  name: "&6Pęcherzykowa Sztabka &7(66%)"
+BLISTERING_INGOT_3:
+  name: "&6Pęcherzykowa Sztabka"
+ENERGY_REGULATOR:
+  name: "&6Regulator Energii"
+ENERGY_CONNECTOR:
+  name: "&eŁącznik Energii"
+DEBUG_FISH:
+  name: "&3Ile kosztuje ta Ryba?"
+NETHER_ICE:
+  name: "&eNetherowy Lód"
+ENRICHED_NETHER_ICE:
+  name: "&eWzbogacony Netherowy Lód"
+NETHER_ICE_COOLANT_CELL:
+  name: "&6Ogniwo Chłodzące z Netherowego Lodu"
+CARGO_MANAGER:
+  name: "&6Menedżer Transportu"
+CARGO_NODE:
+  name: "&7Węzeł Transportowy &c(Łącznik)"
+CARGO_NODE_INPUT:
+  name: "&7Węzeł Transportowy &c(Wejście)"
+CARGO_NODE_OUTPUT:
+  name: "&7Węzeł Transportowy &c(Wyjście)"
+CARGO_NODE_OUTPUT_ADVANCED:
+  name: "&6Zaawansowany Węzeł Transportowy &c(Wyjście)"
+AUTO_BREEDER:
+  name: "&eAutomatyczny Hodowca"
+PRODUCE_COLLECTOR:
+  name: "&bKolektor Plonów"
+ORGANIC_FOOD:
+  name: "&aŻywność Ekologiczna"
+ORGANIC_FOOD_WHEAT:
+  name: "&aEkologiczna Pszenica"
+ORGANIC_FOOD_CARROT:
+  name: "&aEkologiczna Marchewka"
+ORGANIC_FOOD_POTATO:
+  name: "&aEkologiczny Ziemniak"
+ORGANIC_FOOD_SEEDS:
+  name: "&aEkologiczne Nasiona"
+ORGANIC_FOOD_BEETROOT:
+  name: "&aEkologiczny Burak"
+ORGANIC_FOOD_MELON:
+  name: "&aEkologiczny Arbuz"
+ORGANIC_FOOD_APPLE:
+  name: "&aEkologiczne Jabłko"
+ORGANIC_FOOD_SWEET_BERRIES:
+  name: "&aEkologiczne Słodkie Jagody"
+ORGANIC_FOOD_KELP:
+  name: "&aEkologiczne Suszone Wodorosty"
+ORGANIC_FOOD_COCOA:
+  name: "&aEkologiczne Ziarna Kakaowe"
+ORGANIC_FOOD_SEAGRASS:
+  name: "&aEkologiczna Trawa Morska"
+FERTILIZER:
+  name: "&aNawóz Organiczny"
+FERTILIZER_WHEAT:
+  name: "&aNawóz Pszeniczny"
+FERTILIZER_CARROT:
+  name: "&aNawóz Marchewkowy"
+FERTILIZER_POTATO:
+  name: "&aNawóz Ziemniaczany"
+FERTILIZER_SEEDS:
+  name: "&aNawóz do Nasion"
+FERTILIZER_BEETROOT:
+  name: "&aNawóz Buraczany"
+FERTILIZER_MELON:
+  name: "&aNawóz Arbuzowy"
+FERTILIZER_APPLE:
+  name: "&aNawóz Jabłkowy"
+FERTILIZER_SWEET_BERRIES:
+  name: "&aNawóz do Słodkich Jagód"
+FERTILIZER_KELP:
+  name: "&aNawóz z Suszonych Wodorostów"
+FERTILIZER_COCOA:
+  name: "&aNawóz z Ziaren Kakaowych"
+FERTILIZER_SEAGRASS:
+  name: "&aNawóz z Trawy Morskiej"
+ANIMAL_GROWTH_ACCELERATOR:
+  name: "&bAkcelerator Wzrostu Zwierząt"
+CROP_GROWTH_ACCELERATOR:
+  name: "&aAkcelerator Wzrostu Upraw"
+CROP_GROWTH_ACCELERATOR_2:
+  name: "&aAkcelerator Wzrostu Upraw &7(&eII&7)"
+TREE_GROWTH_ACCELERATOR:
+  name: "&aAkcelerator Wzrostu Drzew"
+FOOD_FABRICATOR:
+  name: "&cFabrykator Żywności"
+FOOD_FABRICATOR_2:
+  name: "&cFabrykator Żywności &7(&eII&7)"
+FOOD_COMPOSTER:
+  name: "&cKompostownik Żywności"
+FOOD_COMPOSTER_2:
+  name: "&cKompostownik Żywności &7(&eII&7)"
+XP_COLLECTOR:
+  name: "&aKolektor Doświadczenia"
+REACTOR_COLLANT_CELL:
+  name: "&bOgniwo Chłodzące Reaktora"
+NUCLEAR_REACTOR:
+  name: "&2Reaktor Jądrowy"
+NETHERSTAR_REACTOR:
+  name: "&fReaktor na Gwiazdę Netheru"
+REACTOR_ACCESS_PORT:
+  name: "&2Port Dostępu do Reaktora"
+FREEZER:
+  name: "&bZamrażarka"
+FREEZER_2:
+  name: "&bZamrażarka &7(&eII&7)"
+FREEZER_3:
+  name: "&bZamrażarka &7(&eIII&7)"
+ELECTRIC_GOLD_PAN:
+  name: "&6Elektryczna Patelnia do Płukania Złota"
+ELECTRIC_GOLD_PAN_2:
+  name: "&6Elektryczna Patelnia do Płukania Złota &7(&eII&7)"
+ELECTRIC_GOLD_PAN_3:
+  name: "&6Elektryczna Patelnia do Płukania Złota &7(&eIII&7)"
+ELECTRIC_DUST_WASHER:
+  name: "&3Elektryczna Płuczka Pyłu"
+ELECTRIC_DUST_WASHER_2:
+  name: "&3Elektryczna Płuczka Pyłu &7(&eII&7)"
+ELECTRIC_DUST_WASHER_3:
+  name: "&3Elektryczna Płuczka Pyłu &7(&eIII&7)"
+ELECTRIC_INGOT_FACTORY:
+  name: "&cElektryczna Fabryka Sztabek"
+ELECTRIC_INGOT_FACTORY_2:
+  name: "&cElektryczna Fabryka Sztabek &7(&eII&7)"
+ELECTRIC_INGOT_FACTORY_3:
+  name: "&cElektryczna Fabryka Sztabek &7(&eIII&7)"
+FLUID_PUMP:
+  name: "&9Pompa Płynów"
+CHARGING_BENCH:
+  name: "&6Stół Ładujący"
+VANILLA_AUTO_CRAFTER:
+  name: "&2Automatyczny Wytwórca &8(Vanilla)"
+ENHANCED_AUTO_CRAFTER:
+  name: "&2Automatyczny Wytwórca &8(Ulepszony)"
+ARMOR_AUTO_CRAFTER:
+  name: "&2Automatyczny Wytwórca &8(Kuźnia Zbroi)"
+IRON_GOLEM_ASSEMBLER:
+  name: "&6Monter Żelaznego Golema"
+WITHER_ASSEMBLER:
+  name: "&5Monter Withera"
+TRASH_CAN_BLOCK:
+  name: "&3Kosz na Śmieci"
+ELYTRA_SCALE:
+  name: "&bŁuska Elytry"
+INFUSED_ELYTRA:
+  name: "&5Nasycona Elytra"
+SOULBOUND_ELYTRA:
+  name: "&cElytra Związana Duszą"
+MAGNESIUM_SALT:
+  name: "&cSól Magnezowa"
+MAGNESIUM_GENERATOR:
+  name: "&cGenerator Zasilany Magnezem"
