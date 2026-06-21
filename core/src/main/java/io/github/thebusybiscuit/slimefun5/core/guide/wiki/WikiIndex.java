@@ -196,7 +196,7 @@ public final class WikiIndex {
 
             menu.addItem(slot, item.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                WikiPage.open(pl, guide, item);
+                WikiPage.open(pl, guide, item, () -> openItemList(pl, guide, itemGroup, page));
                 return false;
             });
         }

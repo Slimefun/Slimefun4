@@ -50,8 +50,11 @@ public final class WikiTopicPage {
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
 
-        // Fill the whole menu with panes, then overlay content so there are no bare "ghost" slots.
-        for (int i = 0; i < 54; i++) {
+        // Frame only the top and bottom rows; the item area stays clean (no panes in item slots).
+        for (int i = 0; i < 9; i++) {
+            menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+        }
+        for (int i = 45; i < 54; i++) {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
@@ -81,7 +84,7 @@ public final class WikiTopicPage {
             });
         }
 
-        addRelatedItems(menu, p, guide, topicId);
+        addRelatedItems(menu, guide, topicId, displayName, icon);
         menu.open(p);
     }
 
@@ -105,7 +108,7 @@ public final class WikiTopicPage {
     }
 
     /** Renders the topic's relevant items as clickable icons; each opens that item's wiki page. */
-    private static void addRelatedItems(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String topicId) {
+    private static void addRelatedItems(@Nonnull ChestMenu menu, @Nonnull ItemStack guide, @Nonnull String topicId, @Nonnull String displayName, @Nonnull XMaterial icon) {
         List<String> ids = Slimefun.getWikiText().getTopicItems(topicId);
         int placed = 0;
 
@@ -125,7 +128,7 @@ public final class WikiTopicPage {
 
             menu.addItem(slot, item.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                WikiPage.open(pl, guide, item);
+                WikiPage.open(pl, guide, item, () -> open(pl, guide, topicId, displayName, icon));
                 return false;
             });
         }

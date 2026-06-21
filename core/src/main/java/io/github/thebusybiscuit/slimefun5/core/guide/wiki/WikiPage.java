@@ -5,14 +5,15 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.attributes.EnergyNetComponent;
-import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -23,31 +24,24 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 
 /**
- * Per-item wiki screen: shows the item's icon, an authored/auto-generated explanation,
- * optional energy stats, a "view recipe" shortcut into the survival guide, and the items
- * that consume this item in their recipe ("used in").
+ * Per-item wiki screen. Mirrors the familiar Slimefun recipe view: the crafting grid fills the
+ * centre, the producing machine sits beside it, and the result item carries the authored
+ * explanation (and energy stats) in its lore. Below it, the items that consume this one are shown
+ * as clickable icons. Only the top and bottom rows are panes - the item area stays clean.
  *
- * Slot layout (9x6 = 54):
- * <pre>
- *   0   Back button (sits on the top-left border corner)
- *   4   Header: the item's own icon
- *   19  Description (writable book)
- *   22  Stats (only when the item exposes energy data)
- *   25  View recipe (crafting table)
- *   28-34  "Used in" consumer icons (up to 7; a "+X more" note caps the row)
- * </pre>
+ * Back returns to wherever the page was opened from (a topic guide, the browse list, or another
+ * item via "used in"), not to a fixed screen.
  */
 public final class WikiPage {
 
-    private static final int[] BORDER = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] BORDER = { 0, 1, 2, 6, 7, 8, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final int[] RECIPE_SLOTS = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
 
-    private static final int HEADER_SLOT = 4;
-    private static final int DESCRIPTION_SLOT = 19;
-    private static final int STATS_SLOT = 22;
-    private static final int RECIPE_SLOT = 25;
     private static final int BACK_SLOT = 0;
-
-    private static final int USED_IN_START = 28;
+    private static final int RECIPE_TYPE_SLOT = 10;
+    private static final int OUTPUT_SLOT = 16;
+    private static final int USED_IN_LABEL_SLOT = 28;
+    private static final int USED_IN_START = 29;
     private static final int USED_IN_END = 34;
     private static final int USED_IN_CAPACITY = USED_IN_END - USED_IN_START + 1;
 
@@ -61,85 +55,131 @@ public final class WikiPage {
         REVERSE_INDEX.warmUp();
     }
 
+    /** Opens the item's wiki page; Back returns to the wiki home. */
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item) {
+        open(p, guide, item, () -> WikiIndex.open(p, guide));
+    }
+
+    /** Opens the item's wiki page; Back runs the given action (returns to wherever you came from). */
+    public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item, @Nonnull Runnable onBack) {
         ChestMenu menu = new ChestMenu("Wiki: " + item.getItemName());
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
-        addBackButton(menu, p, guide);
-        addHeader(menu, item);
-        addDescription(menu, item);
-        addStats(menu, item);
-        addRecipeButton(menu, p, item);
+        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
+        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
+            onBack.run();
+            return false;
+        });
+
+        addRecipeType(menu, p, item);
+        addRecipe(menu, p, guide, item, onBack);
+        addOutput(menu, item);
         addUsedIn(menu, p, guide, item);
 
         menu.open(p);
     }
 
-    private static void addBackButton(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide) {
-        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
-        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
-            WikiIndex.open(pl, guide);
-            return false;
-        });
-    }
-
-    private static void addHeader(@Nonnull ChestMenu menu, @Nonnull SlimefunItem item) {
-        ItemStack display = item.getItem();
-
-        if (display == null || display.getType() == org.bukkit.Material.AIR) {
-            display = MaterialCompat.stack(XMaterial.BARRIER);
+    private static void addRecipeType(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull SlimefunItem item) {
+        if (item.getRecipeType() == null) {
+            return;
         }
 
-        menu.addItem(HEADER_SLOT, display);
-        menu.addMenuClickHandler(HEADER_SLOT, ChestMenuUtils.getEmptyClickHandler());
+        ItemStack icon = item.getRecipeType().getItem(p);
+
+        if (icon != null) {
+            menu.addItem(RECIPE_TYPE_SLOT, icon);
+            menu.addMenuClickHandler(RECIPE_TYPE_SLOT, ChestMenuUtils.getEmptyClickHandler());
+        }
     }
 
-    private static void addDescription(@Nonnull ChestMenu menu, @Nonnull SlimefunItem item) {
-        List<String> lore = Slimefun.getWikiText().get(item);
-        menu.addItem(DESCRIPTION_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.WRITABLE_BOOK), "&eDescription", lore.toArray(new String[0])));
-        menu.addMenuClickHandler(DESCRIPTION_SLOT, ChestMenuUtils.getEmptyClickHandler());
+    /** Renders the crafting grid; Slimefun ingredients are clickable and open their own wiki page. */
+    private static void addRecipe(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item, @Nonnull Runnable onBack) {
+        ItemStack[] recipe = item.getRecipe();
+
+        for (int i = 0; i < RECIPE_SLOTS.length && i < recipe.length; i++) {
+            ItemStack ingredient = recipe[i];
+
+            if (ingredient == null) {
+                continue;
+            }
+
+            int slot = RECIPE_SLOTS[i];
+            menu.addItem(slot, ingredient);
+
+            SlimefunItem ingredientItem = SlimefunItem.getByItem(ingredient);
+
+            if (ingredientItem != null) {
+                menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                    open(pl, guide, ingredientItem, onBack);
+                    return false;
+                });
+            } else {
+                menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
+            }
+        }
     }
 
-    /** Adds an energy stats item only when the item exposes energy data; otherwise leaves the slot empty. */
-    private static void addStats(@Nonnull ChestMenu menu, @Nonnull SlimefunItem item) {
+    /** The result item carries the authored explanation (and energy stats) appended to its lore. */
+    private static void addOutput(@Nonnull ChestMenu menu, @Nonnull SlimefunItem item) {
+        ItemStack output = item.getItem();
+
+        if (output == null || output.getType() == Material.AIR) {
+            output = MaterialCompat.stack(XMaterial.BARRIER);
+        }
+
+        ItemStack display = output.clone();
+        ItemMeta meta = display.getItemMeta();
+
+        if (meta != null) {
+            List<String> lore = meta.hasLore() ? new ArrayList<>(meta.getLore()) : new ArrayList<>();
+            lore.add("");
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&8&m                    "));
+
+            for (String line : Slimefun.getWikiText().get(item)) {
+                lore.add(ChatColor.translateAlternateColorCodes('&', line));
+            }
+
+            appendStats(lore, item);
+            meta.setLore(lore);
+            display.setItemMeta(meta);
+        }
+
+        menu.addItem(OUTPUT_SLOT, display);
+        menu.addMenuClickHandler(OUTPUT_SLOT, ChestMenuUtils.getEmptyClickHandler());
+    }
+
+    private static void appendStats(@Nonnull List<String> lore, @Nonnull SlimefunItem item) {
         if (!(item instanceof EnergyNetComponent)) {
             return;
         }
 
-        List<String> lore = new ArrayList<>();
         lore.add("");
-        lore.add("&7Capacity: &e" + ((EnergyNetComponent) item).getCapacity() + " J");
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&6Stats"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Capacity: &e" + ((EnergyNetComponent) item).getCapacity() + " J"));
 
         if (item instanceof AContainer) {
             AContainer container = (AContainer) item;
-            lore.add("&7Energy: &e" + container.getEnergyConsumption() + " J/tick");
-            lore.add("&7Speed: &e" + container.getSpeed() + "x");
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Energy: &e" + container.getEnergyConsumption() + " J/tick"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Speed: &e" + container.getSpeed() + "x"));
         }
-
-        menu.addItem(STATS_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.REDSTONE), "&6Stats", lore.toArray(new String[0])));
-        menu.addMenuClickHandler(STATS_SLOT, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    private static void addRecipeButton(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull SlimefunItem item) {
-        menu.addItem(RECIPE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.CRAFTING_TABLE), "&aView recipe"));
-        menu.addMenuClickHandler(RECIPE_SLOT, (pl, slot, clicked, action) -> {
-            PlayerProfile.get(pl, profile -> Slimefun.runSync(() -> SlimefunGuide.displayItem(profile, item, true)));
-            return false;
-        });
-    }
-
-    /** Fills the "used in" row with consumer icons, capping the row with a "+X more" note when needed. */
+    /** Shows the items that consume this one, as clickable icons that open their wiki pages. */
     private static void addUsedIn(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item) {
         List<SlimefunItem> consumers = REVERSE_INDEX.getConsumers(item);
 
         if (consumers.isEmpty()) {
-            menu.addItem(USED_IN_START, CustomItemStack.create(MaterialCompat.stack(XMaterial.BARRIER), "&7Not used in any recipe"));
-            menu.addMenuClickHandler(USED_IN_START, ChestMenuUtils.getEmptyClickHandler());
             return;
         }
 
-        // Reserve the last slot for an overflow note when there are more consumers than fit.
+        menu.addItem(USED_IN_LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
+            "&eUsed in",
+            "",
+            "&7Items that use this in their recipe.",
+            "&7Click one for its own page."),
+            ChestMenuUtils.getEmptyClickHandler());
+
         boolean overflow = consumers.size() > USED_IN_CAPACITY;
         int shown = overflow ? USED_IN_CAPACITY - 1 : consumers.size();
 
@@ -149,7 +189,7 @@ public final class WikiPage {
 
             menu.addItem(slot, consumer.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                open(pl, guide, consumer);
+                open(pl, guide, consumer, () -> open(pl, guide, item));
                 return false;
             });
         }
