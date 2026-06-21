@@ -5,6 +5,7 @@ import java.net.URI
 import java.net.HttpURLConnection
 import java.nio.file.FileSystems
 import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipInputStream
@@ -142,25 +143,58 @@ tasks {
                 return -1
             }
 
-            val uri = URI.create("jar:" + jarFile.toURI())
-            FileSystems.newFileSystem(uri, mapOf<String, String>()).use { fs ->
-                val path = fs.getPath(entryName)
-                if (!Files.exists(path)) {
-                    logger.warn("XSeries 26.x patch: $entryName not found in jar")
-                } else {
-                    val content = Files.readAllBytes(path)
-                    if (indexOf(content, newConst) >= 0) {
-                        logger.lifecycle("XSeries 26.x patch: already applied")
-                    } else {
-                        val idx = indexOf(content, oldConst)
-                        if (idx < 0) {
-                            logger.warn("XSeries 26.x patch: version regex constant not found (XSeries version changed?)")
-                        } else {
-                            val patched = content.copyOfRange(0, idx) + newConst + content.copyOfRange(idx + oldConst.size, content.size)
-                            Files.write(path, patched)
-                            logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
+            // Rewrite the jar by streaming through a temp file rather than opening a jar FileSystem.
+            // FileSystems.newFileSystem registers in the JVM-global zip FS provider, which is shared
+            // across the Gradle daemon - a prior run that failed to close (e.g. the jar was locked by a
+            // running server) leaves a stale handle and the next build dies with
+            // FileSystemAlreadyExistsException. Streaming is daemon-safe and lock-tolerant.
+            var found = false
+            var alreadyApplied = false
+            var didPatch = false
+            val temp = File(jarFile.parentFile, jarFile.name + ".xseries.tmp")
+
+            ZipInputStream(jarFile.inputStream()).use { zin ->
+                ZipOutputStream(temp.outputStream()).use { zout ->
+                    var entry = zin.nextEntry
+                    while (entry != null) {
+                        val data = zin.readBytes()
+                        var outData = data
+
+                        if (entry.name == entryName) {
+                            found = true
+                            if (indexOf(data, newConst) >= 0) {
+                                alreadyApplied = true
+                            } else {
+                                val idx = indexOf(data, oldConst)
+                                if (idx >= 0) {
+                                    outData = data.copyOfRange(0, idx) + newConst + data.copyOfRange(idx + oldConst.size, data.size)
+                                    didPatch = true
+                                }
+                            }
                         }
+
+                        zout.putNextEntry(ZipEntry(entry.name))
+                        zout.write(outData)
+                        zout.closeEntry()
+                        entry = zin.nextEntry
                     }
+                }
+            }
+
+            if (didPatch) {
+                try {
+                    Files.move(temp.toPath(), jarFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                    logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
+                } catch (e: Exception) {
+                    temp.delete()
+                    logger.warn("XSeries 26.x patch: could not replace jar (${e.message}) - patch skipped")
+                }
+            } else {
+                temp.delete()
+                when {
+                    alreadyApplied -> logger.lifecycle("XSeries 26.x patch: already applied")
+                    !found -> logger.warn("XSeries 26.x patch: $entryName not found in jar")
+                    else -> logger.warn("XSeries 26.x patch: version regex constant not found (XSeries version changed?)")
                 }
             }
         }
