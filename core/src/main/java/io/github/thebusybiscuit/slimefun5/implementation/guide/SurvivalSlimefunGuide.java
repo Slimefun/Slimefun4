@@ -389,7 +389,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return false;
             });
         } else {
-            menu.addItem(index, sfitem.getItem());
+            menu.addItem(index, Slimefun.getItemTranslationService().getDisplayItem(p, sfitem));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 try {
                     if (isSurvivalMode()) {
@@ -678,7 +678,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
-        menu.addItem(16, output, ChestMenuUtils.getEmptyClickHandler());
+
+        // Show the result in the viewing player's language when it is a Slimefun item.
+        ItemStack displayedOutput = isSlimefunRecipe ? Slimefun.getItemTranslationService().getDisplayItem(p, (SlimefunItem) item) : output;
+        menu.addItem(16, displayedOutput, ChestMenuUtils.getEmptyClickHandler());
     }
 
     @ParametersAreNonnullByDefault

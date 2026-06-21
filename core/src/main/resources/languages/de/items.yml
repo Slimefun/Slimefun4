@@ -1,0 +1,39 @@
+# Sample item translations (German). Keyed by Slimefun item id.
+# Each entry: name (single line) and optional lore (list of lines). Colour codes use '&'.
+# Items not listed here fall back to the built-in English name/lore.
+# Community translators fill in the rest over time.
+
+ENHANCED_CRAFTING_TABLE:
+  name: "&eVerbesserter Werktisch"
+  lore:
+    - ""
+    - "&aEin gewöhnlicher Werktisch kann"
+    - "&adiese gewaltige Energie nicht halten..."
+
+MAGIC_WORKBENCH:
+  name: "&6Magischer Werktisch"
+  lore:
+    - ""
+    - "&dInfundiert Gegenstände mit magischer Energie"
+
+RUNE_ANVIL:
+  name: "&5Runen-Amboss"
+  lore:
+    - ""
+    - "&7Wendet eine Rune auf einen Gegenstand an."
+    - "&7Lege einen Gegenstand und eine Seelengebundene"
+    - "&7oder Verzauberungs-Rune hinein, und das"
+    - "&7Ergebnis erscheint in der Ausgabe."
+
+SYNTHETIC_DIAMOND:
+  name: "&bSynthetischer Diamant"
+  lore:
+    - ""
+    - "&fDieser Gegenstand kann in einem"
+    - "&fWerktisch wie ein normaler Diamant genutzt werden"
+
+COPPER_DUST:
+  name: "&6Kupferstaub"
+
+GOLD_8K:
+  name: "&fGoldbarren &7(8 Karat)"
