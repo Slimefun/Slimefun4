@@ -1045,38 +1045,45 @@ BLANK_RUNE:
   - '&7An empty rune, the base for all others.'
   - '&7Infuse it with elements to make Ancient'
   - '&7Runes at an Ancient Altar.'
-AIR_RUNE:
+ANCIENT_RUNE_AIR:
   - '&7An Ancient Rune of Air.'
   - '&7Used as an ingredient in Altar rituals.'
-WATER_RUNE:
+ANCIENT_RUNE_WATER:
   - '&7An Ancient Rune of Water.'
   - '&7Used as an ingredient in Altar rituals.'
-FIRE_RUNE:
+ANCIENT_RUNE_FIRE:
   - '&7An Ancient Rune of Fire.'
   - '&7Used as an ingredient in Altar rituals.'
-EARTH_RUNE:
+ANCIENT_RUNE_EARTH:
   - '&7An Ancient Rune of Earth.'
   - '&7Used as an ingredient in Altar rituals.'
-ENDER_RUNE:
+ANCIENT_RUNE_ENDER:
   - '&7An Ancient Rune of Ender.'
   - '&7Used as an ingredient in Altar rituals.'
-RAINBOW_RUNE:
+ANCIENT_RUNE_RAINBOW:
   - '&7An Ancient Rune of Rainbow.'
   - '&7Used to craft colorful rainbow items.'
-LIGHTNING_RUNE:
+ANCIENT_RUNE_LIGHTNING:
   - '&7An Ancient Rune of Lightning.'
   - '&7Used as an ingredient in Altar rituals.'
-SOULBOUND_RUNE:
-  - '&7Drop this rune onto a dropped item to'
-  - '&7bind it to your soul. Soulbound items'
-  - '&7are not lost when you die. Use it only'
-  - '&7on items that truly matter.'
-ENCHANTMENT_RUNE:
-  - '&7Drop this rune onto a dropped item to'
-  - '&7add a random enchantment to it.'
-VILLAGER_RUNE:
+ANCIENT_RUNE_SOULBOUND:
+  - '&7Place this rune and an item in a'
+  - '&5Rune Anvil &7to bind that item to your'
+  - '&7soul. Soulbound items are not lost when'
+  - '&7you die. Use it only on items that matter.'
+ANCIENT_RUNE_ENCHANTMENT:
+  - '&7Place this rune and an item in a'
+  - '&5Rune Anvil &7to add a random'
+  - '&7enchantment to it.'
+ANCIENT_RUNE_VILLAGERS:
   - '&7Right-click a villager to reset its job'
   - '&7and trades. It will pick a new job later.'
+RUNE_ANVIL:
+  - '&7Applies a Rune to an item.'
+  - '&7Place an item and a Soulbound or'
+  - '&7Enchantment Rune inside; the result'
+  - '&7appears in the output and the rune'
+  - '&7is consumed. Replaces the old drop ritual.'
 
 # --- Cargo ---
 CARGO_MANAGER:
