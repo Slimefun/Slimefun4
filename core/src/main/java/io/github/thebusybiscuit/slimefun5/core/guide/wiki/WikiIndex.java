@@ -72,13 +72,22 @@ public final class WikiIndex {
             return false;
         });
 
+        // Welcome header so a new player knows what this screen is for.
+        menu.addItem(4, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
+            "&3Slimefun Wiki",
+            "",
+            "&7New here? Read the guides below to learn",
+            "&7how Slimefun works - start with &eGetting Started&7.",
+            "&7Or browse items to look something up."),
+            ChestMenuUtils.getEmptyClickHandler());
+
         Topic[] topics = topics();
 
         for (int i = 0; i < topics.length && i < TOPIC_SLOTS.length; i++) {
             Topic topic = topics[i];
             int slot = TOPIC_SLOTS[i];
 
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.icon), "&b" + topic.displayName, "", "&7⇨ &eClick to read"));
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.icon), "&b" + topic.displayName, "", topic.summary, "", "&7⇨ &eClick to read"));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 WikiTopicPage.open(pl, guide, topic.id, topic.displayName, topic.icon);
                 return false;
@@ -98,11 +107,11 @@ public final class WikiIndex {
     @Nonnull
     private static Topic[] topics() {
         return new Topic[] {
-            new Topic("getting_started", "Getting Started", XMaterial.MAP),
-            new Topic("research", "Research", XMaterial.EXPERIENCE_BOTTLE),
-            new Topic("energy", "Energy", XMaterial.REDSTONE),
-            new Topic("cargo", "Cargo", XMaterial.CHEST),
-            new Topic("multiblocks", "Multiblocks", XMaterial.BRICKS)
+            new Topic("getting_started", "Getting Started", XMaterial.MAP, "&7Your first steps in Slimefun"),
+            new Topic("research", "Research", XMaterial.EXPERIENCE_BOTTLE, "&7Unlock items with experience"),
+            new Topic("energy", "Energy Networks", XMaterial.REDSTONE, "&7Power your machines"),
+            new Topic("cargo", "Cargo Networks", XMaterial.CHEST, "&7Move items automatically"),
+            new Topic("multiblocks", "Multiblocks", XMaterial.BRICKS, "&7Build structures to craft")
         };
     }
 
@@ -224,17 +233,19 @@ public final class WikiIndex {
         void open(@Nonnull Player p, int page);
     }
 
-    /** A single explanatory wiki topic: its mechanics.yml id, display name, and icon. */
+    /** A single explanatory wiki topic: its mechanics.yml id, display name, icon, and one-line summary. */
     private static final class Topic {
 
         private final String id;
         private final String displayName;
         private final XMaterial icon;
+        private final String summary;
 
-        private Topic(@Nonnull String id, @Nonnull String displayName, @Nonnull XMaterial icon) {
+        private Topic(@Nonnull String id, @Nonnull String displayName, @Nonnull XMaterial icon, @Nonnull String summary) {
             this.id = id;
             this.displayName = displayName;
             this.icon = icon;
+            this.summary = summary;
         }
     }
 }

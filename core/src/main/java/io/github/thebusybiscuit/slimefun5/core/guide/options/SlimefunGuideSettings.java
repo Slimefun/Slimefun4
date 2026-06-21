@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonCatalog;
 import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiIndex;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.github.GitHubService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
@@ -46,7 +47,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 51, 52, 53 };
+    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -144,20 +145,21 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
+        // In-game Wiki, sitting opposite the Addon Installer (slot 47). Opens the teaching-focused
+        // wiki home; shown to everyone, no external links.
         // @formatter:off
-        menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(),
+        menu.addItem(51, CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(),
             "&3" + locale.getMessage(p, "guide.title.wiki"),
-            "", "&7Do you need help with an Item or machine?",
-            "&7You cannot figure out what to do?",
-            "&7Check out our community-maintained Wiki",
-            "&7and become one of our Editors!",
             "",
-            "&7\u21E8 &eClick to go to the official Slimefun Wiki"));
+            "&7New to Slimefun, or stuck on a machine?",
+            "&7Learn the basics and look up any item,",
+            "&7all without leaving the game.",
+            "",
+            "&7\u21E8 &eClick to open the in-game Wiki"));
         // @formatter:on
 
-        menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki");
+        menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
+            WikiIndex.open(pl, guide);
             return false;
         });
 
