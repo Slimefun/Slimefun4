@@ -40,7 +40,7 @@ public final class AddonInstallerMenu {
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
-        menu.addItem(49, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back to Settings"));
+        menu.addItem(49, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back-settings")));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
             SlimefunGuideSettings.openSettings(pl, guide);
             return false;
@@ -69,12 +69,12 @@ public final class AddonInstallerMenu {
 
     @Nonnull
     private static ItemStack icon(Player p, AddonInstaller inst, AddonCatalog.Entry entry) {
-        String badge = StatusBadges.badge(inst, entry);
+        String badge = StatusBadges.badge(p, inst, entry);
         return CustomItemStack.create(MaterialCompat.stack(entry.getIcon()),
             "&f" + entry.getDisplayName(),
             "",
             badge,
             "",
-            "&7⇨ &eClick for details");
+            Slimefun.getLocalization().getMessage(p, "guide.installer.click-details"));
     }
 }

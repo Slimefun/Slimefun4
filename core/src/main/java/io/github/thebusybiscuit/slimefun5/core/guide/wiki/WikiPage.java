@@ -62,11 +62,11 @@ public final class WikiPage {
 
     /** Opens the item's wiki page; Back runs the given action (returns to wherever you came from). */
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item, @Nonnull Runnable onBack) {
-        ChestMenu menu = new ChestMenu("Wiki: " + item.getItemName());
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.wiki.item-title").replace("%item%", item.getItemName()));
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
-        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
+        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.wiki.back")));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
             onBack.run();
             return false;
@@ -140,7 +140,7 @@ public final class WikiPage {
                 lore.add(ChatColor.translateAlternateColorCodes('&', line));
             }
 
-            appendStats(lore, item);
+            appendStats(p, lore, item);
             meta.setLore(lore);
             display.setItemMeta(meta);
         }
@@ -149,19 +149,19 @@ public final class WikiPage {
         menu.addMenuClickHandler(OUTPUT_SLOT, ChestMenuUtils.getEmptyClickHandler());
     }
 
-    private static void appendStats(@Nonnull List<String> lore, @Nonnull SlimefunItem item) {
+    private static void appendStats(@Nonnull Player p, @Nonnull List<String> lore, @Nonnull SlimefunItem item) {
         if (!(item instanceof EnergyNetComponent)) {
             return;
         }
 
         lore.add("");
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&6Stats"));
-        lore.add(ChatColor.translateAlternateColorCodes('&', "&7Capacity: &e" + ((EnergyNetComponent) item).getCapacity() + " J"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.wiki.stats.title")));
+        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.wiki.stats.capacity").replace("%capacity%", String.valueOf(((EnergyNetComponent) item).getCapacity()))));
 
         if (item instanceof AContainer) {
             AContainer container = (AContainer) item;
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Energy: &e" + container.getEnergyConsumption() + " J/tick"));
-            lore.add(ChatColor.translateAlternateColorCodes('&', "&7Speed: &e" + container.getSpeed() + "x"));
+            lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.wiki.stats.energy").replace("%energy%", String.valueOf(container.getEnergyConsumption()))));
+            lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.wiki.stats.speed").replace("%speed%", String.valueOf(container.getSpeed()))));
         }
     }
 
@@ -173,11 +173,11 @@ public final class WikiPage {
             return;
         }
 
-        menu.addItem(USED_IN_LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
-            "&eUsed in",
-            "",
-            "&7Items that use this in their recipe.",
-            "&7Click one for its own page."),
+        List<String> usedInLore = new ArrayList<>();
+        usedInLore.add(Slimefun.getLocalization().getMessage(p, "guide.wiki.used-in.name"));
+        usedInLore.add("");
+        usedInLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.wiki.used-in.lore"));
+        menu.addItem(USED_IN_LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF), usedInLore),
             ChestMenuUtils.getEmptyClickHandler());
 
         boolean overflow = consumers.size() > USED_IN_CAPACITY;
@@ -196,7 +196,7 @@ public final class WikiPage {
 
         if (overflow) {
             int remaining = consumers.size() - shown;
-            menu.addItem(USED_IN_END, CustomItemStack.create(MaterialCompat.stack(XMaterial.PAPER), "&7+" + remaining + " more"));
+            menu.addItem(USED_IN_END, CustomItemStack.create(MaterialCompat.stack(XMaterial.PAPER), Slimefun.getLocalization().getMessage(p, "guide.wiki.more").replace("%count%", String.valueOf(remaining))));
             menu.addMenuClickHandler(USED_IN_END, ChestMenuUtils.getEmptyClickHandler());
         }
     }

@@ -82,34 +82,17 @@ public final class WikiIndex {
         });
 
         // Welcome header so a new player knows what this screen is for.
-        menu.addItem(WELCOME_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
-            "&3Slimefun Wiki",
-            "",
-            "&7New here? Read the guides below to learn",
-            "&7how Slimefun works - start with &eGetting Started&7.",
-            "&7Or browse items to look something up."),
+        menu.addItem(WELCOME_SLOT, tile(p, XMaterial.ENCHANTED_BOOK, "guide.wiki.welcome.title", "guide.wiki.welcome.lore"),
             ChestMenuUtils.getEmptyClickHandler());
 
-        menu.addItem(SEARCH_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.COMPASS),
-            "&aSearch the wiki",
-            "",
-            "&7Look up any item by name",
-            "&7across every installed addon.",
-            "",
-            "&7⇨ &eClick to type a search term"));
+        menu.addItem(SEARCH_SLOT, tile(p, XMaterial.COMPASS, "guide.wiki.search.name", "guide.wiki.search.lore"));
         menu.addMenuClickHandler(SEARCH_SLOT, (pl, slot, clicked, action) -> {
             pl.closeInventory();
             ChatInput.waitForPlayer(Slimefun.instance(), pl, msg -> openSearchResults(pl, guide, msg, 1));
             return false;
         });
 
-        menu.addItem(BROWSE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
-            "&aBrowse items by category",
-            "",
-            "&7Explore every Slimefun category",
-            "&7and look up individual items.",
-            "",
-            "&7⇨ &eClick"));
+        menu.addItem(BROWSE_SLOT, tile(p, XMaterial.BOOKSHELF, "guide.wiki.browse.name", "guide.wiki.browse.lore"));
         menu.addMenuClickHandler(BROWSE_SLOT, (pl, slot, clicked, action) -> {
             openGroupList(pl, guide, 1);
             return false;
@@ -122,7 +105,7 @@ public final class WikiIndex {
             WikiTopic topic = topics.get(offset + i);
             int slot = CONTENT_START + i;
 
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.getIcon()), "&b" + topic.getDisplayName(), "", topic.getSummary(), "", "&7⇨ &eClick to read"));
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.getIcon()), "&b" + topic.getDisplayName(), "", topic.getSummary(), "", Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-click")));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 WikiTopicPage.open(pl, guide, topic.getId(), topic.getDisplayName(), topic.getIcon());
                 return false;
@@ -227,9 +210,9 @@ public final class WikiIndex {
         });
 
         menu.addItem(WELCOME_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.COMPASS),
-            "&aSearch results for &e\"" + query + "&e\"",
+            Slimefun.getLocalization().getMessage(p, "guide.wiki.results-title").replace("%query%", query),
             "",
-            "&7Found &b" + matches.size() + " &7item(s)."),
+            Slimefun.getLocalization().getMessage(p, "guide.wiki.results-found").replace("%count%", String.valueOf(matches.size()))),
             ChestMenuUtils.getEmptyClickHandler());
 
         int pages = pageCount(matches.size());
@@ -248,6 +231,16 @@ public final class WikiIndex {
 
         addPagination(menu, p, page, pages, (pl, target) -> openSearchResults(pl, guide, query, target));
         menu.open(p);
+    }
+
+    /** Builds a header tile from localized message keys: name line, a blank, then the lore lines. */
+    @Nonnull
+    private static ItemStack tile(@Nonnull Player p, @Nonnull XMaterial icon, @Nonnull String nameKey, @Nonnull String loreKey) {
+        List<String> lore = new ArrayList<>();
+        lore.add(Slimefun.getLocalization().getMessage(p, nameKey));
+        lore.add("");
+        lore.addAll(Slimefun.getLocalization().getMessages(p, loreKey));
+        return CustomItemStack.create(MaterialCompat.stack(icon), lore);
     }
 
     @Nonnull

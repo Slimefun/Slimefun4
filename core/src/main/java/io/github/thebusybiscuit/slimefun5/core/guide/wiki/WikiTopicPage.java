@@ -46,7 +46,7 @@ public final class WikiTopicPage {
         int pages = Math.max(1, (int) Math.ceil(lines.size() / (double) LINES_PER_PAGE));
         int current = Math.min(Math.max(1, page), pages);
 
-        String title = "Wiki: " + displayName + (pages > 1 ? " (" + current + "/" + pages + ")" : "");
+        String title = Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-title").replace("%topic%", displayName) + (pages > 1 ? " (" + current + "/" + pages + ")" : "");
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
 
@@ -58,13 +58,13 @@ public final class WikiTopicPage {
             menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
+        menu.addItem(BACK_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.wiki.back")));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
             WikiIndex.openHomeFromTopic(pl, guide);
             return false;
         });
 
-        addText(menu, lines, current, displayName, icon);
+        addText(menu, p, lines, current, displayName, icon);
 
         if (pages > 1) {
             menu.addItem(PREV_SLOT, ChestMenuUtils.getPreviousButton(p, current, pages));
@@ -88,12 +88,12 @@ public final class WikiTopicPage {
         menu.open(p);
     }
 
-    private static void addText(@Nonnull ChestMenu menu, @Nonnull List<String> lines, int page, @Nonnull String displayName, @Nonnull XMaterial icon) {
+    private static void addText(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull List<String> lines, int page, @Nonnull String displayName, @Nonnull XMaterial icon) {
         List<String> lore = new ArrayList<>();
         lore.add("");
 
         if (lines.isEmpty()) {
-            lore.add("&7(No information available yet.)");
+            lore.add(Slimefun.getLocalization().getMessage(p, "guide.wiki.no-info"));
         } else {
             int start = (page - 1) * LINES_PER_PAGE;
             int end = Math.min(start + LINES_PER_PAGE, lines.size());
@@ -134,11 +134,11 @@ public final class WikiTopicPage {
         }
 
         if (placed > 0) {
-            menu.addItem(LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
-                "&e▼ Items in this guide",
-                "",
-                "&7Click any item below for its",
-                "&7recipe, stats and where it''s used."),
+            List<String> headerLore = new ArrayList<>();
+            headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.wiki.items-header.name"));
+            headerLore.add("");
+            headerLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.wiki.items-header.lore"));
+            menu.addItem(LABEL_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF), headerLore),
                 ChestMenuUtils.getEmptyClickHandler());
         }
     }

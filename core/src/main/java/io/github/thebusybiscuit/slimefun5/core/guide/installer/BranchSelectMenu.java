@@ -38,14 +38,14 @@ public final class BranchSelectMenu {
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
 
-        menu.addItem(1, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), "&e⇦ Back"));
+        menu.addItem(1, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
         menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
             AddonDetailMenu.open(pl, guide, entry);
             return false;
         });
 
         if (branches.isEmpty()) {
-            menu.addItem(22, CustomItemStack.create(MaterialCompat.stack(XMaterial.BARRIER), "&cNo branches found", "", "&7Couldn't reach GitHub or the repo has no branches."));
+            menu.addItem(22, CustomItemStack.create(MaterialCompat.stack(XMaterial.BARRIER), Slimefun.getLocalization().getMessage(p, "guide.installer.branches.none"), "", Slimefun.getLocalization().getMessage(p, "guide.installer.branches.none-lore")));
             menu.addMenuClickHandler(22, ChestMenuUtils.getEmptyClickHandler());
             menu.open(p);
             return;
@@ -53,7 +53,7 @@ public final class BranchSelectMenu {
 
         for (int i = page * 36; i < branches.size() && i < (page + 1) * 36; i++) {
             String branch = branches.get(i);
-            menu.addItem(i - page * 36 + 9, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), "&a" + branch, "", "&7⇨ &eClick to build this branch"));
+            menu.addItem(i - page * 36 + 9, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), "&a" + branch, "", Slimefun.getLocalization().getMessage(p, "guide.installer.branches.click")));
             menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
                 inst().buildFromBranch(pl, entry, branch, System.currentTimeMillis());
                 // Keep the guide open; return to the detail menu (header badge shows "Working…").

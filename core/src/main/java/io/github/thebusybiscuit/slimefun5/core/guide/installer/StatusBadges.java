@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+
 /**
  * Computes the one-line status badge shown for an entry, from local state only (no network).
  * The "update available" comparison against the latest release happens in the detail menu, which
@@ -15,23 +19,23 @@ final class StatusBadges {
     private StatusBadges() {}
 
     @Nonnull
-    static String badge(@Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+    static String badge(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
         if (inst.isInProgress(entry.getId())) {
-            return "&e⚙ Working…";
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.working");
         }
 
         InstallState.Record record = inst.getState().get(entry.getId());
 
         if (record != null && record.isRestartPending()) {
-            return "&b↻ Restart to apply (" + record.getVersion() + ")";
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.restart").replace("%version%", record.getVersion());
         }
 
         if (entry.isCore()) {
-            return "&a✔ Installed v" + io.github.thebusybiscuit.slimefun5.implementation.Slimefun.getVersion();
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.installed-version").replace("%version%", Slimefun.getVersion());
         }
 
         if (inst.isLoaded(entry)) {
-            return "&a✔ Installed";
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.installed");
         }
 
         // Local-only "requires X": list hard dependencies that aren't loaded yet. (They are auto-
@@ -45,9 +49,9 @@ final class StatusBadges {
         }
 
         if (!missing.isEmpty()) {
-            return "&7＋ Not installed &8(needs " + String.join(", ", missing) + ")";
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.not-installed-deps").replace("%deps%", String.join(", ", missing));
         }
 
-        return "&7＋ Not installed";
+        return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.not-installed");
     }
 }

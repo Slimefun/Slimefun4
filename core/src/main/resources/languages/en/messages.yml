@@ -181,6 +181,92 @@ guide:
       resourcepack: '&cResourcepack Artist'
       translator: '&9Translator'
 
+  coverage:
+    messages: '&7Messages: &b%percent%%'
+    items: '&7Items: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRight Click: &7Item translation breakdown'
+    title-suffix: 'Items'
+    translated: '&7Translated: &b%translated%&7/&b%total%'
+    line: '&7Coverage: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun Wiki'
+    welcome:
+      title: '&3Slimefun Wiki'
+      lore:
+      - '&7New here? Read the guides below to learn'
+      - '&7how Slimefun works - start with &eGetting Started&7.'
+      - '&7Or browse items to look something up.'
+    search:
+      name: '&aSearch the wiki'
+      lore:
+      - '&7Look up any item by name'
+      - '&7across every installed addon.'
+      - ''
+      - '&7⇨ &eClick to type a search term'
+    browse:
+      name: '&aBrowse items by category'
+      lore:
+      - '&7Explore every Slimefun category'
+      - '&7and look up individual items.'
+      - ''
+      - '&7⇨ &eClick'
+    topic-click: '&7⇨ &eClick to read'
+    results-title: '&aSearch results for &e"%query%&e"'
+    results-found: '&7Found &b%count% &7item(s).'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Back'
+    no-info: '&7(No information available yet.)'
+    used-in:
+      name: '&eUsed in'
+      lore:
+      - '&7Items that use this in their recipe.'
+      - '&7Click one for its own page.'
+    more: '&7+%count% more'
+    stats:
+      title: '&6Stats'
+      capacity: '&7Capacity: &e%capacity% J'
+      energy: '&7Energy: &e%energy% J/tick'
+      speed: '&7Speed: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in this guide'
+      lore:
+      - '&7Click any item below for its'
+      - "&7recipe, stats and where it's used."
+
+  installer:
+    badge:
+      working: '&e⚙ Working…'
+      restart: '&b↻ Restart to apply (%version%)'
+      installed-version: '&a✔ Installed v%version%'
+      installed: '&a✔ Installed'
+      not-installed-deps: '&7＋ Not installed &8(needs %deps%)'
+      not-installed: '&7＋ Not installed'
+    back-settings: '&e⇦ Back to Settings'
+    back: '&e⇦ Back'
+    click-details: '&7⇨ &eClick for details'
+    will-install: '&7Will also install: &f%deps%'
+    install:
+      install: '&aInstall latest release'
+      update: '&aUpdate to latest release'
+      lore:
+      - '&7Downloads the latest GitHub release'
+      - '&7and stages it for the next restart.'
+      - ''
+      - '&7⇨ &eClick'
+    build:
+      name: '&bBuild from a branch'
+      lore:
+      - '&7Clone & compile a chosen branch'
+      - '&7(developer environments only).'
+      - ''
+      - '&7⇨ &eClick to pick a branch'
+    branches:
+      none: '&cNo branches found'
+      none-lore: "&7Couldn't reach GitHub or the repo has no branches."
+      click: '&7⇨ &eClick to build this branch'
+
 actionbar:
   radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
 
