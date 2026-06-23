@@ -358,5 +358,40 @@ if ($options.keepPlugins) { $gradleArgs += "-PkeepPlugins" }
 Write-Host ("Options: ViaVersion={0}, localAddons={1}, keepPlugins={2}" -f $options.via, $options.localAddons, $options.keepPlugins) -ForegroundColor DarkGray
 Write-Host ""
 
+# --- Ensure a JDK is available for the Gradle wrapper ---
+# gradlew bootstraps its JVM from JAVA_HOME / PATH only - it does NOT see IntelliJ's project SDK.
+# So when Java isn't on the PATH, locate a JDK ourselves (no system PATH change needed): prefer an
+# existing JAVA_HOME, then java already on PATH, then an IntelliJ-managed JDK (~/.jdks), then the
+# IntelliJ-bundled JetBrains Runtime, then a system JDK. Needs Java 17+ (Gradle) / 21+ (the server).
+function Test-JdkHome($p) { return ($p -and (Test-Path (Join-Path $p "bin\java.exe"))) }
+
+if (-not (Test-JdkHome $env:JAVA_HOME)) {
+    if (-not (Get-Command java -ErrorAction SilentlyContinue)) {
+        $jdkCandidates = New-Object System.Collections.Generic.List[string]
+        Get-ChildItem "$env:USERPROFILE\.jdks" -Directory -ErrorAction SilentlyContinue |
+            Sort-Object Name -Descending | ForEach-Object { $jdkCandidates.Add($_.FullName) }
+        Get-ChildItem "C:\Program Files\JetBrains" -Directory -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -like 'IntelliJ IDEA*' } | Sort-Object Name -Descending |
+            ForEach-Object { $jdkCandidates.Add((Join-Path $_.FullName "jbr")) }
+        Get-ChildItem "C:\Program Files\Eclipse Adoptium" -Directory -ErrorAction SilentlyContinue |
+            Sort-Object Name -Descending | ForEach-Object { $jdkCandidates.Add($_.FullName) }
+        Get-ChildItem "C:\Program Files\Java" -Directory -ErrorAction SilentlyContinue |
+            Sort-Object Name -Descending | ForEach-Object { $jdkCandidates.Add($_.FullName) }
+
+        $jdk = $jdkCandidates | Where-Object { Test-JdkHome $_ } | Select-Object -First 1
+        if (-not $jdk) {
+            Write-Host "ERROR: No Java found. Set JAVA_HOME to a JDK 17+ (or install one), then re-run." -ForegroundColor Red
+            Write-Host "Looked in: JAVA_HOME, PATH, $env:USERPROFILE\.jdks, IntelliJ JBR, Eclipse Adoptium, Program Files\Java." -ForegroundColor Red
+            exit 1
+        }
+        $env:JAVA_HOME = $jdk
+        $env:PATH = (Join-Path $jdk "bin") + ";" + $env:PATH
+        Write-Host "Using auto-detected JDK: $jdk" -ForegroundColor DarkGray
+    }
+} else {
+    # JAVA_HOME is valid; make sure its java is also on PATH for the server JVM that gradle launches.
+    $env:PATH = (Join-Path $env:JAVA_HOME "bin") + ";" + $env:PATH
+}
+
 & "$projectRoot\gradlew.bat" @gradleArgs
 exit $LASTEXITCODE
