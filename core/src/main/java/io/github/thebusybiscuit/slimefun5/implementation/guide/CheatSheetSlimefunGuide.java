@@ -34,12 +34,11 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
 
-    private final ItemStack item;
+    // Built lazily (see SurvivalSlimefunGuide): constructed before the localization service exists.
+    private ItemStack item;
 
     public CheatSheetSlimefunGuide() {
         super(false, true);
-
-        item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
     }
 
     /**
@@ -76,6 +75,10 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
 
     @Override
     public @Nonnull ItemStack getItem() {
+        if (item == null) {
+            item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
+        }
+
         return item;
     }
 

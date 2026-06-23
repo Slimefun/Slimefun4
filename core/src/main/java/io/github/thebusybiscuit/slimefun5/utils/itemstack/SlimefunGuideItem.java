@@ -37,9 +37,9 @@ public class SlimefunGuideItem extends ItemStack {
 
         List<String> lore = new ArrayList<>();
         SlimefunGuideMode type = implementation.getMode();
-        lore.add(type == SlimefunGuideMode.CHEAT_MODE ? ChatColors.color(Slimefun.getLocalization().getMessage("guide.item.cheat-only")) : "");
-        lore.add(ChatColors.color(Slimefun.getLocalization().getMessage("guide.item.browse")));
-        lore.add(ChatColors.color(Slimefun.getLocalization().getMessage("guide.item.settings")));
+        lore.add(type == SlimefunGuideMode.CHEAT_MODE ? ChatColors.color(message("guide.item.cheat-only", "&4&lOnly openable by Admins")) : "");
+        lore.add(ChatColors.color(message("guide.item.browse", "&eRight Click &8⇨ &7Browse Items")));
+        lore.add(ChatColors.color(message("guide.item.settings", "&eShift + Right Click &8⇨ &7Open Settings / Credits")));
 
         meta.setLore(lore);
 
@@ -47,6 +47,12 @@ public class SlimefunGuideItem extends ItemStack {
         Slimefun.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
 
         setItemMeta(meta);
+    }
+
+    /** Null-safe message lookup: the guide item may be built during startup before the localization service exists. */
+    @Nonnull
+    private static String message(@Nonnull String key, @Nonnull String fallback) {
+        return Slimefun.getLocalization() != null ? Slimefun.getLocalization().getMessage(key) : fallback;
     }
 
 }

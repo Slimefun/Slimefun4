@@ -77,14 +77,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     private static final int MAX_ITEM_GROUPS = 36;
 
     private final int[] recipeSlots = { 3, 4, 5, 12, 13, 14, 21, 22, 23 };
-    private final ItemStack item;
+    // Built lazily: the guide is constructed during startup before the localization service exists, so the
+    // localized name/lore can only be resolved on first access (by which time a player can request it).
+    private ItemStack item;
     private final boolean showVanillaRecipes;
     private final boolean showHiddenItemGroupsInSearch;
 
     public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
         this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
-        item = new SlimefunGuideItem(this, Slimefun.getLocalization().getMessage("guide.item.name"));
     }
 
     @Override
@@ -94,7 +95,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     @Override
     public @Nonnull ItemStack getItem() {
-        return item;
+        if (item == null && Slimefun.getLocalization() != null) {
+            item = new SlimefunGuideItem(this, Slimefun.getLocalization().getMessage("guide.item.name"));
+        }
+
+        // Localization not ready yet (very early access): a transient English copy, not cached.
+        return item != null ? item : new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
     }
 
     protected final boolean isSurvivalMode() {
