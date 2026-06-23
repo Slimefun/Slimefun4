@@ -301,12 +301,15 @@ public class ItemTranslationService {
      */
     @Nonnull
     public Map<String, int[]> getCoverage(@Nonnull String language) {
+        if ("en".equalsIgnoreCase(language)) {
+            // English is the language items are authored in. Register each item's built-in English name
+            // as a real "en" translation entry so English is counted exactly like any other language -
+            // no hardcoded percentage. An en/items.yml, if shipped, is loaded by loadBundled() and wins.
+            ensureEnglishBaseline();
+        }
+
         Map<String, ItemTranslation> translated = byLanguage.getOrDefault(language, new HashMap<>());
         Map<String, int[]> coverage = new LinkedHashMap<>();
-
-        // English is the built-in baseline: every enabled item already has an English name, so there
-        // is no en/items.yml and coverage for it is 100% by definition.
-        boolean englishBaselineLanguage = "en".equalsIgnoreCase(language);
 
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
@@ -314,7 +317,7 @@ public class ItemTranslationService {
                 int[] counts = coverage.computeIfAbsent(plugin, k -> new int[2]);
                 counts[1]++;
 
-                if (englishBaselineLanguage || translated.containsKey(item.getId())) {
+                if (translated.containsKey(item.getId())) {
                     counts[0]++;
                 }
             } catch (Exception | LinkageError ignored) {
@@ -323,5 +326,43 @@ public class ItemTranslationService {
         }
 
         return coverage;
+    }
+
+    /**
+     * Tops up the "en" translation map with every enabled item's built-in (authored) English name,
+     * without overwriting any explicit en/items.yml entry. Items register over time, so this runs lazily
+     * and idempotently. After it, English is just another fully data-backed language - an item with no
+     * resolvable English name is genuinely counted as untranslated, rather than English being assumed 100%.
+     */
+    private void ensureEnglishBaseline() {
+        Map<String, ItemTranslation> map = byLanguage.computeIfAbsent("en", k -> new HashMap<>());
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                if (map.containsKey(item.getId())) {
+                    continue;
+                }
+
+                String name = englishName(item);
+
+                if (name != null && !ChatColor.stripColor(name).trim().isEmpty()) {
+                    map.put(item.getId(), new ItemTranslation(name, new ArrayList<>()));
+                }
+            } catch (Exception | LinkageError ignored) {
+                // A broken item must not break the English baseline.
+            }
+        }
+    }
+
+    /** The authored English name of an item: its pre-bake baseline if it was re-skinned, else its current name. */
+    @Nullable
+    private String englishName(@Nonnull SlimefunItem item) {
+        ItemStack english = englishBaseline.containsKey(item.getId()) ? englishBaseline.get(item.getId()) : item.getItem();
+
+        if (english != null && english.hasItemMeta() && english.getItemMeta().hasDisplayName()) {
+            return english.getItemMeta().getDisplayName();
+        }
+
+        return item.getItemName();
     }
 }
