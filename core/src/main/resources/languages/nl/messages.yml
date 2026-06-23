@@ -37,6 +37,92 @@ commands:
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
+  coverage:
+    messages: '&7Berichten: &b%percent%%'
+    items: '&7Items: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRechtermuisklik: &7Itemvertaling-overzicht'
+    title-suffix: 'Items'
+    translated: '&7Vertaald: &b%translated%&7/&b%total%'
+    line: '&7Dekking: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun Wiki'
+    welcome:
+      title: '&3Slimefun Wiki'
+      lore:
+      - '&7Nieuw hier? Lees de gidsen hieronder om te leren'
+      - '&7hoe Slimefun werkt - begin met &eAan de slag&7.'
+      - '&7Of blader door items om iets op te zoeken.'
+    search:
+      name: '&aZoek in de wiki'
+      lore:
+      - '&7Zoek elk item op naam op'
+      - '&7in elke geïnstalleerde addon.'
+      - ''
+      - '&7⇨ &eKlik om een zoekterm te typen'
+    browse:
+      name: '&aBlader door items per categorie'
+      lore:
+      - '&7Verken elke Slimefun-categorie'
+      - '&7en zoek afzonderlijke items op.'
+      - ''
+      - '&7⇨ &eKlik'
+    topic-click: '&7⇨ &eKlik om te lezen'
+    results-title: '&aZoekresultaten voor &e"%query%&e"'
+    results-found: '&7&b%count% &7item(s) gevonden.'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Terug'
+    no-info: '&7(Nog geen informatie beschikbaar.)'
+    used-in:
+      name: '&eGebruikt in'
+      lore:
+      - '&7Items die dit in hun recept gebruiken.'
+      - '&7Klik op één voor zijn eigen pagina.'
+    more: '&7+%count% meer'
+    stats:
+      title: '&6Statistieken'
+      capacity: '&7Capaciteit: &e%capacity% J'
+      energy: '&7Energie: &e%energy% J/tick'
+      speed: '&7Snelheid: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in deze gids'
+      lore:
+      - '&7Klik op een item hieronder voor zijn'
+      - "&7recept, statistieken en waar het wordt gebruikt."
+
+  installer:
+    badge:
+      working: '&e⚙ Bezig…'
+      restart: '&b↻ Herstart om toe te passen (%version%)'
+      installed-version: '&a✔ v%version% geïnstalleerd'
+      installed: '&a✔ Geïnstalleerd'
+      not-installed-deps: '&7＋ Niet geïnstalleerd &8(vereist %deps%)'
+      not-installed: '&7＋ Niet geïnstalleerd'
+    back-settings: '&e⇦ Terug naar Instellingen'
+    back: '&e⇦ Terug'
+    click-details: '&7⇨ &eKlik voor details'
+    will-install: '&7Installeert ook: &f%deps%'
+    install:
+      install: '&aInstalleer nieuwste release'
+      update: '&aWerk bij naar nieuwste release'
+      lore:
+      - '&7Downloadt de nieuwste GitHub-release'
+      - '&7en zet deze klaar voor de volgende herstart.'
+      - ''
+      - '&7⇨ &eKlik'
+    build:
+      name: '&bBouw vanaf een branch'
+      lore:
+      - '&7Kloon & compileer een gekozen branch'
+      - '&7(alleen ontwikkelaarsomgevingen).'
+      - ''
+      - '&7⇨ &eKlik om een branch te kiezen'
+    branches:
+      none: '&cGeen branches gevonden'
+      none-lore: "&7Kon GitHub niet bereiken of de repo heeft geen branches."
+      click: '&7⇨ &eKlik om deze branch te bouwen'
+
   locked: 'VERGRENDELD'
   work-in-progress: 'Dit is nog niet helemaal klaar!'
   locked-itemgroup:

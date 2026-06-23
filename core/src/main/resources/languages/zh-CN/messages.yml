@@ -37,6 +37,92 @@ commands:
 placeholderapi:
   profile-loading: '加载中...'
 guide:
+  coverage:
+    messages: '&7消息: &b%percent%%'
+    items: '&7物品: &b%percent%%'
+    breakdown-hint: '&7⇨ &e右键: &7物品翻译明细'
+    title-suffix: '物品'
+    translated: '&7已翻译: &b%translated%&7/&b%total%'
+    line: '&7翻译进度: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun 百科'
+    welcome:
+      title: '&3Slimefun 百科'
+      lore:
+      - '&7初来乍到？阅读下方的指南来了解'
+      - '&7Slimefun 的运作方式 - 从 &e新手入门&7 开始。'
+      - '&7或浏览物品来查询信息。'
+    search:
+      name: '&a搜索百科'
+      lore:
+      - '&7按名称查询任意物品'
+      - '&7涵盖所有已安装的扩展。'
+      - ''
+      - '&7⇨ &e点击输入搜索词'
+    browse:
+      name: '&a按类别浏览物品'
+      lore:
+      - '&7探索所有 Slimefun 类别'
+      - '&7并查询单个物品。'
+      - ''
+      - '&7⇨ &e点击'
+    topic-click: '&7⇨ &e点击阅读'
+    results-title: '&a搜索结果: &e"%query%&e"'
+    results-found: '&7找到 &b%count% &7个物品。'
+    item-title: '百科: %item%'
+    topic-title: '百科: %topic%'
+    back: '&e⇦ 返回'
+    no-info: '&7（暂无可用信息。）'
+    used-in:
+      name: '&e用途'
+      lore:
+      - '&7在配方中使用此物品的物品。'
+      - '&7点击其中一个查看其页面。'
+    more: '&7+%count% 更多'
+    stats:
+      title: '&6数据'
+      capacity: '&7容量: &e%capacity% J'
+      energy: '&7能量: &e%energy% J/tick'
+      speed: '&7速度: &e%speed%x'
+    items-header:
+      name: '&e▼ 本指南中的物品'
+      lore:
+      - '&7点击下方任意物品查看其'
+      - "&7配方、数据及用途。"
+
+  installer:
+    badge:
+      working: '&e⚙ 处理中…'
+      restart: '&b↻ 重启以应用 (%version%)'
+      installed-version: '&a✔ 已安装 v%version%'
+      installed: '&a✔ 已安装'
+      not-installed-deps: '&7＋ 未安装 &8(需要 %deps%)'
+      not-installed: '&7＋ 未安装'
+    back-settings: '&e⇦ 返回设置'
+    back: '&e⇦ 返回'
+    click-details: '&7⇨ &e点击查看详情'
+    will-install: '&7同时将安装: &f%deps%'
+    install:
+      install: '&a安装最新发行版'
+      update: '&a更新到最新发行版'
+      lore:
+      - '&7下载最新的 GitHub 发行版'
+      - '&7并暂存以待下次重启。'
+      - ''
+      - '&7⇨ &e点击'
+    build:
+      name: '&b从分支构建'
+      lore:
+      - '&7克隆并编译选定的分支'
+      - '&7（仅限开发者环境）。'
+      - ''
+      - '&7⇨ &e点击选择分支'
+    branches:
+      none: '&c未找到分支'
+      none-lore: "&7无法连接 GitHub，或该仓库没有分支。"
+      click: '&7⇨ &e点击构建此分支'
+
   locked: '已锁定'
   work-in-progress: '该功能暂未推出!'
   locked-itemgroup:

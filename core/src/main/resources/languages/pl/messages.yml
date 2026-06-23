@@ -25,6 +25,92 @@ commands:
 placeholderapi:
   profile-loading: 'Ładowanie...'
 guide:
+  coverage:
+    messages: '&7Wiadomości: &b%percent%%'
+    items: '&7Przedmioty: &b%percent%%'
+    breakdown-hint: '&7⇨ &ePrawy przycisk: &7Szczegóły tłumaczenia przedmiotów'
+    title-suffix: 'Przedmioty'
+    translated: '&7Przetłumaczono: &b%translated%&7/&b%total%'
+    line: '&7Pokrycie: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Wiki Slimefun'
+    welcome:
+      title: '&3Wiki Slimefun'
+      lore:
+      - '&7Jesteś tu nowy? Przeczytaj poniższe poradniki, aby poznać'
+      - '&7zasady działania Slimefun - zacznij od &ePierwsze kroki&7.'
+      - '&7Albo przeglądaj przedmioty, aby coś sprawdzić.'
+    search:
+      name: '&aPrzeszukaj wiki'
+      lore:
+      - '&7Wyszukaj dowolny przedmiot po nazwie'
+      - '&7we wszystkich zainstalowanych dodatkach.'
+      - ''
+      - '&7⇨ &eKliknij, aby wpisać szukaną frazę'
+    browse:
+      name: '&aPrzeglądaj przedmioty według kategorii'
+      lore:
+      - '&7Odkrywaj każdą kategorię Slimefun'
+      - '&7i sprawdzaj poszczególne przedmioty.'
+      - ''
+      - '&7⇨ &eKliknij'
+    topic-click: '&7⇨ &eKliknij, aby przeczytać'
+    results-title: '&aWyniki wyszukiwania dla &e"%query%&e"'
+    results-found: '&7Znaleziono &b%count% &7przedmiot(ów).'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Wstecz'
+    no-info: '&7(Brak dostępnych informacji.)'
+    used-in:
+      name: '&eUżywane w'
+      lore:
+      - '&7Przedmioty, które używają tego w swoim przepisie.'
+      - '&7Kliknij jeden, aby przejść do jego strony.'
+    more: '&7+%count% więcej'
+    stats:
+      title: '&6Statystyki'
+      capacity: '&7Pojemność: &e%capacity% J'
+      energy: '&7Energia: &e%energy% J/tick'
+      speed: '&7Prędkość: &e%speed%x'
+    items-header:
+      name: '&e▼ Przedmioty w tym poradniku'
+      lore:
+      - '&7Kliknij dowolny przedmiot poniżej, aby zobaczyć jego'
+      - "&7przepis, statystyki i gdzie jest używany."
+
+  installer:
+    badge:
+      working: '&e⚙ Pracuję…'
+      restart: '&b↻ Uruchom ponownie, aby zastosować (%version%)'
+      installed-version: '&a✔ Zainstalowano v%version%'
+      installed: '&a✔ Zainstalowano'
+      not-installed-deps: '&7＋ Nie zainstalowano &8(wymaga %deps%)'
+      not-installed: '&7＋ Nie zainstalowano'
+    back-settings: '&e⇦ Powrót do Ustawień'
+    back: '&e⇦ Wstecz'
+    click-details: '&7⇨ &eKliknij po szczegóły'
+    will-install: '&7Zainstaluje także: &f%deps%'
+    install:
+      install: '&aZainstaluj najnowsze wydanie'
+      update: '&aZaktualizuj do najnowszego wydania'
+      lore:
+      - '&7Pobiera najnowsze wydanie z GitHub'
+      - '&7i przygotowuje je na następne uruchomienie.'
+      - ''
+      - '&7⇨ &eKliknij'
+    build:
+      name: '&bZbuduj z gałęzi'
+      lore:
+      - '&7Sklonuj i skompiluj wybraną gałąź'
+      - '&7(tylko środowiska deweloperskie).'
+      - ''
+      - '&7⇨ &eKliknij, aby wybrać gałąź'
+    branches:
+      none: '&cNie znaleziono gałęzi'
+      none-lore: "&7Nie udało się połączyć z GitHub lub repozytorium nie ma gałęzi."
+      click: '&7⇨ &eKliknij, aby zbudować tę gałąź'
+
   locked: 'Zablokowany'
   work-in-progress: 'Ta funkcja nie została jeszcze ukończona!'
   locked-itemgroup:

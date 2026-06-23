@@ -37,6 +37,92 @@ commands:
 placeholderapi:
   profile-loading: 'Lade...'
 guide:
+  coverage:
+    messages: '&7Nachrichten: &b%percent%%'
+    items: '&7Items: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRechtsklick: &7Aufschlüsselung der Item-Übersetzung'
+    title-suffix: 'Items'
+    translated: '&7Übersetzt: &b%translated%&7/&b%total%'
+    line: '&7Abdeckung: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun-Wiki'
+    welcome:
+      title: '&3Slimefun-Wiki'
+      lore:
+      - '&7Neu hier? Lies die Anleitungen unten, um zu lernen,'
+      - '&7wie Slimefun funktioniert - beginne mit &eErste Schritte&7.'
+      - '&7Oder durchstöbere Items, um etwas nachzuschlagen.'
+    search:
+      name: '&aDurchsuche das Wiki'
+      lore:
+      - '&7Schlage ein beliebiges Item nach Namen nach'
+      - '&7über jedes installierte Addon hinweg.'
+      - ''
+      - '&7⇨ &eKlicke, um einen Suchbegriff einzugeben'
+    browse:
+      name: '&aItems nach Kategorie durchsuchen'
+      lore:
+      - '&7Erkunde jede Slimefun-Kategorie'
+      - '&7und schlage einzelne Items nach.'
+      - ''
+      - '&7⇨ &eKlicke'
+    topic-click: '&7⇨ &eKlicke zum Lesen'
+    results-title: '&aSuchergebnisse für &e"%query%&e"'
+    results-found: '&7&b%count% &7Item(s) gefunden.'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Zurück'
+    no-info: '&7(Noch keine Informationen verfügbar.)'
+    used-in:
+      name: '&eVerwendet in'
+      lore:
+      - '&7Items, die dies in ihrem Rezept verwenden.'
+      - '&7Klicke auf eines für seine eigene Seite.'
+    more: '&7+%count% mehr'
+    stats:
+      title: '&6Statistiken'
+      capacity: '&7Kapazität: &e%capacity% J'
+      energy: '&7Energie: &e%energy% J/tick'
+      speed: '&7Geschwindigkeit: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in dieser Anleitung'
+      lore:
+      - '&7Klicke auf ein beliebiges Item unten für sein'
+      - "&7Rezept, seine Statistiken und wo es verwendet wird."
+
+  installer:
+    badge:
+      working: '&e⚙ Arbeitet…'
+      restart: '&b↻ Neu starten zum Anwenden (%version%)'
+      installed-version: '&a✔ Installiert v%version%'
+      installed: '&a✔ Installiert'
+      not-installed-deps: '&7＋ Nicht installiert &8(benötigt %deps%)'
+      not-installed: '&7＋ Nicht installiert'
+    back-settings: '&e⇦ Zurück zu den Einstellungen'
+    back: '&e⇦ Zurück'
+    click-details: '&7⇨ &eKlicke für Details'
+    will-install: '&7Wird außerdem installieren: &f%deps%'
+    install:
+      install: '&aNeuestes Release installieren'
+      update: '&aAuf neuestes Release aktualisieren'
+      lore:
+      - '&7Lädt das neueste GitHub-Release herunter'
+      - '&7und bereitet es für den nächsten Neustart vor.'
+      - ''
+      - '&7⇨ &eKlicke'
+    build:
+      name: '&bAus einem Branch bauen'
+      lore:
+      - '&7Klone & kompiliere einen gewählten Branch'
+      - '&7(nur Entwicklerumgebungen).'
+      - ''
+      - '&7⇨ &eKlicke, um einen Branch auszuwählen'
+    branches:
+      none: '&cKeine Branches gefunden'
+      none-lore: "&7GitHub konnte nicht erreicht werden oder das Repo hat keine Branches."
+      click: '&7⇨ &eKlicke, um diesen Branch zu bauen'
+
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
   locked-itemgroup:

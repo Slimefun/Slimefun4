@@ -37,6 +37,92 @@ commands:
 placeholderapi:
   profile-loading: 'Cargando...'
 guide:
+  coverage:
+    messages: '&7Mensajes: &b%percent%%'
+    items: '&7Objetos: &b%percent%%'
+    breakdown-hint: '&7⇨ &eClic derecho: &7Desglose de traducción de objetos'
+    title-suffix: 'Objetos'
+    translated: '&7Traducido: &b%translated%&7/&b%total%'
+    line: '&7Cobertura: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Wiki de Slimefun'
+    welcome:
+      title: '&3Wiki de Slimefun'
+      lore:
+      - '&7¿Nuevo aquí? Lee las guías de abajo para aprender'
+      - '&7cómo funciona Slimefun: empieza con &ePrimeros pasos&7.'
+      - '&7O explora los objetos para buscar algo.'
+    search:
+      name: '&aBuscar en la wiki'
+      lore:
+      - '&7Busca cualquier objeto por nombre'
+      - '&7en todos los complementos instalados.'
+      - ''
+      - '&7⇨ &eHaz clic para escribir un término de búsqueda'
+    browse:
+      name: '&aExplorar objetos por categoría'
+      lore:
+      - '&7Explora todas las categorías de Slimefun'
+      - '&7y busca objetos individuales.'
+      - ''
+      - '&7⇨ &eHaz clic'
+    topic-click: '&7⇨ &eHaz clic para leer'
+    results-title: '&aResultados de búsqueda para &e"%query%&e"'
+    results-found: '&7Se encontraron &b%count% &7objeto(s).'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Atrás'
+    no-info: '&7(Aún no hay información disponible.)'
+    used-in:
+      name: '&eUsado en'
+      lore:
+      - '&7Objetos que usan esto en su receta.'
+      - '&7Haz clic en uno para ver su propia página.'
+    more: '&7+%count% más'
+    stats:
+      title: '&6Estadísticas'
+      capacity: '&7Capacidad: &e%capacity% J'
+      energy: '&7Energía: &e%energy% J/tick'
+      speed: '&7Velocidad: &e%speed%x'
+    items-header:
+      name: '&e▼ Objetos en esta guía'
+      lore:
+      - '&7Haz clic en cualquier objeto de abajo para ver su'
+      - "&7receta, estadísticas y dónde se usa."
+
+  installer:
+    badge:
+      working: '&e⚙ Trabajando…'
+      restart: '&b↻ Reinicia para aplicar (%version%)'
+      installed-version: '&a✔ Instalado v%version%'
+      installed: '&a✔ Instalado'
+      not-installed-deps: '&7＋ No instalado &8(necesita %deps%)'
+      not-installed: '&7＋ No instalado'
+    back-settings: '&e⇦ Volver a Ajustes'
+    back: '&e⇦ Atrás'
+    click-details: '&7⇨ &eHaz clic para ver detalles'
+    will-install: '&7También instalará: &f%deps%'
+    install:
+      install: '&aInstalar la última versión'
+      update: '&aActualizar a la última versión'
+      lore:
+      - '&7Descarga la última versión de GitHub'
+      - '&7y la prepara para el próximo reinicio.'
+      - ''
+      - '&7⇨ &eHaz clic'
+    build:
+      name: '&bCompilar desde una rama'
+      lore:
+      - '&7Clona y compila una rama elegida'
+      - '&7(solo entornos de desarrollo).'
+      - ''
+      - '&7⇨ &eHaz clic para elegir una rama'
+    branches:
+      none: '&cNo se encontraron ramas'
+      none-lore: "&7No se pudo conectar con GitHub o el repositorio no tiene ramas."
+      click: '&7⇨ &eHaz clic para compilar esta rama'
+
   locked: 'BLOQUEADO'
   work-in-progress: '¡¡¡Esta característica no está completamente terminada todavía!!'
   locked-itemgroup:
