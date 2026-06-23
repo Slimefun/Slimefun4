@@ -457,7 +457,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 && !AddonVisibility.isHidden(p, slimefunItem.getItemGroup().getKey().getNamespace())
                 && isItemGroupAccessible(p, slimefunItem)
                 && isSearchFilterApplicable(slimefunItem, searchTerm)) {
-                ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
+                ItemStack itemstack = CustomItemStack.create(Slimefun.getItemTranslationService().getDisplayItem(p, slimefunItem), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     GuideTheme theme = GuideTheme.byId(itemGroup.getThemeId());
                     if (theme == null) {
