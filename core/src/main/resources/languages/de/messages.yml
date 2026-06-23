@@ -36,6 +36,8 @@ commands:
     disabled: '&7Der Debugmodus wurde deaktiviert.'
 placeholderapi:
   profile-loading: 'Lade...'
+actionbar:
+  radiation: '&6Strahlungsbelastung: &c%level%&7/&e100'
 guide:
   item:
     name: '&aSlimefun Guide &7(Chest GUI)'
@@ -225,7 +227,27 @@ guide:
     translations:
       name: '&aFehlt etwas?'
       lore: 'Klicke um eine Übersetzung hinzuzufügen'
+  modes:
+    selected: 'Slimefun-Handbuch-Typ: '
+    change: 'Klicke um den Typ zu ändern'
+    SURVIVAL_MODE: 'Überlebensmodus'
+    CHEAT_MODE: 'Cheat-Sheet'
   options:
+    fireworks:
+      enabled:
+        text:
+          - '&bFeuerwerk: &aAn'
+          - ''
+          - '&7Du kannst nun entscheiden, ob du beim'
+          - '&7Freischalten eines Items Feuerwerk siehst.'
+        click: '&eKlicke um dein Feuerwerk zu deaktivieren'
+      disabled:
+        text:
+          - '&bFeuerwerk: &4Aus'
+          - ''
+          - '&7Du kannst nun entscheiden, ob du beim'
+          - '&7Freischalten eines Items Feuerwerk siehst.'
+        click: '&eKlicke um dein Feuerwerk zu aktivieren'
     learning-animation:
       enabled:
         text:
