@@ -54,12 +54,15 @@ public final class ThemeRegistry {
             if (members != null && !members.isEmpty()) {
                 String name = Slimefun.getLocalization().getMessage(p, "guide.themes." + theme.getId());
 
-                if (name == null || name.startsWith("guide.themes.")) {
+                if (name == null || name.startsWith("guide.themes.") || name.startsWith("! Missing")) {
                     name = theme.getDefaultName();
                 }
 
                 ItemStack icon = CustomItemStack.create(MaterialCompat.stack(theme.getIcon()), name,
-                    "", "&7Categories: &e" + members.size(), "", "&7⇨ &eClick to open");
+                    "",
+                    Slimefun.getLocalization().getMessage(p, "guide.themes-meta.categories").replace("%count%", String.valueOf(members.size())),
+                    "",
+                    Slimefun.getLocalization().getMessage(p, "guide.themes-meta.open"));
                 result.add(new ThemeItemGroup(theme, icon, members));
             }
         }

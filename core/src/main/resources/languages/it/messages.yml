@@ -37,6 +37,64 @@ commands:
 placeholderapi:
   profile-loading: 'Caricamento...'
 guide:
+  item:
+    name: '&aGuida della Slimefun &7(Chest GUI)'
+    cheat-only: '&4&lApribile solo dagli Admin'
+    browse: '&eClic destro &8⇨ &7Sfoglia oggetti'
+    settings: '&eShift + Clic destro &8⇨ &7Apri impostazioni / crediti'
+  themes-meta:
+    categories: '&7Categorie: &e%count%'
+    open: '&7⇨ &eClicca per aprire'
+  themes:
+    weapons: '&cArmi'
+    tools: '&aStrumenti'
+    armor: '&bArmatura'
+    machines: '&6Macchine'
+    energy_tech: '&eEnergia e tecnologia'
+    resources: '&fRisorse'
+    magic: '&dMagia'
+    food: '&2Cibo e agricoltura'
+    logistics: '&3Logistica'
+    decoration: '&5Decorazione'
+    misc: '&7Varie'
+  addon-visibility:
+    name: '&3Visibilità degli addon'
+    lore:
+    - '&7Scegli quali addon appaiono nella tua guida.'
+    - '&7Gli addon nascosti vengono rimossi dalla navigazione'
+    - '&7e dalla ricerca — solo per te.'
+    - ''
+    - '&7⇨ &eClicca per gestire'
+    menu-title: '&eVisibilità degli addon'
+    menu-lore:
+    - '&7Clicca un addon per attivare o disattivare la sua'
+    - '&7presenza nella tua guida (navigazione + ricerca).'
+    - ''
+    - '&7Almeno un addon deve restare visibile.'
+    shown: '&a✔ Mostrato'
+    hidden: '&c✖ Nascosto'
+    toggle: '&7⇨ &eClicca per attivare/disattivare'
+    back: '&e⇦ Indietro'
+    must-stay: '&cAlmeno un addon deve restare visibile.'
+  wiki-topics:
+    getting_started: { name: 'Primi passi', summary: '&7I tuoi primi passi in Slimefun' }
+    research: { name: 'Ricerca e sblocco', summary: '&7Sblocca oggetti con l''esperienza' }
+    multiblocks: { name: 'Macchine multiblocco', summary: '&7Costruisci strutture per fabbricare' }
+    ore_processing: { name: 'Lavorazione dei minerali', summary: '&7Raddoppia la resa dei minerali' }
+    smeltery: { name: 'Fonderia e leghe', summary: '&7Fondi polveri e forgia leghe' }
+    energy: { name: 'Reti energetiche', summary: '&7Alimenta le tue macchine' }
+    power_generation: { name: 'Generazione di energia', summary: '&7Generatori, reattori, condensatori' }
+    electric_machines: { name: 'Macchine elettriche', summary: '&7Macchine automatiche alimentate' }
+    cargo: { name: 'Reti cargo', summary: '&7Sposta gli oggetti automaticamente' }
+    androids: { name: 'Androidi programmabili', summary: '&7Automatizza compiti con i robot' }
+    geo_mining: { name: 'Estrazione GEO e petrolio', summary: '&7Estrai petrolio e risorse' }
+    gps: { name: 'GPS e teletrasporto', summary: '&7Waypoint e teletrasportatori' }
+    talismans: { name: 'Talismani', summary: '&7Fortuna e protezione passive' }
+    magic: { name: 'Magia e l''Altare', summary: '&7Rune, bastoni e rituali' }
+    armor_gadgets: { name: 'Armatura e gadget', summary: '&7Jetpack, set e strumenti' }
+    backpacks: { name: 'Zaini e stoccaggio', summary: '&7Stoccaggio portatile sempre con te' }
+    food_farming: { name: 'Cibo e agricoltura', summary: '&7Succhi, carne secca e fattorie automatiche' }
+    soulbound: { name: 'Oggetti vincolati all''anima', summary: '&7Conserva gli oggetti quando muori' }
   coverage:
     messages: '&7Messaggi: &b%percent%%'
     items: '&7Oggetti: &b%percent%%'
@@ -183,6 +241,8 @@ guide:
     credits: 'Collaboratori di Slimefun5'
     addons: 'Addons per Slimefun5'
     source: 'Codice Sorgente'
+    addon-visibility: 'Visibilità degli addon'
+    installer: 'Installatore di addon'
   credits:
     commit: 'Contributo'
     commits: 'Contributi'

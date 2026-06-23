@@ -37,6 +37,64 @@ commands:
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
+  item:
+    name: '&aSlimefun Handboek &7(Chest GUI)'
+    cheat-only: '&4&lAlleen te openen door Admins'
+    browse: '&eRechtermuisklik &8⇨ &7Items bekijken'
+    settings: '&eShift + Rechtermuisklik &8⇨ &7Instellingen / Bijdragers openen'
+  themes-meta:
+    categories: '&7Categorieën: &e%count%'
+    open: '&7⇨ &eKlik om te openen'
+  themes:
+    weapons: '&cWapens'
+    tools: '&aGereedschap'
+    armor: '&bWapenrusting'
+    machines: '&6Machines'
+    energy_tech: '&eEnergie & Techniek'
+    resources: '&fGrondstoffen'
+    magic: '&dMagie'
+    food: '&2Voedsel & Landbouw'
+    logistics: '&3Logistiek'
+    decoration: '&5Decoratie'
+    misc: '&7Diversen'
+  addon-visibility:
+    name: '&3Zichtbaarheid uitbreidingen'
+    lore:
+    - '&7Kies welke uitbreidingen in je handboek verschijnen.'
+    - '&7Verborgen uitbreidingen worden verwijderd uit het bekijken'
+    - '&7en zoeken — alleen voor jou.'
+    - ''
+    - '&7⇨ &eKlik om te beheren'
+    menu-title: '&eZichtbaarheid uitbreidingen'
+    menu-lore:
+    - '&7Klik op een uitbreiding om aan/uit te zetten of deze'
+    - '&7in je handboek verschijnt (bekijken + zoeken).'
+    - ''
+    - '&7Ten minste één uitbreiding moet zichtbaar blijven.'
+    shown: '&a✔ Getoond'
+    hidden: '&c✖ Verborgen'
+    toggle: '&7⇨ &eKlik om te wisselen'
+    back: '&e⇦ Terug'
+    must-stay: '&cTen minste één uitbreiding moet zichtbaar blijven.'
+  wiki-topics:
+    getting_started: { name: 'Aan de slag', summary: '&7Je eerste stappen in Slimefun' }
+    research: { name: 'Onderzoek & Ontgrendelen', summary: '&7Ontgrendel items met ervaring' }
+    multiblocks: { name: 'Multiblock-machines', summary: '&7Bouw structuren om te maken' }
+    ore_processing: { name: 'Ertsverwerking', summary: '&7Verdubbel je ertsopbrengst' }
+    smeltery: { name: 'Smelterij & Legeringen', summary: '&7Smelt poeders en smeed legeringen' }
+    energy: { name: 'Energienetwerken', summary: '&7Voorzie je machines van stroom' }
+    power_generation: { name: 'Stroomopwekking', summary: '&7Generatoren, reactoren, condensatoren' }
+    electric_machines: { name: 'Elektrische machines', summary: '&7Aangedreven automatische machines' }
+    cargo: { name: 'Vrachtnetwerken', summary: '&7Verplaats items automatisch' }
+    androids: { name: 'Programmeerbare androids', summary: '&7Automatiseer taken met robots' }
+    geo_mining: { name: 'GEO-mijnbouw & Olie', summary: '&7Win olie en grondstoffen' }
+    gps: { name: 'GPS & Teleportatie', summary: '&7Routepunten en teleporters' }
+    talismans: { name: 'Talismannen', summary: '&7Passief geluk en bescherming' }
+    magic: { name: 'Magie & het Altaar', summary: '&7Runen, staven en rituelen' }
+    armor_gadgets: { name: 'Wapenrusting & Gadgets', summary: '&7Jetpacks, sets en gereedschap' }
+    backpacks: { name: 'Rugzakken & Opslag', summary: '&7Draagbare opslag onderweg' }
+    food_farming: { name: 'Voedsel & Landbouw', summary: '&7Sappen, jerky en automatische boerderijen' }
+    soulbound: { name: 'Zielsgebonden items', summary: '&7Behoud items wanneer je sterft' }
   coverage:
     messages: '&7Berichten: &b%percent%%'
     items: '&7Items: &b%percent%%'
@@ -195,6 +253,8 @@ guide:
     bugs: 'Fouten rapporteren'
     source: 'Bron Code'
     versions: 'Geïnstalleerde versies'
+    addon-visibility: 'Zichtbaarheid uitbreidingen'
+    installer: 'Uitbreidingen installeren'
   credits:
     commit: 'Bijdrage'
     commits: 'Bijdragen'

@@ -37,20 +37,18 @@ public final class AddonVisibilityMenu {
         ChestMenuUtils.drawBackground(menu, BORDER);
 
         menu.addItem(49, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK),
-            "&e⇦ Back"));
+            Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.back")));
         menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
             SlimefunGuide.openGuide(pl, guide);
             return false;
         });
 
         // Info header explaining the toggle + the "at least one" rule.
-        menu.addItem(4, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK),
-            "&eAddon Visibility",
-            "",
-            "&7Click an addon to toggle whether it",
-            "&7appears in your guide (browse + search).",
-            "",
-            "&7At least one addon must stay shown."));
+        java.util.List<String> header = new java.util.ArrayList<>();
+        header.add(Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.menu-title"));
+        header.add("");
+        header.addAll(Slimefun.getLocalization().getMessages(p, "guide.addon-visibility.menu-lore"));
+        menu.addItem(4, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), header));
         menu.addMenuClickHandler(4, ChestMenuUtils.getEmptyClickHandler());
 
         // Map of addon id (the category NamespacedKey namespace, lowercased) -> display name. A map also
@@ -75,9 +73,9 @@ public final class AddonVisibilityMenu {
                 MaterialCompat.stack(visible ? XMaterial.LIME_STAINED_GLASS_PANE : XMaterial.GRAY_STAINED_GLASS_PANE),
                 (visible ? "&a" : "&7") + entry.getValue(),
                 "",
-                visible ? "&a✔ Shown" : "&c✖ Hidden",
+                visible ? Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.shown") : Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.hidden"),
                 "",
-                "&7⇨ &eClick to toggle");
+                Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.toggle"));
 
             menu.addItem(slot, icon);
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
@@ -90,7 +88,7 @@ public final class AddonVisibilityMenu {
                         }
                     }
                     if (shown <= 1) {
-                        pl.sendMessage(ChatColor.RED + "At least one addon must stay visible.");
+                        pl.sendMessage(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(pl, "guide.addon-visibility.must-stay")));
                         return false;
                     }
                 }

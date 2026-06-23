@@ -37,6 +37,64 @@ commands:
 placeholderapi:
   profile-loading: 'Cargando...'
 guide:
+  item:
+    name: '&aGuía de Slimefun &7(Chest GUI)'
+    cheat-only: '&4&lSolo los administradores pueden abrirla'
+    browse: '&eClic derecho &8⇨ &7Explorar objetos'
+    settings: '&eShift + Clic derecho &8⇨ &7Abrir ajustes / Créditos'
+  themes-meta:
+    categories: '&7Categorías: &e%count%'
+    open: '&7⇨ &eClic para abrir'
+  themes:
+    weapons: '&cArmas'
+    tools: '&aHerramientas'
+    armor: '&bArmadura'
+    machines: '&6Máquinas'
+    energy_tech: '&eEnergía y Tecnología'
+    resources: '&fRecursos'
+    magic: '&dMagia'
+    food: '&2Comida y Cultivo'
+    logistics: '&3Logística'
+    decoration: '&5Decoración'
+    misc: '&7Varios'
+  addon-visibility:
+    name: '&3Visibilidad de complementos'
+    lore:
+    - '&7Elige qué complementos aparecen en tu guía.'
+    - '&7Los complementos ocultos se eliminan de la navegación'
+    - '&7y la búsqueda — solo para ti.'
+    - ''
+    - '&7⇨ &eClic para gestionar'
+    menu-title: '&eVisibilidad de complementos'
+    menu-lore:
+    - '&7Haz clic en un complemento para alternar si'
+    - '&7aparece en tu guía (navegación + búsqueda).'
+    - ''
+    - '&7Al menos un complemento debe permanecer visible.'
+    shown: '&a✔ Visible'
+    hidden: '&c✖ Oculto'
+    toggle: '&7⇨ &eClic para alternar'
+    back: '&e⇦ Atrás'
+    must-stay: '&cAl menos un complemento debe permanecer visible.'
+  wiki-topics:
+    getting_started: { name: 'Primeros pasos', summary: '&7Tus primeros pasos en Slimefun' }
+    research: { name: 'Investigación y desbloqueo', summary: '&7Desbloquea objetos con experiencia' }
+    multiblocks: { name: 'Máquinas multibloque', summary: '&7Construye estructuras para fabricar' }
+    ore_processing: { name: 'Procesamiento de minerales', summary: '&7Duplica el rendimiento de tus minerales' }
+    smeltery: { name: 'Fundición y aleaciones', summary: '&7Funde polvos y forja aleaciones' }
+    energy: { name: 'Redes de energía', summary: '&7Alimenta tus máquinas' }
+    power_generation: { name: 'Generación de energía', summary: '&7Generadores, reactores, condensadores' }
+    electric_machines: { name: 'Máquinas eléctricas', summary: '&7Máquinas automáticas con energía' }
+    cargo: { name: 'Redes de carga', summary: '&7Mueve objetos automáticamente' }
+    androids: { name: 'Androides programables', summary: '&7Automatiza tareas con robots' }
+    geo_mining: { name: 'Minería GEO y petróleo', summary: '&7Extrae petróleo y recursos' }
+    gps: { name: 'GPS y teletransporte', summary: '&7Puntos de referencia y teletransportadores' }
+    talismans: { name: 'Talismanes', summary: '&7Suerte y protección pasivas' }
+    magic: { name: 'Magia y el Altar', summary: '&7Runas, bastones y rituales' }
+    armor_gadgets: { name: 'Armadura y artilugios', summary: '&7Jetpacks, conjuntos y herramientas' }
+    backpacks: { name: 'Mochilas y almacenamiento', summary: '&7Almacenamiento portátil sobre la marcha' }
+    food_farming: { name: 'Comida y cultivo', summary: '&7Zumos, cecina y cultivos automáticos' }
+    soulbound: { name: 'Objetos ligados al alma', summary: '&7Conserva los objetos al morir' }
   coverage:
     messages: '&7Mensajes: &b%percent%%'
     items: '&7Objetos: &b%percent%%'
@@ -195,6 +253,8 @@ guide:
     bugs: 'Reportes de Bugs'
     source: 'Código base'
     versions: 'Versiones instaladas'
+    addon-visibility: 'Visibilidad de complementos'
+    installer: 'Instalador de complementos'
   credits:
     commit: 'Contribución'
     commits: 'Contribuciones'

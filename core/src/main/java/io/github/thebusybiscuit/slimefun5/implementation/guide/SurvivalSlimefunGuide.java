@@ -84,7 +84,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     public SurvivalSlimefunGuide(boolean showVanillaRecipes, boolean showHiddenItemGroupsInSearch) {
         this.showVanillaRecipes = showVanillaRecipes;
         this.showHiddenItemGroupsInSearch = showHiddenItemGroupsInSearch;
-        item = new SlimefunGuideItem(this, "&aSlimefun Guide &7(Chest GUI)");
+        item = new SlimefunGuideItem(this, Slimefun.getLocalization().getMessage("guide.item.name"));
     }
 
     @Override
@@ -166,14 +166,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         createHeader(p, profile, menu);
 
         // Addon Visibility entry (main menu only).
-        menu.addItem(4, CustomItemStack.create(XMaterial.BOOKSHELF.parseMaterial(),
-            "&3Addon Visibility",
-            "",
-            "&7Choose which addons appear in your guide.",
-            "&7Hidden addons are removed from browsing",
-            "&7and search — just for you.",
-            "",
-            "&7⇨ &eClick to manage"));
+        List<String> addonVisibilityLore = new ArrayList<>();
+        addonVisibilityLore.add(Slimefun.getLocalization().getMessage(p, "guide.addon-visibility.name"));
+        addonVisibilityLore.add("");
+        addonVisibilityLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.addon-visibility.lore"));
+        menu.addItem(4, CustomItemStack.create(XMaterial.BOOKSHELF.parseMaterial(), addonVisibilityLore));
         menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
             AddonVisibilityMenu.open(pl, this.item);
             return false;
@@ -460,7 +457,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                     if (theme == null) {
                         theme = GuideTheme.MISC;
                     }
-                    String themeName = Slimefun.getLocalization().getMessage(p, "guide.themes." + theme.getId());
+                    String themeName = ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.themes." + theme.getId()));
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + themeName + ChatColor.GRAY + " \u25B8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
                     VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES, VersionedItemFlag.HIDE_ENCHANTS, VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
                 });

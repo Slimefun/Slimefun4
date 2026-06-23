@@ -25,6 +25,65 @@ commands:
 placeholderapi:
   profile-loading: 'Ładowanie...'
 guide:
+  item:
+    name: '&aPrzewodnik Slimefun &7(Chest GUI)'
+    cheat-only: '&4&lOtwierany tylko przez administratorów'
+    browse: '&ePrawy przycisk &8⇨ &7Przeglądaj przedmioty'
+    settings: '&eShift + Prawy przycisk &8⇨ &7Otwórz ustawienia / autorzy'
+  themes-meta:
+    categories: '&7Kategorie: &e%count%'
+    open: '&7⇨ &eKliknij, aby otworzyć'
+  themes:
+    weapons: '&cBroń'
+    tools: '&aNarzędzia'
+    armor: '&bZbroja'
+    machines: '&6Maszyny'
+    energy_tech: '&eEnergia i technologia'
+    resources: '&fSurowce'
+    magic: '&dMagia'
+    food: '&2Jedzenie i uprawa'
+    logistics: '&3Logistyka'
+    decoration: '&5Dekoracja'
+    misc: '&7Różne'
+  addon-visibility:
+    name: '&3Widoczność dodatków'
+    lore:
+    - '&7Wybierz, które dodatki pojawią się w przewodniku.'
+    - '&7Ukryte dodatki są usuwane z przeglądania'
+    - '&7i wyszukiwania — tylko dla ciebie.'
+    - ''
+    - '&7⇨ &eKliknij, aby zarządzać'
+    menu-title: '&eWidoczność dodatków'
+    menu-lore:
+    - '&7Kliknij dodatek, aby przełączyć, czy'
+    - '&7pojawia się w przewodniku (przeglądanie + wyszukiwanie).'
+    - ''
+    - '&7Przynajmniej jeden dodatek musi pozostać widoczny.'
+    shown: '&a✔ Widoczny'
+    hidden: '&c✖ Ukryty'
+    toggle: '&7⇨ &eKliknij, aby przełączyć'
+    back: '&e⇦ Wstecz'
+    must-stay: '&cPrzynajmniej jeden dodatek musi pozostać widoczny.'
+  wiki-topics:
+    getting_started: { name: 'Pierwsze kroki', summary: '&7Twoje pierwsze kroki w Slimefun' }
+    research: { name: 'Badania i odblokowywanie', summary: '&7Odblokuj przedmioty za pomocą doświadczenia' }
+    multiblocks: { name: 'Maszyny wieloblokowe', summary: '&7Buduj struktury do wytwarzania' }
+    ore_processing: { name: 'Przetwarzanie rud', summary: '&7Podwój wydobycie rud' }
+    smeltery: { name: 'Odlewnia i stopy', summary: '&7Wytapiaj pyły i wykuwaj stopy' }
+    energy: { name: 'Sieci energetyczne', summary: '&7Zasilaj swoje maszyny' }
+    power_generation: { name: 'Wytwarzanie energii', summary: '&7Generatory, reaktory, kondensatory' }
+    electric_machines: { name: 'Maszyny elektryczne', summary: '&7Zasilane automatyczne maszyny' }
+    cargo: { name: 'Sieci transportowe', summary: '&7Przenoś przedmioty automatycznie' }
+    androids: { name: 'Programowalne androidy', summary: '&7Automatyzuj zadania za pomocą robotów' }
+    geo_mining: { name: 'Wydobycie GEO i ropa', summary: '&7Wydobywaj ropę i surowce' }
+    gps: { name: 'GPS i teleportacja', summary: '&7Punkty trasy i teleportery' }
+    talismans: { name: 'Talizmany', summary: '&7Pasywne szczęście i ochrona' }
+    magic: { name: 'Magia i ołtarz', summary: '&7Runy, laski i rytuały' }
+    armor_gadgets: { name: 'Zbroja i gadżety', summary: '&7Plecaki odrzutowe, zestawy i narzędzia' }
+    backpacks: { name: 'Plecaki i przechowywanie', summary: '&7Przenośne przechowywanie w podróży' }
+    food_farming: { name: 'Jedzenie i uprawa', summary: '&7Soki, suszone mięso i auto-farmy' }
+    soulbound: { name: 'Przedmioty związane z duszą', summary: '&7Zachowaj przedmioty, gdy zginiesz' }
+
   coverage:
     messages: '&7Wiadomości: &b%percent%%'
     items: '&7Przedmioty: &b%percent%%'
@@ -160,6 +219,8 @@ guide:
     bugs: 'Zgłaszanie błędów'
     source: 'Kod Źródłowy'
     versions: 'Zainstalowane wersje'
+    addon-visibility: 'Widoczność dodatków'
+    installer: 'Instalator dodatków'
   credits:
     commit: 'Rejestracja zmian'
     commits: 'Rejestracje zmian'

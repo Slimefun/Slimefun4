@@ -37,6 +37,64 @@ commands:
 placeholderapi:
   profile-loading: 'Lade...'
 guide:
+  item:
+    name: '&aSlimefun Guide &7(Chest GUI)'
+    cheat-only: '&4&lNur von Admins zu öffnen'
+    browse: '&eRechtsklick &8⇨ &7Items durchsuchen'
+    settings: '&eUmschalt + Rechtsklick &8⇨ &7Einstellungen / Credits öffnen'
+  themes-meta:
+    categories: '&7Kategorien: &e%count%'
+    open: '&7⇨ &eKlicke zum Öffnen'
+  themes:
+    weapons: '&cWaffen'
+    tools: '&aWerkzeuge'
+    armor: '&bRüstung'
+    machines: '&6Maschinen'
+    energy_tech: '&eEnergie & Technik'
+    resources: '&fRohstoffe'
+    magic: '&dMagie'
+    food: '&2Essen & Landwirtschaft'
+    logistics: '&3Logistik'
+    decoration: '&5Dekoration'
+    misc: '&7Sonstiges'
+  addon-visibility:
+    name: '&3Addon-Sichtbarkeit'
+    lore:
+    - '&7Wähle, welche Addons in deinem Guide erscheinen.'
+    - '&7Versteckte Addons werden vom Durchsuchen'
+    - '&7und der Suche entfernt — nur für dich.'
+    - ''
+    - '&7⇨ &eKlicke zum Verwalten'
+    menu-title: '&eAddon-Sichtbarkeit'
+    menu-lore:
+    - '&7Klicke auf ein Addon, um umzuschalten, ob es'
+    - '&7in deinem Guide erscheint (Durchsuchen + Suche).'
+    - ''
+    - '&7Mindestens ein Addon muss sichtbar bleiben.'
+    shown: '&a✔ Sichtbar'
+    hidden: '&c✖ Versteckt'
+    toggle: '&7⇨ &eKlicke zum Umschalten'
+    back: '&e⇦ Zurück'
+    must-stay: '&cMindestens ein Addon muss sichtbar bleiben.'
+  wiki-topics:
+    getting_started: { name: 'Erste Schritte', summary: '&7Deine ersten Schritte in Slimefun' }
+    research: { name: 'Forschung & Freischalten', summary: '&7Schalte Items mit Erfahrung frei' }
+    multiblocks: { name: 'Multiblock-Maschinen', summary: '&7Baue Strukturen zum Herstellen' }
+    ore_processing: { name: 'Erzverarbeitung', summary: '&7Verdopple deinen Erzertrag' }
+    smeltery: { name: 'Schmelzerei & Legierungen', summary: '&7Schmelze Staub und schmiede Legierungen' }
+    energy: { name: 'Energienetze', summary: '&7Versorge deine Maschinen mit Strom' }
+    power_generation: { name: 'Stromerzeugung', summary: '&7Generatoren, Reaktoren, Kondensatoren' }
+    electric_machines: { name: 'Elektrische Maschinen', summary: '&7Strombetriebene Automatikmaschinen' }
+    cargo: { name: 'Cargo-Netze', summary: '&7Bewege Items automatisch' }
+    androids: { name: 'Programmierbare Androiden', summary: '&7Automatisiere Aufgaben mit Robotern' }
+    geo_mining: { name: 'GEO-Förderung & Öl', summary: '&7Fördere Öl und Rohstoffe' }
+    gps: { name: 'GPS & Teleportation', summary: '&7Wegpunkte und Teleporter' }
+    talismans: { name: 'Talismane', summary: '&7Passives Glück und Schutz' }
+    magic: { name: 'Magie & der Altar', summary: '&7Runen, Stäbe und Rituale' }
+    armor_gadgets: { name: 'Rüstung & Gadgets', summary: '&7Jetpacks, Sets und Werkzeuge' }
+    backpacks: { name: 'Rucksäcke & Lagerung', summary: '&7Tragbare Lagerung für unterwegs' }
+    food_farming: { name: 'Essen & Landwirtschaft', summary: '&7Säfte, Trockenfleisch und Auto-Farmen' }
+    soulbound: { name: 'Seelengebundene Items', summary: '&7Behalte Items, wenn du stirbst' }
   coverage:
     messages: '&7Nachrichten: &b%percent%%'
     items: '&7Items: &b%percent%%'
@@ -195,6 +253,8 @@ guide:
     bugs: 'Fehlermeldungen'
     source: 'Quellcode'
     versions: 'Installierte Versionen'
+    addon-visibility: 'Addon-Sichtbarkeit'
+    installer: 'Addon-Installer'
   credits:
     commit: 'Beitrag'
     commits: 'Beiträge'

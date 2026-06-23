@@ -105,9 +105,10 @@ public final class WikiIndex {
             WikiTopic topic = topics.get(offset + i);
             int slot = CONTENT_START + i;
 
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.getIcon()), "&b" + topic.getDisplayName(), "", topic.getSummary(), "", Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-click")));
+            String topicName = localizedTopicName(p, topic);
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(topic.getIcon()), "&b" + topicName, "", localizedTopicSummary(p, topic), "", Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-click")));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                WikiTopicPage.open(pl, guide, topic.getId(), topic.getDisplayName(), topic.getIcon());
+                WikiTopicPage.open(pl, guide, topic.getId(), localizedTopicName(pl, topic), topic.getIcon());
                 return false;
             });
         }
@@ -231,6 +232,20 @@ public final class WikiIndex {
 
         addPagination(menu, p, page, pages, (pl, target) -> openSearchResults(pl, guide, query, target));
         menu.open(p);
+    }
+
+    /** The topic's display name in the player's language ({@code guide.wiki-topics.<id>.name}); falls back to the registered name (e.g. for addon-registered topics with no message key). */
+    @Nonnull
+    private static String localizedTopicName(@Nonnull Player p, @Nonnull WikiTopic topic) {
+        String value = Slimefun.getLocalization().getMessage(p, "guide.wiki-topics." + topic.getId() + ".name");
+        return (value == null || value.startsWith("! Missing")) ? topic.getDisplayName() : value;
+    }
+
+    /** The topic's summary in the player's language ({@code guide.wiki-topics.<id>.summary}); falls back to the registered summary. */
+    @Nonnull
+    private static String localizedTopicSummary(@Nonnull Player p, @Nonnull WikiTopic topic) {
+        String value = Slimefun.getLocalization().getMessage(p, "guide.wiki-topics." + topic.getId() + ".summary");
+        return (value == null || value.startsWith("! Missing")) ? topic.getSummary() : value;
     }
 
     /** Builds a header tile from localized message keys: name line, a blank, then the lore lines. */

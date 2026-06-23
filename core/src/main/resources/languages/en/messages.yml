@@ -189,6 +189,56 @@ guide:
     translated: '&7Translated: &b%translated%&7/&b%total%'
     line: '&7Coverage: %color%%percent%%'
 
+  item:
+    name: '&aSlimefun Guide &7(Chest GUI)'
+    cheat-only: '&4&lOnly openable by Admins'
+    browse: '&eRight Click &8⇨ &7Browse Items'
+    settings: '&eShift + Right Click &8⇨ &7Open Settings / Credits'
+
+  themes-meta:
+    categories: '&7Categories: &e%count%'
+    open: '&7⇨ &eClick to open'
+
+  addon-visibility:
+    name: '&3Addon Visibility'
+    lore:
+    - '&7Choose which addons appear in your guide.'
+    - '&7Hidden addons are removed from browsing'
+    - '&7and search — just for you.'
+    - ''
+    - '&7⇨ &eClick to manage'
+    menu-title: '&eAddon Visibility'
+    menu-lore:
+    - '&7Click an addon to toggle whether it'
+    - '&7appears in your guide (browse + search).'
+    - ''
+    - '&7At least one addon must stay shown.'
+    shown: '&a✔ Shown'
+    hidden: '&c✖ Hidden'
+    toggle: '&7⇨ &eClick to toggle'
+    back: '&e⇦ Back'
+    must-stay: '&cAt least one addon must stay visible.'
+
+  wiki-topics:
+    getting_started: { name: 'Getting Started', summary: '&7Your first steps in Slimefun' }
+    research: { name: 'Research & Unlocking', summary: '&7Unlock items with experience' }
+    multiblocks: { name: 'Multiblock Machines', summary: '&7Build structures to craft' }
+    ore_processing: { name: 'Ore Processing', summary: '&7Double your ore yields' }
+    smeltery: { name: 'Smeltery & Alloys', summary: '&7Smelt dusts and forge alloys' }
+    energy: { name: 'Energy Networks', summary: '&7Power your machines' }
+    power_generation: { name: 'Power Generation', summary: '&7Generators, reactors, capacitors' }
+    electric_machines: { name: 'Electric Machines', summary: '&7Powered automatic machines' }
+    cargo: { name: 'Cargo Networks', summary: '&7Move items automatically' }
+    androids: { name: 'Programmable Androids', summary: '&7Automate tasks with robots' }
+    geo_mining: { name: 'GEO Mining & Oil', summary: '&7Extract oil and resources' }
+    gps: { name: 'GPS & Teleportation', summary: '&7Waypoints and teleporters' }
+    talismans: { name: 'Talismans', summary: '&7Passive luck and protection' }
+    magic: { name: 'Magic & the Altar', summary: '&7Runes, staves and rituals' }
+    armor_gadgets: { name: 'Armor & Gadgets', summary: '&7Jetpacks, sets and tools' }
+    backpacks: { name: 'Backpacks & Storage', summary: '&7Portable storage on the go' }
+    food_farming: { name: 'Food & Farming', summary: '&7Juices, jerky and auto-farms' }
+    soulbound: { name: 'Soulbound Items', summary: '&7Keep items when you die' }
+
   wiki:
     home-title: '&3Slimefun Wiki'
     welcome:
