@@ -36,14 +36,22 @@ public final class AddonCatalog {
         private final XMaterial icon;
         private final List<String> dependencies;
         private final boolean core;
+        private final boolean library;
+        private final String pluginName;
 
         Entry(String id, String repo, String displayName, XMaterial icon, List<String> dependencies, boolean core) {
+            this(id, repo, displayName, icon, dependencies, core, false, repo);
+        }
+
+        Entry(String id, String repo, String displayName, XMaterial icon, List<String> dependencies, boolean core, boolean library, String pluginName) {
             this.id = id;
             this.repo = repo;
             this.displayName = displayName;
             this.icon = icon;
             this.dependencies = dependencies;
             this.core = core;
+            this.library = library;
+            this.pluginName = pluginName;
         }
 
         @Nonnull
@@ -82,6 +90,17 @@ public final class AddonCatalog {
         public boolean isCore() {
             return core;
         }
+
+        /** True for dependency libraries that ship no plugin.yml (e.g. InfinityLib) and so never load as plugins. */
+        public boolean isLibrary() {
+            return library;
+        }
+
+        /** The Bukkit plugin name to match when detecting whether this entry is loaded (often differs from the repo). */
+        @Nonnull
+        public String getPluginName() {
+            return pluginName;
+        }
     }
 
     private static final Map<String, Entry> ENTRIES = new LinkedHashMap<>();
@@ -90,8 +109,8 @@ public final class AddonCatalog {
         // Core, pinned first.
         register(new Entry(CORE_ID, "Slimefun5", "Slimefun", XMaterial.BLAZE_POWDER, empty(), true));
 
-        // Library (a dependency of others, also installable on its own).
-        register(new Entry("infinitylib", "InfinityLib", "InfinityLib", XMaterial.BOOK, empty(), false));
+        // Library (a dependency of others). Ships no plugin.yml, so it never loads as a standalone plugin.
+        register(new Entry("infinitylib", "InfinityLib", "InfinityLib", XMaterial.BOOK, empty(), false, true, "InfinityLib"));
 
         // Addons. Dependencies reference ids declared above.
         register(new Entry("infinityexpansion", "InfinityExpansion", "Infinity Expansion", XMaterial.NETHER_STAR, deps("infinitylib"), false));
@@ -105,9 +124,9 @@ public final class AddonCatalog {
         register(new Entry("sensibletoolbox", "SensibleToolbox", "Sensible Toolbox", XMaterial.IRON_PICKAXE, empty(), false));
         register(new Entry("chestterminal", "ChestTerminal", "Chest Terminal", XMaterial.CHEST, empty(), false));
         register(new Entry("extragear", "ExtraGear", "Extra Gear", XMaterial.DIAMOND_CHESTPLATE, empty(), false));
-        register(new Entry("luckyblocks", "LuckyBlocks", "Lucky Blocks", XMaterial.GOLD_BLOCK, empty(), false));
+        register(new Entry("luckyblocks", "LuckyBlocks", "Lucky Blocks", XMaterial.GOLD_BLOCK, empty(), false, false, "SlimefunLuckyBlocks"));
         register(new Entry("missilewarfare", "MissileWarfare", "Missile Warfare", XMaterial.TNT, empty(), false));
-        register(new Entry("slimefunadvancements", "SlimefunAdvancements", "Slimefun Advancements", XMaterial.KNOWLEDGE_BOOK, empty(), false));
+        register(new Entry("slimefunadvancements", "SlimefunAdvancements", "Slimefun Advancements", XMaterial.KNOWLEDGE_BOOK, empty(), false, false, "SFAdvancements"));
     }
 
     private AddonCatalog() {}

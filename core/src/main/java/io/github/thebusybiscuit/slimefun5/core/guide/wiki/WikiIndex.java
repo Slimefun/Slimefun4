@@ -2,12 +2,15 @@ package io.github.thebusybiscuit.slimefun5.core.guide.wiki;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -45,6 +48,7 @@ public final class WikiIndex {
 
     // Wiki HOME header slots (topic tiles fill the same CONTENT_START..CONTENT_END grid as the browser).
     private static final int WELCOME_SLOT = 4;
+    private static final int SEARCH_SLOT = 7;
     private static final int BROWSE_SLOT = 8;
 
     private WikiIndex() {}
@@ -85,6 +89,19 @@ public final class WikiIndex {
             "&7how Slimefun works - start with &eGetting Started&7.",
             "&7Or browse items to look something up."),
             ChestMenuUtils.getEmptyClickHandler());
+
+        menu.addItem(SEARCH_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.COMPASS),
+            "&aSearch the wiki",
+            "",
+            "&7Look up any item by name",
+            "&7across every installed addon.",
+            "",
+            "&7⇨ &eClick to type a search term"));
+        menu.addMenuClickHandler(SEARCH_SLOT, (pl, slot, clicked, action) -> {
+            pl.closeInventory();
+            ChatInput.waitForPlayer(Slimefun.instance(), pl, msg -> openSearchResults(pl, guide, msg, 1));
+            return false;
+        });
 
         menu.addItem(BROWSE_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF),
             "&aBrowse items by category",
@@ -177,6 +194,59 @@ public final class WikiIndex {
         }
 
         addPagination(menu, p, page, pages, (pl, target) -> openItemList(pl, guide, itemGroup, target));
+        menu.open(p);
+    }
+
+    /** Lists every enabled item whose (translated) name matches the search term; clicking one opens its wiki page. */
+    private static void openSearchResults(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String query, int page) {
+        String term = ChatColor.stripColor(query).toLowerCase(Locale.ROOT).trim();
+        List<SlimefunItem> matches = new ArrayList<>();
+
+        if (!term.isEmpty()) {
+            for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+                try {
+                    String name = ChatColor.stripColor(Slimefun.getItemTranslationService().getName(p, item)).toLowerCase(Locale.ROOT);
+
+                    if (!name.isEmpty() && name.contains(term)) {
+                        matches.add(item);
+                    }
+                } catch (Exception | LinkageError ignored) {
+                    // A broken item should not break the search.
+                }
+            }
+        }
+
+        ChestMenu menu = new ChestMenu(title(p));
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, BORDER);
+
+        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.title")));
+        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
+            openHome(pl, guide);
+            return false;
+        });
+
+        menu.addItem(WELCOME_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.COMPASS),
+            "&aSearch results for &e\"" + query + "&e\"",
+            "",
+            "&7Found &b" + matches.size() + " &7item(s)."),
+            ChestMenuUtils.getEmptyClickHandler());
+
+        int pages = pageCount(matches.size());
+        int offset = (page - 1) * PAGE_SIZE;
+
+        for (int i = 0; i < PAGE_SIZE && offset + i < matches.size(); i++) {
+            SlimefunItem item = matches.get(offset + i);
+            int slot = CONTENT_START + i;
+
+            menu.addItem(slot, Slimefun.getItemTranslationService().getDisplayItem(p, item));
+            menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                WikiPage.open(pl, guide, item, () -> openSearchResults(pl, guide, query, page));
+                return false;
+            });
+        }
+
+        addPagination(menu, p, page, pages, (pl, target) -> openSearchResults(pl, guide, query, target));
         menu.open(p);
     }
 

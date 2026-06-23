@@ -175,6 +175,14 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                     openLanguageSelection(pl, guide);
                     return false;
                 });
+            } else if (i == 4) {
+                // Summary tile: overall message- and item-translation coverage for this language.
+                menu.addItem(4, CustomItemStack.create(language.getItem(),
+                    ChatColor.GREEN + language.getName(p),
+                    "",
+                    "&7Messages: &b" + language.getTranslationProgress() + '%',
+                    "&7Items: &b" + itemCoveragePercent(language.getId()) + '%'),
+                    ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }

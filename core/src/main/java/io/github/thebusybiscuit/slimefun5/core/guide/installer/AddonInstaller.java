@@ -61,14 +61,26 @@ public final class AddonInstaller {
         }
     }
 
-    /** True when a plugin matching the entry's display/jar name is currently loaded. */
+    /** True when a plugin matching the entry's plugin name is currently loaded. */
     public boolean isLoaded(@Nonnull AddonCatalog.Entry entry) {
         if (entry.isCore()) {
             return true;
         }
 
+        // Libraries (e.g. InfinityLib) ship no plugin.yml and so never appear as loaded plugins. Treat
+        // one as present when any addon that depends on it is loaded - its classes are then on the path.
+        if (entry.isLibrary()) {
+            for (AddonCatalog.Entry candidate : AddonCatalog.getEntries()) {
+                if (candidate.getDependencies().contains(entry.getId()) && isLoaded(candidate)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         for (Plugin plugin : Slimefun.instance().getServer().getPluginManager().getPlugins()) {
-            if (plugin.getName().equalsIgnoreCase(entry.getRepo())) {
+            if (plugin.getName().equalsIgnoreCase(entry.getPluginName()) || plugin.getName().equalsIgnoreCase(entry.getRepo())) {
                 return true;
             }
         }

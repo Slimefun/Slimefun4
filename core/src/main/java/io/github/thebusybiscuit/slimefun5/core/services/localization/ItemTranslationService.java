@@ -304,13 +304,17 @@ public class ItemTranslationService {
         Map<String, ItemTranslation> translated = byLanguage.getOrDefault(language, new HashMap<>());
         Map<String, int[]> coverage = new LinkedHashMap<>();
 
+        // English is the built-in baseline: every enabled item already has an English name, so there
+        // is no en/items.yml and coverage for it is 100% by definition.
+        boolean englishBaselineLanguage = "en".equalsIgnoreCase(language);
+
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
                 String plugin = item.getAddon().getName();
                 int[] counts = coverage.computeIfAbsent(plugin, k -> new int[2]);
                 counts[1]++;
 
-                if (translated.containsKey(item.getId())) {
+                if (englishBaselineLanguage || translated.containsKey(item.getId())) {
                     counts[0]++;
                 }
             } catch (Exception | LinkageError ignored) {
