@@ -165,7 +165,11 @@ public final class SlimefunGuideSettings {
         });
 
         // @formatter:off
-        if (p.hasPermission(AddonCatalog.PERMISSION)) {
+        // Anyone with the permission can manage; everyone else can still VIEW (read-only) unless the
+        // server disables it. Only when viewing is off do non-permitted players get the addons link.
+        boolean canViewInstaller = p.hasPermission(AddonCatalog.PERMISSION)
+            || Slimefun.getCfg().getBoolean("guide.show-addon-installer-to-everyone");
+        if (canViewInstaller) {
             menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
                 "",

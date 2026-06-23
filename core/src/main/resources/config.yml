@@ -28,6 +28,9 @@ guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
   show-hidden-item-groups-in-search: false
+  # When true, players without the slimefun.installer permission can still OPEN the Addon Installer
+  # to browse installed/available addons (read-only - no install/update/build buttons).
+  show-addon-installer-to-everyone: true
 
 researches:
   free-in-creative-mode: true

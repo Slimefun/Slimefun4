@@ -36,6 +36,8 @@ public final class AddonDetailMenu {
         ChestMenuUtils.drawBackground(menu, BORDER);
 
         AddonInstaller inst = AddonInstallerMenu.installer();
+        // Players without the installer permission view this screen read-only: header + status only.
+        boolean canManage = p.hasPermission(AddonCatalog.PERMISSION);
 
         menu.addItem(0, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -69,16 +71,18 @@ public final class AddonDetailMenu {
         installLore.add(label);
         installLore.add("");
         installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
-        menu.addItem(29, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
-        menu.addMenuClickHandler(29, (pl, slot, item, action) -> {
-            inst.installRelease(pl, entry);
-            // Keep the guide open; re-render so the header badge shows "Working…".
-            open(pl, guide, entry);
-            return false;
-        });
+        if (canManage) {
+            menu.addItem(29, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
+            menu.addMenuClickHandler(29, (pl, slot, item, action) -> {
+                inst.installRelease(pl, entry);
+                // Keep the guide open; re-render so the header badge shows "Working…".
+                open(pl, guide, entry);
+                return false;
+            });
+        }
 
         // Action: build from branch (Mode B, dev only).
-        if (EnvironmentDetector.canBuildFromSource()) {
+        if (canManage && EnvironmentDetector.canBuildFromSource()) {
             List<String> buildLore = new ArrayList<>();
             buildLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.build.name"));
             buildLore.add("");
