@@ -297,6 +297,10 @@ guide:
     back: '&e⇦ Back'
     click-details: '&7⇨ &eClick for details'
     will-install: '&7Will also install: &f%deps%'
+    version:
+      release: '&7Version: &f%version%'
+      branch: '&7Branch: &f%branch% &8(%commit%)'
+      custom: '&7Custom build: &f%version%'
     install:
       install: '&aInstall latest release'
       update: '&aUpdate to latest release'

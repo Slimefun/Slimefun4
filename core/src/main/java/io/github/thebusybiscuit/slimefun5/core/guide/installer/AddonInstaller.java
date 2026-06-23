@@ -88,6 +88,22 @@ public final class AddonInstaller {
         return false;
     }
 
+    /** The loaded Bukkit {@link Plugin} matching this entry, or null when not loaded / not a plugin. */
+    @javax.annotation.Nullable
+    public Plugin getLoadedPlugin(@Nonnull AddonCatalog.Entry entry) {
+        if (entry.isCore()) {
+            return Slimefun.instance();
+        }
+
+        for (Plugin plugin : Slimefun.instance().getServer().getPluginManager().getPlugins()) {
+            if (plugin.getName().equalsIgnoreCase(entry.getPluginName()) || plugin.getName().equalsIgnoreCase(entry.getRepo())) {
+                return plugin;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Installs (or updates) an entry from its latest release, plus any missing hard dependencies.
      * Runs entirely off the main thread; messages the player on completion.
@@ -206,7 +222,7 @@ public final class AddonInstaller {
             release(reserved);
 
             if (copied) {
-                state.set(entry.getId(), InstallState.Method.BRANCH, branch, true);
+                state.set(entry.getId(), InstallState.Method.BRANCH, branch, result.getDescribe(), true);
                 message(player, ChatColor.GREEN + "✔ Built " + entry.getDisplayName() + " (" + branch + ") — restart the server to apply.");
             } else {
                 message(player, ChatColor.RED + "✖ Build succeeded but staging the jar failed.");

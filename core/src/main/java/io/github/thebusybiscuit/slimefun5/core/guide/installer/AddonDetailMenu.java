@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -58,6 +59,12 @@ public final class AddonDetailMenu {
         headerLore.add("");
         headerLore.add(StatusBadges.badge(p, inst, entry));
 
+        String versionLine = versionLine(p, inst, entry);
+
+        if (versionLine != null) {
+            headerLore.add(versionLine);
+        }
+
         if (!deps.isEmpty()) {
             headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.will-install").replace("%deps%", String.join(", ", deps)));
         }
@@ -95,5 +102,38 @@ public final class AddonDetailMenu {
         }
 
         menu.open(p);
+    }
+
+    /**
+     * Builds the version line for the header: the installed release tag, the built branch + commit for
+     * a from-source build, or the loaded plugin version for a jar the installer did not stage. Returns
+     * null when the entry is not loaded (the status badge already says so).
+     */
+    @javax.annotation.Nullable
+    private static String versionLine(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+        Plugin plugin = inst.getLoadedPlugin(entry);
+
+        if (plugin == null) {
+            return null;
+        }
+
+        InstallState.Record record = inst.getState().get(entry.getId());
+        String pluginVersion = plugin.getDescription().getVersion();
+
+        if (record != null && record.getMethod() == InstallState.Method.BRANCH) {
+            String commit = record.getCommit().isEmpty() ? pluginVersion : record.getCommit();
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.version.branch")
+                .replace("%branch%", record.getVersion())
+                .replace("%commit%", commit);
+        }
+
+        if (record != null && record.getMethod() == InstallState.Method.RELEASE) {
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.version.release")
+                .replace("%version%", record.getVersion());
+        }
+
+        // Loaded but not staged by the installer: a custom/local build. Show its plugin version.
+        return Slimefun.getLocalization().getMessage(p, "guide.installer.version.custom")
+            .replace("%version%", pluginVersion);
     }
 }

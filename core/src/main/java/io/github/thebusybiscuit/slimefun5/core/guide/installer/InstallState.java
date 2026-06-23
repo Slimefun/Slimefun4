@@ -31,11 +31,13 @@ public final class InstallState {
 
         private final Method method;
         private final String version;
+        private final String commit;
         private final boolean restartPending;
 
-        public Record(Method method, String version, boolean restartPending) {
+        public Record(Method method, String version, String commit, boolean restartPending) {
             this.method = method;
             this.version = version;
+            this.commit = commit;
             this.restartPending = restartPending;
         }
 
@@ -48,6 +50,12 @@ public final class InstallState {
         @Nonnull
         public String getVersion() {
             return version;
+        }
+
+        /** For a BRANCH build, the {@code git describe} string (last tag + commit sha); empty otherwise. */
+        @Nonnull
+        public String getCommit() {
+            return commit;
         }
 
         public boolean isRestartPending() {
@@ -80,14 +88,21 @@ public final class InstallState {
         }
 
         String version = config.getString(id + ".version", "");
+        String commit = config.getString(id + ".commit", "");
         boolean restartPending = config.getBoolean(id + ".restart-pending", false);
-        return new Record(method, version, restartPending);
+        return new Record(method, version, commit, restartPending);
     }
 
-    /** Records a staged install and immediately persists. */
+    /** Records a staged release install and immediately persists. */
     public synchronized void set(@Nonnull String id, @Nonnull Method method, @Nonnull String version, boolean restartPending) {
+        set(id, method, version, "", restartPending);
+    }
+
+    /** Records a staged install (with a {@code git describe} commit string for branch builds) and persists. */
+    public synchronized void set(@Nonnull String id, @Nonnull Method method, @Nonnull String version, @Nonnull String commit, boolean restartPending) {
         config.set(id + ".method", method.name());
         config.set(id + ".version", version);
+        config.set(id + ".commit", commit);
         config.set(id + ".restart-pending", restartPending);
         save();
     }

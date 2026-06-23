@@ -163,6 +163,10 @@ guide:
     back: '&e⇦ Zurück'
     click-details: '&7⇨ &eKlicke für Details'
     will-install: '&7Wird außerdem installieren: &f%deps%'
+    version:
+      release: '&7Version: &f%version%'
+      branch: '&7Branch: &f%branch% &8(%commit%)'
+      custom: '&7Eigener Build: &f%version%'
     install:
       install: '&aNeuestes Release installieren'
       update: '&aAuf neuestes Release aktualisieren'
