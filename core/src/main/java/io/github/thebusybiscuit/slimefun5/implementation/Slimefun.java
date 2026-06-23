@@ -50,6 +50,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun5.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun5.core.services.PerWorldSettingsService;
@@ -196,6 +197,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final ThreadService threadService = new ThreadService(this);
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
+    private final MenuTranslationService menuTranslationService = new MenuTranslationService();
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -358,6 +360,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         logger.log(Level.INFO, "Loading item translations...");
         itemTranslationService.loadBundled();
         itemTranslationService.applyServerDefaults();
+        menuTranslationService.loadBundled();
 
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
@@ -380,6 +383,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
             // Pre-build the wiki's reverse-recipe index once here so the first player click is instant
             WikiPage.warmUpIndex();
+
+            // Dev helper: dump the English baseline of every registered block menu (core + addons) for
+            // translation, when explicitly requested. Disabled by default.
+            if (config.getBoolean("guide.dump-menu-baseline") || Boolean.getBoolean("slimefun.dumpMenuBaseline")) {
+                menuTranslationService.dumpBaseline(new File(getDataFolder(), "menus-baseline.yml"));
+            }
 
         }), 0);
 
@@ -993,6 +1002,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull ItemTranslationService getItemTranslationService() {
         validateInstance();
         return instance.itemTranslationService;
+    }
+
+    /**
+     * This method returns the {@link MenuTranslationService} of Slimefun.
+     * It translates the decorative info items of block menus per language.
+     *
+     * @return The {@link MenuTranslationService} for Slimefun
+     */
+    public static @Nonnull MenuTranslationService getMenuTranslationService() {
+        validateInstance();
+        return instance.menuTranslationService;
     }
 
     /**

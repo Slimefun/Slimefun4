@@ -1,0 +1,12 @@
+# Block-menu decorative info items, keyed by preset id (= Slimefun item id) -> slot.
+# These mirror the hardcoded English literals in each machine's BlockMenuPreset and serve as the
+# English baseline so that the per-player overlay can always render the correct language.
+TRASH_CAN:
+  '4':
+    name: '&cTrash Can'
+    lore:
+      - ''
+      - '&7Any item placed in the slots below'
+      - '&7is destroyed permanently.'
+      - ''
+      - '&c&oThere is no way to get items back!'

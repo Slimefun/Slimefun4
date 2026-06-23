@@ -31,6 +31,9 @@ guide:
   # When true, players without the slimefun.installer permission can still OPEN the Addon Installer
   # to browse installed/available addons (read-only - no install/update/build buttons).
   show-addon-installer-to-everyone: true
+  # Dev helper: when true, dumps the English baseline of every block menu to menus-baseline.yml on
+  # startup (for producing translations). Leave false in production.
+  dump-menu-baseline: false
 
 researches:
   free-in-creative-mode: true

@@ -1,0 +1,11 @@
+# Block-Menü Infofelder, indexiert nach Preset-ID (= Slimefun-Item-ID) -> Slot.
+TRASH_CAN:
+  '4':
+    name: '&cMülltonne'
+    lore:
+      - ''
+      - '&7Jeder Gegenstand, der in die Felder'
+      - '&7darunter gelegt wird, wird dauerhaft zerstört.'
+      - ''
+      - '&c&oEs gibt keine Möglichkeit, die Items'
+      - '&c&ozurückzubekommen!'
