@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 /**
  * Translates Slimefun item names and lore per language. Translations live in
@@ -300,6 +301,42 @@ public class ItemTranslationService {
      * items grouped by their addon. Powers the translation-percentage UI.
      */
     @Nonnull
+    /**
+     * Re-skins a Slimefun Guide book to the holder's language. The guide is not a {@link SlimefunItem}, so
+     * {@link #applyHolderTranslation} skips it; this rebuilds its name + lore from the guide message keys.
+     * Identified by the guide-mode PDC tag. Returns true only when the stack was actually changed.
+     */
+    public boolean applyGuideTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
+        if (stack == null || !stack.hasItemMeta()) {
+            return false;
+        }
+
+        ItemMeta meta = stack.getItemMeta();
+        String mode = PdcCompat.getString(meta, Slimefun.getRegistry().getGuideDataKey());
+
+        if (mode == null) {
+            return false;
+        }
+
+        boolean cheat = "CHEAT_MODE".equals(mode);
+        String name = ChatColor.translateAlternateColorCodes('&', cheat ? "&cSlimefun Guide &4(Cheat Sheet)" : Slimefun.getLocalization().getMessage(p, "guide.item.name"));
+
+        List<String> lore = new ArrayList<>();
+        lore.add(cheat ? ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.cheat-only")) : "");
+        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.browse")));
+        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.settings")));
+
+        // No-op when already in the right language, so the periodic inventory sweep stays cheap.
+        if (name.equals(meta.getDisplayName()) && lore.equals(meta.getLore())) {
+            return false;
+        }
+
+        meta.setDisplayName(name);
+        meta.setLore(lore);
+        stack.setItemMeta(meta);
+        return true;
+    }
+
     public Map<String, int[]> getCoverage(@Nonnull String language) {
         if ("en".equalsIgnoreCase(language)) {
             // English is the language items are authored in. Register each item's built-in English name

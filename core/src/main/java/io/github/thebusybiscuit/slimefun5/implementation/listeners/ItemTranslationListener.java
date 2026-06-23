@@ -43,7 +43,8 @@ public class ItemTranslationListener implements Listener {
             Player p = (Player) e.getEntity();
             ItemStack stack = e.getItem().getItemStack();
 
-            if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)) {
+            if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)
+                | Slimefun.getItemTranslationService().applyGuideTranslation(p, stack)) {
                 e.getItem().setItemStack(stack);
             }
         }
@@ -63,7 +64,8 @@ public class ItemTranslationListener implements Listener {
             ItemStack stack = contents[slot];
 
             // getContents() may return copies, so write the stack back when it was changed.
-            if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)) {
+            if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)
+                | Slimefun.getItemTranslationService().applyGuideTranslation(p, stack)) {
                 p.getInventory().setItem(slot, stack);
             }
         }
