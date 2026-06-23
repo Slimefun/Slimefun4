@@ -1,0 +1,3139 @@
+# Block-menu decorative info items, keyed by preset id (= Slimefun item id) -> slot. (it)
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile radioattivo'
+    - '&fes. Uranio, Nettunio o Uranio Potenziato'
+DYNATECH_COBALTMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+NTW_VANILLA_PUSHER:
+  '11':
+    name: '&7Imposta direzione: NORD'
+  '14':
+    name: '&7Imposta direzione: SU'
+  '19':
+    name: '&7Imposta direzione: OVEST'
+  '21':
+    name: '&7Imposta direzione: EST'
+  '29':
+    name: '&7Imposta direzione: SUD'
+  '32':
+    name: '&7Imposta direzione: GIÙ'
+ADVANCED_AUTO_DISENCHANTER:
+  '13':
+    name: '&aProgresso'
+INFINITY_CONSTRUCTOR:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+DYNATECH_IRONMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile radioattivo'
+    - '&fes. Uranio, Nettunio o Uranio Potenziato'
+INFINITY_REACTOR:
+  '0':
+    name: '&fIngresso Lingotto Infinity'
+  '1':
+    name: '&fIngresso Lingotto Infinity'
+  '2':
+    name: '&fIngresso Lingotto Infinity'
+  '6':
+    name: '&8Ingresso Lingotto Void'
+  '7':
+    name: '&8Ingresso Lingotto Void'
+  '8':
+    name: '&8Ingresso Lingotto Void'
+  '9':
+    name: '&fIngresso Lingotto Infinity'
+  '11':
+    name: '&fIngresso Lingotto Infinity'
+  '15':
+    name: '&8Ingresso Lingotto Void'
+  '17':
+    name: '&8Ingresso Lingotto Void'
+  '18':
+    name: '&fIngresso Lingotto Infinity'
+  '19':
+    name: '&fIngresso Lingotto Infinity'
+  '20':
+    name: '&fIngresso Lingotto Infinity'
+  '24':
+    name: '&8Ingresso Lingotto Void'
+  '25':
+    name: '&8Ingresso Lingotto Void'
+  '26':
+    name: '&8Ingresso Lingotto Void'
+DYNATECH_ALUMINUM_BRONZEMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+PROGRAMMABLE_ANDROID_MINER:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile solido'
+    - '&fes. Carbone, Legno, ecc...'
+TINKERS_SWAPPING_STATION:
+  '14':
+    name: '&x&0&3&F&C&D&FSostituisci parte'
+    lore:
+    - ''
+    - '&7Sostituisci le parti dello strumento.'
+DYNATECH_GOLDMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+TRASH_CAN_BLOCK:
+  '4':
+    name: '&cCestino'
+    lore:
+    - ''
+    - '&7Qualsiasi oggetto posto negli slot sottostanti'
+    - '&7viene distrutto definitivamente.'
+    - ''
+    - '&c&oNon c''è modo di recuperare gli oggetti!'
+VOID_QUARRY:
+  '48':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Inserisci un oscillatore per cava per'
+    - '&7aumentare i tassi di certi materiali!'
+  '50':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Inserisci un oscillatore per cava per'
+    - '&7aumentare i tassi di certi materiali!'
+CARGO_NODE_INPUT:
+  '2':
+    name: '&3Oggetti'
+    lore:
+    - ''
+    - '&bInserisci tutti gli Oggetti che vuoi'
+    - '&bmettere nella lista nera/bianca'
+ADVANCED_STORAGE:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '4':
+    name: '&bStato'
+    lore:
+    - '&7Caricamento...'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '22':
+    name: '&aAzioni Rapide'
+    lore:
+    - '&bClic Sinistro: &7Preleva 1 oggetto'
+    - '&bClic Destro: &7Preleva 1 stack'
+    - '&bShift + Clic Sinistro: &7Deposita inventario'
+    - '&bShift + Clic Destro: &7Preleva inventario'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+REACTOR_ACCESS_PORT:
+  '1':
+    name: '&7Slot Combustibile'
+    lore:
+    - ''
+    - 'Questo slot accetta combustibile radioattivo come:'
+    - '&2Uranio &roppure &aNettunio'
+  '7':
+    name: '&bSlot Refrigerante'
+    lore:
+    - ''
+    - Questo slot accetta Celle di Refrigerante
+    - '&4Senza nessuna Cella di Refrigerante, il tuo Reattore'
+    - '&4esploderà'
+  '22':
+    name: '&7Slot Sottoprodotto'
+    lore:
+    - ''
+    - Questo slot contiene il Sottoprodotto del Reattore
+    - come &aNettunio &roppure &7Plutonio
+STRAINER_BASE:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+IRON_GOLEM_ASSEMBLER:
+  '1':
+    name: '&7Slot Zucca'
+    lore:
+    - ''
+    - '&fQuesto slot accetta Zucche'
+  '7':
+    name: '&7Slot Blocco di Ferro'
+    lore:
+    - ''
+    - '&fQuesto slot accetta Blocchi di Ferro'
+  '13':
+    name: '&7Tempo di ricarica: &b30 Secondi'
+    lore:
+    - ''
+    - '&fQuesta Macchina impiega fino a mezzo minuto per funzionare'
+    - '&fquindi dalle un po'' di tempo!'
+CARGO_NODE_OUTPUT_ADVANCED:
+  '2':
+    name: '&3Oggetti'
+    lore:
+    - ''
+    - '&bInserisci tutti gli Oggetti che vuoi'
+    - '&binserire nella lista nera/lista bianca'
+NTW_POWER_OUTLET_1:
+  '12':
+    name: '&7Imposta direzione: NORD'
+  '15':
+    name: '&7Imposta direzione: SU'
+  '20':
+    name: '&7Imposta direzione: OVEST'
+  '22':
+    name: '&7Imposta direzione: EST'
+  '30':
+    name: '&7Imposta direzione: SUD'
+  '33':
+    name: '&7Imposta direzione: GIÙ'
+TINKERS_WORKBENCH:
+  '23':
+    name: '&x&0&3&F&C&D&FCrea'
+    lore:
+    - ''
+    - '&7Iniziamo a creare!'
+BASIC_QUARRY:
+  '48':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Posiziona un oscillatore per cava per'
+    - '&7aumentare le percentuali di certi materiali!'
+  '50':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Posiziona un oscillatore per cava per'
+    - '&7aumentare le percentuali di certi materiali!'
+NTW_POWER_OUTLET_2:
+  '12':
+    name: '&7Imposta direzione: NORD'
+  '15':
+    name: '&7Imposta direzione: SU'
+  '20':
+    name: '&7Imposta direzione: OVEST'
+  '22':
+    name: '&7Imposta direzione: EST'
+  '30':
+    name: '&7Imposta direzione: SUD'
+  '33':
+    name: '&7Imposta direzione: GIÙ'
+EXTREME_FREEZER:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+INFINITY_DUST_EXTRACTOR:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+WITHER_ASSEMBLER:
+  '1':
+    name: '&7Slot Teschio di Scheletro Wither'
+    lore:
+    - ''
+    - '&fQuesto slot accetta Teschi di Scheletro Wither'
+  '7':
+    name: '&7Slot Sabbia delle Anime'
+    lore:
+    - ''
+    - '&fQuesto slot accetta Sabbia delle Anime'
+  '13':
+    name: '&7Tempo di ricarica: &b30 Secondi'
+    lore:
+    - ''
+    - '&fQuesta Macchina impiega fino a mezzo minuto per funzionare'
+    - '&fquindi dalle un po'' di tempo!'
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona a combustibile solido'
+    - '&fes. Carbone, Legno, ecc...'
+ADVANCED_QUARRY:
+  '48':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Posiziona un oscillatore per cava per'
+    - '&7aumentare le percentuali di certi materiali!'
+  '50':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Posiziona un oscillatore per cava per'
+    - '&7aumentare le percentuali di certi materiali!'
+DYNATECH_MAGNESIUMMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+CT_IMPORT_BUS:
+  '2':
+    name: '&3Oggetti'
+    lore:
+    - ''
+    - '&bInserisci tutti gli Oggetti che vuoi'
+    - '&binserire nella lista nera/lista bianca'
+NTW_AUTO_CRAFTER_WITHHOLDING:
+  '0':
+    name: '&7Progetto di Creazione'
+  '1':
+    name: '&7Progetto di Creazione'
+  '2':
+    name: '&7Progetto di Creazione'
+  '6':
+    name: '&7Uscita'
+  '7':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '9':
+    name: '&7Progetto di Creazione'
+  '11':
+    name: '&7Progetto di Creazione'
+  '15':
+    name: '&7Uscita'
+  '17':
+    name: '&7Uscita'
+  '18':
+    name: '&7Progetto di Creazione'
+  '19':
+    name: '&7Progetto di Creazione'
+  '20':
+    name: '&7Progetto di Creazione'
+  '24':
+    name: '&7Uscita'
+  '25':
+    name: '&7Uscita'
+  '26':
+    name: '&7Uscita'
+DYNATECH_HARDENED_METALMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+SCRAP_MACHINE:
+  '13':
+    name: '&7Avanzamento'
+DYNATECH_GILDED_IRONMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+NTW_MONITOR:
+  '12':
+    name: '&7Imposta direzione: NORD'
+  '15':
+    name: '&7Imposta direzione: SU'
+  '20':
+    name: '&7Imposta direzione: OVEST'
+  '22':
+    name: '&7Imposta direzione: EST'
+  '30':
+    name: '&7Imposta direzione: SUD'
+  '33':
+    name: '&7Imposta direzione: GIÙ'
+DYNATECH_QUARTZMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+MOB_SIMULATION_CHAMBER:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+DYNATECH_SILVERMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+NTW_QUANTUM_STORAGE_7:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_6:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_8:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_3:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_2:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_5:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NTW_QUANTUM_STORAGE_4:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  '34':
+    name: '&8⇩ &cInserimento carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con carburante liquido'
+    - '&fad es. lava, petrolio, carburante, ecc...'
+NTW_QUANTUM_STORAGE_1:
+  '0':
+    name: '&7Ingresso'
+  '2':
+    name: '&7Ingresso'
+  '3':
+    name: '&7Oggetto immagazzinato'
+  '5':
+    name: '&7Oggetto immagazzinato'
+  '6':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '13':
+    name: '&aImposta oggetto'
+    lore:
+    - '&7Trascina un oggetto su questo pannello per registrarlo.'
+    - '&7Shift + clic per cambiare lo svuotamento'
+NETHERSTAR_REACTOR:
+  '1':
+    name: '&7Slot del Carburante'
+    lore:
+    - ''
+    - '&fQuesto slot accetta carburante radioattivo come:'
+    - '&2Uranio &fo &aNettunio'
+  '7':
+    name: '&bSlot del Refrigerante'
+    lore:
+    - ''
+    - '&fQuesto slot accetta Celle di Refrigerante'
+    - '&4Senza alcuna Cella di Refrigerante, il tuo Reattore'
+    - '&4esploderà'
+BASIC_TREE_GROWER:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+NTW_NETWORK_WIRELESS_TRANSMITTER:
+  '3':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '4':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '5':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '12':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '14':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '21':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '22':
+    name: '&aTrasmetti oggetti corrispondenti'
+  '23':
+    name: '&aTrasmetti oggetti corrispondenti'
+DYNATECH_SOLDERMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_STEELMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+PROGRAMMABLE_ANDROID:
+  '34':
+    name: '&8⇩ &cIngresso Carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con carburante solido'
+    - '&fes. Carbone, Legno, ecc...'
+NTW_VANILLA_GRABBER:
+  '11':
+    name: '&7Imposta direzione: NORD'
+  '14':
+    name: '&7Imposta direzione: SU'
+  '19':
+    name: '&7Imposta direzione: OVEST'
+  '21':
+    name: '&7Imposta direzione: EST'
+  '29':
+    name: '&7Imposta direzione: SUD'
+  '32':
+    name: '&7Imposta direzione: GIÙ'
+INGOT_FORMER:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+TINKERS_REPAIR_BENCH:
+  '14':
+    name: '&x&0&3&F&C&D&FRipara'
+    lore:
+    - ''
+    - '&7Ripara lo strumento nel primo slot'
+    - '&7usando il kit di riparazione nel secondo.'
+ADVANCED_ANVIL:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '3':
+    name: '&9Ingresso'
+  '4':
+    name: '&9Ingresso'
+  '5':
+    name: '&9Ingresso'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&9Ingresso'
+  '23':
+    name: '&9Ingresso'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+TINKERS_ARMOUR_TABLE:
+  '1':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '2':
+    name: '&cIngresso Piastre'
+    lore:
+    - ' '
+  '3':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '4':
+    name: '&cIngresso Gambeson'
+    lore:
+    - ' '
+  '5':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '6':
+    name: '&cIngresso Maglie'
+    lore:
+    - ' '
+  '7':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '10':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '12':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '14':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '16':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '19':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '20':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '21':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '22':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '23':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '24':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '25':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '28':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '29':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '30':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '32':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '33':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '34':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '37':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '38':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '39':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '40':
+    name: '&x&0&3&F&C&D&FForgia Armatura'
+    lore:
+    - ''
+    - '&7Forgia un pezzo di armatura dalle tre'
+    - '&7parti date (Piastra, Gambeson e Maglie)'
+  '41':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '43':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '46':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '47':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '48':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '50':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '51':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '52':
+    name: '&cUscita'
+    lore:
+    - ' '
+NTW_GRABBER:
+  '12':
+    name: '&7Imposta direzione: NORD'
+  '15':
+    name: '&7Imposta direzione: SU'
+  '20':
+    name: '&7Imposta direzione: OVEST'
+  '22':
+    name: '&7Imposta direzione: EST'
+  '30':
+    name: '&7Imposta direzione: SUD'
+  '33':
+    name: '&7Imposta direzione: GIÙ'
+STONEWORKS_FACTORY:
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&8Generatore di Ciottolo'
+  '11':
+    name: '&cNessuno'
+    lore:
+    - ''
+    - '&7 > Clicca per scorrere'
+  '13':
+    name: '&cNessuno'
+    lore:
+    - ''
+    - '&7 > Clicca per scorrere'
+  '15':
+    name: '&cNessuno'
+    lore:
+    - ''
+    - '&7 > Clicca per scorrere'
+  '17':
+    name: '&6Uscita'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+INFINITY_TREE_GROWER:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+CHEST_TERMINAL:
+  '46':
+    name: Si aggiornerà a breve
+  '50':
+    name: Si aggiornerà a breve
+DYNATECH_NICKELMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+GEAR_TRANSFORMER:
+  '0':
+    name: '&9Inserimento Strumento'
+  '1':
+    name: '&9Inserimento Strumento'
+  '2':
+    name: '&9Inserimento Strumento'
+  '6':
+    name: '&9Inserimento Materiale'
+  '7':
+    name: '&9Inserimento Materiale'
+  '8':
+    name: '&9Inserimento Materiale'
+  '9':
+    name: '&9Inserimento Strumento'
+  '11':
+    name: '&9Inserimento Strumento'
+  '15':
+    name: '&9Inserimento Materiale'
+  '17':
+    name: '&9Inserimento Materiale'
+  '18':
+    name: '&9Inserimento Strumento'
+  '19':
+    name: '&9Inserimento Strumento'
+  '20':
+    name: '&9Inserimento Strumento'
+  '24':
+    name: '&9Inserimento Materiale'
+  '25':
+    name: '&9Inserimento Materiale'
+  '26':
+    name: '&9Inserimento Materiale'
+  '28':
+    name: '&6Risultato'
+  '30':
+    name: '&6Risultato'
+  '31':
+    name: '&6Risultato'
+  '32':
+    name: '&6Risultato'
+  '34':
+    name: '&6Risultato'
+  '37':
+    name: '&6Risultato'
+  '38':
+    name: '&6Risultato'
+  '39':
+    name: '&6Risultato'
+  '41':
+    name: '&6Risultato'
+  '42':
+    name: '&6Risultato'
+  '43':
+    name: '&6Risultato'
+  '48':
+    name: '&6Risultato'
+  '49':
+    name: '&6Risultato'
+  '50':
+    name: '&6Risultato'
+DYNATECH_EMERALDMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+LAUNCH_PAD_CORE:
+  '24':
+    name: '&6Inserisci il Carburante Qui'
+BASIC_STORAGE:
+  '0':
+    name: '&9Inserimento'
+  '1':
+    name: '&9Inserimento'
+  '2':
+    name: '&9Inserimento'
+  '4':
+    name: '&bStato'
+    lore:
+    - '&7Caricamento...'
+  '6':
+    name: '&6Risultato'
+  '7':
+    name: '&6Risultato'
+  '8':
+    name: '&6Risultato'
+  '9':
+    name: '&9Inserimento'
+  '11':
+    name: '&9Inserimento'
+  '15':
+    name: '&6Risultato'
+  '17':
+    name: '&6Risultato'
+  '18':
+    name: '&9Inserimento'
+  '19':
+    name: '&9Inserimento'
+  '20':
+    name: '&9Inserimento'
+  '22':
+    name: '&aAzioni Rapide'
+    lore:
+    - '&bClic Sinistro: &7Preleva 1 oggetto'
+    - '&bClic Destro: &7Preleva 1 pila'
+    - '&bShift + Clic Sinistro: &7Deposita inventario'
+    - '&bShift + Clic Destro: &7Preleva inventario'
+  '24':
+    name: '&6Risultato'
+  '25':
+    name: '&6Risultato'
+  '26':
+    name: '&6Risultato'
+DYNATECH_ALUMINUMMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+NTW_RECIPE_ENCODER:
+  '10':
+    name: '&7Progetto Vuoto'
+  '16':
+    name: '&7Clicca per codificare quando valido'
+  '28':
+    name: '&7Progetto Vuoto'
+NTW_GREEDY_BLOCK:
+  '0':
+    name: '&aMemorizza oggetti corrispondenti'
+  '1':
+    name: '&aMemorizza oggetti corrispondenti'
+  '2':
+    name: '&aMemorizza oggetti corrispondenti'
+  '6':
+    name: '&aArchiviazione'
+  '7':
+    name: '&aArchiviazione'
+  '8':
+    name: '&aArchiviazione'
+  '9':
+    name: '&aMemorizza oggetti corrispondenti'
+  '11':
+    name: '&aMemorizza oggetti corrispondenti'
+  '15':
+    name: '&aArchiviazione'
+  '17':
+    name: '&aArchiviazione'
+  '18':
+    name: '&aMemorizza oggetti corrispondenti'
+  '19':
+    name: '&aMemorizza oggetti corrispondenti'
+  '20':
+    name: '&aMemorizza oggetti corrispondenti'
+  '24':
+    name: '&aArchiviazione'
+  '25':
+    name: '&aArchiviazione'
+  '26':
+    name: '&aArchiviazione'
+NTW_PUSHER:
+  '11':
+    name: '&7Imposta direzione: NORD'
+  '14':
+    name: '&7Imposta direzione: SU'
+  '16':
+    name: '&7Spingi oggetti corrispondenti al modello'
+  '19':
+    name: '&7Imposta direzione: OVEST'
+  '21':
+    name: '&7Imposta direzione: EST'
+  '29':
+    name: '&7Imposta direzione: SUD'
+  '32':
+    name: '&7Imposta direzione: GIÙ'
+VOID_STORAGE:
+  '0':
+    name: '&9Inserimento'
+  '1':
+    name: '&9Inserimento'
+  '2':
+    name: '&9Inserimento'
+  '4':
+    name: '&bStato'
+    lore:
+    - '&7Caricamento...'
+  '6':
+    name: '&6Risultato'
+  '7':
+    name: '&6Risultato'
+  '8':
+    name: '&6Risultato'
+  '9':
+    name: '&9Inserimento'
+  '11':
+    name: '&9Inserimento'
+  '15':
+    name: '&6Risultato'
+  '17':
+    name: '&6Risultato'
+  '18':
+    name: '&9Inserimento'
+  '19':
+    name: '&9Inserimento'
+  '20':
+    name: '&9Inserimento'
+  '22':
+    name: '&aAzioni Rapide'
+    lore:
+    - '&bClic Sinistro: &7Preleva 1 oggetto'
+    - '&bClic Destro: &7Preleva 1 pila'
+    - '&bShift + Clic Sinistro: &7Deposita inventario'
+    - '&bShift + Clic Destro: &7Preleva inventario'
+  '24':
+    name: '&6Risultato'
+  '25':
+    name: '&6Risultato'
+  '26':
+    name: '&6Risultato'
+ADVANCED_VIRTUAL_FARM:
+  '3':
+    name: '&6Risultato'
+  '4':
+    name: '&6Risultato'
+  '5':
+    name: '&6Risultato'
+  '6':
+    name: '&6Risultato'
+  '7':
+    name: '&6Risultato'
+  '8':
+    name: '&6Risultato'
+  '12':
+    name: '&6Risultato'
+  '17':
+    name: '&6Risultato'
+  '21':
+    name: '&6Risultato'
+  '26':
+    name: '&6Risultato'
+  '27':
+    name: '&9Inserimento'
+  '28':
+    name: '&9Inserimento'
+  '29':
+    name: '&9Inserimento'
+  '30':
+    name: '&6Risultato'
+  '35':
+    name: '&6Risultato'
+  '36':
+    name: '&9Inserimento'
+  '38':
+    name: '&9Inserimento'
+  '39':
+    name: '&6Risultato'
+  '44':
+    name: '&6Risultato'
+  '45':
+    name: '&9Inserimento'
+  '46':
+    name: '&9Inserimento'
+  '47':
+    name: '&9Inserimento'
+  '48':
+    name: '&6Risultato'
+  '49':
+    name: '&6Risultato'
+  '50':
+    name: '&6Risultato'
+  '51':
+    name: '&6Risultato'
+  '52':
+    name: '&6Risultato'
+  '53':
+    name: '&6Risultato'
+DYNATECH_ZINCMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DUST_EXTRACTOR:
+  '9':
+    name: '&9Inserimento'
+  '10':
+    name: '&9Inserimento'
+  '11':
+    name: '&9Inserimento'
+  '12':
+    name: '&9Inserimento'
+  '14':
+    name: '&6Risultato'
+  '15':
+    name: '&6Risultato'
+  '16':
+    name: '&6Risultato'
+  '17':
+    name: '&6Risultato'
+  '18':
+    name: '&9Inserimento'
+  '21':
+    name: '&9Inserimento'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Risultato'
+  '26':
+    name: '&6Risultato'
+  '27':
+    name: '&9Inserimento'
+  '28':
+    name: '&9Inserimento'
+  '29':
+    name: '&9Inserimento'
+  '30':
+    name: '&9Inserimento'
+  '32':
+    name: '&6Risultato'
+  '33':
+    name: '&6Risultato'
+  '34':
+    name: '&6Risultato'
+  '35':
+    name: '&6Risultato'
+NTW_EXPORT:
+  '10':
+    name: '&aEsporta Oggetto Corrispondente'
+  '11':
+    name: '&aEsporta Oggetto Corrispondente'
+  '12':
+    name: '&aEsporta Oggetto Corrispondente'
+  '14':
+    name: '&aSlot di Uscita'
+  '15':
+    name: '&aSlot di Uscita'
+  '16':
+    name: '&aSlot di Uscita'
+  '19':
+    name: '&aEsporta Oggetto Corrispondente'
+  '21':
+    name: '&aEsporta Oggetto Corrispondente'
+  '23':
+    name: '&aSlot di Uscita'
+  '25':
+    name: '&aSlot di Uscita'
+  '28':
+    name: '&aEsporta Oggetto Corrispondente'
+  '29':
+    name: '&aEsporta Oggetto Corrispondente'
+  '30':
+    name: '&aEsporta Oggetto Corrispondente'
+  '32':
+    name: '&aSlot di Uscita'
+  '33':
+    name: '&aSlot di Uscita'
+  '34':
+    name: '&aSlot di Uscita'
+DYNATECH_DAMASCUS_STEELMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+GEO_QUARRY:
+  '19':
+    name: '&6Risultato'
+  '20':
+    name: '&6Risultato'
+  '21':
+    name: '&6Risultato'
+  '22':
+    name: '&6Risultato'
+  '23':
+    name: '&6Risultato'
+  '24':
+    name: '&6Risultato'
+  '25':
+    name: '&6Risultato'
+  '28':
+    name: '&6Risultato'
+  '34':
+    name: '&6Risultato'
+  '37':
+    name: '&6Risultato'
+  '43':
+    name: '&6Risultato'
+  '46':
+    name: '&6Risultato'
+  '47':
+    name: '&6Risultato'
+  '48':
+    name: '&6Risultato'
+  '49':
+    name: '&6Risultato'
+  '50':
+    name: '&6Risultato'
+  '51':
+    name: '&6Risultato'
+  '52':
+    name: '&6Risultato'
+AUTO_ENHANCED_CRAFTING_TABLE:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la Ricetta che vuoi creare'
+    - '&6Solo Ricette del Tavolo da Lavoro Avanzato'
+PROGRAMMABLE_ANDROID_FARMER:
+  '34':
+    name: '&8⇩ &cIngresso Carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Carburante solido'
+    - '&fes. Carbone, Legno, ecc...'
+DYNATECH_DURALUMINMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_CARBONADOMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+AUTO_CRAFTING_TABLE:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la Ricetta che vuoi creare'
+    - '&4SOLO Ricette del Banco da Lavoro Vanilla'
+  '23':
+    name: '&e&lInattivo'
+INFINITY_STORAGE:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '4':
+    name: '&bStato'
+    lore:
+    - '&7Caricamento...'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '22':
+    name: '&aAzioni Rapide'
+    lore:
+    - '&bClic Sinistro: &7Preleva 1 oggetto'
+    - '&bClic Destro: &7Preleva 1 pila'
+    - '&bMaiusc + Clic Sinistro: &7Deposita inventario'
+    - '&bMaiusc + Clic Destro: &7Preleva inventario'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+TECHNOLOGICAL_SALVAGER:
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '41':
+    name: '&6Uscita'
+  '42':
+    name: '&6Uscita'
+  '43':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+DYNATECH_ALUMINUM_BRASSMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+INFINITY_INGOT_FORMER:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+CT_EXPORT_BUS:
+  '2':
+    name: '&3Oggetti'
+    lore:
+    - ''
+    - '&bInserisci tutti gli Oggetti che vuoi'
+    - '&baggiungere alla whitelist'
+CHEMICAL_REACTOR:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+NTW_NETWORK_WIRELESS_RECEIVER:
+  '3':
+    name: '&aOggetti ricevuti'
+  '4':
+    name: '&aOggetti ricevuti'
+  '5':
+    name: '&aOggetti ricevuti'
+  '12':
+    name: '&aOggetti ricevuti'
+  '14':
+    name: '&aOggetti ricevuti'
+  '21':
+    name: '&aOggetti ricevuti'
+  '22':
+    name: '&aOggetti ricevuti'
+  '23':
+    name: '&aOggetti ricevuti'
+AUTO_ARMOR_FORGE:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la Ricetta che vuoi creare'
+    - '&7SOLO Ricette della Forgia per Armature'
+INFINITY_QUARRY:
+  '48':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Inserisci un oscillatore per cava per'
+    - '&7aumentare i tassi di certi materiali!'
+  '50':
+    name: '&bSlot Oscillatore'
+    lore:
+    - '&7Inserisci un oscillatore per cava per'
+    - '&7aumentare i tassi di certi materiali!'
+DYNATECH_SYNTHETIC_EMERALDMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+TINKERS_TABLE:
+  '1':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '2':
+    name: '&cIngresso Asta'
+    lore:
+    - ' '
+  '3':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '4':
+    name: '&cIngresso Legante'
+    lore:
+    - ' '
+  '5':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '6':
+    name: '&cIngresso Testa/Lama'
+    lore:
+    - ' '
+  '7':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '10':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '12':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '14':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '16':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '19':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '20':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '21':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '22':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '23':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '24':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '25':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '28':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '29':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '30':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '32':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '33':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '34':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '37':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '38':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '39':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '40':
+    name: '&x&0&3&F&C&D&FForgia Strumento'
+    lore:
+    - ''
+    - '&7Forgia uno strumento dalle tre parti'
+    - '&7fornite (Asta, Legante e Testa/Lama)'
+  '41':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '43':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '46':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '47':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '48':
+    name: '&aAnteprima'
+    lore:
+    - ' '
+  '50':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '51':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '52':
+    name: '&cUscita'
+    lore:
+    - ' '
+DYNATECH_FERROSILICONMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_TESSERACT:
+  '4':
+    name: '&fPannello Informazioni'
+    lore:
+    - '&fEnergia Attuale: Sconosciuta'
+    - '&fStato Attuale: NON CONNESSO'
+ULTIMATE_SOLAR_PANEL:
+  '4':
+    name: '&cNon sta generando...'
+DYNATECH_WIRELESS_ITEM_OUTPUT:
+  '4':
+    name: '&fPannello Informazioni'
+    lore:
+    - '&fEnergia Attuale: Sconosciuta'
+    - '&fStato Attuale: NON CONNESSO'
+DYNATECH_WIRELESS_ITEM_INPUT:
+  '4':
+    name: '&fPannello Informazioni'
+URANIUM_EXTRACTOR:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+SINGULARITY_CONSTRUCTOR:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+DYNATECH_LAPIS_LAZULIMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+REINFORCED_STORAGE:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '4':
+    name: '&bStato'
+    lore:
+    - '&7Caricamento...'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '22':
+    name: '&aAzioni Rapide'
+    lore:
+    - '&bClic Sinistro: &7Preleva 1 oggetto'
+    - '&bClic Destro: &7Preleva 1 stack'
+    - '&bShift + Clic Sinistro: &7Deposita inventario'
+    - '&bShift + Clic Destro: &7Preleva inventario'
+  '24':
+    name: '&6Uscita'
+  '25':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+SMELTERY_CONTROLLER:
+  '0':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '1':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '2':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '3':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '4':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '5':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '6':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '7':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '8':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '9':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '11':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '12':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '14':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '15':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '17':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '18':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '19':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '20':
+    name: '&9Ingresso'
+    lore:
+    - ' '
+  '21':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '22':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '23':
+    name: '&aStampo/Forma'
+    lore:
+    - ' '
+  '24':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '25':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '26':
+    name: '&cUscita'
+    lore:
+    - ' '
+  '28':
+    name: '&x&0&3&F&C&D&FSerbatoio Lava'
+    lore:
+    - ''
+    - '&x&E&4&E&D&3&2Lava: &f0 / 1000'
+  '30':
+    name: '&x&0&3&F&C&D&FSerbatoio Metalli'
+    lore:
+    - ''
+    - '&x&E&4&E&D&3&2Metallo Totale: &f0 / 1000'
+    - ''
+    - ''
+    - '&7I metalli vengono versati prima dall''&7&lalto&7'
+    - ''
+    - '&x&E&4&E&D&3&2Clicca per cambiare l''ordine dei metalli.'
+  '32':
+    name: '&x&0&3&F&C&D&FElimina Metalli'
+    lore:
+    - ''
+    - '&7Elimina i metalli indesiderati dal serbatoio.'
+    - ''
+    - '&x&E&4&E&D&3&2Clic Sinistro: &fRimuovi il metallo IN CIMA'
+    - '&x&E&4&E&D&3&2Clic Destro: &fRimuovi TUTTI i metalli'
+  '33':
+    name: '&x&0&3&F&C&D&FLega Metalli'
+    lore:
+    - ''
+    - '&7Mescola i metalli nel serbatoio per'
+    - '&7tentare di creare una lega.'
+  '34':
+    name: '&x&0&3&F&C&D&FVersa contenuto'
+    lore:
+    - ''
+    - '&7Versa il primo metallo nello'
+    - '&7stampo. Dopo il raffreddamento, produce'
+    - '&7il prodotto finale.'
+AUTO_MAGIC_WORKBENCH:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la Ricetta che vuoi creare'
+    - '&6SOLO Ricette del Banco da Lavoro Magico'
+SMART_FACTORY:
+  '9':
+    name: '&7Slot Carbone'
+    lore:
+    - '&eQuesta riga è riservata al carbone per il cargo.'
+  '18':
+    name: '&bSlot Vari'
+    lore:
+    - '&eLe righe rimanenti accettano qualsiasi oggetto.'
+    - '&eIl cargo riempirà gli stack dopo'
+    - '&eche è stato inserito almeno uno'
+    - '&edi ogni requisito della ricetta.'
+    - '&eOccorre tenere un oggetto in più in'
+    - '&eogni stack come modello.'
+  '42':
+    name: '&aProgresso'
+NTW_POWER_DISPLAY:
+  '4':
+    name: '&x&E&4&E&D&3&2Stato'
+    lore:
+    - '&7Carica Attuale della Rete: 0j'
+AUTO_ANCIENT_ALTAR:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la Ricetta che vuoi creare'
+    - '&4SOLO Ricette dell''Altare Antico'
+MASS_FABRICATOR_MACHINE:
+  '13':
+    name: '&7Progresso'
+NTW_AUTO_CRAFTER:
+  '0':
+    name: '&7Progetto di Creazione'
+  '1':
+    name: '&7Progetto di Creazione'
+  '2':
+    name: '&7Progetto di Creazione'
+  '6':
+    name: '&7Uscita'
+  '7':
+    name: '&7Uscita'
+  '8':
+    name: '&7Uscita'
+  '9':
+    name: '&7Progetto di Creazione'
+  '11':
+    name: '&7Progetto di Creazione'
+  '15':
+    name: '&7Uscita'
+  '17':
+    name: '&7Uscita'
+  '18':
+    name: '&7Progetto di Creazione'
+  '19':
+    name: '&7Progetto di Creazione'
+  '20':
+    name: '&7Progetto di Creazione'
+  '24':
+    name: '&7Uscita'
+  '25':
+    name: '&7Uscita'
+  '26':
+    name: '&7Uscita'
+DYNATECH_TINMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+PROGRAMMABLE_ANDROID_BUTCHER:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile solido'
+    - '&fper esempio Carbone, Legno, ecc...'
+TINKERS_MOD_STATION:
+  '14':
+    name: '&x&0&3&F&C&D&FApplica Modifica'
+    lore:
+    - ''
+    - '&7Applica la modifica allo strumento.'
+NUCLEAR_REACTOR:
+  '1':
+    name: '&7Slot Combustibile'
+    lore:
+    - ''
+    - '&fQuesto Slot accetta Combustibile radioattivo come:'
+    - '&2Uranio &fo &aNeptunio'
+  '7':
+    name: '&bSlot Refrigerante'
+    lore:
+    - ''
+    - '&fQuesto Slot accetta Celle Refrigeranti'
+    - '&4Senza alcuna Cella Refrigerante, il tuo Reattore'
+    - '&4esploderà'
+NTW_TRASH:
+  '3':
+    name: '&aElimina Oggetti Corrispondenti'
+  '4':
+    name: '&aElimina Oggetti Corrispondenti'
+  '5':
+    name: '&aElimina Oggetti Corrispondenti'
+  '12':
+    name: '&aElimina Oggetti Corrispondenti'
+  '14':
+    name: '&aElimina Oggetti Corrispondenti'
+  '21':
+    name: '&aElimina Oggetti Corrispondenti'
+  '22':
+    name: '&aElimina Oggetti Corrispondenti'
+  '23':
+    name: '&aElimina Oggetti Corrispondenti'
+PROGRAMMABLE_ANDROID_2_FARMER:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile liquido'
+    - '&fper esempio Lava, Petrolio, Carburante, ecc...'
+DATA_INFUSER:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '3':
+    name: '&9Ingresso'
+  '4':
+    name: '&9Ingresso'
+  '9':
+    name: '&9Ingresso'
+  '13':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '22':
+    name: '&9Ingresso'
+  '23':
+    name: '&aClicca per Creare!'
+  '24':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '31':
+    name: '&9Ingresso'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '37':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&9Ingresso'
+  '40':
+    name: '&9Ingresso'
+FUSION_REACTOR:
+  '1':
+    name: '&7Slot Combustibile'
+    lore:
+    - ''
+    - '&fQuesto Slot accetta Combustibile radioattivo come:'
+    - '&2Uranio &fo &aNeptunio'
+  '7':
+    name: '&bSlot Refrigerante'
+    lore:
+    - ''
+    - '&fQuesto Slot accetta Celle Refrigeranti'
+  '25':
+    name: '&cNessun Refrigerante Richiesto'
+  '34':
+    name: '&cNessun Refrigerante Richiesto'
+  '43':
+    name: '&cNessun Refrigerante Richiesto'
+UU_CRAFTER:
+  '40':
+    name: '&7Clicca per iniziare'
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  '34':
+    name: '&8⇩ &cIngresso Combustibile &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Android funziona con Combustibile solido'
+    - '&fper esempio Carbone, Legno, ecc...'
+WATER_SPRINKLER:
+  '4':
+    name: '&cNessuna acqua trovata'
+    lore:
+    - ''
+    - '&cPosiziona dell''acqua sotto l''irrigatore!'
+INFINITY_FORGE:
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '7':
+    name: '&6Ricette'
+  '42':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '16':
+    name: '&aClicca per Creare!'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+INFINITY_VIRTUAL_FARM:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+ASSEMBLY_TABLE:
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '7':
+    name: '&6Ricette'
+  '42':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '16':
+    name: '&aClicca per Creare!'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+NTW_QUANTUM_WORKBENCH:
+  '23':
+    name: '&x&E&4&E&D&3&2Clicca per intrecciare'
+ADVANCED_SOLAR_PANEL:
+  '4':
+    name: '&cNon sta generando...'
+HYBRID_SOLAR_PANEL:
+  '4':
+    name: '&cNon sta generando...'
+DYNATECH_COPPERMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+DYNATECH_REDSTONEMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+DYNATECH_SYNTHETIC_SAPPHIREMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+ADVANCED_NETHER_STAR_REACTOR:
+  '1':
+    name: '&7Slot del carburante'
+    lore:
+    - ''
+    - '&fQuesto slot accetta carburante radioattivo come:'
+    - '&2Uranio &fo &aNeptunio'
+  '7':
+    name: '&bSlot del refrigerante'
+    lore:
+    - ''
+    - '&fQuesto slot accetta celle di refrigerante'
+    - '&4Senza celle di refrigerante, il tuo reattore'
+    - '&4esploderà'
+RESOURCE_SYNTHESIZER:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '6':
+    name: '&9Ingresso'
+  '7':
+    name: '&9Ingresso'
+  '8':
+    name: '&9Ingresso'
+  '9':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '15':
+    name: '&9Ingresso'
+  '17':
+    name: '&9Ingresso'
+  '18':
+    name: '&9Ingresso'
+  '19':
+    name: '&9Ingresso'
+  '20':
+    name: '&9Ingresso'
+  '24':
+    name: '&9Ingresso'
+  '25':
+    name: '&9Ingresso'
+  '26':
+    name: '&9Ingresso'
+  '28':
+    name: '&6Uscita'
+  '30':
+    name: '&6Uscita'
+  '31':
+    name: '&6Uscita'
+  '32':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '37':
+    name: '&6Uscita'
+  '38':
+    name: '&6Uscita'
+  '39':
+    name: '&6Uscita'
+  '41':
+    name: '&6Uscita'
+  '42':
+    name: '&6Uscita'
+  '43':
+    name: '&6Uscita'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+DYNATECH_BRASSMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+PROGRAMMABLE_ANDROID_2:
+  '34':
+    name: '&8⇩ &cIngresso carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto androide funziona con carburante liquido'
+    - '&fad es. lava, petrolio, carburante, ecc...'
+PROGRAMMABLE_ANDROID_3:
+  '34':
+    name: '&8⇩ &cIngresso carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto androide funziona con carburante radioattivo'
+    - '&fad es. uranio, neptunio o uranio potenziato'
+AUTO_TABLE_SAW:
+  '2':
+    name: '&eRicetta'
+    lore:
+    - ''
+    - '&bInserisci la ricetta che vuoi creare'
+    - '&4SOLO ricette della sega da banco'
+DECOMPRESSOR:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+COBBLE_PRESS:
+  '9':
+    name: '&9Ingresso'
+  '10':
+    name: '&9Ingresso'
+  '11':
+    name: '&9Ingresso'
+  '12':
+    name: '&9Ingresso'
+  '14':
+    name: '&6Uscita'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '21':
+    name: '&9Ingresso'
+  '22':
+    name: '&8Inattivo'
+  '23':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&9Ingresso'
+  '32':
+    name: '&6Uscita'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+STORAGE_FORGE:
+  '0':
+    name: '&9Ingresso'
+  '1':
+    name: '&9Ingresso'
+  '2':
+    name: '&9Ingresso'
+  '3':
+    name: '&9Ingresso'
+  '4':
+    name: '&9Ingresso'
+  '9':
+    name: '&9Ingresso'
+  '13':
+    name: '&9Ingresso'
+  '15':
+    name: '&6Uscita'
+  '16':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '18':
+    name: '&9Ingresso'
+  '22':
+    name: '&9Ingresso'
+  '23':
+    name: '&aClicca per creare!'
+  '24':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '31':
+    name: '&9Ingresso'
+  '33':
+    name: '&6Uscita'
+  '34':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '37':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&9Ingresso'
+  '40':
+    name: '&9Ingresso'
+DYNATECH_REDSTONE_ALLOYMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+DYNATECH_REINFORCED_ALLOYMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+NTW_CONTROL_X:
+  '11':
+    name: '&7Imposta direzione: NORD'
+  '14':
+    name: '&7Imposta direzione: SU'
+  '16':
+    name: '&7Taglia gli oggetti corrispondenti al modello.'
+    lore:
+    - '&7Lasciando vuoto taglierà qualsiasi cosa'
+  '19':
+    name: '&7Imposta direzione: OVEST'
+  '21':
+    name: '&7Imposta direzione: EST'
+  '29':
+    name: '&7Imposta direzione: SUD'
+  '32':
+    name: '&7Imposta direzione: GIÙ'
+DYNATECH_COALMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di api: {}'
+    - '&fVelocità attuale: {}'
+RUNE_ANVIL:
+  '4':
+    name: '&5Incudine delle Rune'
+    lore:
+    - ''
+    - '&7Posiziona un &foggetto &7e una &5Runa del Vincolo &7o'
+    - '&5Runa dell''Incantesimo &7negli ingressi,'
+    - '&7poi preleva il risultato dall''uscita.'
+    - ''
+    - '&7La runa viene consumata quando raccogli.'
+  '14':
+    name: '&a➜'
+NTW_CONTROL_V:
+  '11':
+    name: '&7Imposta direzione: NORD'
+  '14':
+    name: '&7Imposta direzione: SU'
+  '16':
+    name: '&7Incolla oggetti corrispondenti al modello'
+  '19':
+    name: '&7Imposta direzione: OVEST'
+  '21':
+    name: '&7Imposta direzione: EST'
+  '29':
+    name: '&7Imposta direzione: SUD'
+  '32':
+    name: '&7Imposta direzione: GIÙ'
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  '34':
+    name: '&8⇩ &cIngresso Carburante &8⇩'
+    lore:
+    - ''
+    - '&fQuesto Androide funziona a Carburante liquido'
+    - '&fad es. Lava, Petrolio, Carburante, ecc...'
+DYNATECH_NETHERITEMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_LEADMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_SYNTHETIC_DIAMONDMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+BASIC_VIRTUAL_FARM:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+DYNATECH_DIAMONDMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+DYNATECH_BILLONMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
+ADVANCED_TREE_GROWER:
+  '3':
+    name: '&6Uscita'
+  '4':
+    name: '&6Uscita'
+  '5':
+    name: '&6Uscita'
+  '6':
+    name: '&6Uscita'
+  '7':
+    name: '&6Uscita'
+  '8':
+    name: '&6Uscita'
+  '12':
+    name: '&6Uscita'
+  '17':
+    name: '&6Uscita'
+  '21':
+    name: '&6Uscita'
+  '26':
+    name: '&6Uscita'
+  '27':
+    name: '&9Ingresso'
+  '28':
+    name: '&9Ingresso'
+  '29':
+    name: '&9Ingresso'
+  '30':
+    name: '&6Uscita'
+  '35':
+    name: '&6Uscita'
+  '36':
+    name: '&9Ingresso'
+  '38':
+    name: '&9Ingresso'
+  '39':
+    name: '&6Uscita'
+  '44':
+    name: '&6Uscita'
+  '45':
+    name: '&9Ingresso'
+  '46':
+    name: '&9Ingresso'
+  '47':
+    name: '&9Ingresso'
+  '48':
+    name: '&6Uscita'
+  '49':
+    name: '&6Uscita'
+  '50':
+    name: '&6Uscita'
+  '51':
+    name: '&6Uscita'
+  '52':
+    name: '&6Uscita'
+  '53':
+    name: '&6Uscita'
+DYNATECH_CORINTHIAN_BRONZEMINERALIZED_APIARY:
+  '20':
+    name: '&fINFO'
+    lore:
+    - '&fNumero di Api: {}'
+    - '&fVelocità Attuale: {}'
