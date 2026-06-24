@@ -1070,3 +1070,38 @@ MAGNESIUM_SALT:
   name: "&cМагниевая соль"
 MAGNESIUM_GENERATOR:
   name: "&cГенератор на магнии"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Эндер-талисман наковальни"
+ENDER_MINER_TALISMAN:
+  name: "&5Эндер-талисман шахтёра"
+ENDER_FARMER_TALISMAN:
+  name: "&5Эндер-талисман фермера"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Эндер-талисман охотника"
+ENDER_LAVA_TALISMAN:
+  name: "&5Эндер-талисман ходока по лаве"
+ENDER_WATER_TALISMAN:
+  name: "&5Эндер-талисман водолаза"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Эндер-талисман ангела"
+ENDER_FIRE_TALISMAN:
+  name: "&5Эндер-талисман пожарного"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Эндер-талисман мага"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Эндер-талисман путешественника"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Эндер-талисман воина"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Эндер-талисман рыцаря"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Эндер-талисман пещерного человека"
+ENDER_WISE_TALISMAN:
+  name: "&5Эндер-талисман мудреца"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Эндер-талисман вихря"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Эндер-талисман волшебника"
+BIRTHDAY_CAKE:
+  name: "&dПраздничный торт"

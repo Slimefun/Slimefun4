@@ -1070,3 +1070,38 @@ MAGNESIUM_SALT:
   name: "&cSel de magnésium"
 MAGNESIUM_GENERATOR:
   name: "&cGénérateur alimenté au magnésium"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Talisman Ender de l'enclume"
+ENDER_MINER_TALISMAN:
+  name: "&5Talisman Ender du mineur"
+ENDER_FARMER_TALISMAN:
+  name: "&5Talisman Ender du fermier"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Talisman Ender du chasseur"
+ENDER_LAVA_TALISMAN:
+  name: "&5Talisman Ender du marcheur de lave"
+ENDER_WATER_TALISMAN:
+  name: "&5Talisman Ender du respirateur aquatique"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Talisman Ender de l'ange"
+ENDER_FIRE_TALISMAN:
+  name: "&5Talisman Ender du pompier"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Talisman Ender du magicien"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Talisman Ender du voyageur"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Talisman Ender du guerrier"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Talisman Ender du chevalier"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Talisman Ender de l'homme des cavernes"
+ENDER_WISE_TALISMAN:
+  name: "&5Talisman Ender du sage"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Talisman Ender du tourbillon"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Talisman Ender du sorcier"
+BIRTHDAY_CAKE:
+  name: "&dGâteau d'anniversaire"

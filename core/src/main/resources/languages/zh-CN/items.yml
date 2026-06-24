@@ -1070,3 +1070,38 @@ MAGNESIUM_SALT:
   name: "&c镁盐"
 MAGNESIUM_GENERATOR:
   name: "&c镁动力发电机"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5末影铁砧护身符"
+ENDER_MINER_TALISMAN:
+  name: "&5末影矿工护身符"
+ENDER_FARMER_TALISMAN:
+  name: "&5末影农夫护身符"
+ENDER_HUNTER_TALISMAN:
+  name: "&5末影猎人护身符"
+ENDER_LAVA_TALISMAN:
+  name: "&5末影熔岩行者护身符"
+ENDER_WATER_TALISMAN:
+  name: "&5末影水下呼吸护身符"
+ENDER_ANGEL_TALISMAN:
+  name: "&5末影天使护身符"
+ENDER_FIRE_TALISMAN:
+  name: "&5末影消防员护身符"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5末影魔术师护身符"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5末影旅行者护身符"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5末影战士护身符"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5末影骑士护身符"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5末影穴居人护身符"
+ENDER_WISE_TALISMAN:
+  name: "&5末影智者护身符"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5末影旋风护身符"
+ENDER_WIZARD_TALISMAN:
+  name: "&5末影巫师护身符"
+BIRTHDAY_CAKE:
+  name: "&d生日蛋糕"

@@ -1070,3 +1070,38 @@ MAGNESIUM_SALT:
   name: "&cMagnesiumzout"
 MAGNESIUM_GENERATOR:
   name: "&cMagnesium-aangedreven Generator"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Ender Talisman van het Aambeeld"
+ENDER_MINER_TALISMAN:
+  name: "&5Ender Talisman van de Mijnwerker"
+ENDER_FARMER_TALISMAN:
+  name: "&5Ender Talisman van de Boer"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Ender Talisman van de Jager"
+ENDER_LAVA_TALISMAN:
+  name: "&5Ender Talisman van de Lavaloper"
+ENDER_WATER_TALISMAN:
+  name: "&5Ender Talisman van de Waterademhaler"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Ender Talisman van de Engel"
+ENDER_FIRE_TALISMAN:
+  name: "&5Ender Talisman van de Brandweerman"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Ender Talisman van de Magiër"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Ender Talisman van de Reiziger"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Ender Talisman van de Krijger"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Ender Talisman van de Ridder"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Ender Talisman van de Holbewoner"
+ENDER_WISE_TALISMAN:
+  name: "&5Ender Talisman van de Wijze"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Ender Talisman van de Wervelwind"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Ender Talisman van de Tovenaar"
+BIRTHDAY_CAKE:
+  name: "&dVerjaardagstaart"

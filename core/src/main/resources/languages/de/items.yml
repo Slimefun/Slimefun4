@@ -2124,3 +2124,38 @@ FERTILIZER_COCOA:
   name: "&aKakao-Dünger"
 FERTILIZER_SEAGRASS:
   name: "&aSeegras-Dünger"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Ender-Talisman des Ambosses"
+ENDER_MINER_TALISMAN:
+  name: "&5Ender-Talisman des Bergmanns"
+ENDER_FARMER_TALISMAN:
+  name: "&5Ender-Talisman des Bauern"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Ender-Talisman des Jägers"
+ENDER_LAVA_TALISMAN:
+  name: "&5Ender-Talisman des Lavawanderers"
+ENDER_WATER_TALISMAN:
+  name: "&5Ender-Talisman des Wasseratmers"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Ender-Talisman des Engels"
+ENDER_FIRE_TALISMAN:
+  name: "&5Ender-Talisman des Feuerwehrmanns"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Ender-Talisman des Magiers"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Ender-Talisman des Reisenden"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Ender-Talisman des Kriegers"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Ender-Talisman des Ritters"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Ender-Talisman des Höhlenmenschen"
+ENDER_WISE_TALISMAN:
+  name: "&5Ender-Talisman des Weisen"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Ender-Talisman des Wirbelwinds"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Ender-Talisman des Zauberers"
+BIRTHDAY_CAKE:
+  name: "&dGeburtstagskuchen"

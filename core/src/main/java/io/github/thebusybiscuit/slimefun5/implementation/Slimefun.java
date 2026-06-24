@@ -388,6 +388,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             // translation, when explicitly requested. Disabled by default.
             if (config.getBoolean("guide.dump-menu-baseline") || Boolean.getBoolean("slimefun.dumpMenuBaseline")) {
                 menuTranslationService.dumpBaseline(new File(getDataFolder(), "menus-baseline.yml"));
+                itemTranslationService.dumpUntranslated(new File(getDataFolder(), "untranslated-items.yml"), java.util.Arrays.asList("de"));
             }
 
         }), 0);

@@ -337,6 +337,51 @@ public class ItemTranslationService {
         return true;
     }
 
+    /**
+     * Development helper: writes, per language, every enabled item id that has no translation, grouped
+     * by addon - the exact remaining gap to fill. Used to audit localization coverage across all loaded
+     * addons in one pass.
+     */
+    public void dumpUntranslated(@Nonnull java.io.File out, @Nonnull List<String> languages) {
+        org.bukkit.configuration.file.YamlConfiguration config = new org.bukkit.configuration.file.YamlConfiguration();
+        config.options().pathSeparator('\u001F'); // dot-safe separator for addon/id keys
+
+        for (String language : languages) {
+            if ("en".equalsIgnoreCase(language)) {
+                ensureEnglishBaseline();
+            }
+
+            Map<String, ItemTranslation> translated = byLanguage.getOrDefault(language, new HashMap<>());
+            Map<String, List<String>> byAddon = new java.util.TreeMap<>();
+            int total = 0;
+
+            for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+                try {
+                    if (!translated.containsKey(item.getId())) {
+                        byAddon.computeIfAbsent(item.getAddon().getName(), k -> new ArrayList<>())
+                            .add(item.getId() + "  |  " + ChatColor.stripColor(englishName(item)));
+                        total++;
+                    }
+                } catch (Exception | LinkageError ignored) {
+                    // A broken item must not break the audit.
+                }
+            }
+
+            config.set(language + "_total_untranslated", total);
+
+            for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
+                config.set(language + "\u001F" + entry.getKey(), entry.getValue());
+            }
+        }
+
+        try {
+            config.save(out);
+            Slimefun.logger().log(Level.INFO, "Dumped untranslated-item audit to {0}", out.getPath());
+        } catch (java.io.IOException e) {
+            Slimefun.logger().log(Level.WARNING, "Failed to dump untranslated audit: {0}", e.getMessage());
+        }
+    }
+
     public Map<String, int[]> getCoverage(@Nonnull String language) {
         if ("en".equalsIgnoreCase(language)) {
             // English is the language items are authored in. Register each item's built-in English name
