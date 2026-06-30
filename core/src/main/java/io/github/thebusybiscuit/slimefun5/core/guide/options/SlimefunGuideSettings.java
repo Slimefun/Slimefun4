@@ -125,20 +125,13 @@ public final class SlimefunGuideSettings {
         );
         // @formatter:on
 
-        // @formatter:off
+        List<String> sourceLore = locale.getMessages(p, "guide.panel.source", msg -> msg
+            .replace("%activity%", NumberUtils.getElapsedTime(github.getLastUpdate()))
+            .replace("%forks%", String.valueOf(github.getForks()))
+            .replace("%stars%", String.valueOf(github.getStars())));
         menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
            "&e" + locale.getMessage(p, "guide.title.source"),
-           "", "&7Last Activity: &a" + NumberUtils.getElapsedTime(github.getLastUpdate()) + " ago",
-           "&7Forks: &e" + github.getForks(),
-           "&7Stars: &e" + github.getStars(),
-           "",
-           "&7&oSlimefun is a community project,",
-           "&7&othe source code is available on GitHub",
-           "&7&oand if you want to keep this Plugin alive,",
-           "&7&othen please consider contributing to it",
-           "",
-           "&7\u21E8 &eClick to go to GitHub"));
-        // @formatter:on
+           sourceLore.toArray(new String[0])));
 
         menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
             pl.closeInventory();
@@ -148,16 +141,10 @@ public final class SlimefunGuideSettings {
 
         // In-game Wiki, sitting opposite the Addon Installer (slot 47). Opens the teaching-focused
         // wiki home; shown to everyone, no external links.
-        // @formatter:off
+        List<String> wikiLore = locale.getMessages(p, "guide.panel.wiki");
         menu.addItem(51, CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(),
             "&3" + locale.getMessage(p, "guide.title.wiki"),
-            "",
-            "&7New to Slimefun, or stuck on a machine?",
-            "&7Learn the basics and look up any item,",
-            "&7all without leaving the game.",
-            "",
-            "&7\u21E8 &eClick to open the in-game Wiki"));
-        // @formatter:on
+            wikiLore.toArray(new String[0])));
 
         menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
             WikiIndex.open(pl, guide);
@@ -170,34 +157,20 @@ public final class SlimefunGuideSettings {
         boolean canViewInstaller = p.hasPermission(AddonCatalog.PERMISSION)
             || Slimefun.getCfg().getBoolean("guide.show-addon-installer-to-everyone");
         if (canViewInstaller) {
+            List<String> installerLore = locale.getMessages(p, "guide.panel.installer", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
             menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.installer"),
-                "",
-                "&7Install, update or build Slimefun and its",
-                "&7addons without leaving the game.",
-                "",
-                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
-                "",
-                "&7\u21E8 &eClick to open the Addon Installer"));
-            // @formatter:on
+                installerLore.toArray(new String[0])));
 
             menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
         } else {
-            // @formatter:off
+            List<String> addonsLore = locale.getMessages(p, "guide.panel.addons", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
             menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.addons"),
-                "",
-                "&7Slimefun is huge. But its addons are what makes",
-                "&7this plugin truly shine. Go check them out, some",
-                "&7of them may be exactly what you were missing out on!",
-                "",
-                "&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(),
-                "",
-                "&7\u21E8 &eClick to see all available addons for Slimefun5"));
-            // @formatter:on
+                addonsLore.toArray(new String[0])));
 
             menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
                 pl.closeInventory();
@@ -206,27 +179,15 @@ public final class SlimefunGuideSettings {
             });
         }
 
-        if (Slimefun.getUpdater().getBranch().isOfficial()) {
-            // @formatter:off
-            menu.addItem(49, CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(),
-                "&4" + locale.getMessage(p, "guide.title.bugs"),
-                "",
-                "&7&oBug reports have to be made in English!",
-                "",
-                "&7Open Issues: &a" + github.getOpenIssues(),
-                "&7Pending Pull Requests: &a" + github.getPendingPullRequests(),
-                "",
-                "&7\u21E8 &eClick to go to the Slimefun5 Bug Tracker"));
-            // @formatter:on
+        // In-game bug reporting (replaces the external issue-tracker link). Always available.
+        menu.addItem(49, CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(),
+            "&4" + locale.getMessage(p, "guide.title.bugs"),
+            locale.getMessages(p, "guide.report.button-lore").toArray(new String[0])));
 
-            menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/issues");
-                return false;
-            });
-        } else {
-            menu.addItem(49, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
-        }
+        menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
+            BugReportMenu.open(pl, guide);
+            return false;
+        });
 
     }
 

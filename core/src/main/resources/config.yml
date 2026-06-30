@@ -34,6 +34,32 @@ guide:
   # Dev helper: when true, dumps the English baseline of every block menu to menus-baseline.yml on
   # startup (for producing translations). Leave false in production.
   dump-menu-baseline: false
+  # Who may use the Cheat Sheet (creative-style free-item access). Access is granted if ANY enabled
+  # rule below matches. Admin-only setting. Defaults: OPs and holders of slimefun.cheat.items.
+  cheat-sheet:
+    allow-creative: false
+    allow-op: true
+    allow-permission: true
+    allow-everyone: false
+
+# In-game bug reporting (the "Report a Bug" button in the guide settings). Reports are posted by the
+# server using the credentials below and credit the reporting player by name. Leave a field empty to
+# disable that channel; with both empty, reports cannot be delivered.
+bug-reports:
+  enabled: true
+  # Our hosted relay forwards reports to the Slimefun5 community Discord. The relay holds the webhook
+  # server-side, so nothing sensitive ships in the jar. When set, the direct webhook below is ignored.
+  # Change this only if you run your own relay; empty it to disable relaying.
+  relay-url: 'https://slimefun5-bot.finn-089.workers.dev/report'
+  # Minimum seconds a player must wait between submitting reports (per-player anti-spam).
+  cooldown-seconds: 60
+  github:
+    # A GitHub token with 'repo' scope (issues write access). Required to open issues; empty disables it.
+    token: ''
+    owner: 'Slimefun5'
+  discord:
+    # A Discord webhook URL to mirror reports to. Empty disables Discord posting.
+    webhook-url: ''
 
 researches:
   free-in-creative-mode: true
