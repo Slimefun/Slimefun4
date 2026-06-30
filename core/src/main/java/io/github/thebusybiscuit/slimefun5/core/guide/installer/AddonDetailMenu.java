@@ -37,8 +37,10 @@ public final class AddonDetailMenu {
         ChestMenuUtils.drawBackground(menu, BORDER);
 
         AddonInstaller inst = AddonInstallerMenu.installer();
-        // Players without the installer permission view this screen read-only: header + status only.
         boolean canManage = p.hasPermission(AddonCatalog.PERMISSION);
+
+        // async + throttled; updates are announced at startup/join, not from here
+        inst.refreshUpdateStatusAsync(java.util.Collections.singletonList(entry));
 
         menu.addItem(0, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -54,7 +56,6 @@ public final class AddonDetailMenu {
             }
         }
 
-        // Header (the entry itself).
         List<String> headerLore = new ArrayList<>();
         headerLore.add("");
         headerLore.add(StatusBadges.badge(p, inst, entry));
@@ -65,43 +66,112 @@ public final class AddonDetailMenu {
             headerLore.add(versionLine);
         }
 
+        InstallState.Record record = inst.getState().get(entry.getId());
+        boolean restartPending = record != null && record.isRestartPending();
+
+        if (!restartPending && inst.isUpdateAvailable(entry.getId())) {
+            headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.update.available")
+                .replace("%version%", inst.getLatestVersionLabel(entry.getId())));
+        }
+
         if (!deps.isEmpty()) {
             headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.will-install").replace("%deps%", String.join(", ", deps)));
+        }
+
+        Plugin loaded = inst.getLoadedPlugin(entry);
+
+        if (loaded != null) {
+            String description = loaded.getDescription().getDescription();
+
+            if (description != null && !description.trim().isEmpty()) {
+                headerLore.add("");
+                headerLore.add("&7" + description.trim());
+            }
+
+            List<String> authors = loaded.getDescription().getAuthors();
+
+            if (authors != null && !authors.isEmpty()) {
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.info.authors").replace("%authors%", String.join(", ", authors)));
+            }
         }
 
         menu.addItem(13, CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), headerLore.toArray(new String[0])));
         menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
 
-        // Action: install/update from latest release (always available).
-        String label = Slimefun.getLocalization().getMessage(p, inst.isLoaded(entry) ? "guide.installer.install.update" : "guide.installer.install.install");
-        List<String> installLore = new ArrayList<>();
-        installLore.add(label);
-        installLore.add("");
-        installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
-        if (canManage) {
-            menu.addItem(29, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
-            menu.addMenuClickHandler(29, (pl, slot, item, action) -> {
+        boolean showInstall = canManage;
+        boolean showDelete = canManage && !entry.isCore() && !entry.isLibrary() && inst.isLoaded(entry);
+        boolean showBuild = canManage && EnvironmentDetector.canBuildFromSource();
+
+        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + 1);
+        int idx = 0;
+
+        if (showInstall) {
+            int s = slots[idx++];
+            List<String> installLore = new ArrayList<>();
+            installLore.add(Slimefun.getLocalization().getMessage(p, inst.isLoaded(entry) ? "guide.installer.install.update" : "guide.installer.install.install"));
+            installLore.add("");
+            installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
                 inst.installRelease(pl, entry);
-                // Keep the guide open; re-render so the header badge shows "Working…".
                 open(pl, guide, entry);
                 return false;
             });
         }
 
-        // Action: build from branch (Mode B, dev only).
-        if (canManage && EnvironmentDetector.canBuildFromSource()) {
+        if (showDelete) {
+            int s = slots[idx++];
+            List<String> deleteLore = new ArrayList<>();
+            deleteLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.delete.name"));
+            deleteLore.add("");
+            deleteLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.delete.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.RED_DYE), deleteLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                inst.deleteAddon(pl, entry);
+                open(pl, guide, entry);
+                return false;
+            });
+        }
+
+        if (showBuild) {
+            int s = slots[idx++];
             List<String> buildLore = new ArrayList<>();
             buildLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.build.name"));
             buildLore.add("");
             buildLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.build.lore"));
-            menu.addItem(33, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), buildLore));
-            menu.addMenuClickHandler(33, (pl, slot, item, action) -> {
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), buildLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
                 BranchSelectMenu.open(pl, guide, entry, 0);
                 return false;
             });
         }
 
+        int githubSlot = slots[idx];
+        List<String> githubLore = new ArrayList<>();
+        githubLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.github.name"));
+        githubLore.add("");
+        githubLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.github.lore"));
+        menu.addItem(githubSlot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), githubLore));
+        menu.addMenuClickHandler(githubSlot, (pl, slot, item, action) -> {
+            pl.closeInventory();
+            Slimefun.getLocalization().sendMessage(pl, "guide.installer.github.chat", true);
+            pl.sendMessage("https://github.com/" + entry.getSlug());
+            return false;
+        });
+
         menu.open(p);
+    }
+
+    /** Action-button slots in the bottom row, centered on slot 31 with a gap between each. */
+    private static int[] centeredActionSlots(int count) {
+        int[] slots = new int[count];
+        int start = 31 - (count - 1);
+
+        for (int i = 0; i < count; i++) {
+            slots[i] = start + 2 * i;
+        }
+
+        return slots;
     }
 
     /**

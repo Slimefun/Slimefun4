@@ -86,6 +86,31 @@ public final class AddonReleaseService {
         return new ReleaseInfo(tag, jarUrl);
     }
 
+    /**
+     * Fetches the short commit SHA at the head of a branch (for update-checking branch installs).
+     * Blocking — call off the main thread.
+     *
+     * @return the 7-char short SHA, or null if the branch/repo is unreachable.
+     */
+    @Nullable
+    public String fetchBranchHead(@Nonnull AddonCatalog.Entry entry, @Nonnull String branch) {
+        String endpoint = API_URL + "repos/" + entry.getSlug() + "/commits/" + branch;
+        JsonElement response = get(endpoint);
+
+        if (response == null || !response.isJsonObject()) {
+            return null;
+        }
+
+        JsonObject obj = response.getAsJsonObject();
+
+        if (!obj.has("sha")) {
+            return null;
+        }
+
+        String sha = obj.get("sha").getAsString();
+        return sha.length() >= 7 ? sha.substring(0, 7) : sha;
+    }
+
     @Nullable
     private static String findJarAsset(@Nonnull JsonArray assets) {
         for (JsonElement element : assets) {

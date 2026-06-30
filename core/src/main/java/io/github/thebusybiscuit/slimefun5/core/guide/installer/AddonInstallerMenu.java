@@ -1,11 +1,13 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.installer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nonnull;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
@@ -56,6 +58,11 @@ public final class AddonInstallerMenu {
                 break;
             }
 
+            // Libraries auto-install with their dependents; they aren't user-facing addons.
+            if (entry.isLibrary()) {
+                continue;
+            }
+
             menu.addItem(slot, icon(p, inst, entry));
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
                 AddonDetailMenu.open(pl, guide, entry);
@@ -69,12 +76,23 @@ public final class AddonInstallerMenu {
 
     @Nonnull
     private static ItemStack icon(Player p, AddonInstaller inst, AddonCatalog.Entry entry) {
-        String badge = StatusBadges.badge(p, inst, entry);
-        return CustomItemStack.create(MaterialCompat.stack(entry.getIcon()),
-            "&f" + entry.getDisplayName(),
-            "",
-            badge,
-            "",
-            Slimefun.getLocalization().getMessage(p, "guide.installer.click-details"));
+        List<String> lore = new ArrayList<>();
+        lore.add("");
+        lore.add(StatusBadges.badge(p, inst, entry));
+
+        Plugin plugin = inst.getLoadedPlugin(entry);
+
+        if (plugin != null) {
+            lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.version.release").replace("%version%", plugin.getDescription().getVersion()));
+            List<String> authors = plugin.getDescription().getAuthors();
+
+            if (authors != null && !authors.isEmpty()) {
+                lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.info.authors").replace("%authors%", String.join(", ", authors)));
+            }
+        }
+
+        lore.add("");
+        lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.click-details"));
+        return CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), lore.toArray(new String[0]));
     }
 }

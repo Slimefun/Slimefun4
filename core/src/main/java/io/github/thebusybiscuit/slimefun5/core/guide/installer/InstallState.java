@@ -113,6 +113,14 @@ public final class InstallState {
         return config.getKeys(false);
     }
 
+    /** Forgets an entry entirely. Used when the user deletes an addon through the installer. */
+    public synchronized void remove(@Nonnull String id) {
+        if (config.contains(id)) {
+            config.set(id, null);
+            save();
+        }
+    }
+
     /** Clears a pending restart for an entry while keeping its recorded method/version. */
     public synchronized void clearRestartPending(@Nonnull String id) {
         if (config.contains(id) && config.getBoolean(id + ".restart-pending", false)) {

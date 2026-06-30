@@ -30,11 +30,13 @@ final class StatusBadges {
             return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.restart").replace("%version%", record.getVersion());
         }
 
-        if (entry.isCore()) {
-            return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.installed-version").replace("%version%", Slimefun.getVersion());
-        }
-
+        // Core and addons alike show a plain "Installed" badge here; the version is rendered once,
+        // in the detail menu's version line, so it never appears twice.
         if (inst.isLoaded(entry)) {
+            if (inst.isUpdateAvailable(entry.getId())) {
+                return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.update").replace("%version%", inst.getLatestVersionLabel(entry.getId()));
+            }
+
             return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.installed");
         }
 

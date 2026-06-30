@@ -381,6 +381,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             // Now that every addon has enabled, drop "restart to apply" flags for ones that loaded
             AddonInstallerMenu.installer().reconcileRestartFlags();
 
+            // Check installer-managed addons/core for updates and log + notify admins (also on join)
+            AddonInstallerMenu.installer().checkForUpdatesOnStartup();
+
+            // Stamp/verify the block-data storage-format marker (side-car; never touches the .sfb format)
+            io.github.thebusybiscuit.slimefun5.storage.StorageFormat.checkAndStamp();
+
             // Pre-build the wiki's reverse-recipe index once here so the first player click is instant
             WikiPage.warmUpIndex();
 
@@ -665,6 +671,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new MultiBlockListener(this));
         register(() -> new MultiBlockRedstoneListener(this));
         register(() -> new ItemTranslationListener(this));
+        register(() -> new io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonUpdateJoinListener(this));
         register(() -> new GadgetsListener(this));
         register(() -> new DispenserListener(this));
         register(() -> new BlockListener(this));
