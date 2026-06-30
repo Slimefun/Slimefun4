@@ -64,46 +64,33 @@ public class SwordOfBeheading extends SimpleSlimefunItem<EntityKillHandler> {
         return (e, entity, killer, item) -> {
             Random random = ThreadLocalRandom.current();
 
-            // Java-8 universal port: the original used a fall-through switch on EntityType (no breaks),
-            // so a matching case also rolls every subsequent case's chance. That behaviour is preserved
-            // here with a cascading "fall" flag, while EntityCompat.entityType resolves constants that do
-            // not exist at the 1.8.8 compile floor (WITHER_SKELETON, PIGLIN) without breaking the build.
+            // Each mob only ever drops its OWN head. Stock Slimefun uses a switch WITH breaks, so the
+            // cases are independent (a zombie drops only a zombie head). EntityCompat.entityType resolves
+            // constants that do not exist at the 1.8.8 compile floor (WITHER_SKELETON, PIGLIN).
             EntityType type = e.getEntityType();
-            boolean fall = false;
 
-            if (fall || type == EntityCompat.entityType("ZOMBIE")) {
-                fall = true;
+            if (type == EntityCompat.entityType("ZOMBIE")) {
                 if (random.nextInt(100) < chanceZombie.getValue()) {
                     e.getDrops().add(MaterialCompat.stack(XMaterial.ZOMBIE_HEAD));
                 }
-            }
-            if (fall || type == EntityCompat.entityType("SKELETON")) {
-                fall = true;
+            } else if (type == EntityCompat.entityType("SKELETON")) {
                 if (random.nextInt(100) < chanceSkeleton.getValue()) {
                     e.getDrops().add(MaterialCompat.stack(XMaterial.SKELETON_SKULL));
                 }
-            }
-            if (fall || type == EntityCompat.entityType("CREEPER")) {
-                fall = true;
+            } else if (type == EntityCompat.entityType("CREEPER")) {
                 if (random.nextInt(100) < chanceCreeper.getValue()) {
                     e.getDrops().add(MaterialCompat.stack(XMaterial.CREEPER_HEAD));
                 }
-            }
-            if (fall || type == EntityCompat.entityType("WITHER_SKELETON")) {
-                fall = true;
+            } else if (type == EntityCompat.entityType("WITHER_SKELETON")) {
                 if (random.nextInt(100) < chanceWitherSkeleton.getValue()) {
                     e.getDrops().add(MaterialCompat.stack(XMaterial.WITHER_SKELETON_SKULL));
                 }
-            }
-            if (fall || type == EntityCompat.entityType("PIGLIN")) {
-                fall = true;
+            } else if (type == EntityCompat.entityType("PIGLIN")) {
                 if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20) &&
                     random.nextInt(100) < chancePiglin.getValue()) {
                     e.getDrops().add(MaterialCompat.stack(XMaterial.PIGLIN_HEAD));
                 }
-            }
-            if (fall || type == EntityCompat.entityType("PLAYER")) {
-                fall = true;
+            } else if (type == EntityCompat.entityType("PLAYER")) {
                 if (random.nextInt(100) < chancePlayer.getValue()) {
                     ItemStack skull = MaterialCompat.stack(XMaterial.PLAYER_HEAD);
 

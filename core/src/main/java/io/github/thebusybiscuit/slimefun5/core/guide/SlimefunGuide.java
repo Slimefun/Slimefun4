@@ -6,9 +6,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import io.github.bakedlibs.dough.config.Config;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -16,6 +19,7 @@ import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 import io.github.thebusybiscuit.slimefun5.utils.itemstack.SlimefunGuideItem;
 
 /**
@@ -42,15 +46,72 @@ public final class SlimefunGuide {
     }
 
     public static void openGuide(@Nonnull Player p, @Nullable ItemStack guide) {
-        if (getItem(SlimefunGuideMode.CHEAT_MODE).equals(guide)) {
-            openGuide(p, SlimefunGuideMode.CHEAT_MODE);
-        } else {
-            /*
-             * When using /sf cheat or /sf open_guide the ItemStack is null anyway,
-             * so we don't even need to check here at this point.
-             */
-            openGuide(p, SlimefunGuideMode.SURVIVAL_MODE);
+        SlimefunGuideMode mode = getGuideMode(guide);
+
+        if (mode == null) {
+            // Legacy/null item: fall back to identity comparison (a null item -> survival).
+            mode = getItem(SlimefunGuideMode.CHEAT_MODE).equals(guide) ? SlimefunGuideMode.CHEAT_MODE : SlimefunGuideMode.SURVIVAL_MODE;
         }
+
+        openGuide(p, mode);
+    }
+
+    /**
+     * Returns the {@link SlimefunGuideMode} stored on a guide {@link ItemStack} via its PDC tag,
+     * or {@code null} if the item is not a guide. Language-independent, so it still resolves after
+     * the guide has been re-skinned into a player's language.
+     *
+     * @param item The {@link ItemStack} to inspect
+     * @return The stored {@link SlimefunGuideMode}, or null
+     */
+    @Nullable
+    public static SlimefunGuideMode getGuideMode(@Nullable ItemStack item) {
+        if (item == null || item.getType() != Material.ENCHANTED_BOOK || !item.hasItemMeta()) {
+            return null;
+        }
+
+        String mode = PdcCompat.getString(item.getItemMeta(), Slimefun.getRegistry().getGuideDataKey());
+
+        if (mode == null) {
+            return null;
+        }
+
+        try {
+            return SlimefunGuideMode.valueOf(mode);
+        } catch (IllegalArgumentException x) {
+            return null;
+        }
+    }
+
+    /**
+     * Whether the given {@link Player} may use the Cheat Sheet, based on the admin-configured
+     * access toggles ({@code guide.cheat-sheet.*}). Access is granted when ANY enabled rule
+     * matches. Defaults: OPs and players with the {@code slimefun.cheat.items} permission.
+     *
+     * @param p The {@link Player}
+     * @return Whether this player may open the Cheat Sheet
+     */
+    public static boolean canUseCheatSheet(@Nonnull Player p) {
+        Config cfg = Slimefun.getCfg();
+
+        if (boolOrDefault(cfg, "guide.cheat-sheet.allow-everyone", false)) {
+            return true;
+        }
+        if (boolOrDefault(cfg, "guide.cheat-sheet.allow-op", true) && p.isOp()) {
+            return true;
+        }
+        if (boolOrDefault(cfg, "guide.cheat-sheet.allow-creative", false) && p.getGameMode() == GameMode.CREATIVE) {
+            return true;
+        }
+        if (boolOrDefault(cfg, "guide.cheat-sheet.allow-permission", true) && p.hasPermission("slimefun.cheat.items")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean boolOrDefault(@Nonnull Config cfg, @Nonnull String key, boolean fallback) {
+        return cfg.contains(key) ? cfg.getBoolean(key) : fallback;
     }
 
     public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode mode) {
@@ -115,9 +176,16 @@ public final class SlimefunGuide {
             return false;
         } else if (item instanceof SlimefunGuideItem) {
             return true;
-        } else {
-            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
         }
+
+        // The guide-mode PDC tag is language-independent, so a guide that was re-skinned into
+        // the holder's language (see ItemTranslationService#applyGuideTranslation) is still
+        // recognized. Name/lore similarity alone broke translated guides from opening.
+        if (item.hasItemMeta() && PdcCompat.getString(item.getItemMeta(), Slimefun.getRegistry().getGuideDataKey()) != null) {
+            return true;
+        }
+
+        return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
     }
 
     /**

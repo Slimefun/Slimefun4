@@ -20,7 +20,6 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
 
@@ -39,8 +38,8 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
     @Nonnull
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
-        if (!p.hasPermission("slimefun.cheat.items")) {
-            // Only Players with the appropriate permission can access the cheat sheet
+        if (!SlimefunGuide.canUseCheatSheet(p)) {
+            // Only players allowed to use the cheat sheet (see guide.cheat-sheet.* config) get this toggle
             return Optional.empty();
         }
 
@@ -89,7 +88,7 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
 
     @Nonnull
     private SlimefunGuideMode getNextMode(@Nonnull Player p, @Nonnull SlimefunGuideMode mode) {
-        if (p.hasPermission("slimefun.cheat.items")) {
+        if (SlimefunGuide.canUseCheatSheet(p)) {
             if (mode == SlimefunGuideMode.SURVIVAL_MODE) {
                 return SlimefunGuideMode.CHEAT_MODE;
             } else {
@@ -103,11 +102,10 @@ class GuideModeOption implements SlimefunGuideOption<SlimefunGuideMode> {
     @Nonnull
     @Override
     public Optional<SlimefunGuideMode> getSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide) {
-        if (SlimefunUtils.isItemSimilar(guide, SlimefunGuide.getItem(SlimefunGuideMode.CHEAT_MODE), true, false)) {
-            return Optional.of(SlimefunGuideMode.CHEAT_MODE);
-        } else {
-            return Optional.of(SlimefunGuideMode.SURVIVAL_MODE);
-        }
+        // Detect via the language-independent PDC tag; isItemSimilar fails on a translated guide,
+        // which made the cheat sheet show up as the survival guide in its own settings menu.
+        SlimefunGuideMode mode = SlimefunGuide.getGuideMode(guide);
+        return Optional.of(mode != null ? mode : SlimefunGuideMode.SURVIVAL_MODE);
     }
 
     @Override

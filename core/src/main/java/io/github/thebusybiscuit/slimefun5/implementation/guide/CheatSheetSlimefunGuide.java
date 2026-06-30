@@ -76,7 +76,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
     @Override
     public @Nonnull ItemStack getItem() {
         if (item == null) {
-            item = new SlimefunGuideItem(this, "&cSlimefun Guide &4(Cheat Sheet)");
+            item = new SlimefunGuideItem(this, Slimefun.getLocalization().getMessage("guide.item.cheat-name"));
         }
 
         return item;

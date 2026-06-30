@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -825,6 +826,22 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
              */
             if (displayItem != null) {
                 displayItem = displayItem.clone();
+
+                // Re-localize Slimefun items into the viewing player's language (vanilla items
+                // are already shown in the client's locale by Minecraft). Only the name is
+                // replaced, so any recipe-specific lore (amounts, chances) is preserved.
+                Player p = profile.getPlayer();
+                SlimefunItem sfItem = SlimefunItem.getByItem(displayItem);
+
+                if (p != null && sfItem != null) {
+                    String name = Slimefun.getItemTranslationService().getName(p, sfItem);
+                    ItemMeta meta = displayItem.getItemMeta();
+
+                    if (meta != null && name != null && !name.isEmpty()) {
+                        meta.setDisplayName(name);
+                        displayItem.setItemMeta(meta);
+                    }
+                }
             }
 
             menu.replaceExistingItem(slot, displayItem);

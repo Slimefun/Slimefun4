@@ -56,12 +56,11 @@ public class SlimefunGuideListener implements Listener {
         } else if (tryOpenGuide(p, e, SlimefunGuideMode.CHEAT_MODE) == Result.ALLOW) {
             if (p.isSneaking()) {
                 SlimefunGuideSettings.openSettings(p, e.getItem());
+            } else if (SlimefunGuide.canUseCheatSheet(p)) {
+                // Check access directly instead of dispatching "/sf cheat" as a player command.
+                openGuide(p, e, SlimefunGuideMode.CHEAT_MODE);
             } else {
-                /*
-                 * We rather just run the command here, all
-                 * necessary permission checks will be handled there.
-                 */
-                p.chat("/sf cheat");
+                Slimefun.getLocalization().sendMessage(p, "messages.no-permission", true);
             }
         }
     }
@@ -81,8 +80,13 @@ public class SlimefunGuideListener implements Listener {
     @ParametersAreNonnullByDefault
     private Result tryOpenGuide(Player p, PlayerRightClickEvent e, SlimefunGuideMode layout) {
         ItemStack item = e.getItem();
-        if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), false, false)) {
 
+        // Match by the language-independent guide-mode PDC tag; fall back to similarity for legacy
+        // guides without it (a translated guide changes name/lore, so similarity alone would fail).
+        SlimefunGuideMode mode = SlimefunGuide.getGuideMode(item);
+        boolean matches = mode != null ? mode == layout : SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), false, false);
+
+        if (matches) {
             if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
                 Slimefun.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;
