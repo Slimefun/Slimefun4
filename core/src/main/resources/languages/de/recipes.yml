@@ -1,27 +1,33 @@
 ---
 slimefun:
   multiblock:
+    name: 'Multiblock'
     lore:
       - 'Baue die gezeigte Struktur, wie'
       - 'man sie sieht. Sie wird nicht gecraftet.'
   enhanced_crafting_table:
+    name: 'Verbesserter Werktisch'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'im "Enhanced Crafting Table".'
       - 'Eine normale Werkbank genügt nicht!'
   armor_forge:
+    name: 'Rüstungsschmiede'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einer "Armor Forge".'
   grind_stone:
+    name: 'Schleifstein'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'mit einem "Grind Stone".'
   smeltery:
+    name: 'Schmelzerei'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einer "Smeltery".'
   ore_crusher:
+    name: 'Erzbrecher'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'mit einem "Ore Crusher".'
@@ -31,51 +37,63 @@ slimefun:
       - 'Töte den angebenen Mob'
       - 'und er wird das Item fallen lassen'
   gold_pan:
+    name: 'Goldwaschpfanne'
     lore:
       - 'Benutze eine "Gold Pan", um'
       - 'dieses Item zu erhalten.'
   compressor:
+    name: 'Kompressor'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einem "Compressor".'
   pressure_chamber:
+    name: 'Druckkammer'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einer "Pressure Chamber".'
   ore_washer:
+    name: 'Erzwäscher'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'mit einem "Ore Washer".'
   juicer:
+    name: 'Entsafter'
     lore:
       - 'Crafte diesen Saft wie gezeigt'
       - 'in einem "Juicer"'
   magic_workbench:
+    name: 'Magische Werkbank'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einer "Magic Workbench".'
   ancient_altar:
+    name: 'Antiker Altar'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'mithilfe des "Ancient Altar".'
       - 'Für mehr Infos, schaue beim "Ancient Altar" nach.'
   heated_pressure_chamber:
+    name: 'Beheizte Druckkammer'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'mit einer "Heated Pressure Chamber".'
   food_fabricator:
+    name: 'Nahrungsfabrikator'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einem "Food Fabricator".'
   food_composter:
+    name: 'Nahrungskomposter'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einem "Food Composter".'
   freezer:
+    name: 'Gefrierschrank'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einem "Freezer".'
   geo_miner:
+    name: 'GEO-Miner'
     lore:
       - 'Dieses Item kann mittels eines'
       - '"GEO Miner" erhalten werden.'
@@ -85,15 +103,18 @@ slimefun:
       - 'Dieses Item ist ein Nebenprodukt vom'
       - 'Betrieb eines "Nuclear Reactor".'
   oil_pump:
+    name: 'Ölpumpe'
     lore:
       - 'Dieses Item kann durch eine'
       - 'Oil Pump gewonnen werden'
   pickaxe_of_containment:
+    name: 'Spitzhacke der Eindämmung'
     lore:
       - 'Dieser Block kann durch das Abbauen'
       - 'eines Spawners mit der'
       - 'Pickaxe of Containment gewonnen werden'
   refinery:
+    name: 'Raffinerie'
     lore:
       - 'Crafte das Item wie gezeigt'
       - 'in einer "Refinery".'

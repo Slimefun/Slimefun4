@@ -2159,3 +2159,21 @@ ENDER_WIZARD_TALISMAN:
   name: "&5Ender-Talisman des Zauberers"
 BIRTHDAY_CAKE:
   name: "&dGeburtstagskuchen"
+
+# Vanilla items referenced by Slimefun (German names)
+CHAIN_HELMET:
+  name: "Kettenhelm"
+CHAIN_CHESTPLATE:
+  name: "Kettenhemd"
+CHAIN_LEGGINGS:
+  name: "Kettenhose"
+CHAIN_BOOTS:
+  name: "Kettenstiefel"
+ENCHANTED_GOLDEN_APPLE:
+  name: "Verzauberter goldener Apfel"
+ELYTRA:
+  name: "Elytren"
+TRIDENT:
+  name: "Dreizack"
+TOTEM_OF_UNDYING:
+  name: "Totem der Unsterblichkeit"

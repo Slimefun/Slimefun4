@@ -319,7 +319,7 @@ public class ItemTranslationService {
         }
 
         boolean cheat = "CHEAT_MODE".equals(mode);
-        String name = ChatColor.translateAlternateColorCodes('&', cheat ? "&cSlimefun Guide &4(Cheat Sheet)" : Slimefun.getLocalization().getMessage(p, "guide.item.name"));
+        String name = ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, cheat ? "guide.item.cheat-name" : "guide.item.name"));
 
         List<String> lore = new ArrayList<>();
         lore.add(cheat ? ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.cheat-only")) : "");
@@ -357,9 +357,10 @@ public class ItemTranslationService {
 
             for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
                 try {
-                    if (!translated.containsKey(item.getId())) {
+                    // Skip items deliberately tagged English-everywhere — the dump lists only real gaps.
+                    if (!translated.containsKey(item.getId()) && !FallbackSafe.itemIds().contains(item.getId())) {
                         byAddon.computeIfAbsent(item.getAddon().getName(), k -> new ArrayList<>())
-                            .add(item.getId() + "  |  " + ChatColor.stripColor(englishName(item)));
+                            .add(item.getId() + "\t" + englishName(item).replace('§', '&'));
                         total++;
                     }
                 } catch (Exception | LinkageError ignored) {
@@ -399,7 +400,8 @@ public class ItemTranslationService {
                 int[] counts = coverage.computeIfAbsent(plugin, k -> new int[2]);
                 counts[1]++;
 
-                if (translated.containsKey(item.getId())) {
+                // A real translation, or an item deliberately tagged as English-everywhere, counts.
+                if (translated.containsKey(item.getId()) || FallbackSafe.itemIds().contains(item.getId())) {
                     counts[0]++;
                 }
             } catch (Exception | LinkageError ignored) {

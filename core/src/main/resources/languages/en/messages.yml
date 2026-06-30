@@ -151,6 +151,52 @@ guide:
     addon-visibility: 'Addon Visibility'
     installer: 'Addon Installer'
 
+  panel:
+    wiki:
+    - ''
+    - '&7New to Slimefun, or stuck on a machine?'
+    - '&7Learn the basics and look up any item,'
+    - '&7all without leaving the game.'
+    - ''
+    - '&7⇨ &eClick to open the in-game Wiki'
+    installer:
+    - ''
+    - '&7Install, update or build Slimefun and its'
+    - '&7addons without leaving the game.'
+    - ''
+    - '&7Installed on this Server: &b%count%'
+    - ''
+    - '&7⇨ &eClick to open the Addon Installer'
+    addons:
+    - ''
+    - '&7Slimefun is huge. But its addons are what makes'
+    - '&7this plugin truly shine. Go check them out, some'
+    - '&7of them may be exactly what you were missing out on!'
+    - ''
+    - '&7Installed on this Server: &b%count%'
+    - ''
+    - '&7⇨ &eClick to see all available addons for Slimefun5'
+    source:
+    - ''
+    - '&7Last Activity: &a%activity% ago'
+    - '&7Forks: &e%forks%'
+    - '&7Stars: &e%stars%'
+    - ''
+    - '&7&oSlimefun is a community project,'
+    - '&7&othe source code is available on GitHub'
+    - '&7&oand if you want to keep this Plugin alive,'
+    - '&7&othen please consider contributing to it'
+    - ''
+    - '&7⇨ &eClick to go to GitHub'
+    bugs:
+    - ''
+    - '&7&oBug reports have to be made in English!'
+    - ''
+    - '&7Open Issues: &a%issues%'
+    - '&7Pending Pull Requests: &a%prs%'
+    - ''
+    - '&7⇨ &eClick to go to the Slimefun5 Bug Tracker'
+
   themes:
     weapons: '&cWeapons'
     tools: '&aTools'
@@ -191,9 +237,57 @@ guide:
 
   item:
     name: '&aSlimefun Guide &7(Chest GUI)'
+    cheat-name: '&cSlimefun Guide &4(Cheat Sheet)'
     cheat-only: '&4&lOnly openable by Admins'
     browse: '&eRight Click &8⇨ &7Browse Items'
     settings: '&eShift + Right Click &8⇨ &7Open Settings / Credits'
+
+  report:
+    menu-title: '&4Report a Bug'
+    button-lore:
+    - ''
+    - '&7Found a bug or have a problem?'
+    - '&7Report it directly from in-game.'
+    - ''
+    - '&7⇨ &eClick to report a bug'
+    summary-name: '&bYour bug report'
+    summary-title: '&7Title: &f%title%'
+    summary-plugins: '&7Affected: &f%plugins%'
+    summary-hint:
+    - '&7Select the affected plugins below,'
+    - '&7set a title and description,'
+    - '&7then submit.'
+    target-select:
+    - ''
+    - '&7⇨ &eClick to select'
+    target-selected:
+    - ''
+    - '&a✔ Selected'
+    - '&7⇨ &eClick to remove'
+    title-button: '&eSet title'
+    title-button-lore:
+    - '&7Current: &f%value%'
+    - ''
+    - '&7⇨ &eClick to set'
+    description-button: '&eAdd description'
+    description-button-lore:
+    - '&7Current: &f%value%'
+    - ''
+    - '&7⇨ &eClick to set'
+    submit-button: '&aSubmit report'
+    submit-button-lore:
+    - '&7Send your report to the Slimefun5 team.'
+    - ''
+    - '&7⇨ &eClick to submit'
+    prompt-title: '&ePlease type the report title into the chat:'
+    prompt-description: '&ePlease type the report description into the chat:'
+    need-plugin: '&cSelect at least one affected plugin first.'
+    need-title: '&cSet a title first.'
+    submitting: '&7Submitting your report...'
+    success: '&aThanks! Your bug report has been submitted.'
+    failed: '&cCould not submit your report - reporting may be disabled or misconfigured. Please tell an admin.'
+    disabled: '&cIn-game bug reporting is disabled on this server.'
+    cooldown: '&cPlease wait a bit before submitting another bug report.'
 
   themes-meta:
     categories: '&7Categories: &e%count%'
@@ -291,6 +385,7 @@ guide:
       restart: '&b↻ Restart to apply (%version%)'
       installed-version: '&a✔ Installed v%version%'
       installed: '&a✔ Installed'
+      update: '&6⬆ Update available (%version%)'
       not-installed-deps: '&7＋ Not installed &8(needs %deps%)'
       not-installed: '&7＋ Not installed'
     back-settings: '&e⇦ Back to Settings'
@@ -301,6 +396,18 @@ guide:
       release: '&7Version: &f%version%'
       branch: '&7Branch: &f%branch% &8(%commit%)'
       custom: '&7Custom build: &f%version%'
+    update:
+      available: '&6⬆ Update available: &f%version%'
+    info:
+      authors: '&7Author(s): &f%authors%'
+    github:
+      name: '&bView on GitHub'
+      lore:
+      - '&7Opens this addon''s GitHub page'
+      - '&7as a clickable link in chat.'
+      - ''
+      - '&7⇨ &eClick'
+      chat: '&bGitHub page:'
     install:
       install: '&aInstall latest release'
       update: '&aUpdate to latest release'
@@ -316,6 +423,13 @@ guide:
       - '&7(developer environments only).'
       - ''
       - '&7⇨ &eClick to pick a branch'
+    delete:
+      name: '&cDelete this addon'
+      lore:
+      - '&7Removes the addon''s jar from the server.'
+      - '&7Takes effect after the next restart.'
+      - ''
+      - '&7⇨ &cClick to delete'
     branches:
       none: '&cNo branches found'
       none-lore: "&7Couldn't reach GitHub or the repo has no branches."

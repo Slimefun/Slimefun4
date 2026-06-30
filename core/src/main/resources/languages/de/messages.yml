@@ -40,10 +40,102 @@ actionbar:
   radiation: '&6Strahlungsbelastung: &c%level%&7/&e100'
 guide:
   item:
-    name: '&aSlimefun Guide &7(Chest GUI)'
+    name: '&aSlimefun-Handbuch &7(Truhen-GUI)'
+    cheat-name: '&cSlimefun-Handbuch &4(Spickzettel)'
     cheat-only: '&4&lNur von Admins zu öffnen'
     browse: '&eRechtsklick &8⇨ &7Items durchsuchen'
     settings: '&eUmschalt + Rechtsklick &8⇨ &7Einstellungen / Credits öffnen'
+  report:
+    menu-title: '&4Fehler melden'
+    button-lore:
+    - ''
+    - '&7Einen Fehler gefunden oder ein Problem?'
+    - '&7Melde ihn direkt aus dem Spiel heraus.'
+    - ''
+    - '&7⇨ &eKlicke, um einen Fehler zu melden'
+    summary-name: '&bDeine Fehlermeldung'
+    summary-title: '&7Titel: &f%title%'
+    summary-plugins: '&7Betroffen: &f%plugins%'
+    summary-hint:
+    - '&7Wähle unten die betroffenen Plugins,'
+    - '&7setze einen Titel und eine Beschreibung'
+    - '&7und sende die Meldung ab.'
+    target-select:
+    - ''
+    - '&7⇨ &eKlicke zum Auswählen'
+    target-selected:
+    - ''
+    - '&a✔ Ausgewählt'
+    - '&7⇨ &eKlicke zum Entfernen'
+    title-button: '&eTitel setzen'
+    title-button-lore:
+    - '&7Aktuell: &f%value%'
+    - ''
+    - '&7⇨ &eKlicke zum Setzen'
+    description-button: '&eBeschreibung hinzufügen'
+    description-button-lore:
+    - '&7Aktuell: &f%value%'
+    - ''
+    - '&7⇨ &eKlicke zum Setzen'
+    submit-button: '&aMeldung absenden'
+    submit-button-lore:
+    - '&7Sende deine Meldung an das Slimefun5-Team.'
+    - ''
+    - '&7⇨ &eKlicke zum Absenden'
+    prompt-title: '&eBitte schreibe den Titel der Meldung in den Chat:'
+    prompt-description: '&eBitte schreibe die Beschreibung in den Chat:'
+    need-plugin: '&cWähle zuerst mindestens ein betroffenes Plugin aus.'
+    need-title: '&cSetze zuerst einen Titel.'
+    submitting: '&7Deine Meldung wird gesendet...'
+    success: '&aDanke! Deine Fehlermeldung wurde gesendet.'
+    failed: '&cMeldung konnte nicht gesendet werden - evtl. deaktiviert oder falsch konfiguriert. Bitte informiere einen Admin.'
+    disabled: '&cFehlermeldungen aus dem Spiel sind auf diesem Server deaktiviert.'
+    cooldown: '&cBitte warte einen Moment, bevor du eine weitere Fehlermeldung sendest.'
+  panel:
+    wiki:
+    - ''
+    - '&7Neu bei Slimefun oder bei einer Maschine'
+    - '&7nicht weitergekommen? Lerne die Grundlagen und'
+    - '&7schlage jedes Item nach – ohne das Spiel zu verlassen.'
+    - ''
+    - '&7⇨ &eKlicke, um das spielinterne Wiki zu öffnen'
+    installer:
+    - ''
+    - '&7Installiere, aktualisiere oder baue Slimefun'
+    - '&7und seine Addons – ohne das Spiel zu verlassen.'
+    - ''
+    - '&7Auf diesem Server installiert: &b%count%'
+    - ''
+    - '&7⇨ &eKlicke, um den Addon-Installer zu öffnen'
+    addons:
+    - ''
+    - '&7Slimefun ist riesig. Aber seine Addons machen'
+    - '&7dieses Plugin erst richtig besonders. Schau sie dir an –'
+    - '&7vielleicht ist genau das Richtige für dich dabei!'
+    - ''
+    - '&7Auf diesem Server installiert: &b%count%'
+    - ''
+    - '&7⇨ &eKlicke, um alle verfügbaren Addons für Slimefun5 zu sehen'
+    source:
+    - ''
+    - '&7Letzte Aktivität: &avor %activity%'
+    - '&7Forks: &e%forks%'
+    - '&7Sterne: &e%stars%'
+    - ''
+    - '&7&oSlimefun ist ein Community-Projekt,'
+    - '&7&oder Quellcode ist auf GitHub verfügbar.'
+    - '&7&oWenn du dieses Plugin am Leben halten'
+    - '&7&omöchtest, trage doch gerne etwas dazu bei.'
+    - ''
+    - '&7⇨ &eKlicke, um zu GitHub zu gelangen'
+    bugs:
+    - ''
+    - '&7&oFehlermeldungen müssen auf Englisch erfolgen!'
+    - ''
+    - '&7Offene Issues: &a%issues%'
+    - '&7Ausstehende Pull Requests: &a%prs%'
+    - ''
+    - '&7⇨ &eKlicke, um zum Slimefun5-Bugtracker zu gelangen'
   themes-meta:
     categories: '&7Kategorien: &e%count%'
     open: '&7⇨ &eKlicke zum Öffnen'
@@ -99,9 +191,9 @@ guide:
     soulbound: { name: 'Seelengebundene Items', summary: '&7Behalte Items, wenn du stirbst' }
   coverage:
     messages: '&7Nachrichten: &b%percent%%'
-    items: '&7Items: &b%percent%%'
+    items: '&7Gegenstände: &b%percent%%'
     breakdown-hint: '&7⇨ &eRechtsklick: &7Aufschlüsselung der Item-Übersetzung'
-    title-suffix: 'Items'
+    title-suffix: 'Gegenstände'
     translated: '&7Übersetzt: &b%translated%&7/&b%total%'
     line: '&7Abdeckung: %color%%percent%%'
 
@@ -157,6 +249,7 @@ guide:
       restart: '&b↻ Neu starten zum Anwenden (%version%)'
       installed-version: '&a✔ Installiert v%version%'
       installed: '&a✔ Installiert'
+      update: '&6⬆ Update verfügbar (%version%)'
       not-installed-deps: '&7＋ Nicht installiert &8(benötigt %deps%)'
       not-installed: '&7＋ Nicht installiert'
     back-settings: '&e⇦ Zurück zu den Einstellungen'
@@ -167,6 +260,18 @@ guide:
       release: '&7Version: &f%version%'
       branch: '&7Branch: &f%branch% &8(%commit%)'
       custom: '&7Eigener Build: &f%version%'
+    update:
+      available: '&6⬆ Update verfügbar: &f%version%'
+    info:
+      authors: '&7Autor(en): &f%authors%'
+    github:
+      name: '&bAuf GitHub ansehen'
+      lore:
+      - '&7Öffnet die GitHub-Seite dieses Addons'
+      - '&7als anklickbaren Link im Chat.'
+      - ''
+      - '&7⇨ &eKlicke'
+      chat: '&bGitHub-Seite:'
     install:
       install: '&aNeuestes Release installieren'
       update: '&aAuf neuestes Release aktualisieren'
@@ -182,6 +287,13 @@ guide:
       - '&7(nur Entwicklerumgebungen).'
       - ''
       - '&7⇨ &eKlicke, um einen Branch auszuwählen'
+    delete:
+      name: '&cDieses Addon löschen'
+      lore:
+      - '&7Entfernt die Addon-Datei vom Server.'
+      - '&7Wird nach dem nächsten Neustart wirksam.'
+      - ''
+      - '&7⇨ &cZum Löschen klicken'
     branches:
       none: '&cKeine Branches gefunden'
       none-lore: "&7GitHub konnte nicht erreicht werden oder das Repo hat keine Branches."
@@ -233,8 +345,8 @@ guide:
       lore: 'Klicke um eine Übersetzung hinzuzufügen'
   modes:
     selected: 'Slimefun-Handbuch-Typ: '
-    change: 'Klicke um den Typ zu ändern'
-    SURVIVAL_MODE: 'Überlebensmodus'
+    change: 'Klicke, um den Typ zu wechseln'
+    SURVIVAL_MODE: 'Survival'
     CHEAT_MODE: 'Cheat-Sheet'
   options:
     fireworks:
