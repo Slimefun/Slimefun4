@@ -18,9 +18,28 @@ plugins {
 }
 
 group = "com.github.slimefun"
-// Release builds pass -Partifact_version=<tag> (e.g. v5.2.2) so plugin.yml reports the real version;
-// local/dev builds fall back to the current release number.
-version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() } ?: "5.2.2"
+// Version resolution — the standard for every Slimefun5 plugin:
+//   1. an explicit -Partifact_version=<tag> (release builds, e.g. v5.2.3) wins;
+//   2. otherwise derive it from the latest git tag in this repo (gh-v / v prefixes stripped);
+//   3. otherwise fall back to 5.0.0.
+// The "-UNOFFICIAL" suffix is appended downstream (plugin.yml + jar name), so this is the bare number.
+// Uses providers.exec (not ProcessBuilder) so reading git at configuration time stays compatible
+// with Gradle's configuration cache.
+fun latestGitTagVersion(): String? = try {
+    val execOutput = providers.exec {
+        workingDir = rootDir
+        commandLine("git", "describe", "--tags", "--abbrev=0")
+        isIgnoreExitValue = true
+    }
+    val output = execOutput.standardOutput.asText.get().trim()
+    if (execOutput.result.get().exitValue == 0) output.removePrefix("gh-").removePrefix("v").takeIf { it.isNotBlank() } else null
+} catch (e: Exception) {
+    null
+}
+
+version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() }
+    ?: latestGitTagVersion()
+    ?: "5.0.0"
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 
 github {
@@ -279,7 +298,7 @@ val cloneAndBuildAddons by tasks.registering {
             println("WARNING: Core jar not found at ${coreJarFile.absolutePath} - addon compiles will fail until :core:shadowJar produces it.")
         }
         // Bump to force a one-time rebuild when the patching below changes.
-        val addonBuildRecipe = "4"
+        val addonBuildRecipe = "5"
         val coreJarRefRegex = Regex("""files\((["'])\.\./\.\./core/Slimefun5/core/build/libs/[^"']*\.jar\1\)""")
         fun patchCoreJarReference(repoDir: File) {
             for (name in listOf("build.gradle.kts", "build.gradle")) {
@@ -558,6 +577,37 @@ val cloneAndBuildAddons by tasks.registering {
             if (count > 0) println("Rewrote slimefun4 -> slimefun5 in $count source file(s) for ${repoDir.name}")
         }
 
+        // Derive each addon's version from its own git tags (latest version-like tag + "-UNOFFICIAL"),
+        // mirroring the core standard. Addons hardcode placeholder versions ("1.0.0"), which made the
+        // in-game installer show meaningless versions; this rewrites them at build time. No-op without tags.
+        fun patchAddonVersion(repoDir: File) {
+            val rawTag = try {
+                val proc = ProcessBuilder("git", "-c", "safe.directory=*", "tag", "--sort=-v:refname")
+                    .directory(repoDir).redirectErrorStream(true).start()
+                proc.waitFor()
+                proc.inputStream.bufferedReader().readText().trim().lines()
+                    .firstOrNull { line -> line.isNotBlank() && line.any { it.isDigit() } }
+            } catch (e: Exception) { null } ?: return
+
+            var derivedVersion = rawTag.removePrefix("gh-").removePrefix("v").trim()
+            if (derivedVersion.isBlank()) return
+            if (!derivedVersion.endsWith("-UNOFFICIAL")) derivedVersion = "$derivedVersion-UNOFFICIAL"
+
+            for (name in listOf("build.gradle.kts", "build.gradle")) {
+                val buildFile = File(repoDir, name)
+                if (!buildFile.exists()) continue
+                val original = buildFile.readText()
+                var patched = Regex("""(?m)^version\s*=\s*"[^"]*"""").replace(original) { "version = \"$derivedVersion\"" }
+                // Keep the hardcoded jar filename's version segment in sync (cosmetic, but avoids a mismatch).
+                patched = Regex("""archiveFileName\.set\("([A-Za-z0-9_]+)-[^"]*\.jar"\)""")
+                    .replace(patched) { m -> "archiveFileName.set(\"${m.groupValues[1]}-$derivedVersion.jar\")" }
+                if (patched != original) {
+                    buildFile.writeText(patched)
+                    println("Set ${repoDir.name} version -> $derivedVersion (from tag $rawTag)")
+                }
+            }
+        }
+
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
         // Optional: -PkeepPlugins leaves the plugins folder untouched (e.g. to keep manually-added jars).
         if (project.hasProperty("keepPlugins")) {
@@ -610,6 +660,7 @@ val cloneAndBuildAddons by tasks.registering {
             // Shade relocated InfinityLib + fix stray slimefun4 package references (both fail on every MC version).
             patchInfinityLibShading(repoDir)
             patchSlimefun4Refs(repoDir)
+            patchAddonVersion(repoDir)
 
             val newHash = getGitHash(repoDir)
             val libsDir = File(repoDir, "build/libs")
@@ -758,6 +809,13 @@ tasks.runServer {
     javaLauncher.set(javaToolchains.launcherFor {
         languageVersion.set(JavaLanguageVersion.of(requiredJavaFor(runServerMcVer)))
     })
+
+    // -PdumpItems: dump plugins/Slimefun/untranslated-items.yml (+ menus-baseline.yml) on boot, for
+    // auditing translation coverage across every loaded addon. Passed as a JVM system property so it
+    // works even though the plugins folder (and its config.yml) is recreated each run.
+    if (project.hasProperty("dumpItems")) {
+        jvmArgs("-Dslimefun.dumpMenuBaseline=true")
+    }
 
     // Per-version run dir: Paper world/config aren't backward-compatible across MC versions.
     val perVersionRunDir = layout.projectDirectory.dir("run/$runServerMcVer")

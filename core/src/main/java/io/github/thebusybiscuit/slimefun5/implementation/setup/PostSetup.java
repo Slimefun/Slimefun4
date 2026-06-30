@@ -103,7 +103,7 @@ public final class PostSetup {
             sender.sendMessage(ChatColor.GREEN + " - Wiki:         https://github.com/Slimefun5/Slimefun5/wiki");
             sender.sendMessage(ChatColor.GREEN + " - Addons:       https://github.com/Slimefun5/Slimefun5/wiki/Addons");
             sender.sendMessage(ChatColor.GREEN + " - Bug Reports:  https://github.com/Slimefun5/Slimefun5/issues");
-            sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/slimefun");
+            sender.sendMessage(ChatColor.GREEN + " - Discord:      https://discord.gg/CbBYZBEWdR");
         } else {
             sender.sendMessage(ChatColor.GREEN + " - UNOFFICIALLY MODIFIED BUILD - NO OFFICIAL SUPPORT GIVEN");
         }

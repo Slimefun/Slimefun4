@@ -276,13 +276,15 @@ function Select-Options($lastOptions) {
     $via = if ($null -ne $lastOptions -and $null -ne $lastOptions.via) { [bool]$lastOptions.via } else { $true }
     $localAddons = if ($null -ne $lastOptions -and $null -ne $lastOptions.localAddons) { [bool]$lastOptions.localAddons } else { $false }
     $keepPlugins = if ($null -ne $lastOptions -and $null -ne $lastOptions.keepPlugins) { [bool]$lastOptions.keepPlugins } else { $false }
+    $dumpItems = if ($null -ne $lastOptions -and $null -ne $lastOptions.dumpItems) { [bool]$lastOptions.dumpItems } else { $false }
 
     $items = @(
         "Auto-install ViaVersion + ViaBackwards + ViaRewind",
         "Build addon working copies as-is (skip git fetch/reset)",
-        "Keep existing plugin jars (don't clear the plugins folder)"
+        "Keep existing plugin jars (don't clear the plugins folder)",
+        "Dump untranslated-item audit on boot (plugins/Slimefun/untranslated-items.yml)"
     )
-    $values = @($via, $localAddons, $keepPlugins)
+    $values = @($via, $localAddons, $keepPlugins, $dumpItems)
     $count = $items.Length
     $doneIndex = $count
     # Start on "Done" so pressing Enter immediately launches with the remembered options.
@@ -313,7 +315,7 @@ function Select-Options($lastOptions) {
             32 { if ($index -lt $count) { $values[$index] = -not $values[$index] } }
             13 {
                 if ($index -eq $doneIndex) {
-                    return [PSCustomObject]@{ via = $values[0]; localAddons = $values[1]; keepPlugins = $values[2] }
+                    return [PSCustomObject]@{ via = $values[0]; localAddons = $values[1]; keepPlugins = $values[2]; dumpItems = $values[3] }
                 }
             }
         }
@@ -355,7 +357,8 @@ if ($selections.Count -gt 0) {
 if (-not $options.via) { $gradleArgs += "-PnoVia" }
 if ($options.localAddons) { $gradleArgs += "-PlocalAddons" }
 if ($options.keepPlugins) { $gradleArgs += "-PkeepPlugins" }
-Write-Host ("Options: ViaVersion={0}, localAddons={1}, keepPlugins={2}" -f $options.via, $options.localAddons, $options.keepPlugins) -ForegroundColor DarkGray
+if ($options.dumpItems) { $gradleArgs += "-PdumpItems" }
+Write-Host ("Options: ViaVersion={0}, localAddons={1}, keepPlugins={2}, dumpItems={3}" -f $options.via, $options.localAddons, $options.keepPlugins, $options.dumpItems) -ForegroundColor DarkGray
 Write-Host ""
 
 # --- Ensure a JDK is available for the Gradle wrapper ---

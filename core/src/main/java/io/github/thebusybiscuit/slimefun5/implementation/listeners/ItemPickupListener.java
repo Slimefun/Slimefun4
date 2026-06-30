@@ -27,10 +27,11 @@ public class ItemPickupListener implements Listener {
     public void onEntityPickup(EntityPickupItemEvent e) {
         if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
-        } else if (e.getItem().getItemStack().hasItemMeta()) {
+        } else {
+            // getItemStack() clones the stack, so call it once; getItemMeta() is null when absent.
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
-            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
+            if (meta != null && meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
                 e.setCancelled(true);
                 e.getItem().remove();
             }
@@ -41,10 +42,11 @@ public class ItemPickupListener implements Listener {
     public void onHopperPickup(InventoryPickupItemEvent e) {
         if (SlimefunUtils.hasNoPickupFlag(e.getItem())) {
             e.setCancelled(true);
-        } else if (e.getItem().getItemStack().hasItemMeta()) {
+        } else {
+            // getItemStack() clones the stack, so call it once; getItemMeta() is null when absent.
             ItemMeta meta = e.getItem().getItemStack().getItemMeta();
 
-            if (meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
+            if (meta != null && meta.hasDisplayName() && meta.getDisplayName().startsWith(AncientPedestal.ITEM_PREFIX)) {
                 e.setCancelled(true);
                 e.getItem().remove();
             }

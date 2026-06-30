@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun5.utils.compatibility;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nullable;
 
@@ -26,6 +27,20 @@ import javax.annotation.Nullable;
 public final class ReflectionCompat {
 
     private ReflectionCompat() {}
+
+    // Resolving a method means scanning getMethods() (O(n)) plus a public-supertype walk. These calls
+    // sit on hot paths (per-tick, per-event), so cache the resolved handle by (class, name, arg types).
+    // A sentinel marks "no such method" so absent APIs aren't re-scanned every call on legacy servers.
+    private static final ConcurrentHashMap<String, Method> RESOLVE_CACHE = new ConcurrentHashMap<>();
+    private static final Method MISSING = missingSentinel();
+
+    private static Method missingSentinel() {
+        try {
+            return Object.class.getMethod("toString");
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
 
     @Nullable
     public static Object invoke(@Nullable Object target, String name, Object... args) {
@@ -67,6 +82,30 @@ public final class ReflectionCompat {
 
     @Nullable
     private static Method resolve(Class<?> type, String name, Object[] args) {
+        String key = cacheKey(type, name, args);
+        Method cached = RESOLVE_CACHE.get(key);
+
+        if (cached != null) {
+            return cached == MISSING ? null : cached;
+        }
+
+        Method resolved = resolveUncached(type, name, args);
+        RESOLVE_CACHE.put(key, resolved == null ? MISSING : resolved);
+        return resolved;
+    }
+
+    private static String cacheKey(Class<?> type, String name, Object[] args) {
+        StringBuilder builder = new StringBuilder(type.getName()).append('#').append(name).append('/').append(args.length);
+
+        for (Object arg : args) {
+            builder.append(';').append(arg == null ? "null" : arg.getClass().getName());
+        }
+
+        return builder.toString();
+    }
+
+    @Nullable
+    private static Method resolveUncached(Class<?> type, String name, Object[] args) {
         for (Method method : type.getMethods()) {
             if (!method.getName().equals(name) || method.getParameterCount() != args.length) {
                 continue;

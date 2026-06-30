@@ -25,11 +25,25 @@ import java.util.logging.Level;
 @Beta
 public class LegacyStorage implements Storage {
 
+    /**
+     * On-disk layout version for player data. Bump this whenever the format changes so a future load
+     * can detect and migrate older files (or recognise files written by a newer build) instead of
+     * silently mis-reading them. Data written without the field is treated as v1 (pre-stamp / upstream).
+     */
+    public static final int CURRENT_FORMAT_VERSION = 1;
+
     @Override
     public PlayerData loadPlayerData(@Nonnull UUID uuid) {
         long start = System.nanoTime();
 
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
+
+        int formatVersion = playerFile.contains("format_version") ? playerFile.getInt("format_version") : 1;
+
+        if (formatVersion > CURRENT_FORMAT_VERSION) {
+            // File came from a newer Slimefun than this one — load best-effort rather than corrupt it.
+            Slimefun.logger().log(Level.WARNING, "Player data for {0} was written by a newer Slimefun (format v{1} > v{2}); loading best-effort.", new Object[] { uuid, formatVersion, CURRENT_FORMAT_VERSION });
+        }
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
 
@@ -50,7 +64,15 @@ public class LegacyStorage implements Storage {
 
                 HashMap<Integer, ItemStack> items = new HashMap<>();
                 for (int i = 0; i < size; i++) {
-                    items.put(i, playerFile.getItem("backpacks." + key + ".contents." + i));
+                    int slot = i;
+
+                    try {
+                        items.put(slot, playerFile.getItem("backpacks." + key + ".contents." + slot));
+                    } catch (Exception itemError) {
+                        // A single un-deserializable item (e.g. from an upstream addon) must not cost the
+                        // whole backpack — drop just that slot and keep the rest.
+                        Slimefun.logger().log(Level.WARNING, itemError, () -> "Skipped an unreadable item in backpack \"" + key + "\" slot " + slot + " for Player \"" + uuid + '"');
+                    }
                 }
 
                 PlayerBackpack backpack = PlayerBackpack.load(uuid, id, size, items);
@@ -89,6 +111,9 @@ public class LegacyStorage implements Storage {
         Config playerFile = new Config("data-storage/Slimefun/Players/" + uuid + ".yml");
         // Not too sure why this is its own file
         Config waypointsFile = new Config("data-storage/Slimefun/waypoints/" + uuid + ".yml");
+
+        // Stamp the format version so future builds can migrate this file safely.
+        playerFile.setValue("format_version", CURRENT_FORMAT_VERSION);
 
         // Save research
         playerFile.setValue("rearches", null);
