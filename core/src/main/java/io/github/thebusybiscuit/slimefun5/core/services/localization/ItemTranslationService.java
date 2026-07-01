@@ -5,9 +5,11 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -85,7 +87,19 @@ public class ItemTranslationService {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
             Map<String, ItemTranslation> map = byLanguage.computeIfAbsent(language, k -> new HashMap<>());
 
-            for (String id : config.getKeys(false)) {
+            // Derive item ids from the leaf ".name"/".lore" paths. Item ids may contain dots (e.g. a
+            // SlimeTinker trait ending in "."), which YAML treats as path separators - getKeys(false)
+            // would only see the section before the first dot, so those items never resolve.
+            Set<String> ids = new HashSet<>();
+            for (String path : config.getKeys(true)) {
+                if (path.endsWith(".name")) {
+                    ids.add(path.substring(0, path.length() - ".name".length()));
+                } else if (path.endsWith(".lore")) {
+                    ids.add(path.substring(0, path.length() - ".lore".length()));
+                }
+            }
+
+            for (String id : ids) {
                 String name = config.getString(id + ".name");
                 List<String> lore = config.getStringList(id + ".lore");
 
