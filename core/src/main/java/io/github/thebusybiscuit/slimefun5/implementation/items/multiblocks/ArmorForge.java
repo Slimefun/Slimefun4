@@ -69,7 +69,8 @@ public class ArmorForge extends AbstractCraftingTable {
     @Override
     protected boolean isCraftable(Inventory inv, ItemStack[] recipe) {
         for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunUtils.isItemSimilar(ignoreLock(inv.getContents()[j]), recipe[j], true)) {
+            ItemStack slot = ignoreLock(inv.getContents()[j]);
+            if (!SlimefunUtils.isItemSimilar(slot, recipe[j], true) && !sameWoodMatch(slot, recipe[j])) {
                 return false;
             }
         }

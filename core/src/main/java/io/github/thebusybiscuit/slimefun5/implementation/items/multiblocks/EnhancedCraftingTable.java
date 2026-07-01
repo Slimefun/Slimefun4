@@ -104,7 +104,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         for (int j = 0; j < inv.getContents().length; j++) {
             ItemStack slot = ignoreLock(inv.getContents()[j]);
 
-            if (!SlimefunUtils.isItemSimilar(slot, recipe[j], true, true, false)) {
+            if (!SlimefunUtils.isItemSimilar(slot, recipe[j], true, true, false) && !sameWoodMatch(slot, recipe[j])) {
                 if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
                     if (!SlimefunUtils.isItemSimilar(slot, recipe[j], false, true, false)) {
                         return false;

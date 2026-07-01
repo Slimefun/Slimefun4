@@ -80,6 +80,34 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         return isSlotLock(item) ? null : item;
     }
 
+    private static final String[] WOOD_FORMS = { "_PLANKS", "_LOG", "_WOOD" };
+
+    /** Whether two materials are the same wood "form" (both planks, both logs, both wood/bark) so any
+     *  wood variant satisfies a recipe written for one type (e.g. oak). Pre-1.13 planks/logs are a single
+     *  material, so equality already covers those versions. */
+    private static boolean sameWoodForm(@Nonnull Material a, @Nonnull Material b) {
+        if (a == b) {
+            return true;
+        }
+        String na = a.name();
+        String nb = b.name();
+        for (String form : WOOD_FORMS) {
+            if (na.endsWith(form) && nb.endsWith(form)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Whether a slot's plain vanilla wood satisfies a recipe cell of a different wood variant. Slimefun
+     *  items are excluded (they still match strictly by id), so only plain wood is treated loosely. */
+    protected static boolean sameWoodMatch(@Nullable ItemStack slot, @Nullable ItemStack recipe) {
+        if (slot == null || recipe == null || SlimefunItem.getByItem(slot) != null || SlimefunItem.getByItem(recipe) != null) {
+            return false;
+        }
+        return sameWoodForm(slot.getType(), recipe.getType()) && slot.getAmount() >= recipe.getAmount();
+    }
+
     /** Consumes one of each non-lock input, mirroring a successful craft. */
     protected void consumeInputs(@Nonnull Inventory inv) {
         for (int j = 0; j < 9; j++) {
