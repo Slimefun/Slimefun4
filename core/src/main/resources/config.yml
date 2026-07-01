@@ -49,7 +49,8 @@ bug-reports:
   enabled: true
   # Our hosted relay forwards reports to the Slimefun5 community Discord. The relay holds the webhook
   # server-side, so nothing sensitive ships in the jar. When set, the direct webhook below is ignored.
-  # Change this only if you run your own relay; empty it to disable relaying.
+  # Leave blank to use the built-in relay; point it at your own relay to override. To turn the in-game
+  # reporter off entirely, set enabled: false above.
   relay-url: 'https://slimefun5-bot.finn-089.workers.dev/report'
   # Minimum seconds a player must wait between submitting reports (per-player anti-spam).
   cooldown-seconds: 60

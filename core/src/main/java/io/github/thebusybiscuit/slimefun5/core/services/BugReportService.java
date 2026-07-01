@@ -97,14 +97,12 @@ public final class BugReportService {
     }
 
     private static boolean postRelay(String title, String description, List<String> plugins, String player, String mc, String sf) {
-        // Absent key (older config that predates this feature) falls back to the built-in relay;
-        // an explicitly emptied key disables relaying.
-        String relay = Slimefun.getCfg().contains("bug-reports.relay-url")
-            ? Slimefun.getCfg().getString("bug-reports.relay-url")
-            : DEFAULT_RELAY;
+        // A blank relay-url (absent, or an older/stale config that persisted it empty) falls back to the
+        // built-in relay so reports still reach us. To turn the reporter off entirely, set enabled: false.
+        String relay = Slimefun.getCfg().getString("bug-reports.relay-url");
 
         if (relay == null || relay.trim().isEmpty()) {
-            return false;
+            relay = DEFAULT_RELAY;
         }
 
         JsonArray pluginsJson = new JsonArray();
