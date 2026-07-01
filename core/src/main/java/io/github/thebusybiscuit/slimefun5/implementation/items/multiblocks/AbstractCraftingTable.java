@@ -38,6 +38,8 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCategory;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCompat;
 import io.papermc.lib.PaperLib;
 
 /**
@@ -177,7 +179,9 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
 
         dispenser.getWorld().dropItem(location, output)
             .setVelocity(new Vector(facing.getModX(), facing.getModY(), facing.getModZ()).multiply(0.25));
-        SoundEffect.DISPENSER_DISPENSE_SOUND.playAt(dispenser);
+        // Played directly (not via SoundEffect/sounds.yml) so it works on servers whose sounds.yml
+        // predates this sound and therefore has no configured entry for it.
+        SoundCompat.playAt(dispenser.getLocation(), "BLOCK_DISPENSER_DISPENSE", SoundCategory.BLOCKS, 1F, 1F);
     }
 
     @Nonnull
