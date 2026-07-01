@@ -430,6 +430,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         // Hooray!
         logger.log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
+        // Build marker: if this line is missing from the console, the server is running an older jar.
+        logger.log(Level.INFO, "[fork build 2026-07-01] bug-report relay fallback + slot-lock active");
     }
 
     @Override
