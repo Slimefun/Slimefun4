@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,6 +35,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 public final class BugReportService {
 
     private static final String USER_AGENT = "Slimefun5 (https://github.com/Slimefun5)";
+    private static final String DEFAULT_RELAY = "https://slimefun5-bot.finn-089.workers.dev/report";
     private static final int TIMEOUT = 10_000;
 
     private BugReportService() {}
@@ -95,7 +97,11 @@ public final class BugReportService {
     }
 
     private static boolean postRelay(String title, String description, List<String> plugins, String player, String mc, String sf) {
-        String relay = Slimefun.getCfg().getString("bug-reports.relay-url");
+        // Absent key (older config that predates this feature) falls back to the built-in relay;
+        // an explicitly emptied key disables relaying.
+        String relay = Slimefun.getCfg().contains("bug-reports.relay-url")
+            ? Slimefun.getCfg().getString("bug-reports.relay-url")
+            : DEFAULT_RELAY;
 
         if (relay == null || relay.trim().isEmpty()) {
             return false;
@@ -177,13 +183,26 @@ public final class BugReportService {
             }
 
             int status = connection.getResponseCode();
-            return status >= 200 && status < 300;
+            if (status >= 200 && status < 300) {
+                return true;
+            }
+            Slimefun.logger().log(Level.WARNING, "Bug report POST to {0} returned HTTP {1}", new Object[] { hostOf(endpoint), status });
+            return false;
         } catch (Exception e) {
+            Slimefun.logger().log(Level.WARNING, "Bug report POST to {0} failed: {1}", new Object[] { hostOf(endpoint), e.getClass().getSimpleName() + ": " + e.getMessage() });
             return false;
         } finally {
             if (connection != null) {
                 connection.disconnect();
             }
+        }
+    }
+
+    private static String hostOf(String endpoint) {
+        try {
+            return URI.create(endpoint).getHost();
+        } catch (Exception e) {
+            return endpoint;
         }
     }
 }
