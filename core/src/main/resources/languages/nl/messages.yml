@@ -37,6 +37,150 @@ commands:
 placeholderapi:
   profile-loading: 'Aan het laden...'
 guide:
+  item:
+    name: '&aSlimefun Handboek &7(Chest GUI)'
+    cheat-only: '&4&lAlleen te openen door Admins'
+    browse: '&eRechtermuisklik &8⇨ &7Items bekijken'
+    settings: '&eShift + Rechtermuisklik &8⇨ &7Instellingen / Bijdragers openen'
+  themes-meta:
+    categories: '&7Categorieën: &e%count%'
+    open: '&7⇨ &eKlik om te openen'
+  themes:
+    weapons: '&cWapens'
+    tools: '&aGereedschap'
+    armor: '&bWapenrusting'
+    machines: '&6Machines'
+    energy_tech: '&eEnergie & Techniek'
+    resources: '&fGrondstoffen'
+    magic: '&dMagie'
+    food: '&2Voedsel & Landbouw'
+    logistics: '&3Logistiek'
+    decoration: '&5Decoratie'
+    misc: '&7Diversen'
+  addon-visibility:
+    name: '&3Zichtbaarheid uitbreidingen'
+    lore:
+    - '&7Kies welke uitbreidingen in je handboek verschijnen.'
+    - '&7Verborgen uitbreidingen worden verwijderd uit het bekijken'
+    - '&7en zoeken — alleen voor jou.'
+    - ''
+    - '&7⇨ &eKlik om te beheren'
+    menu-title: '&eZichtbaarheid uitbreidingen'
+    menu-lore:
+    - '&7Klik op een uitbreiding om aan/uit te zetten of deze'
+    - '&7in je handboek verschijnt (bekijken + zoeken).'
+    - ''
+    - '&7Ten minste één uitbreiding moet zichtbaar blijven.'
+    shown: '&a✔ Getoond'
+    hidden: '&c✖ Verborgen'
+    toggle: '&7⇨ &eKlik om te wisselen'
+    back: '&e⇦ Terug'
+    must-stay: '&cTen minste één uitbreiding moet zichtbaar blijven.'
+  wiki-topics:
+    getting_started: { name: 'Aan de slag', summary: '&7Je eerste stappen in Slimefun' }
+    research: { name: 'Onderzoek & Ontgrendelen', summary: '&7Ontgrendel items met ervaring' }
+    multiblocks: { name: 'Multiblock-machines', summary: '&7Bouw structuren om te maken' }
+    ore_processing: { name: 'Ertsverwerking', summary: '&7Verdubbel je ertsopbrengst' }
+    smeltery: { name: 'Smelterij & Legeringen', summary: '&7Smelt poeders en smeed legeringen' }
+    energy: { name: 'Energienetwerken', summary: '&7Voorzie je machines van stroom' }
+    power_generation: { name: 'Stroomopwekking', summary: '&7Generatoren, reactoren, condensatoren' }
+    electric_machines: { name: 'Elektrische machines', summary: '&7Aangedreven automatische machines' }
+    cargo: { name: 'Vrachtnetwerken', summary: '&7Verplaats items automatisch' }
+    androids: { name: 'Programmeerbare androids', summary: '&7Automatiseer taken met robots' }
+    geo_mining: { name: 'GEO-mijnbouw & Olie', summary: '&7Win olie en grondstoffen' }
+    gps: { name: 'GPS & Teleportatie', summary: '&7Routepunten en teleporters' }
+    talismans: { name: 'Talismannen', summary: '&7Passief geluk en bescherming' }
+    magic: { name: 'Magie & het Altaar', summary: '&7Runen, staven en rituelen' }
+    armor_gadgets: { name: 'Wapenrusting & Gadgets', summary: '&7Jetpacks, sets en gereedschap' }
+    backpacks: { name: 'Rugzakken & Opslag', summary: '&7Draagbare opslag onderweg' }
+    food_farming: { name: 'Voedsel & Landbouw', summary: '&7Sappen, jerky en automatische boerderijen' }
+    soulbound: { name: 'Zielsgebonden items', summary: '&7Behoud items wanneer je sterft' }
+  coverage:
+    messages: '&7Berichten: &b%percent%%'
+    items: '&7Items: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRechtermuisklik: &7Itemvertaling-overzicht'
+    title-suffix: 'Items'
+    translated: '&7Vertaald: &b%translated%&7/&b%total%'
+    line: '&7Dekking: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun Wiki'
+    welcome:
+      title: '&3Slimefun Wiki'
+      lore:
+      - '&7Nieuw hier? Lees de gidsen hieronder om te leren'
+      - '&7hoe Slimefun werkt - begin met &eAan de slag&7.'
+      - '&7Of blader door items om iets op te zoeken.'
+    search:
+      name: '&aZoek in de wiki'
+      lore:
+      - '&7Zoek elk item op naam op'
+      - '&7in elke geïnstalleerde addon.'
+      - ''
+      - '&7⇨ &eKlik om een zoekterm te typen'
+    browse:
+      name: '&aBlader door items per categorie'
+      lore:
+      - '&7Verken elke Slimefun-categorie'
+      - '&7en zoek afzonderlijke items op.'
+      - ''
+      - '&7⇨ &eKlik'
+    topic-click: '&7⇨ &eKlik om te lezen'
+    results-title: '&aZoekresultaten voor &e"%query%&e"'
+    results-found: '&7&b%count% &7item(s) gevonden.'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Terug'
+    no-info: '&7(Nog geen informatie beschikbaar.)'
+    used-in:
+      name: '&eGebruikt in'
+      lore:
+      - '&7Items die dit in hun recept gebruiken.'
+      - '&7Klik op één voor zijn eigen pagina.'
+    more: '&7+%count% meer'
+    stats:
+      title: '&6Statistieken'
+      capacity: '&7Capaciteit: &e%capacity% J'
+      energy: '&7Energie: &e%energy% J/tick'
+      speed: '&7Snelheid: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in deze gids'
+      lore:
+      - '&7Klik op een item hieronder voor zijn'
+      - "&7recept, statistieken en waar het wordt gebruikt."
+
+  installer:
+    badge:
+      working: '&e⚙ Bezig…'
+      restart: '&b↻ Herstart om toe te passen (%version%)'
+      installed-version: '&a✔ v%version% geïnstalleerd'
+      installed: '&a✔ Geïnstalleerd'
+      not-installed-deps: '&7＋ Niet geïnstalleerd &8(vereist %deps%)'
+      not-installed: '&7＋ Niet geïnstalleerd'
+    back-settings: '&e⇦ Terug naar Instellingen'
+    back: '&e⇦ Terug'
+    click-details: '&7⇨ &eKlik voor details'
+    will-install: '&7Installeert ook: &f%deps%'
+    install:
+      install: '&aInstalleer nieuwste release'
+      update: '&aWerk bij naar nieuwste release'
+      lore:
+      - '&7Downloadt de nieuwste GitHub-release'
+      - '&7en zet deze klaar voor de volgende herstart.'
+      - ''
+      - '&7⇨ &eKlik'
+    build:
+      name: '&bBouw vanaf een branch'
+      lore:
+      - '&7Kloon & compileer een gekozen branch'
+      - '&7(alleen ontwikkelaarsomgevingen).'
+      - ''
+      - '&7⇨ &eKlik om een branch te kiezen'
+    branches:
+      none: '&cGeen branches gevonden'
+      none-lore: "&7Kon GitHub niet bereiken of de repo heeft geen branches."
+      click: '&7⇨ &eKlik om deze branch te bouwen'
+
   locked: 'VERGRENDELD'
   work-in-progress: 'Dit is nog niet helemaal klaar!'
   locked-itemgroup:
@@ -109,6 +253,8 @@ guide:
     bugs: 'Fouten rapporteren'
     source: 'Bron Code'
     versions: 'Geïnstalleerde versies'
+    addon-visibility: 'Zichtbaarheid uitbreidingen'
+    installer: 'Uitbreidingen installeren'
   credits:
     commit: 'Bijdrage'
     commits: 'Bijdragen'

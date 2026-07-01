@@ -245,7 +245,8 @@ public class LocalizationService extends SlimefunLocalization {
         int matches = 0;
 
         for (String key : defaultKeys) {
-            if (keys.contains(key)) {
+            // A present key, or one deliberately tagged as English-everywhere, counts as covered.
+            if (keys.contains(key) || io.github.thebusybiscuit.slimefun5.core.services.localization.FallbackSafe.messageKeys().contains(key)) {
                 matches++;
             }
         }

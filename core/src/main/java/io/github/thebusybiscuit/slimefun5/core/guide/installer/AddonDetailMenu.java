@@ -1,0 +1,212 @@
+package io.github.thebusybiscuit.slimefun5.core.guide.installer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
+
+import com.cryptomorin.xseries.XMaterial;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+
+/**
+ * Screen 2: one entry's status and actions. The "Install/Update" action (Mode A) is always
+ * available; "Build from branch" (Mode B) appears only when the dev environment supports it.
+ * The button label switches between "Install" and "Update" based on whether the plugin is loaded;
+ * the actual latest-release lookup happens when the player clicks (inside AddonInstaller, async),
+ * so opening the menu makes no network call.
+ */
+public final class AddonDetailMenu {
+
+    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+
+    private AddonDetailMenu() {}
+
+    public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull AddonCatalog.Entry entry) {
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer"));
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, BORDER);
+
+        AddonInstaller inst = AddonInstallerMenu.installer();
+        boolean canManage = p.hasPermission(AddonCatalog.PERMISSION);
+
+        // async + throttled; updates are announced at startup/join, not from here
+        inst.refreshUpdateStatusAsync(java.util.Collections.singletonList(entry));
+
+        menu.addItem(0, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
+        menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
+            AddonInstallerMenu.open(pl, guide);
+            return false;
+        });
+
+        List<String> deps = new ArrayList<>();
+
+        for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
+            if (!inst.isLoaded(dep)) {
+                deps.add(dep.getDisplayName());
+            }
+        }
+
+        List<String> headerLore = new ArrayList<>();
+        headerLore.add("");
+        headerLore.add(StatusBadges.badge(p, inst, entry));
+
+        String versionLine = versionLine(p, inst, entry);
+
+        if (versionLine != null) {
+            headerLore.add(versionLine);
+        }
+
+        InstallState.Record record = inst.getState().get(entry.getId());
+        boolean restartPending = record != null && record.isRestartPending();
+
+        if (!restartPending && inst.isUpdateAvailable(entry.getId())) {
+            headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.update.available")
+                .replace("%version%", inst.getLatestVersionLabel(entry.getId())));
+        }
+
+        if (!deps.isEmpty()) {
+            headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.will-install").replace("%deps%", String.join(", ", deps)));
+        }
+
+        Plugin loaded = inst.getLoadedPlugin(entry);
+
+        if (loaded != null) {
+            String description = loaded.getDescription().getDescription();
+
+            if (description != null && !description.trim().isEmpty()) {
+                headerLore.add("");
+                headerLore.add("&7" + description.trim());
+            }
+
+            List<String> authors = loaded.getDescription().getAuthors();
+
+            if (authors != null && !authors.isEmpty()) {
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.info.authors").replace("%authors%", String.join(", ", authors)));
+            }
+        }
+
+        menu.addItem(13, CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), headerLore.toArray(new String[0])));
+        menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
+
+        boolean showInstall = canManage;
+        boolean showDelete = canManage && !entry.isCore() && !entry.isLibrary() && inst.isLoaded(entry);
+        boolean showBuild = canManage && EnvironmentDetector.canBuildFromSource();
+
+        boolean showGithub = io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks();
+        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + (showGithub ? 1 : 0));
+        int idx = 0;
+
+        if (showInstall) {
+            int s = slots[idx++];
+            List<String> installLore = new ArrayList<>();
+            installLore.add(Slimefun.getLocalization().getMessage(p, inst.isLoaded(entry) ? "guide.installer.install.update" : "guide.installer.install.install"));
+            installLore.add("");
+            installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                inst.installRelease(pl, entry);
+                open(pl, guide, entry);
+                return false;
+            });
+        }
+
+        if (showDelete) {
+            int s = slots[idx++];
+            List<String> deleteLore = new ArrayList<>();
+            deleteLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.delete.name"));
+            deleteLore.add("");
+            deleteLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.delete.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.RED_DYE), deleteLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                inst.deleteAddon(pl, entry);
+                open(pl, guide, entry);
+                return false;
+            });
+        }
+
+        if (showBuild) {
+            int s = slots[idx++];
+            List<String> buildLore = new ArrayList<>();
+            buildLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.build.name"));
+            buildLore.add("");
+            buildLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.build.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.WHEAT_SEEDS), buildLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                BranchSelectMenu.open(pl, guide, entry, 0);
+                return false;
+            });
+        }
+
+        if (showGithub) {
+            int githubSlot = slots[idx];
+            List<String> githubLore = new ArrayList<>();
+            githubLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.github.name"));
+            githubLore.add("");
+            githubLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.github.lore"));
+            menu.addItem(githubSlot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), githubLore));
+            menu.addMenuClickHandler(githubSlot, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                Slimefun.getLocalization().sendMessage(pl, "guide.installer.github.chat", true);
+                pl.sendMessage("https://github.com/" + entry.getSlug());
+                return false;
+            });
+        }
+
+        menu.open(p);
+    }
+
+    /** Action-button slots in the bottom row, centered on slot 31 with a gap between each. */
+    private static int[] centeredActionSlots(int count) {
+        int[] slots = new int[count];
+        int start = 31 - (count - 1);
+
+        for (int i = 0; i < count; i++) {
+            slots[i] = start + 2 * i;
+        }
+
+        return slots;
+    }
+
+    /**
+     * Builds the version line for the header: the installed release tag, the built branch + commit for
+     * a from-source build, or the loaded plugin version for a jar the installer did not stage. Returns
+     * null when the entry is not loaded (the status badge already says so).
+     */
+    @javax.annotation.Nullable
+    private static String versionLine(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+        Plugin plugin = inst.getLoadedPlugin(entry);
+
+        if (plugin == null) {
+            return null;
+        }
+
+        InstallState.Record record = inst.getState().get(entry.getId());
+        String pluginVersion = plugin.getDescription().getVersion();
+
+        if (record != null && record.getMethod() == InstallState.Method.BRANCH) {
+            String commit = record.getCommit().isEmpty() ? pluginVersion : record.getCommit();
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.version.branch")
+                .replace("%branch%", record.getVersion())
+                .replace("%commit%", commit);
+        }
+
+        if (record != null && record.getMethod() == InstallState.Method.RELEASE) {
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.version.release")
+                .replace("%version%", record.getVersion());
+        }
+
+        // Loaded but not staged by the installer: a custom/local build. Show its plugin version.
+        return Slimefun.getLocalization().getMessage(p, "guide.installer.version.custom")
+            .replace("%version%", pluginVersion);
+    }
+}

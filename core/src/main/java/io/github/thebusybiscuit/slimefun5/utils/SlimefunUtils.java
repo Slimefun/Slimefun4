@@ -66,7 +66,20 @@ import io.github.thebusybiscuit.slimefun5.utils.itemstack.ItemStackWrapper;
 public final class SlimefunUtils {
 
     private static final String NO_PICKUP_METADATA = "no_pickup";
-    private static final String SOULBOUND_LORE = ChatColor.GRAY + "Soulbound";
+    private static final String SOULBOUND_LORE = ChatColor.LIGHT_PURPLE.toString() + "✦ " + ChatColor.LIGHT_PURPLE + "Soulbound";
+
+    /**
+     * Color-agnostic check for the soulbound display line, so detection/removal keeps working across
+     * styling changes (and for items soulbound under the older plain-gray lore).
+     */
+    private static boolean isSoulboundLoreLine(@Nullable String line) {
+        if (line == null) {
+            return false;
+        }
+
+        String stripped = ChatColor.stripColor(line);
+        return stripped != null && stripped.contains("Soulbound");
+    }
 
     private SlimefunUtils() {}
 
@@ -143,8 +156,12 @@ public final class SlimefunUtils {
                 } else {
                     return !sfItem.isDisabled();
                 }
-            } else if (meta != null) {
-                return meta.hasLore() && meta.getLore().contains(SOULBOUND_LORE);
+            } else if (meta != null && meta.hasLore()) {
+                for (String line : meta.getLore()) {
+                    if (isSoulboundLoreLine(line)) {
+                        return true;
+                    }
+                }
             }
 
         }
@@ -200,7 +217,7 @@ public final class SlimefunUtils {
         }
 
         if (!makeSoulbound && isSoulbound) {
-            lore.remove(SOULBOUND_LORE);
+            lore.removeIf(SlimefunUtils::isSoulboundLoreLine);
         }
 
         meta.setLore(lore);
@@ -564,7 +581,7 @@ public final class SlimefunUtils {
     }
 
     private static boolean isLineIgnored(@Nonnull String line) {
-        return line.equals(SOULBOUND_LORE);
+        return isSoulboundLoreLine(line);
     }
 
     public static void updateCapacitorTexture(@Nonnull Location l, int charge, int capacity) {

@@ -149,6 +149,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.items.magical.Knowledge
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.KnowledgeTome;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.MagicEyeOfEnder;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.MagicalZombiePills;
+import io.github.thebusybiscuit.slimefun5.implementation.items.magical.RuneAnvil;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.TelepositionScroll;
 import io.github.thebusybiscuit.slimefun5.implementation.items.magical.runes.ElementalRune;
@@ -1382,6 +1383,10 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {SlimefunItems.NICKEL_INGOT.item(), SlimefunItems.MAGNET.item(), SlimefunItems.COBALT_INGOT.item(), null, SlimefunItems.BATTERY.item(), null, null, null, null})
                 .register(plugin);
 
+        new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.SLOT_LOCK, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), new ItemStack(Material.REDSTONE), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS), MaterialCompat.stack(XMaterial.IRON_BARS)})
+                .register(plugin);
+
         new UnplaceableBlock(itemGroups.technicalComponents, SlimefunItems.ELECTRIC_MOTOR, RecipeType.ENHANCED_CRAFTING_TABLE,
                 new ItemStack[] {SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), null, SlimefunItems.ELECTRO_MAGNET.item(), null, SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item(), SlimefunItems.COPPER_WIRE.item()})
                 .register(plugin);
@@ -2060,6 +2065,10 @@ public final class SlimefunItemSetup {
 
         new EnchantmentRune(itemGroups.magicalResources, SlimefunItems.ENCHANTMENT_RUNE, RecipeType.ANCIENT_ALTAR,
                 new ItemStack[] {SlimefunItems.MAGIC_LUMP_3.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.MAGIC_LUMP_3.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.LIGHTNING_RUNE.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.MAGIC_LUMP_3.item(), SlimefunItems.MAGICAL_GLASS.item(), SlimefunItems.MAGIC_LUMP_3.item()})
+                .register(plugin);
+
+        new RuneAnvil(itemGroups.magicalGadgets, SlimefunItems.RUNE_ANVIL, RecipeType.MAGIC_WORKBENCH,
+                new ItemStack[] {SlimefunItems.MAGIC_LUMP_2.item(), SlimefunItems.ENDER_LUMP_2.item(), SlimefunItems.MAGIC_LUMP_2.item(), SlimefunItems.MAGIC_LUMP_2.item(), new ItemStack(Material.ANVIL), SlimefunItems.MAGIC_LUMP_2.item(), SlimefunItems.MAGIC_LUMP_2.item(), SlimefunItems.ENDER_LUMP_2.item(), SlimefunItems.MAGIC_LUMP_2.item()})
                 .register(plugin);
 
         new InfernalBonemeal(itemGroups.magicalGadgets, SlimefunItems.INFERNAL_BONEMEAL, RecipeType.ANCIENT_ALTAR,

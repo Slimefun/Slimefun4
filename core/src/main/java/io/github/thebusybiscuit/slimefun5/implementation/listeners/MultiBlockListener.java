@@ -5,14 +5,12 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
 import java.util.LinkedList;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -55,7 +53,7 @@ public class MultiBlockListener implements Listener {
         for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
             Block center = b.getRelative(mb.getTriggerBlock());
 
-            if (compareMaterials(center, mb.getStructure(), mb.isSymmetric())) {
+            if (mb.matches(center)) {
                 multiblocks.add(mb);
             }
         }
@@ -74,25 +72,51 @@ public class MultiBlockListener implements Listener {
         }
     }
 
-    @ParametersAreNonnullByDefault
-    private boolean compareMaterials(Block b, Material[] blocks, boolean onlyTwoWay) {
-        if (!compareMaterialsVertical(b, blocks[1], blocks[4], blocks[7])) {
-            return false;
+    /**
+     * Gives the player feedback when the block they just placed completes a {@link MultiBlock}
+     * structure, so they know the machine is assembled and ready to use.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onMultiBlockComplete(org.bukkit.event.block.BlockPlaceEvent e) {
+        Block placed = e.getBlock();
+
+        for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
+            Material[] structure = mb.getStructure();
+
+            // Cheap pre-filter: only consider a multiblock the placed block could actually be part of.
+            // This also avoids re-announcing an existing machine when placing an unrelated block beside it.
+            if (!structureContains(structure, placed.getType())) {
+                continue;
+            }
+
+            // The placed block can be any cell of the structure, so test every center within one block.
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        if (mb.matches(placed.getRelative(dx, dy, dz))) {
+                            Player p = e.getPlayer();
+
+                            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
+                                io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
+                                p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + mb.getSlimefunItem().getItemName());
+                            }
+
+                            return;
+                        }
+                    }
+                }
+            }
         }
+    }
 
-        BlockFace[] directions = onlyTwoWay ? new BlockFace[] { BlockFace.NORTH, BlockFace.EAST } : new BlockFace[] { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
-
-        for (BlockFace direction : directions) {
-            if (compareMaterialsVertical(b.getRelative(direction), blocks[0], blocks[3], blocks[6]) && compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
+    private boolean structureContains(@Nonnull Material[] structure, @Nonnull Material placed) {
+        for (Material cell : structure) {
+            if (cell != null && equals(placed, cell)) {
                 return true;
             }
         }
 
         return false;
-    }
-
-    private boolean compareMaterialsVertical(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
-        return (center == null || equals(b.getType(), center)) && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }
 
     @ParametersAreNonnullByDefault

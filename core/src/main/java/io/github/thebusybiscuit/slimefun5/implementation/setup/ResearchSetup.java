@@ -270,6 +270,7 @@ public final class ResearchSetup {
         register("magical_zombie_pills", 257, "De-Zombification", 22, SlimefunItems.MAGICAL_ZOMBIE_PILLS);
         register("auto_brewer", 258, "Industrial Brewery", 30, SlimefunItems.AUTO_BREWER);
         register("enchantment_rune", 259, "Ancient Enchanting", 24, SlimefunItems.MAGICAL_GLASS, SlimefunItems.ENCHANTMENT_RUNE);
+        register("rune_anvil", 282, "Rune Anvil", 30, SlimefunItems.RUNE_ANVIL);
         register("lead_clothing", 260, "Lead Clothing", 14, SlimefunItems.REINFORCED_CLOTH);
         register("tape_measure", 261, "Tape Measure", 7, SlimefunItems.TAPE_MEASURE);
         register("iron_golem_assembler", 262, "Automated Iron Golems", 30, SlimefunItems.IRON_GOLEM_ASSEMBLER);
@@ -292,6 +293,7 @@ public final class ResearchSetup {
         register("trident", 279, "Trident", 20, "TRIDENT");
         register("farmer_talisman", 280, "Talisman of the Farmer", 18, SlimefunItems.TALISMAN_FARMER);
         register("rainbow_armor", 281, "I wanna see the rainbow high in the sky", 22, SlimefunItems.RAINBOW_HELMET, SlimefunItems.RAINBOW_CHESTPLATE, SlimefunItems.RAINBOW_LEGGINGS, SlimefunItems.RAINBOW_BOOTS);
+        register("slot_lock", 283, "Locked and Loaded", 8, SlimefunItems.SLOT_LOCK);
     }
 
     private static void register(String key, int id, String name, int defaultCost, SlimefunItemStack... items) {

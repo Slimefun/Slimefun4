@@ -148,6 +148,81 @@ guide:
     bugs: 'Bug Reports'
     source: 'Source Code'
     versions: 'Installed versions'
+    addon-visibility: 'Addon Visibility'
+    installer: 'Addon Installer'
+    discord: 'Join our Discord'
+    config-editor: 'Config Editor'
+
+  panel:
+    wiki:
+    - ''
+    - '&7New to Slimefun, or stuck on a machine?'
+    - '&7Learn the basics and look up any item,'
+    - '&7all without leaving the game.'
+    - ''
+    - '&7⇨ &eClick to open the in-game Wiki'
+    installer:
+    - ''
+    - '&7Install, update or build Slimefun and its'
+    - '&7addons without leaving the game.'
+    - ''
+    - '&7Installed on this Server: &b%count%'
+    - ''
+    - '&7⇨ &eClick to open the Addon Installer'
+    addons:
+    - ''
+    - '&7Slimefun is huge. But its addons are what makes'
+    - '&7this plugin truly shine. Go check them out, some'
+    - '&7of them may be exactly what you were missing out on!'
+    - ''
+    - '&7Installed on this Server: &b%count%'
+    - ''
+    - '&7⇨ &eClick to see all available addons for Slimefun5'
+    source:
+    - ''
+    - '&7Last Activity: &a%activity% ago'
+    - '&7Forks: &e%forks%'
+    - '&7Stars: &e%stars%'
+    - ''
+    - '&7&oSlimefun is a community project,'
+    - '&7&othe source code is available on GitHub'
+    - '&7&oand if you want to keep this Plugin alive,'
+    - '&7&othen please consider contributing to it'
+    - ''
+    - '&7⇨ &eClick to go to GitHub'
+    discord:
+    - ''
+    - '&7Join the Slimefun community on Discord for'
+    - '&7help, addon news and to chat with others.'
+    - ''
+    - '&7⇨ &eClick to join our Discord'
+    config-editor:
+    - ''
+    - '&7Edit this server''s Slimefun config from a menu.'
+    - '&cAdmin only. Changes are saved immediately.'
+    - ''
+    - '&7⇨ &eClick to open the Config Editor'
+    bugs:
+    - ''
+    - '&7&oBug reports have to be made in English!'
+    - ''
+    - '&7Open Issues: &a%issues%'
+    - '&7Pending Pull Requests: &a%prs%'
+    - ''
+    - '&7⇨ &eClick to go to the Slimefun5 Bug Tracker'
+
+  themes:
+    weapons: '&cWeapons'
+    tools: '&aTools'
+    armor: '&bArmor'
+    machines: '&6Machines'
+    energy_tech: '&eEnergy & Tech'
+    resources: '&fResources'
+    magic: '&dMagic'
+    food: '&2Food & Farming'
+    logistics: '&3Logistics'
+    decoration: '&5Decoration'
+    misc: '&7Misc'
 
   credits:
     commit: 'Commit'
@@ -165,6 +240,234 @@ guide:
       wiki: '&3Wiki Editor'
       resourcepack: '&cResourcepack Artist'
       translator: '&9Translator'
+
+  coverage:
+    messages: '&7Messages: &b%percent%%'
+    items: '&7Items: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRight Click: &7Item translation breakdown'
+    title-suffix: 'Items'
+    translated: '&7Translated: &b%translated%&7/&b%total%'
+    line: '&7Coverage: %color%%percent%%'
+
+  item:
+    name: '&aSlimefun Guide &7(Chest GUI)'
+    cheat-name: '&cSlimefun Guide &4(Cheat Sheet)'
+    cheat-only: '&4&lOnly openable by Admins'
+    browse: '&eRight Click &8⇨ &7Browse Items'
+    settings: '&eShift + Right Click &8⇨ &7Open Settings / Credits'
+
+  config:
+    title: '&cConfig Editor'
+    back: 'Back'
+    page: 'Page %page%/%pages%'
+    disabled: '&cThe in-game config editor is disabled in the config.'
+    prompt: '&eType the new value in chat (or type &ccancel&e to keep it).'
+    invalid: '&cThat value is not valid for this setting.'
+    saved: '&aSaved.'
+    section-lore:
+    - '&7Section'
+    - '&7⇨ &eClick to open'
+    value-toggle:
+    - '&7Value: %value%'
+    - '&7⇨ &eClick to toggle'
+    value-edit:
+    - '&7Value: %value%'
+    - '&7⇨ &eClick to edit'
+    value-list:
+    - '&7List (read-only)'
+
+  report:
+    menu-title: '&4Report a Bug'
+    button-lore:
+    - ''
+    - '&7Found a bug or have a problem?'
+    - '&7Report it directly from in-game.'
+    - ''
+    - '&7⇨ &eClick to report a bug'
+    summary-name: '&bYour bug report'
+    summary-title: '&7Title: &f%title%'
+    summary-plugins: '&7Affected: &f%plugins%'
+    summary-hint:
+    - '&7Select the affected plugins below,'
+    - '&7set a title and description,'
+    - '&7then submit.'
+    target-select:
+    - ''
+    - '&7⇨ &eClick to select'
+    target-selected:
+    - ''
+    - '&a✔ Selected'
+    - '&7⇨ &eClick to remove'
+    title-button: '&eSet title'
+    title-button-lore:
+    - '&7Current: &f%value%'
+    - ''
+    - '&7⇨ &eClick to set'
+    description-button: '&eAdd description'
+    description-button-lore:
+    - '&7Current: &f%value%'
+    - ''
+    - '&7⇨ &eClick to set'
+    submit-button: '&aSubmit report'
+    submit-button-lore:
+    - '&7Send your report to the Slimefun5 team.'
+    - ''
+    - '&7⇨ &eClick to submit'
+    prompt-title: '&ePlease type the report title into the chat:'
+    prompt-description: '&ePlease type the report description into the chat:'
+    need-plugin: '&cSelect at least one affected plugin first.'
+    need-title: '&cSet a title first.'
+    submitting: '&7Submitting your report...'
+    success: '&aThanks! Your bug report has been submitted.'
+    failed: '&cCould not submit your report - reporting may be disabled or misconfigured. Please tell an admin.'
+    disabled: '&cIn-game bug reporting is disabled on this server.'
+    cooldown: '&cPlease wait a bit before submitting another bug report.'
+
+  themes-meta:
+    categories: '&7Categories: &e%count%'
+    open: '&7⇨ &eClick to open'
+
+  addon-visibility:
+    name: '&3Addon Visibility'
+    lore:
+    - '&7Choose which addons appear in your guide.'
+    - '&7Hidden addons are removed from browsing'
+    - '&7and search — just for you.'
+    - ''
+    - '&7⇨ &eClick to manage'
+    menu-title: '&eAddon Visibility'
+    menu-lore:
+    - '&7Click an addon to toggle whether it'
+    - '&7appears in your guide (browse + search).'
+    - ''
+    - '&7At least one addon must stay shown.'
+    shown: '&a✔ Shown'
+    hidden: '&c✖ Hidden'
+    toggle: '&7⇨ &eClick to toggle'
+    back: '&e⇦ Back'
+    must-stay: '&cAt least one addon must stay visible.'
+
+  wiki-topics:
+    getting_started: { name: 'Getting Started', summary: '&7Your first steps in Slimefun' }
+    research: { name: 'Research & Unlocking', summary: '&7Unlock items with experience' }
+    multiblocks: { name: 'Multiblock Machines', summary: '&7Build structures to craft' }
+    ore_processing: { name: 'Ore Processing', summary: '&7Double your ore yields' }
+    smeltery: { name: 'Smeltery & Alloys', summary: '&7Smelt dusts and forge alloys' }
+    energy: { name: 'Energy Networks', summary: '&7Power your machines' }
+    power_generation: { name: 'Power Generation', summary: '&7Generators, reactors, capacitors' }
+    electric_machines: { name: 'Electric Machines', summary: '&7Powered automatic machines' }
+    cargo: { name: 'Cargo Networks', summary: '&7Move items automatically' }
+    androids: { name: 'Programmable Androids', summary: '&7Automate tasks with robots' }
+    geo_mining: { name: 'GEO Mining & Oil', summary: '&7Extract oil and resources' }
+    gps: { name: 'GPS & Teleportation', summary: '&7Waypoints and teleporters' }
+    talismans: { name: 'Talismans', summary: '&7Passive luck and protection' }
+    magic: { name: 'Magic & the Altar', summary: '&7Runes, staves and rituals' }
+    armor_gadgets: { name: 'Armor & Gadgets', summary: '&7Jetpacks, sets and tools' }
+    backpacks: { name: 'Backpacks & Storage', summary: '&7Portable storage on the go' }
+    food_farming: { name: 'Food & Farming', summary: '&7Juices, jerky and auto-farms' }
+    soulbound: { name: 'Soulbound Items', summary: '&7Keep items when you die' }
+
+  wiki:
+    home-title: '&3Slimefun Wiki'
+    welcome:
+      title: '&3Slimefun Wiki'
+      lore:
+      - '&7New here? Read the guides below to learn'
+      - '&7how Slimefun works - start with &eGetting Started&7.'
+      - '&7Or browse items to look something up.'
+    search:
+      name: '&aSearch the wiki'
+      lore:
+      - '&7Look up any item by name'
+      - '&7across every installed addon.'
+      - ''
+      - '&7⇨ &eClick to type a search term'
+    browse:
+      name: '&aBrowse items by category'
+      lore:
+      - '&7Explore every Slimefun category'
+      - '&7and look up individual items.'
+      - ''
+      - '&7⇨ &eClick'
+    topic-click: '&7⇨ &eClick to read'
+    results-title: '&aSearch results for &e"%query%&e"'
+    results-found: '&7Found &b%count% &7item(s).'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Back'
+    no-info: '&7(No information available yet.)'
+    used-in:
+      name: '&eUsed in'
+      lore:
+      - '&7Items that use this in their recipe.'
+      - '&7Click one for its own page.'
+    more: '&7+%count% more'
+    stats:
+      title: '&6Stats'
+      capacity: '&7Capacity: &e%capacity% J'
+      energy: '&7Energy: &e%energy% J/tick'
+      speed: '&7Speed: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in this guide'
+      lore:
+      - '&7Click any item below for its'
+      - "&7recipe, stats and where it's used."
+
+  installer:
+    badge:
+      working: '&e⚙ Working…'
+      restart: '&b↻ Restart to apply (%version%)'
+      installed-version: '&a✔ Installed v%version%'
+      installed: '&a✔ Installed'
+      update: '&6⬆ Update available (%version%)'
+      not-installed-deps: '&7＋ Not installed &8(needs %deps%)'
+      not-installed: '&7＋ Not installed'
+    back-settings: '&e⇦ Back to Settings'
+    back: '&e⇦ Back'
+    click-details: '&7⇨ &eClick for details'
+    will-install: '&7Will also install: &f%deps%'
+    version:
+      release: '&7Version: &f%version%'
+      branch: '&7Branch: &f%branch% &8(%commit%)'
+      custom: '&7Custom build: &f%version%'
+    update:
+      available: '&6⬆ Update available: &f%version%'
+    info:
+      authors: '&7Author(s): &f%authors%'
+    github:
+      name: '&bView on GitHub'
+      lore:
+      - '&7Opens this addon''s GitHub page'
+      - '&7as a clickable link in chat.'
+      - ''
+      - '&7⇨ &eClick'
+      chat: '&bGitHub page:'
+    install:
+      install: '&aInstall latest release'
+      update: '&aUpdate to latest release'
+      lore:
+      - '&7Downloads the latest GitHub release'
+      - '&7and stages it for the next restart.'
+      - ''
+      - '&7⇨ &eClick'
+    build:
+      name: '&bBuild from a branch'
+      lore:
+      - '&7Clone & compile a chosen branch'
+      - '&7(developer environments only).'
+      - ''
+      - '&7⇨ &eClick to pick a branch'
+    delete:
+      name: '&cDelete this addon'
+      lore:
+      - '&7Removes the addon''s jar from the server.'
+      - '&7Takes effect after the next restart.'
+      - ''
+      - '&7⇨ &cClick to delete'
+    branches:
+      none: '&cNo branches found'
+      none-lore: "&7Couldn't reach GitHub or the repo has no branches."
+      click: '&7⇨ &eClick to build this branch'
 
 actionbar:
   radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'

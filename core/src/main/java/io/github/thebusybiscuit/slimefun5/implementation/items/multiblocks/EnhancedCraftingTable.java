@@ -60,7 +60,9 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             }
 
             if (InventoryCompat.isEmpty(inv)) {
-                Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
+                    Slimefun.getLocalization().sendMessage(p, "machines.inventory-empty", true);
+                }
             } else {
                 Slimefun.getLocalization().sendMessage(p, "machines.pattern-not-found", true);
             }
@@ -81,7 +83,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             for (int j = 0; j < 9; j++) {
                 ItemStack item = inv.getContents()[j];
 
-                if (item != null && item.getType() != Material.AIR) {
+                if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
                     ItemUtils.consumeItem(item, true);
                 }
             }
@@ -90,15 +92,22 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             outputInv.addItem(output);
 
         } else {
-            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            // Output has nowhere to go (dispenser full): craft anyway and eject it out of the dispenser,
+            // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
+            consumeInputs(inv);
+            ejectOutput(dispenser, output);
+            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
         }
     }
 
-    private boolean isCraftable(Inventory inv, ItemStack[] recipe) {
+    @Override
+    protected boolean isCraftable(Inventory inv, ItemStack[] recipe) {
         for (int j = 0; j < inv.getContents().length; j++) {
-            if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], true, true, false)) {
+            ItemStack slot = ignoreLock(inv.getContents()[j]);
+
+            if (!SlimefunUtils.isItemSimilar(slot, recipe[j], true, true, false) && !sameWoodMatch(slot, recipe[j])) {
                 if (SlimefunItem.getByItem(recipe[j]) instanceof SlimefunBackpack) {
-                    if (!SlimefunUtils.isItemSimilar(inv.getContents()[j], recipe[j], false, true, false)) {
+                    if (!SlimefunUtils.isItemSimilar(slot, recipe[j], false, true, false)) {
                         return false;
                     }
                 } else {

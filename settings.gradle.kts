@@ -16,7 +16,4 @@ plugins {
 rootProject.name = "Slimefun"
 
 include("core")
-include("compat-api")
-include("compat-stubs")
-include("nms:v1_8_R3")
-include("nms:v1_21_R1")
+include("stubs")

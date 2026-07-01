@@ -15,13 +15,11 @@ import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
-import io.github.thebusybiscuit.slimefun5.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
@@ -89,12 +87,6 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                     SlimefunGuideSettings.openSettings(pl, guide);
                     return false;
                 });
-            } else if (i == 7) {
-                menu.addItem(7, CustomItemStack.create(SlimefunUtils.getCustomHead(HeadTexture.ADD_NEW_LANGUAGE.getTexture()), Slimefun.getLocalization().getMessage(p, "guide.languages.translations.name"), "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.translations.lore")), (pl, slot, item, action) -> {
-                    ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Translating-Slimefun");
-                    pl.closeInventory();
-                    return false;
-                });
             } else {
                 menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
             }
@@ -116,7 +108,17 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         int slot = 10;
 
         for (Language language : Slimefun.getLocalization().getLanguages()) {
-            menu.addItem(slot, CustomItemStack.create(language.getItem(), ChatColor.GREEN + language.getName(p), "&b" + language.getTranslationProgress() + '%', "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select")), (pl, i, item, action) -> {
+            menu.addItem(slot, CustomItemStack.create(language.getItem(), ChatColor.GREEN + language.getName(p),
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.messages").replace("%percent%", String.valueOf(language.getTranslationProgress())),
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.items").replace("%percent%", String.valueOf(itemCoveragePercent(language.getId()))),
+                "",
+                "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select"),
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.breakdown-hint")), (pl, i, item, action) -> {
+                if (action.isRightClicked()) {
+                    openItemCoverage(pl, guide, language);
+                    return false;
+                }
+
                 Slimefun.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, Slimefun.getLocalization().getLanguage(pl), language));
                 setSelectedOption(pl, guide, language.getId());
 
@@ -131,6 +133,99 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         }
 
         menu.open(p);
+    }
+
+    /** Picks one representative enabled item per addon, to use as that addon's menu icon. */
+    private java.util.Map<String, SlimefunItem> representativeItems() {
+        java.util.Map<String, SlimefunItem> reps = new java.util.HashMap<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                reps.putIfAbsent(item.getAddon().getName(), item);
+            } catch (Exception | LinkageError ignored) {
+                // A broken item should not break the menu.
+            }
+        }
+
+        return reps;
+    }
+
+    /** Overall item-translation percentage for a language across all installed plugins. */
+    private int itemCoveragePercent(String languageId) {
+        int translated = 0;
+        int total = 0;
+
+        for (int[] counts : Slimefun.getItemTranslationService().getCoverage(languageId).values()) {
+            translated += counts[0];
+            total += counts[1];
+        }
+
+        return total == 0 ? 0 : (translated * 100) / total;
+    }
+
+    /** Lists Slimefun core and each addon with its item-translation coverage for the given language. */
+    private void openItemCoverage(Player p, ItemStack guide, Language language) {
+        ChestMenu menu = new ChestMenu(ChatColor.GREEN + language.getName(p) + ChatColor.DARK_GRAY + " - " + Slimefun.getLocalization().getMessage(p, "guide.coverage.title-suffix"));
+
+        menu.setEmptySlotsClickable(false);
+
+        for (int i = 0; i < 9; i++) {
+            if (i == 1) {
+                menu.addItem(1, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.title.languages")), (pl, slot, item, action) -> {
+                    openLanguageSelection(pl, guide);
+                    return false;
+                });
+            } else if (i == 4) {
+                // Summary tile: overall message- and item-translation coverage for this language.
+                menu.addItem(4, CustomItemStack.create(language.getItem(),
+                    ChatColor.GREEN + language.getName(p),
+                    "",
+                    Slimefun.getLocalization().getMessage(p, "guide.coverage.messages").replace("%percent%", String.valueOf(language.getTranslationProgress())),
+                    Slimefun.getLocalization().getMessage(p, "guide.coverage.items").replace("%percent%", String.valueOf(itemCoveragePercent(language.getId())))),
+                    ChestMenuUtils.getEmptyClickHandler());
+            } else {
+                menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
+            }
+        }
+
+        java.util.Map<String, SlimefunItem> icons = representativeItems();
+        int slot = 9;
+
+        for (java.util.Map.Entry<String, int[]> entry : Slimefun.getItemTranslationService().getCoverage(language.getId()).entrySet()) {
+            if (slot > 53) {
+                break;
+            }
+
+            int translated = entry.getValue()[0];
+            int total = entry.getValue()[1];
+            int percent = total == 0 ? 0 : (translated * 100) / total;
+
+            // Use one of the addon's own items as the icon (like the addon installer menu) instead of a
+            // generic pane, so the menu visually represents each addon.
+            SlimefunItem rep = icons.get(entry.getKey());
+            ItemStack base = rep != null ? rep.getItem() : language.getItem();
+
+            menu.addItem(slot, CustomItemStack.create(base,
+                "&a" + entry.getKey(),
+                "",
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.translated").replace("%translated%", String.valueOf(translated)).replace("%total%", String.valueOf(total)),
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.line").replace("%color%", coverageColour(percent)).replace("%percent%", String.valueOf(percent))),
+                ChestMenuUtils.getEmptyClickHandler());
+
+            slot++;
+        }
+
+        menu.open(p);
+    }
+
+    private String coverageColour(int percent) {
+        if (percent >= 100) {
+            return ChatColor.GREEN.toString();
+        } else if (percent >= 50) {
+            return ChatColor.YELLOW.toString();
+        } else {
+            return ChatColor.RED.toString();
+        }
     }
 
 }

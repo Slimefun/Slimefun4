@@ -28,6 +28,59 @@ guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
   show-hidden-item-groups-in-search: false
+  # When false, guide buttons that open an external website outside the settings panel (item wiki
+  # pages, contributor profiles, the addon list) are hidden. Leave true to keep them.
+  external-links: true
+  # Per-button visibility for the guide's settings panel (top + bottom rows). Set any to false to
+  # hide it; the row re-centers automatically. The Wiki button is always shown and can't be hidden.
+  settings-buttons:
+    credits: true
+    versions: true
+    source: true
+    discord: true
+    installer: true
+    bug-reports: true
+    config-editor: true
+  # When true, players without the slimefun.installer permission can still OPEN the Addon Installer
+  # to browse installed/available addons (read-only - no install/update/build buttons).
+  show-addon-installer-to-everyone: true
+  # Dev helper: when true, dumps the English baseline of every block menu to menus-baseline.yml on
+  # startup (for producing translations). Leave false in production.
+  dump-menu-baseline: false
+  # Who may use the Cheat Sheet (creative-style free-item access). Access is granted if ANY enabled
+  # rule below matches. Admin-only setting. Defaults: OPs and holders of slimefun.cheat.items.
+  cheat-sheet:
+    allow-creative: false
+    allow-op: true
+    allow-permission: true
+    allow-everyone: false
+
+# In-game bug reporting (the "Report a Bug" button in the guide settings). Reports are posted by the
+# server using the credentials below and credit the reporting player by name. Leave a field empty to
+# disable that channel; with both empty, reports cannot be delivered.
+bug-reports:
+  enabled: true
+  # Our hosted relay forwards reports to the Slimefun5 community Discord. The relay holds the webhook
+  # server-side, so nothing sensitive ships in the jar. When set, the direct webhook below is ignored.
+  # Leave blank to use the built-in relay; point it at your own relay to override. To turn the in-game
+  # reporter off entirely, set enabled: false above.
+  relay-url: 'https://slimefun5-bot.finn-089.workers.dev/report'
+  # Minimum seconds a player must wait between submitting reports (per-player anti-spam).
+  cooldown-seconds: 60
+  github:
+    # A GitHub token with 'repo' scope (issues write access). Required to open issues; empty disables it.
+    token: ''
+    owner: 'Slimefun5'
+  discord:
+    # A Discord webhook URL to mirror reports to. Empty disables Discord posting.
+    webhook-url: ''
+
+# In-game config editor: a chest GUI (via /sf config or the guide's settings panel) that lets admins
+# edit this config. Admin-only (OP or slimefun.config-editor). IMPORTANT: this switch can ONLY be
+# changed here in the file - the editor hides the whole config-editor section, so it can never be
+# toggled from in-game. Note: editing via the GUI rewrites config.yml and does not keep comments.
+config-editor:
+  enabled: true
 
 researches:
   free-in-creative-mode: true

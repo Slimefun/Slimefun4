@@ -7,6 +7,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.config.Config;
@@ -81,6 +82,20 @@ public class BlockMenu extends DirtyChestMenu {
      */
     public void reload() {
         this.preset.clone(this);
+    }
+
+    @Override
+    public void open(Player... players) {
+        // Re-skin the decorative info items into the opening player's language before showing.
+        if (players.length == 1) {
+            try {
+                Slimefun.getMenuTranslationService().applyToMenu(this, players[0]);
+            } catch (Exception | LinkageError ignored) {
+                // Translation is cosmetic - never block the menu from opening.
+            }
+        }
+
+        super.open(players);
     }
 
     public Block getBlock() {

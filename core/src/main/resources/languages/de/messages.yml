@@ -36,7 +36,302 @@ commands:
     disabled: '&7Der Debugmodus wurde deaktiviert.'
 placeholderapi:
   profile-loading: 'Lade...'
+actionbar:
+  radiation: '&6Strahlungsbelastung: &c%level%&7/&e100'
 guide:
+  item:
+    name: '&aSlimefun-Handbuch &7(Truhen-GUI)'
+    cheat-name: '&cSlimefun-Handbuch &4(Spickzettel)'
+    cheat-only: '&4&lNur von Admins zu öffnen'
+    browse: '&eRechtsklick &8⇨ &7Items durchsuchen'
+    settings: '&eUmschalt + Rechtsklick &8⇨ &7Einstellungen / Credits öffnen'
+  config:
+    title: '&cKonfigurations-Editor'
+    back: 'Zurück'
+    page: 'Seite %page%/%pages%'
+    disabled: '&cDer In-Game-Konfigurations-Editor ist in der Konfiguration deaktiviert.'
+    prompt: '&eGib den neuen Wert in den Chat ein (oder &ccancel&e, um ihn zu behalten).'
+    invalid: '&cDieser Wert ist für diese Einstellung ungültig.'
+    saved: '&aGespeichert.'
+    section-lore:
+    - '&7Abschnitt'
+    - '&7⇨ &eKlicke zum Öffnen'
+    value-toggle:
+    - '&7Wert: %value%'
+    - '&7⇨ &eKlicke zum Umschalten'
+    value-edit:
+    - '&7Wert: %value%'
+    - '&7⇨ &eKlicke zum Bearbeiten'
+    value-list:
+    - '&7Liste (schreibgeschützt)'
+
+  report:
+    menu-title: '&4Fehler melden'
+    button-lore:
+    - ''
+    - '&7Einen Fehler gefunden oder ein Problem?'
+    - '&7Melde ihn direkt aus dem Spiel heraus.'
+    - ''
+    - '&7⇨ &eKlicke, um einen Fehler zu melden'
+    summary-name: '&bDeine Fehlermeldung'
+    summary-title: '&7Titel: &f%title%'
+    summary-plugins: '&7Betroffen: &f%plugins%'
+    summary-hint:
+    - '&7Wähle unten die betroffenen Plugins,'
+    - '&7setze einen Titel und eine Beschreibung'
+    - '&7und sende die Meldung ab.'
+    target-select:
+    - ''
+    - '&7⇨ &eKlicke zum Auswählen'
+    target-selected:
+    - ''
+    - '&a✔ Ausgewählt'
+    - '&7⇨ &eKlicke zum Entfernen'
+    title-button: '&eTitel setzen'
+    title-button-lore:
+    - '&7Aktuell: &f%value%'
+    - ''
+    - '&7⇨ &eKlicke zum Setzen'
+    description-button: '&eBeschreibung hinzufügen'
+    description-button-lore:
+    - '&7Aktuell: &f%value%'
+    - ''
+    - '&7⇨ &eKlicke zum Setzen'
+    submit-button: '&aMeldung absenden'
+    submit-button-lore:
+    - '&7Sende deine Meldung an das Slimefun5-Team.'
+    - ''
+    - '&7⇨ &eKlicke zum Absenden'
+    prompt-title: '&eBitte schreibe den Titel der Meldung in den Chat:'
+    prompt-description: '&eBitte schreibe die Beschreibung in den Chat:'
+    need-plugin: '&cWähle zuerst mindestens ein betroffenes Plugin aus.'
+    need-title: '&cSetze zuerst einen Titel.'
+    submitting: '&7Deine Meldung wird gesendet...'
+    success: '&aDanke! Deine Fehlermeldung wurde gesendet.'
+    failed: '&cMeldung konnte nicht gesendet werden - evtl. deaktiviert oder falsch konfiguriert. Bitte informiere einen Admin.'
+    disabled: '&cFehlermeldungen aus dem Spiel sind auf diesem Server deaktiviert.'
+    cooldown: '&cBitte warte einen Moment, bevor du eine weitere Fehlermeldung sendest.'
+  panel:
+    wiki:
+    - ''
+    - '&7Neu bei Slimefun oder bei einer Maschine'
+    - '&7nicht weitergekommen? Lerne die Grundlagen und'
+    - '&7schlage jedes Item nach – ohne das Spiel zu verlassen.'
+    - ''
+    - '&7⇨ &eKlicke, um das spielinterne Wiki zu öffnen'
+    installer:
+    - ''
+    - '&7Installiere, aktualisiere oder baue Slimefun'
+    - '&7und seine Addons – ohne das Spiel zu verlassen.'
+    - ''
+    - '&7Auf diesem Server installiert: &b%count%'
+    - ''
+    - '&7⇨ &eKlicke, um den Addon-Installer zu öffnen'
+    addons:
+    - ''
+    - '&7Slimefun ist riesig. Aber seine Addons machen'
+    - '&7dieses Plugin erst richtig besonders. Schau sie dir an –'
+    - '&7vielleicht ist genau das Richtige für dich dabei!'
+    - ''
+    - '&7Auf diesem Server installiert: &b%count%'
+    - ''
+    - '&7⇨ &eKlicke, um alle verfügbaren Addons für Slimefun5 zu sehen'
+    source:
+    - ''
+    - '&7Letzte Aktivität: &avor %activity%'
+    - '&7Forks: &e%forks%'
+    - '&7Sterne: &e%stars%'
+    - ''
+    - '&7&oSlimefun ist ein Community-Projekt,'
+    - '&7&oder Quellcode ist auf GitHub verfügbar.'
+    - '&7&oWenn du dieses Plugin am Leben halten'
+    - '&7&omöchtest, trage doch gerne etwas dazu bei.'
+    - ''
+    - '&7⇨ &eKlicke, um zu GitHub zu gelangen'
+    discord:
+    - ''
+    - '&7Tritt der Slimefun-Community auf Discord bei –'
+    - '&7für Hilfe, Addon-News und zum Austausch mit anderen.'
+    - ''
+    - '&7⇨ &eKlicke, um unserem Discord beizutreten'
+    config-editor:
+    - ''
+    - '&7Bearbeite die Slimefun-Konfiguration dieses Servers'
+    - '&7über ein Menü. &cNur für Admins. Änderungen werden'
+    - '&csofort gespeichert.'
+    - ''
+    - '&7⇨ &eKlicke, um den Konfigurations-Editor zu öffnen'
+    bugs:
+    - ''
+    - '&7&oFehlermeldungen müssen auf Englisch erfolgen!'
+    - ''
+    - '&7Offene Issues: &a%issues%'
+    - '&7Ausstehende Pull Requests: &a%prs%'
+    - ''
+    - '&7⇨ &eKlicke, um zum Slimefun5-Bugtracker zu gelangen'
+  themes-meta:
+    categories: '&7Kategorien: &e%count%'
+    open: '&7⇨ &eKlicke zum Öffnen'
+  themes:
+    weapons: '&cWaffen'
+    tools: '&aWerkzeuge'
+    armor: '&bRüstung'
+    machines: '&6Maschinen'
+    energy_tech: '&eEnergie & Technik'
+    resources: '&fRohstoffe'
+    magic: '&dMagie'
+    food: '&2Essen & Landwirtschaft'
+    logistics: '&3Logistik'
+    decoration: '&5Dekoration'
+    misc: '&7Sonstiges'
+  addon-visibility:
+    name: '&3Addon-Sichtbarkeit'
+    lore:
+    - '&7Wähle, welche Addons in deinem Guide erscheinen.'
+    - '&7Versteckte Addons werden vom Durchsuchen'
+    - '&7und der Suche entfernt — nur für dich.'
+    - ''
+    - '&7⇨ &eKlicke zum Verwalten'
+    menu-title: '&eAddon-Sichtbarkeit'
+    menu-lore:
+    - '&7Klicke auf ein Addon, um umzuschalten, ob es'
+    - '&7in deinem Guide erscheint (Durchsuchen + Suche).'
+    - ''
+    - '&7Mindestens ein Addon muss sichtbar bleiben.'
+    shown: '&a✔ Sichtbar'
+    hidden: '&c✖ Versteckt'
+    toggle: '&7⇨ &eKlicke zum Umschalten'
+    back: '&e⇦ Zurück'
+    must-stay: '&cMindestens ein Addon muss sichtbar bleiben.'
+  wiki-topics:
+    getting_started: { name: 'Erste Schritte', summary: '&7Deine ersten Schritte in Slimefun' }
+    research: { name: 'Forschung & Freischalten', summary: '&7Schalte Items mit Erfahrung frei' }
+    multiblocks: { name: 'Multiblock-Maschinen', summary: '&7Baue Strukturen zum Herstellen' }
+    ore_processing: { name: 'Erzverarbeitung', summary: '&7Verdopple deinen Erzertrag' }
+    smeltery: { name: 'Schmelzerei & Legierungen', summary: '&7Schmelze Staub und schmiede Legierungen' }
+    energy: { name: 'Energienetze', summary: '&7Versorge deine Maschinen mit Strom' }
+    power_generation: { name: 'Stromerzeugung', summary: '&7Generatoren, Reaktoren, Kondensatoren' }
+    electric_machines: { name: 'Elektrische Maschinen', summary: '&7Strombetriebene Automatikmaschinen' }
+    cargo: { name: 'Cargo-Netze', summary: '&7Bewege Items automatisch' }
+    androids: { name: 'Programmierbare Androiden', summary: '&7Automatisiere Aufgaben mit Robotern' }
+    geo_mining: { name: 'GEO-Förderung & Öl', summary: '&7Fördere Öl und Rohstoffe' }
+    gps: { name: 'GPS & Teleportation', summary: '&7Wegpunkte und Teleporter' }
+    talismans: { name: 'Talismane', summary: '&7Passives Glück und Schutz' }
+    magic: { name: 'Magie & der Altar', summary: '&7Runen, Stäbe und Rituale' }
+    armor_gadgets: { name: 'Rüstung & Gadgets', summary: '&7Jetpacks, Sets und Werkzeuge' }
+    backpacks: { name: 'Rucksäcke & Lagerung', summary: '&7Tragbare Lagerung für unterwegs' }
+    food_farming: { name: 'Essen & Landwirtschaft', summary: '&7Säfte, Trockenfleisch und Auto-Farmen' }
+    soulbound: { name: 'Seelengebundene Items', summary: '&7Behalte Items, wenn du stirbst' }
+  coverage:
+    messages: '&7Nachrichten: &b%percent%%'
+    items: '&7Gegenstände: &b%percent%%'
+    breakdown-hint: '&7⇨ &eRechtsklick: &7Aufschlüsselung der Item-Übersetzung'
+    title-suffix: 'Gegenstände'
+    translated: '&7Übersetzt: &b%translated%&7/&b%total%'
+    line: '&7Abdeckung: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun-Wiki'
+    welcome:
+      title: '&3Slimefun-Wiki'
+      lore:
+      - '&7Neu hier? Lies die Anleitungen unten, um zu lernen,'
+      - '&7wie Slimefun funktioniert - beginne mit &eErste Schritte&7.'
+      - '&7Oder durchstöbere Items, um etwas nachzuschlagen.'
+    search:
+      name: '&aDurchsuche das Wiki'
+      lore:
+      - '&7Schlage ein beliebiges Item nach Namen nach'
+      - '&7über jedes installierte Addon hinweg.'
+      - ''
+      - '&7⇨ &eKlicke, um einen Suchbegriff einzugeben'
+    browse:
+      name: '&aItems nach Kategorie durchsuchen'
+      lore:
+      - '&7Erkunde jede Slimefun-Kategorie'
+      - '&7und schlage einzelne Items nach.'
+      - ''
+      - '&7⇨ &eKlicke'
+    topic-click: '&7⇨ &eKlicke zum Lesen'
+    results-title: '&aSuchergebnisse für &e"%query%&e"'
+    results-found: '&7&b%count% &7Item(s) gefunden.'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Zurück'
+    no-info: '&7(Noch keine Informationen verfügbar.)'
+    used-in:
+      name: '&eVerwendet in'
+      lore:
+      - '&7Items, die dies in ihrem Rezept verwenden.'
+      - '&7Klicke auf eines für seine eigene Seite.'
+    more: '&7+%count% mehr'
+    stats:
+      title: '&6Statistiken'
+      capacity: '&7Kapazität: &e%capacity% J'
+      energy: '&7Energie: &e%energy% J/tick'
+      speed: '&7Geschwindigkeit: &e%speed%x'
+    items-header:
+      name: '&e▼ Items in dieser Anleitung'
+      lore:
+      - '&7Klicke auf ein beliebiges Item unten für sein'
+      - "&7Rezept, seine Statistiken und wo es verwendet wird."
+
+  installer:
+    badge:
+      working: '&e⚙ Arbeitet…'
+      restart: '&b↻ Neu starten zum Anwenden (%version%)'
+      installed-version: '&a✔ Installiert v%version%'
+      installed: '&a✔ Installiert'
+      update: '&6⬆ Update verfügbar (%version%)'
+      not-installed-deps: '&7＋ Nicht installiert &8(benötigt %deps%)'
+      not-installed: '&7＋ Nicht installiert'
+    back-settings: '&e⇦ Zurück zu den Einstellungen'
+    back: '&e⇦ Zurück'
+    click-details: '&7⇨ &eKlicke für Details'
+    will-install: '&7Wird außerdem installieren: &f%deps%'
+    version:
+      release: '&7Version: &f%version%'
+      branch: '&7Branch: &f%branch% &8(%commit%)'
+      custom: '&7Eigener Build: &f%version%'
+    update:
+      available: '&6⬆ Update verfügbar: &f%version%'
+    info:
+      authors: '&7Autor(en): &f%authors%'
+    github:
+      name: '&bAuf GitHub ansehen'
+      lore:
+      - '&7Öffnet die GitHub-Seite dieses Addons'
+      - '&7als anklickbaren Link im Chat.'
+      - ''
+      - '&7⇨ &eKlicke'
+      chat: '&bGitHub-Seite:'
+    install:
+      install: '&aNeuestes Release installieren'
+      update: '&aAuf neuestes Release aktualisieren'
+      lore:
+      - '&7Lädt das neueste GitHub-Release herunter'
+      - '&7und bereitet es für den nächsten Neustart vor.'
+      - ''
+      - '&7⇨ &eKlicke'
+    build:
+      name: '&bAus einem Branch bauen'
+      lore:
+      - '&7Klone & kompiliere einen gewählten Branch'
+      - '&7(nur Entwicklerumgebungen).'
+      - ''
+      - '&7⇨ &eKlicke, um einen Branch auszuwählen'
+    delete:
+      name: '&cDieses Addon löschen'
+      lore:
+      - '&7Entfernt die Addon-Datei vom Server.'
+      - '&7Wird nach dem nächsten Neustart wirksam.'
+      - ''
+      - '&7⇨ &cZum Löschen klicken'
+    branches:
+      none: '&cKeine Branches gefunden'
+      none-lore: "&7GitHub konnte nicht erreicht werden oder das Repo hat keine Branches."
+      click: '&7⇨ &eKlicke, um diesen Branch zu bauen'
+
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
   locked-itemgroup:
@@ -81,7 +376,27 @@ guide:
     translations:
       name: '&aFehlt etwas?'
       lore: 'Klicke um eine Übersetzung hinzuzufügen'
+  modes:
+    selected: 'Slimefun-Handbuch-Typ: '
+    change: 'Klicke, um den Typ zu wechseln'
+    SURVIVAL_MODE: 'Survival'
+    CHEAT_MODE: 'Cheat-Sheet'
   options:
+    fireworks:
+      enabled:
+        text:
+          - '&bFeuerwerk: &aAn'
+          - ''
+          - '&7Du kannst nun entscheiden, ob du beim'
+          - '&7Freischalten eines Items Feuerwerk siehst.'
+        click: '&eKlicke um dein Feuerwerk zu deaktivieren'
+      disabled:
+        text:
+          - '&bFeuerwerk: &4Aus'
+          - ''
+          - '&7Du kannst nun entscheiden, ob du beim'
+          - '&7Freischalten eines Items Feuerwerk siehst.'
+        click: '&eKlicke um dein Feuerwerk zu aktivieren'
     learning-animation:
       enabled:
         text:
@@ -109,6 +424,10 @@ guide:
     bugs: 'Fehlermeldungen'
     source: 'Quellcode'
     versions: 'Installierte Versionen'
+    addon-visibility: 'Addon-Sichtbarkeit'
+    installer: 'Addon-Installer'
+    discord: 'Tritt unserem Discord bei'
+    config-editor: 'Konfigurations-Editor'
   credits:
     commit: 'Beitrag'
     commits: 'Beiträge'

@@ -1,0 +1,1107 @@
+PORTABLE_CRAFTER:
+  name: "&6Портативный верстак"
+PORTABLE_DUSTBIN:
+  name: "&6Портативная мусорка"
+ENDER_BACKPACK:
+  name: "&6Эндер-рюкзак"
+MAGIC_EYE_OF_ENDER:
+  name: "&6&lМагическое око Эндера"
+BROKEN_SPAWNER:
+  name: "&cСломанный спавнер"
+REINFORCED_SPAWNER:
+  name: "&bУсиленный спавнер"
+INFERNAL_BONEMEAL:
+  name: "&4Адская костная мука"
+TAPE_MEASURE:
+  name: "&6Рулетка"
+GOLD_PAN:
+  name: "&6Золотой лоток"
+NETHER_GOLD_PAN:
+  name: "&4Адский золотой лоток"
+PARACHUTE:
+  name: "&f&lПарашют"
+GRAPPLING_HOOK:
+  name: "&6Крюк-кошка"
+SOLAR_HELMET:
+  name: "&bСолнечный шлем"
+CLOTH:
+  name: "&bТкань"
+REINFORCED_CLOTH:
+  name: "&bУсиленная ткань"
+CAN:
+  name: "&fЖестяная банка"
+NIGHT_VISION_GOGGLES:
+  name: "&aОчки ночного видения"
+ELYTRA_CAP:
+  name: "&5Шапка-элитры"
+FARMER_SHOES:
+  name: "&eФермерские ботинки"
+INFUSED_MAGNET:
+  name: "&aЗаряженный магнит"
+RAG:
+  name: "&cТряпка"
+BANDAGE:
+  name: "&cБинт"
+SPLINT:
+  name: "&cШина"
+VITAMINS:
+  name: "&cВитамины"
+MEDICINE:
+  name: "&cЛекарство"
+MAGICAL_ZOMBIE_PILLS:
+  name: "&6Магические таблетки от зомби"
+FLASK_OF_KNOWLEDGE:
+  name: "&cКолба знаний"
+FILLED_FLASK_OF_KNOWLEDGE:
+  name: "&aКолба знаний"
+SMALL_BACKPACK:
+  name: "&eМаленький рюкзак"
+MEDIUM_BACKPACK:
+  name: "&eРюкзак"
+LARGE_BACKPACK:
+  name: "&eБольшой рюкзак"
+WOVEN_BACKPACK:
+  name: "&eТканый рюкзак"
+GILDED_BACKPACK:
+  name: "&eПозолоченный рюкзак"
+RADIANT_BACKPACK:
+  name: "&eСияющий рюкзак"
+BOUND_BACKPACK:
+  name: "&cПривязанный рюкзак"
+COOLER:
+  name: "&bХолодильник"
+RESTORED_BACKPACK:
+  name: "&eВосстановленный рюкзак"
+DURALUMIN_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eI"
+SOLDER_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eII"
+BILLON_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eIII"
+STEEL_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eIV"
+DAMASCUS_STEEL_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eV"
+REINFORCED_ALLOY_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eVI"
+CARBONADO_JETPACK:
+  name: "&9Электрический реактивный ранец &7- &eVII"
+ARMORED_JETPACK:
+  name: "&9Бронированный реактивный ранец"
+DURALUMIN_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eI"
+SOLDER_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eII"
+BILLON_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eIII"
+STEEL_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eIV"
+DAMASCUS_STEEL_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eV"
+REINFORCED_ALLOY_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eVI"
+CARBONADO_JETBOOTS:
+  name: "&9Реактивные ботинки &7- &eVII"
+ARMORED_JETBOOTS:
+  name: "&9Бронированные реактивные ботинки"
+DURALUMIN_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eI"
+SOLDER_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eII"
+BILLON_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eIII"
+STEEL_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eIV"
+DAMASCUS_STEEL_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eV"
+REINFORCED_ALLOY_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eVI"
+CARBONADO_MULTI_TOOL:
+  name: "&9Мультиинструмент &7- &eVII"
+FORTUNE_COOKIE:
+  name: "&6Печенье с предсказанием"
+DIET_COOKIE:
+  name: "&6Диетическое печенье"
+MAGIC_SUGAR:
+  name: "&6Волшебный сахар"
+MONSTER_JERKY:
+  name: "&6Вяленое мясо монстра"
+APPLE_JUICE:
+  name: "&cЯблочный сок"
+MELON_JUICE:
+  name: "&cАрбузный сок"
+CARROT_JUICE:
+  name: "&6Морковный сок"
+PUMPKIN_JUICE:
+  name: "&6Тыквенный сок"
+SWEET_BERRY_JUICE:
+  name: "&cСок сладких ягод"
+GLOW_BERRY_JUICE:
+  name: "&6Сок светящихся ягод"
+GOLDEN_APPLE_JUICE:
+  name: "&bСок золотого яблока"
+BEEF_JERKY:
+  name: "&6Вяленая говядина"
+PORK_JERKY:
+  name: "&6Вяленая свинина"
+CHICKEN_JERKY:
+  name: "&6Вяленая курица"
+MUTTON_JERKY:
+  name: "&6Вяленая баранина"
+RABBIT_JERKY:
+  name: "&6Вяленая крольчатина"
+FISH_JERKY:
+  name: "&6Вяленая рыба"
+KELP_COOKIE:
+  name: "&2Печенье из ламинарии"
+CHRISTMAS_MILK:
+  name: "&6Стакан молока"
+CHRISTMAS_CHOCOLATE_MILK:
+  name: "&6Шоколадное молоко"
+CHRISTMAS_EGG_NOG:
+  name: "&aЭгг-ног"
+CHRISTMAS_APPLE_CIDER:
+  name: "&cЯблочный сидр"
+CHRISTMAS_COOKIE:
+  name: "&fРождественское печенье"
+CHRISTMAS_FRUIT_CAKE:
+  name: "&fФруктовый кекс"
+CHRISTMAS_APPLE_PIE:
+  name: "&fЯблочный пирог"
+CHRISTMAS_HOT_CHOCOLATE:
+  name: "&6Горячий шоколад"
+CHRISTMAS_CAKE:
+  name: "&fРождественский торт"
+CHRISTMAS_CARAMEL:
+  name: "&6Карамель"
+CHRISTMAS_CARAMEL_APPLE:
+  name: "&6Карамельное яблоко"
+CHRISTMAS_CHOCOLATE_APPLE:
+  name: "&6Шоколадное яблоко"
+CHRISTMAS_PRESENT:
+  name: "&fРождественский подарок"
+EASTER_EGG:
+  name: "&fПасхальное яйцо"
+CARROT_PIE:
+  name: "&6Морковный пирог"
+EASTER_APPLE_PIE:
+  name: "&fЯблочный пирог"
+GRANDMAS_WALKING_STICK:
+  name: "&7Бабушкина трость"
+GRANDPAS_WALKING_STICK:
+  name: "&7Дедушкина трость"
+SWORD_OF_BEHEADING:
+  name: "&6Меч обезглавливания"
+BLADE_OF_VAMPIRES:
+  name: "&cКлинок вампиров"
+SEISMIC_AXE:
+  name: "&aСейсмический топор"
+EXPLOSIVE_BOW:
+  name: "&cВзрывной лук"
+ICY_BOW:
+  name: "&bЛедяной лук"
+SMELTERS_PICKAXE:
+  name: "&6Кирка плавильщика"
+LUMBER_AXE:
+  name: "&6Лесорубный топор"
+PICKAXE_OF_CONTAINMENT:
+  name: "&cКирка сдерживания"
+EXPLOSIVE_PICKAXE:
+  name: "&eВзрывная кирка"
+EXPLOSIVE_SHOVEL:
+  name: "&eВзрывная лопата"
+PICKAXE_OF_THE_SEEKER:
+  name: "&aКирка искателя"
+COBALT_PICKAXE:
+  name: "&9Кобальтовая кирка"
+PICKAXE_OF_VEIN_MINING:
+  name: "&eКирка жильной добычи"
+CLIMBING_PICK:
+  name: "&bАльпинистская кирка"
+GLOWSTONE_HELMET:
+  name: "&e&lШлем из светопыли"
+GLOWSTONE_CHESTPLATE:
+  name: "&e&lНагрудник из светопыли"
+GLOWSTONE_LEGGINGS:
+  name: "&e&lПоножи из светопыли"
+GLOWSTONE_BOOTS:
+  name: "&e&lБотинки из светопыли"
+RAINBOW_LEATHER:
+  name: "&dРадужная кожа"
+RAINBOW_HELMET:
+  name: "&d&lРадужный шлем"
+RAINBOW_CHESTPLATE:
+  name: "&d&lРадужный нагрудник"
+RAINBOW_LEGGINGS:
+  name: "&d&lРадужные поножи"
+RAINBOW_BOOTS:
+  name: "&d&lРадужные ботинки"
+ENDER_HELMET:
+  name: "&5&lЭндер-шлем"
+ENDER_CHESTPLATE:
+  name: "&5&lЭндер-нагрудник"
+ENDER_LEGGINGS:
+  name: "&5&lЭндер-поножи"
+ENDER_BOOTS:
+  name: "&5&lЭндер-ботинки"
+SLIME_HELMET:
+  name: "&a&lСлизневый шлем"
+SLIME_CHESTPLATE:
+  name: "&a&lСлизневый нагрудник"
+SLIME_LEGGINGS:
+  name: "&a&lСлизневые поножи"
+SLIME_BOOTS:
+  name: "&a&lСлизневые ботинки"
+CACTUS_HELMET:
+  name: "&2Кактусовый шлем"
+CACTUS_CHESTPLATE:
+  name: "&2Кактусовый нагрудник"
+CACTUS_LEGGINGS:
+  name: "&2Кактусовые поножи"
+CACTUS_BOOTS:
+  name: "&2Кактусовые ботинки"
+DAMASCUS_STEEL_HELMET:
+  name: "&7Шлем из дамасской стали"
+DAMASCUS_STEEL_CHESTPLATE:
+  name: "&7Нагрудник из дамасской стали"
+DAMASCUS_STEEL_LEGGINGS:
+  name: "&7Поножи из дамасской стали"
+DAMASCUS_STEEL_BOOTS:
+  name: "&7Ботинки из дамасской стали"
+REINFORCED_ALLOY_HELMET:
+  name: "&bУсиленный шлем"
+REINFORCED_ALLOY_CHESTPLATE:
+  name: "&bУсиленный нагрудник"
+REINFORCED_ALLOY_LEGGINGS:
+  name: "&bУсиленные поножи"
+REINFORCED_ALLOY_BOOTS:
+  name: "&bУсиленные ботинки"
+SCUBA_HELMET:
+  name: "&cАкваланговый шлем"
+HAZMAT_CHESTPLATE:
+  name: "&cЗащитный костюм"
+HAZMAT_LEGGINGS:
+  name: "&cПоножи защитного костюма"
+RUBBER_BOOTS:
+  name: "&cЗащитные ботинки"
+GILDED_IRON_HELMET:
+  name: "&6Шлем из позолоченного железа"
+GILDED_IRON_CHESTPLATE:
+  name: "&6Нагрудник из позолоченного железа"
+GILDED_IRON_LEGGINGS:
+  name: "&6Поножи из позолоченного железа"
+GILDED_IRON_BOOTS:
+  name: "&6Ботинки из позолоченного железа"
+GOLD_12K_HELMET:
+  name: "&6Золотой шлем &7(12 карат)"
+GOLD_12K_CHESTPLATE:
+  name: "&6Золотой нагрудник &7(12 карат)"
+GOLD_12K_LEGGINGS:
+  name: "&6Золотые поножи &7(12 карат)"
+GOLD_12K_BOOTS:
+  name: "&6Золотые ботинки &7(12 карат)"
+SLIME_STEEL_HELMET:
+  name: "&a&lСлизневый шлем"
+SLIME_STEEL_CHESTPLATE:
+  name: "&a&lСлизневый нагрудник"
+SLIME_STEEL_LEGGINGS:
+  name: "&a&lСлизневые поножи"
+SLIME_STEEL_BOOTS:
+  name: "&a&lСлизневые ботинки"
+BOOTS_OF_THE_STOMPER:
+  name: "&bБотинки топотуна"
+BEE_HELMET:
+  name: "&e&lПчелиный шлем"
+BEE_WINGS:
+  name: "&e&lПчелиные крылья"
+BEE_LEGGINGS:
+  name: "&e&lПчелиные поножи"
+BEE_BOOTS:
+  name: "&e&lПчелиные ботинки"
+MAGIC_LUMP_1:
+  name: "&6Магический самородок &7- &eI"
+MAGIC_LUMP_2:
+  name: "&6Магический самородок &7- &eII"
+MAGIC_LUMP_3:
+  name: "&6Магический самородок &7- &eIII"
+ENDER_LUMP_1:
+  name: "&5Эндер-самородок &7- &eI"
+ENDER_LUMP_2:
+  name: "&5Эндер-самородок &7- &eII"
+ENDER_LUMP_3:
+  name: "&5Эндер-самородок &7- &eIII"
+MAGICAL_BOOK_COVER:
+  name: "&6Магическая обложка книги"
+MAGICAL_GLASS:
+  name: "&6Магическое стекло"
+SYNTHETIC_SHULKER_SHELL:
+  name: "&dСинтетический панцирь шалкера"
+BASIC_CIRCUIT_BOARD:
+  name: "&bБазовая печатная плата"
+ADVANCED_CIRCUIT_BOARD:
+  name: "&bПродвинутая печатная плата"
+WHEAT_FLOUR:
+  name: "&fПшеничная мука"
+STEEL_PLATE:
+  name: "&7&lСтальная пластина"
+BATTERY:
+  name: "&6Батарея"
+CARBON:
+  name: "&eУглерод"
+COMPRESSED_CARBON:
+  name: "&cСжатый углерод"
+CARBON_CHUNK:
+  name: "&4Кусок углерода"
+STEEL_THRUSTER:
+  name: "&7&lСтальной двигатель"
+POWER_CRYSTAL:
+  name: "&c&lЭнергетический кристалл"
+CHAIN:
+  name: "&bЦепь"
+HOOK:
+  name: "&bКрюк"
+SIFTED_ORE:
+  name: "&6Просеянная руда"
+STONE_CHUNK:
+  name: "&6Кусок камня"
+LAVA_CRYSTAL:
+  name: "&4Лавовый кристалл"
+SALT:
+  name: "&fСоль"
+CHEESE:
+  name: "&fСыр"
+BUTTER:
+  name: "&fМасло"
+DUCT_TAPE:
+  name: "&8Скотч"
+HEAVY_CREAM:
+  name: "&fЖирные сливки"
+CRUSHED_ORE:
+  name: "&6Дроблёная руда"
+PULVERIZED_ORE:
+  name: "&6Измельчённая руда"
+PURE_ORE_CLUSTER:
+  name: "&6Чистый рудный кластер"
+SMALL_URANIUM:
+  name: "&cМаленький кусок урана"
+TINY_URANIUM:
+  name: "&cКрошечная горстка урана"
+SOLAR_PANEL:
+  name: "&9Фотоэлемент"
+PLASTIC_SHEET:
+  name: "&fПластиковый лист"
+MAGNET:
+  name: "&cМагнит"
+NECROTIC_SKULL:
+  name: "&cНекротический череп"
+ESSENCE_OF_AFTERLIFE:
+  name: "&4Эссенция загробной жизни"
+STRANGE_NETHER_GOO:
+  name: "&5Странная адская слизь"
+ELECTRO_MAGNET:
+  name: "&cЭлектромагнит"
+HEATING_COIL:
+  name: "&cНагревательная спираль"
+COOLING_UNIT:
+  name: "&bОхлаждающий блок"
+ELECTRIC_MOTOR:
+  name: "&cЭлектромотор"
+SLOT_LOCK:
+  name: "&bБлокировка слота"
+CARGO_MOTOR:
+  name: "&3Грузовой мотор"
+SCROLL_OF_DIMENSIONAL_TELEPOSITION:
+  name: "&6Свиток измеренческой телепозиции"
+TOME_OF_KNOWLEDGE_SHARING:
+  name: "&6Том обмена знаниями"
+HARDENED_GLASS:
+  name: "&7Закалённое стекло"
+WITHER_PROOF_OBSIDIAN:
+  name: "&5Иссушитель-стойкий обсидиан"
+WITHER_PROOF_GLASS:
+  name: "&5Иссушитель-стойкое стекло"
+REINFORCED_PLATE:
+  name: "&7Усиленная пластина"
+ANCIENT_PEDESTAL:
+  name: "&dДревний пьедестал"
+ANCIENT_ALTAR:
+  name: "&dДревний алтарь"
+COPPER_WIRE:
+  name: "&6Медный провод"
+CRAFTING_MOTOR:
+  name: "&6Крафтовый мотор"
+RAINBOW_WOOL:
+  name: "&5Радужная шерсть"
+RAINBOW_GLASS:
+  name: "&5Радужное стекло"
+RAINBOW_CLAY:
+  name: "&5Радужная глина"
+RAINBOW_GLASS_PANE:
+  name: "&5Радужная стеклянная панель"
+RAINBOW_CONCRETE:
+  name: "&5Радужный бетон"
+RAINBOW_GLAZED_TERRACOTTA:
+  name: "&5Радужная глазурованная терракота"
+RAINBOW_WOOL_XMAS:
+  name: "&5Радужная шерсть &7(Рождество)"
+RAINBOW_GLASS_XMAS:
+  name: "&5Радужное стекло &7(Рождество)"
+RAINBOW_CLAY_XMAS:
+  name: "&5Радужная глина &7(Рождество)"
+RAINBOW_GLASS_PANE_XMAS:
+  name: "&5Радужная стеклянная панель &7(Рождество)"
+RAINBOW_CONCRETE_XMAS:
+  name: "&5Радужный бетон &7(Рождество)"
+RAINBOW_GLAZED_TERRACOTTA_XMAS:
+  name: "&5Радужная глазурованная терракота &7(Рождество)"
+RAINBOW_WOOL_VALENTINE:
+  name: "&5Радужная шерсть &7(День святого Валентина)"
+RAINBOW_GLASS_VALENTINE:
+  name: "&5Радужное стекло &7(День святого Валентина)"
+RAINBOW_CLAY_VALENTINE:
+  name: "&5Радужная глина &7(День святого Валентина)"
+RAINBOW_GLASS_PANE_VALENTINE:
+  name: "&5Радужная стеклянная панель &7(День святого Валентина)"
+RAINBOW_CONCRETE_VALENTINE:
+  name: "&5Радужный бетон &7(День святого Валентина)"
+RAINBOW_GLAZED_TERRACOTTA_VALENTINE:
+  name: "&5Радужная глазурованная терракота &7(День святого Валентина)"
+RAINBOW_WOOL_HALLOWEEN:
+  name: "&5Радужная шерсть &7(Хэллоуин)"
+RAINBOW_GLASS_HALLOWEEN:
+  name: "&5Радужное стекло &7(Хэллоуин)"
+RAINBOW_CLAY_HALLOWEEN:
+  name: "&5Радужная глина &7(Хэллоуин)"
+RAINBOW_GLASS_PANE_HALLOWEEN:
+  name: "&5Радужная стеклянная панель &7(Хэллоуин)"
+RAINBOW_CONCRETE_HALLOWEEN:
+  name: "&5Радужный бетон &7(Хэллоуин)"
+RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN:
+  name: "&5Радужная глазурованная терракота &7(Хэллоуин)"
+COPPER_INGOT:
+  name: "&bМедный слиток"
+TIN_INGOT:
+  name: "&bОловянный слиток"
+SILVER_INGOT:
+  name: "&bСеребряный слиток"
+ALUMINUM_INGOT:
+  name: "&bАлюминиевый слиток"
+LEAD_INGOT:
+  name: "&bСвинцовый слиток"
+ZINC_INGOT:
+  name: "&bЦинковый слиток"
+MAGNESIUM_INGOT:
+  name: "&bМагниевый слиток"
+STEEL_INGOT:
+  name: "&bСтальной слиток"
+BRONZE_INGOT:
+  name: "&bБронзовый слиток"
+DURALUMIN_INGOT:
+  name: "&bДюралюминиевый слиток"
+BILLON_INGOT:
+  name: "&bБиллонный слиток"
+BRASS_INGOT:
+  name: "&bЛатунный слиток"
+ALUMINUM_BRASS_INGOT:
+  name: "&bСлиток алюминиевой латуни"
+ALUMINUM_BRONZE_INGOT:
+  name: "&bСлиток алюминиевой бронзы"
+CORINTHIAN_BRONZE_INGOT:
+  name: "&bСлиток коринфской бронзы"
+SOLDER_INGOT:
+  name: "&bПрипойный слиток"
+DAMASCUS_STEEL_INGOT:
+  name: "&bСлиток дамасской стали"
+HARDENED_METAL_INGOT:
+  name: "&b&lЗакалённый металл"
+REINFORCED_ALLOY_INGOT:
+  name: "&b&lСлиток усиленного сплава"
+FERROSILICON:
+  name: "&bФерросилиций"
+GILDED_IRON:
+  name: "&6&lПозолоченное железо"
+REDSTONE_ALLOY:
+  name: "&cСлиток редстоунового сплава"
+NICKEL_INGOT:
+  name: "&bНикелевый слиток"
+COBALT_INGOT:
+  name: "&9Кобальтовый слиток"
+GOLD_4K:
+  name: "&fЗолотой слиток &7(4 карата)"
+GOLD_6K:
+  name: "&fЗолотой слиток &7(6 карат)"
+GOLD_8K:
+  name: "&fЗолотой слиток &7(8 карат)"
+GOLD_10K:
+  name: "&fЗолотой слиток &7(10 карат)"
+GOLD_12K:
+  name: "&fЗолотой слиток &7(12 карат)"
+GOLD_14K:
+  name: "&fЗолотой слиток &7(14 карат)"
+GOLD_16K:
+  name: "&fЗолотой слиток &7(16 карат)"
+GOLD_18K:
+  name: "&fЗолотой слиток &7(18 карат)"
+GOLD_20K:
+  name: "&fЗолотой слиток &7(20 карат)"
+GOLD_22K:
+  name: "&fЗолотой слиток &7(22 карата)"
+GOLD_24K:
+  name: "&fЗолотой слиток &7(24 карата)"
+IRON_DUST:
+  name: "&6Железная пыль"
+GOLD_DUST:
+  name: "&6Золотая пыль"
+TIN_DUST:
+  name: "&6Оловянная пыль"
+COPPER_DUST:
+  name: "&6Медная пыль"
+SILVER_DUST:
+  name: "&6Серебряная пыль"
+ALUMINUM_DUST:
+  name: "&6Алюминиевая пыль"
+LEAD_DUST:
+  name: "&6Свинцовая пыль"
+ZINC_DUST:
+  name: "&6Цинковая пыль"
+MAGNESIUM_DUST:
+  name: "&6Магний"
+SULFATE:
+  name: "&6Сульфат"
+SILICON:
+  name: "&6Кремний"
+GOLD_24K_BLOCK:
+  name: "&fЗолотой блок &7(24 карата)"
+SYNTHETIC_DIAMOND:
+  name: "&bСинтетический алмаз"
+SYNTHETIC_EMERALD:
+  name: "&bСинтетический изумруд"
+SYNTHETIC_SAPPHIRE:
+  name: "&bСинтетический сапфир"
+CARBONADO:
+  name: "&b&lCarbonado"
+RAW_CARBONADO:
+  name: "&bНеобработанный Carbonado"
+URANIUM:
+  name: "&4Уран"
+NEPTUNIUM:
+  name: "&aНептуний"
+PLUTONIUM:
+  name: "&7Плутоний"
+BOOSTED_URANIUM:
+  name: "&2Усиленный уран"
+COMMON_TALISMAN:
+  name: "&6Обычный талисман"
+ENDER_TALISMAN:
+  name: "&5Эндер-талисман"
+ANVIL_TALISMAN:
+  name: "&aТалисман наковальни"
+MINER_TALISMAN:
+  name: "&aТалисман шахтёра"
+FARMER_TALISMAN:
+  name: "&aТалисман фермера"
+HUNTER_TALISMAN:
+  name: "&aТалисман охотника"
+LAVA_TALISMAN:
+  name: "&aТалисман ходока по лаве"
+WATER_TALISMAN:
+  name: "&aТалисман водолаза"
+ANGEL_TALISMAN:
+  name: "&aТалисман ангела"
+FIRE_TALISMAN:
+  name: "&aТалисман пожарного"
+MAGICIAN_TALISMAN:
+  name: "&aТалисман мага"
+TRAVELLER_TALISMAN:
+  name: "&aТалисман путешественника"
+WARRIOR_TALISMAN:
+  name: "&aТалисман воина"
+KNIGHT_TALISMAN:
+  name: "&aТалисман рыцаря"
+WHIRLWIND_TALISMAN:
+  name: "&aТалисман вихря"
+WIZARD_TALISMAN:
+  name: "&aТалисман волшебника"
+CAVEMAN_TALISMAN:
+  name: "&aТалисман пещерного человека"
+WISE_TALISMAN:
+  name: "&aТалисман мудреца"
+STAFF_ELEMENTAL:
+  name: "&6Стихийный посох"
+STAFF_ELEMENTAL_WIND:
+  name: "&6Стихийный посох &7- &b&oВетер"
+STAFF_ELEMENTAL_FIRE:
+  name: "&6Стихийный посох &7- &c&oОгонь"
+STAFF_ELEMENTAL_WATER:
+  name: "&6Стихийный посох &7- &1&oВода"
+STAFF_ELEMENTAL_STORM:
+  name: "&6Стихийный посох &7- &8&oБуря"
+ENHANCED_CRAFTING_TABLE:
+  name: "&eУлучшенный верстак"
+GRIND_STONE:
+  name: "&bТочильный камень"
+ARMOR_FORGE:
+  name: "&6Кузница брони"
+MAKESHIFT_SMELTERY:
+  name: "&eСамодельная плавильня"
+SMELTERY:
+  name: "&6Плавильня"
+ORE_CRUSHER:
+  name: "&bРудодробилка"
+COMPRESSOR:
+  name: "&bКомпрессор"
+PRESSURE_CHAMBER:
+  name: "&bБарокамера"
+MAGIC_WORKBENCH:
+  name: "&6Магический верстак"
+ORE_WASHER:
+  name: "&6Промыватель руды"
+TABLE_SAW:
+  name: "&6Циркулярная пила"
+JUICER:
+  name: "&aСоковыжималка"
+AUTOMATED_PANNING_MACHINE:
+  name: "&eАвтоматическая промывочная машина"
+INDUSTRIAL_MINER:
+  name: "&bПромышленный шахтёр"
+ADVANCED_INDUSTRIAL_MINER:
+  name: "&cПродвинутый промышленный шахтёр"
+COMPOSTER:
+  name: "&aКомпостер"
+CRUCIBLE:
+  name: "&cТигель"
+OUTPUT_CHEST:
+  name: "&4Выходной сундук"
+IGNITION_CHAMBER:
+  name: "&4Автоматическая камера зажигания"
+HOLOGRAM_PROJECTOR:
+  name: "&bГолографический проектор"
+BLOCK_PLACER:
+  name: "&aУстановщик блоков"
+ENHANCED_FURNACE:
+  name: "&7Улучшенная печь - &eI"
+ENHANCED_FURNACE_2:
+  name: "&7Улучшенная печь - &eII"
+ENHANCED_FURNACE_3:
+  name: "&7Улучшенная печь - &eIII"
+ENHANCED_FURNACE_4:
+  name: "&7Улучшенная печь - &eIV"
+ENHANCED_FURNACE_5:
+  name: "&7Улучшенная печь - &eV"
+ENHANCED_FURNACE_6:
+  name: "&7Улучшенная печь - &eVI"
+ENHANCED_FURNACE_7:
+  name: "&7Улучшенная печь - &eVII"
+ENHANCED_FURNACE_8:
+  name: "&7Улучшенная печь - &eVIII"
+ENHANCED_FURNACE_9:
+  name: "&7Улучшенная печь - &eIX"
+ENHANCED_FURNACE_10:
+  name: "&7Улучшенная печь - &eX"
+ENHANCED_FURNACE_11:
+  name: "&7Улучшенная печь - &eXI"
+REINFORCED_FURNACE:
+  name: "&7Усиленная печь"
+CARBONADO_EDGED_FURNACE:
+  name: "&7Печь с Carbonado-окантовкой"
+SOULBOUND_SWORD:
+  name: "&cПривязанный меч"
+SOULBOUND_BOW:
+  name: "&cПривязанный лук"
+SOULBOUND_PICKAXE:
+  name: "&cПривязанная кирка"
+SOULBOUND_AXE:
+  name: "&cПривязанный топор"
+SOULBOUND_SHOVEL:
+  name: "&cПривязанная лопата"
+SOULBOUND_HOE:
+  name: "&cПривязанная мотыга"
+SOULBOUND_TRIDENT:
+  name: "&cПривязанный трезубец"
+SOULBOUND_HELMET:
+  name: "&cПривязанный шлем"
+SOULBOUND_CHESTPLATE:
+  name: "&cПривязанный нагрудник"
+SOULBOUND_LEGGINGS:
+  name: "&cПривязанные поножи"
+SOULBOUND_BOOTS:
+  name: "&cПривязанные ботинки"
+BLANK_RUNE:
+  name: "&8Пустая руна"
+ANCIENT_RUNE_AIR:
+  name: "&7Древняя руна &8&l[&b&lВоздух&8&l]"
+ANCIENT_RUNE_WATER:
+  name: "&7Древняя руна &8&l[&1&lВода&8&l]"
+ANCIENT_RUNE_FIRE:
+  name: "&7Древняя руна &8&l[&4&lОгонь&8&l]"
+ANCIENT_RUNE_EARTH:
+  name: "&7Древняя руна &8&l[&c&lЗемля&8&l]"
+ANCIENT_RUNE_ENDER:
+  name: "&7Древняя руна &8&l[&5&lЭндер&8&l]"
+ANCIENT_RUNE_RAINBOW:
+  name: "&7Древняя руна &8&l[&d&lРадуга&8&l]"
+ANCIENT_RUNE_LIGHTNING:
+  name: "&7Древняя руна &8&l[&e&lМолния&8&l]"
+ANCIENT_RUNE_SOULBOUND:
+  name: "&7Древняя руна &8&l[&5&lПривязка души&8&l]"
+ANCIENT_RUNE_ENCHANTMENT:
+  name: "&7Древняя руна &8&l[&6&lЗачарование&8&l]"
+ANCIENT_RUNE_VILLAGERS:
+  name: "&7Древняя руна &8&l[&4&lЖители&8&l]"
+RUNE_ANVIL:
+  name: "&5Руническая наковальня"
+SOLAR_GENERATOR:
+  name: "&bСолнечный генератор"
+SOLAR_GENERATOR_2:
+  name: "&cПродвинутый солнечный генератор"
+SOLAR_GENERATOR_3:
+  name: "&4Carbonado-солнечный генератор"
+SOLAR_GENERATOR_4:
+  name: "&eЭнергонасыщенный солнечный генератор"
+COAL_GENERATOR:
+  name: "&cУгольный генератор"
+COAL_GENERATOR_2:
+  name: "&cУгольный генератор &7(&eII&7)"
+LAVA_GENERATOR:
+  name: "&4Лавовый генератор"
+LAVA_GENERATOR_2:
+  name: "&4Лавовый генератор &7(&eII&7)"
+ELECTRIC_FURNACE:
+  name: "&cЭлектрическая печь"
+ELECTRIC_FURNACE_2:
+  name: "&cЭлектрическая печь &7- &eII"
+ELECTRIC_FURNACE_3:
+  name: "&cЭлектрическая печь &7- &eIII"
+ELECTRIC_ORE_GRINDER:
+  name: "&cЭлектрическая рудодробилка"
+ELECTRIC_ORE_GRINDER_2:
+  name: "&cЭлектрическая рудодробилка &7(&eII&7)"
+ELECTRIC_ORE_GRINDER_3:
+  name: "&cЭлектрическая рудодробилка &7(&eIII&7)"
+ELECTRIC_INGOT_PULVERIZER:
+  name: "&cЭлектрический измельчитель слитков"
+AUTO_DRIER:
+  name: "&6Автосушилка"
+AUTO_ENCHANTER:
+  name: "&5Автозачарователь"
+AUTO_ENCHANTER_2:
+  name: "&5Автозачарователь &7- &eII"
+AUTO_DISENCHANTER:
+  name: "&5Авторасчарователь"
+AUTO_DISENCHANTER_2:
+  name: "&5Авторасчарователь &7- &eII"
+AUTO_ANVIL:
+  name: "&7Автонаковальня"
+AUTO_ANVIL_2:
+  name: "&7Автонаковальня Mk.II"
+AUTO_BREWER:
+  name: "&6Автопивовар"
+BOOK_BINDER:
+  name: "&6Переплётчик книг"
+BIO_REACTOR:
+  name: "&2Биореактор"
+MULTIMETER:
+  name: "&eМультиметр"
+SMALL_CAPACITOR:
+  name: "&aМаленький энергетический конденсатор"
+MEDIUM_CAPACITOR:
+  name: "&aСредний энергетический конденсатор"
+BIG_CAPACITOR:
+  name: "&aКрупный энергетический конденсатор"
+LARGE_CAPACITOR:
+  name: "&aБольшой энергетический конденсатор"
+CARBONADO_EDGED_CAPACITOR:
+  name: "&aЭнергетический конденсатор с Carbonado-окантовкой"
+ENERGIZED_CAPACITOR:
+  name: "&aЭнергонасыщенный энергетический конденсатор"
+PROGRAMMABLE_ANDROID:
+  name: "&cПрограммируемый андроид &7(Обычный)"
+PROGRAMMABLE_ANDROID_FARMER:
+  name: "&cПрограммируемый андроид &7(Фермер)"
+PROGRAMMABLE_ANDROID_MINER:
+  name: "&cПрограммируемый андроид &7(Шахтёр)"
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  name: "&cПрограммируемый андроид &7(Дровосек)"
+PROGRAMMABLE_ANDROID_BUTCHER:
+  name: "&cПрограммируемый андроид &7(Мясник)"
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  name: "&cПрограммируемый андроид &7(Рыбак)"
+PROGRAMMABLE_ANDROID_2:
+  name: "&cПродвинутый программируемый андроид &7(Обычный)"
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  name: "&cПродвинутый программируемый андроид &7(Рыбак)"
+PROGRAMMABLE_ANDROID_2_FARMER:
+  name: "&cПродвинутый программируемый андроид &7(Фермер)"
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  name: "&cПродвинутый программируемый андроид &7(Мясник)"
+PROGRAMMABLE_ANDROID_3:
+  name: "&eУсиленный программируемый андроид &7(Обычный)"
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  name: "&eУсиленный программируемый андроид &7(Рыбак)"
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  name: "&eУсиленный программируемый андроид &7(Мясник)"
+GPS_TRANSMITTER:
+  name: "&bGPS-передатчик"
+GPS_TRANSMITTER_2:
+  name: "&cПродвинутый GPS-передатчик"
+GPS_TRANSMITTER_3:
+  name: "&4Carbonado GPS-передатчик"
+GPS_TRANSMITTER_4:
+  name: "&eЭнергонасыщенный GPS-передатчик"
+GPS_MARKER_TOOL:
+  name: "&bGPS-маркер"
+GPS_CONTROL_PANEL:
+  name: "&bGPS-панель управления"
+GPS_EMERGENCY_TRANSMITTER:
+  name: "&cАварийный GPS-передатчик"
+ANDROID_INTERFACE_FUEL:
+  name: "&7Интерфейс андроида &c(Топливо)"
+ANDROID_INTERFACE_ITEMS:
+  name: "&7Интерфейс андроида &9(Предметы)"
+GPS_GEO_SCANNER:
+  name: "&bGPS GEO-сканер"
+PORTABLE_GEO_SCANNER:
+  name: "&bПортативный GEO-сканер"
+GEO_MINER:
+  name: "&6GEO-шахтёр"
+OIL_PUMP:
+  name: "&4Нефтяной насос"
+BUCKET_OF_OIL:
+  name: "&fВедро нефти"
+BUCKET_OF_FUEL:
+  name: "&fВедро топлива"
+REFINERY:
+  name: "&cНефтеперерабатывающий завод"
+COMBUSTION_REACTOR:
+  name: "&cРеактор внутреннего сгорания"
+ANDROID_MEMORY_CORE:
+  name: "&bЯдро памяти андроида"
+GPS_TELEPORTER_PYLON:
+  name: "&5GPS-пилон телепортации"
+GPS_TELEPORTATION_MATRIX:
+  name: "&bGPS-матрица телепортации"
+GPS_ACTIVATION_DEVICE_SHARED:
+  name: "&fGPS-устройство активации &3(Общее)"
+GPS_ACTIVATION_DEVICE_PERSONAL:
+  name: "&fGPS-устройство активации &a(Личное)"
+PORTABLE_TELEPORTER:
+  name: "&bПортативный телепортер"
+ELEVATOR_PLATE:
+  name: "&bПлита лифта"
+INFUSED_HOPPER:
+  name: "&5Заряженная воронка"
+HEATED_PRESSURE_CHAMBER:
+  name: "&cНагретая барокамера"
+HEATED_PRESSURE_CHAMBER_2:
+  name: "&cНагретая барокамера &7- &eII"
+ELECTRIC_SMELTERY:
+  name: "&cЭлектрическая плавильня"
+ELECTRIC_SMELTERY_2:
+  name: "&cЭлектрическая плавильня &7- &eII"
+ELECTRIC_PRESS:
+  name: "&eЭлектрический пресс"
+ELECTRIC_PRESS_2:
+  name: "&eЭлектрический пресс &7- &eII"
+ELECTRIFIED_CRUCIBLE:
+  name: "&cЭлектрифицированный тигель"
+ELECTRIFIED_CRUCIBLE_2:
+  name: "&cЭлектрифицированный тигель &7- &eII"
+ELECTRIFIED_CRUCIBLE_3:
+  name: "&cЭлектрифицированный тигель &7- &eIII"
+CARBON_PRESS:
+  name: "&cУглеродный пресс"
+CARBON_PRESS_2:
+  name: "&cУглеродный пресс &7- &eII"
+CARBON_PRESS_3:
+  name: "&cУглеродный пресс &7- &eIII"
+BLISTERING_INGOT:
+  name: "&6Пузырчатый слиток &7(33%)"
+BLISTERING_INGOT_2:
+  name: "&6Пузырчатый слиток &7(66%)"
+BLISTERING_INGOT_3:
+  name: "&6Пузырчатый слиток"
+ENERGY_REGULATOR:
+  name: "&6Регулятор энергии"
+ENERGY_CONNECTOR:
+  name: "&eЭнергетический коннектор"
+DEBUG_FISH:
+  name: "&3Почём рыбка?"
+NETHER_ICE:
+  name: "&eАдский лёд"
+ENRICHED_NETHER_ICE:
+  name: "&eОбогащённый адский лёд"
+NETHER_ICE_COOLANT_CELL:
+  name: "&6Охлаждающая ячейка из адского льда"
+CARGO_MANAGER:
+  name: "&6Грузовой менеджер"
+CARGO_NODE:
+  name: "&7Грузовой узел &c(Коннектор)"
+CARGO_NODE_INPUT:
+  name: "&7Грузовой узел &c(Вход)"
+CARGO_NODE_OUTPUT:
+  name: "&7Грузовой узел &c(Выход)"
+CARGO_NODE_OUTPUT_ADVANCED:
+  name: "&6Продвинутый грузовой узел &c(Выход)"
+AUTO_BREEDER:
+  name: "&eАвтоматический разводчик"
+PRODUCE_COLLECTOR:
+  name: "&bСборщик продукции"
+ORGANIC_FOOD:
+  name: "&aОрганическая еда"
+ORGANIC_FOOD_WHEAT:
+  name: "&aОрганическая пшеница"
+ORGANIC_FOOD_CARROT:
+  name: "&aОрганическая морковь"
+ORGANIC_FOOD_POTATO:
+  name: "&aОрганический картофель"
+ORGANIC_FOOD_SEEDS:
+  name: "&aОрганические семена"
+ORGANIC_FOOD_BEETROOT:
+  name: "&aОрганическая свёкла"
+ORGANIC_FOOD_MELON:
+  name: "&aОрганический арбуз"
+ORGANIC_FOOD_APPLE:
+  name: "&aОрганическое яблоко"
+ORGANIC_FOOD_SWEET_BERRIES:
+  name: "&aОрганические сладкие ягоды"
+ORGANIC_FOOD_KELP:
+  name: "&aОрганическая сушёная ламинария"
+ORGANIC_FOOD_COCOA:
+  name: "&aОрганические какао-бобы"
+ORGANIC_FOOD_SEAGRASS:
+  name: "&aОрганическая морская трава"
+FERTILIZER:
+  name: "&aОрганическое удобрение"
+FERTILIZER_WHEAT:
+  name: "&aПшеничное удобрение"
+FERTILIZER_CARROT:
+  name: "&aМорковное удобрение"
+FERTILIZER_POTATO:
+  name: "&aКартофельное удобрение"
+FERTILIZER_SEEDS:
+  name: "&aУдобрение из семян"
+FERTILIZER_BEETROOT:
+  name: "&aСвекольное удобрение"
+FERTILIZER_MELON:
+  name: "&aАрбузное удобрение"
+FERTILIZER_APPLE:
+  name: "&aЯблочное удобрение"
+FERTILIZER_SWEET_BERRIES:
+  name: "&aУдобрение из сладких ягод"
+FERTILIZER_KELP:
+  name: "&aУдобрение из сушёной ламинарии"
+FERTILIZER_COCOA:
+  name: "&aУдобрение из какао-бобов"
+FERTILIZER_SEAGRASS:
+  name: "&aУдобрение из морской травы"
+ANIMAL_GROWTH_ACCELERATOR:
+  name: "&bУскоритель роста животных"
+CROP_GROWTH_ACCELERATOR:
+  name: "&aУскоритель роста растений"
+CROP_GROWTH_ACCELERATOR_2:
+  name: "&aУскоритель роста растений &7(&eII&7)"
+TREE_GROWTH_ACCELERATOR:
+  name: "&aУскоритель роста деревьев"
+FOOD_FABRICATOR:
+  name: "&cПищевой фабрикатор"
+FOOD_FABRICATOR_2:
+  name: "&cПищевой фабрикатор &7(&eII&7)"
+FOOD_COMPOSTER:
+  name: "&cПищевой компостер"
+FOOD_COMPOSTER_2:
+  name: "&cПищевой компостер &7(&eII&7)"
+XP_COLLECTOR:
+  name: "&aСборщик опыта"
+REACTOR_COLLANT_CELL:
+  name: "&bОхлаждающая ячейка реактора"
+NUCLEAR_REACTOR:
+  name: "&2Ядерный реактор"
+NETHERSTAR_REACTOR:
+  name: "&fРеактор на звезде Незера"
+REACTOR_ACCESS_PORT:
+  name: "&2Порт доступа к реактору"
+FREEZER:
+  name: "&bМорозильник"
+FREEZER_2:
+  name: "&bМорозильник &7(&eII&7)"
+FREEZER_3:
+  name: "&bМорозильник &7(&eIII&7)"
+ELECTRIC_GOLD_PAN:
+  name: "&6Электрический золотой лоток"
+ELECTRIC_GOLD_PAN_2:
+  name: "&6Электрический золотой лоток &7(&eII&7)"
+ELECTRIC_GOLD_PAN_3:
+  name: "&6Электрический золотой лоток &7(&eIII&7)"
+ELECTRIC_DUST_WASHER:
+  name: "&3Электрический промыватель пыли"
+ELECTRIC_DUST_WASHER_2:
+  name: "&3Электрический промыватель пыли &7(&eII&7)"
+ELECTRIC_DUST_WASHER_3:
+  name: "&3Электрический промыватель пыли &7(&eIII&7)"
+ELECTRIC_INGOT_FACTORY:
+  name: "&cЭлектрическая фабрика слитков"
+ELECTRIC_INGOT_FACTORY_2:
+  name: "&cЭлектрическая фабрика слитков &7(&eII&7)"
+ELECTRIC_INGOT_FACTORY_3:
+  name: "&cЭлектрическая фабрика слитков &7(&eIII&7)"
+FLUID_PUMP:
+  name: "&9Жидкостный насос"
+CHARGING_BENCH:
+  name: "&6Зарядный стол"
+VANILLA_AUTO_CRAFTER:
+  name: "&2Автоверстак &8(Ванильный)"
+ENHANCED_AUTO_CRAFTER:
+  name: "&2Автоверстак &8(Улучшенный)"
+ARMOR_AUTO_CRAFTER:
+  name: "&2Автоверстак &8(Кузница брони)"
+IRON_GOLEM_ASSEMBLER:
+  name: "&6Сборщик железных големов"
+WITHER_ASSEMBLER:
+  name: "&5Сборщик иссушителей"
+TRASH_CAN_BLOCK:
+  name: "&3Мусорное ведро"
+ELYTRA_SCALE:
+  name: "&bЧешуйка элитры"
+INFUSED_ELYTRA:
+  name: "&5Заряженные элитры"
+SOULBOUND_ELYTRA:
+  name: "&cПривязанные элитры"
+MAGNESIUM_SALT:
+  name: "&cМагниевая соль"
+MAGNESIUM_GENERATOR:
+  name: "&cГенератор на магнии"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Эндер-талисман наковальни"
+ENDER_MINER_TALISMAN:
+  name: "&5Эндер-талисман шахтёра"
+ENDER_FARMER_TALISMAN:
+  name: "&5Эндер-талисман фермера"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Эндер-талисман охотника"
+ENDER_LAVA_TALISMAN:
+  name: "&5Эндер-талисман ходока по лаве"
+ENDER_WATER_TALISMAN:
+  name: "&5Эндер-талисман водолаза"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Эндер-талисман ангела"
+ENDER_FIRE_TALISMAN:
+  name: "&5Эндер-талисман пожарного"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Эндер-талисман мага"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Эндер-талисман путешественника"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Эндер-талисман воина"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Эндер-талисман рыцаря"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Эндер-талисман пещерного человека"
+ENDER_WISE_TALISMAN:
+  name: "&5Эндер-талисман мудреца"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Эндер-талисман вихря"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Эндер-талисман волшебника"
+BIRTHDAY_CAKE:
+  name: "&dПраздничный торт"

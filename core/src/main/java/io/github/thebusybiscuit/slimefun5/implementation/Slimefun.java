@@ -49,6 +49,8 @@ import io.github.thebusybiscuit.slimefun5.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun5.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun5.core.services.PerWorldSettingsService;
@@ -83,12 +85,15 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.ExplosionsLis
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.GadgetsListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.GrapplingHookListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.HopperListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.HeadEquipListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.ItemDropListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.ItemPickupListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.JoinListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiningAndroidListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.ItemTranslationListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockRedstoneListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.NetworkListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.PlayerProfileListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.RadioactivityListener;
@@ -100,6 +105,10 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemC
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemHitListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SlimefunItemInteractListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.SoulboundListener;
+import io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonInstallerMenu;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiPage;
+import io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiText;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanBlockDropListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.AnvilListener;
@@ -167,6 +176,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     // Various things we need
     private final SlimefunRegistry registry = new SlimefunRegistry();
+    private final WikiText wikiText = new WikiText();
     private final SlimefunCommand command = new SlimefunCommand(this);
     private final TickerTask ticker = new TickerTask();
 
@@ -186,6 +196,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final SoundService soundService = new SoundService(this);
     private final ThreadService threadService = new ThreadService(this);
     private final AnalyticsService analyticsService = new AnalyticsService(this);
+    private final ItemTranslationService itemTranslationService = new ItemTranslationService();
+    private final MenuTranslationService menuTranslationService = new MenuTranslationService();
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -342,6 +354,14 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         registry.setResearchingEnabled(getResearchCfg().getBoolean("enable-researching"));
         PostSetup.setupWiki();
 
+        logger.log(Level.INFO, "Loading in-game wiki text...");
+        wikiText.loadBundled();
+
+        logger.log(Level.INFO, "Loading item translations...");
+        itemTranslationService.loadBundled();
+        itemTranslationService.applyServerDefaults();
+        menuTranslationService.loadBundled();
+
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
 
@@ -356,6 +376,25 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
                 recipeService.refresh();
             } catch (Exception | LinkageError x) {
                 logger.log(Level.SEVERE, x, () -> "An Exception occurred while iterating through the Recipe list on Minecraft Version " + minecraftVersion.getName() + " (Slimefun v" + getVersion() + ")");
+            }
+
+            // Now that every addon has enabled, drop "restart to apply" flags for ones that loaded
+            AddonInstallerMenu.installer().reconcileRestartFlags();
+
+            // Check installer-managed addons/core for updates and log + notify admins (also on join)
+            AddonInstallerMenu.installer().checkForUpdatesOnStartup();
+
+            // Stamp/verify the block-data storage-format marker (side-car; never touches the .sfb format)
+            io.github.thebusybiscuit.slimefun5.storage.StorageFormat.checkAndStamp();
+
+            // Pre-build the wiki's reverse-recipe index once here so the first player click is instant
+            WikiPage.warmUpIndex();
+
+            // Dev helper: dump the English baseline of every registered block menu (core + addons) for
+            // translation, when explicitly requested. Disabled by default.
+            if (config.getBoolean("guide.dump-menu-baseline") || Boolean.getBoolean("slimefun.dumpMenuBaseline")) {
+                menuTranslationService.dumpBaseline(new File(getDataFolder(), "menus-baseline.yml"));
+                itemTranslationService.dumpUntranslated(new File(getDataFolder(), "untranslated-items.yml"), java.util.Arrays.asList("de"));
             }
 
         }), 0);
@@ -391,6 +430,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         // Hooray!
         logger.log(Level.INFO, "Slimefun has finished loading in {0}", getStartupTime(timestamp));
+        // Build marker: if this line is missing from the console, the server is running an older jar.
+        logger.log(Level.INFO, "[fork build 2026-07-01] bug-report relay fallback + slot-lock active");
     }
 
     @Override
@@ -630,12 +671,18 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new BlockPhysicsListener(this));
         register(() -> new CargoNodeListener(this));
         register(() -> new MultiBlockListener(this));
+        register(() -> new MultiBlockRedstoneListener(this));
+        register(() -> new ItemTranslationListener(this));
+        register(() -> new io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonUpdateJoinListener(this));
         register(() -> new GadgetsListener(this));
         register(() -> new DispenserListener(this));
         register(() -> new BlockListener(this));
         register(() -> new EnhancedFurnaceListener(this));
-        register(() -> new ItemPickupListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_12)) {
+            register(() -> new ItemPickupListener(this));
+        }
         register(() -> new ItemDropListener(this));
+        register(() -> new HeadEquipListener(this));
         register(() -> new DeathpointListener(this));
         register(() -> new ExplosionsListener(this));
         register(() -> new DebugFishListener(this));
@@ -645,7 +692,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new EntityInteractionListener(this));
         register(() -> new MobDropListener(this));
         register(() -> new VillagerTradingListener(this));
-        register(() -> new ElytraImpactListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_9)) {
+            register(() -> new ElytraImpactListener(this));
+        }
         register(() -> new CraftingTableListener(this));
         register(() -> new AnvilListener(this));
         register(() -> new BrewingStandListener(this));
@@ -657,6 +706,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new NetworkListener(this, networkManager));
         register(() -> new HopperListener(this));
         register(() -> new TalismanListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_13)) {
+            register(() -> new TalismanBlockDropListener(this));
+        }
         register(() -> new SoulboundListener(this));
         register(() -> new AutoCrafterListener(this));
         register(() -> new SlimefunItemHitListener(this));
@@ -665,8 +717,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             register(() -> new BeeListener(this));
             register(() -> new BeeWingsListener(this, (BeeWings) SlimefunItems.BEE_WINGS.getItem()));
         }
-        register(() -> new PiglinListener(this));
-        register(() -> new SmithingTableListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_16)) {
+            register(() -> new PiglinListener(this));
+            register(() -> new SmithingTableListener(this));
+        }
         register(() -> new JoinListener(this));
 
         // Item-specific Listeners
@@ -950,6 +1004,28 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     }
 
     /**
+     * This method returns the {@link ItemTranslationService} of Slimefun.
+     * It translates item names and lore per language for display in Slimefun UIs.
+     *
+     * @return The {@link ItemTranslationService} for Slimefun
+     */
+    public static @Nonnull ItemTranslationService getItemTranslationService() {
+        validateInstance();
+        return instance.itemTranslationService;
+    }
+
+    /**
+     * This method returns the {@link MenuTranslationService} of Slimefun.
+     * It translates the decorative info items of block menus per language.
+     *
+     * @return The {@link MenuTranslationService} for Slimefun
+     */
+    public static @Nonnull MenuTranslationService getMenuTranslationService() {
+        validateInstance();
+        return instance.menuTranslationService;
+    }
+
+    /**
      * This method returns the {@link GitHubService} of Slimefun.
      * It is used to retrieve data from GitHub repositories.
      *
@@ -975,6 +1051,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull SlimefunRegistry getRegistry() {
         validateInstance();
         return instance.registry;
+    }
+
+    public static @Nonnull WikiText getWikiText() {
+        validateInstance();
+        return instance.wikiText;
     }
 
     public static @Nonnull GrapplingHookListener getGrapplingHookListener() {

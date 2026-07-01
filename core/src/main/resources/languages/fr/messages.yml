@@ -37,6 +37,150 @@ commands:
 placeholderapi:
   profile-loading: 'Chargement...'
 guide:
+  item:
+    name: '&aGuide Slimefun &7(Chest GUI)'
+    cheat-only: '&4&lOuvrable uniquement par les administrateurs'
+    browse: '&eClic droit &8⇨ &7Parcourir les objets'
+    settings: '&eMaj + Clic droit &8⇨ &7Ouvrir les paramètres / contributeurs'
+  themes-meta:
+    categories: '&7Catégories : &e%count%'
+    open: '&7⇨ &eCliquez pour ouvrir'
+  themes:
+    weapons: '&cArmes'
+    tools: '&aOutils'
+    armor: '&bArmure'
+    machines: '&6Machines'
+    energy_tech: '&eÉnergie et technologie'
+    resources: '&fRessources'
+    magic: '&dMagie'
+    food: '&2Nourriture et agriculture'
+    logistics: '&3Logistique'
+    decoration: '&5Décoration'
+    misc: '&7Divers'
+  addon-visibility:
+    name: '&3Visibilité des extensions'
+    lore:
+    - '&7Choisissez quelles extensions apparaissent dans votre guide.'
+    - '&7Les extensions masquées sont retirées de la navigation'
+    - '&7et de la recherche — rien que pour vous.'
+    - ''
+    - '&7⇨ &eCliquez pour gérer'
+    menu-title: '&eVisibilité des extensions'
+    menu-lore:
+    - "&7Cliquez sur une extension pour activer ou non son"
+    - '&7apparition dans votre guide (navigation + recherche).'
+    - ''
+    - '&7Au moins une extension doit rester affichée.'
+    shown: '&a✔ Affichée'
+    hidden: '&c✖ Masquée'
+    toggle: '&7⇨ &eCliquez pour basculer'
+    back: '&e⇦ Retour'
+    must-stay: '&cAu moins une extension doit rester visible.'
+  wiki-topics:
+    getting_started: { name: 'Premiers pas', summary: '&7Vos premiers pas dans Slimefun' }
+    research: { name: 'Recherche et déverrouillage', summary: '&7Déverrouillez des objets avec de l''expérience' }
+    multiblocks: { name: 'Machines multiblocs', summary: '&7Construisez des structures pour fabriquer' }
+    ore_processing: { name: 'Traitement des minerais', summary: '&7Doublez vos rendements de minerai' }
+    smeltery: { name: 'Fonderie et alliages', summary: '&7Fondez des poudres et forgez des alliages' }
+    energy: { name: 'Réseaux d''énergie', summary: '&7Alimentez vos machines' }
+    power_generation: { name: 'Production d''énergie', summary: '&7Générateurs, réacteurs, condensateurs' }
+    electric_machines: { name: 'Machines électriques', summary: '&7Machines automatiques alimentées' }
+    cargo: { name: 'Réseaux de cargaison', summary: '&7Déplacez des objets automatiquement' }
+    androids: { name: 'Androïdes programmables', summary: '&7Automatisez des tâches avec des robots' }
+    geo_mining: { name: 'Minage GEO et pétrole', summary: '&7Extrayez du pétrole et des ressources' }
+    gps: { name: 'GPS et téléportation', summary: '&7Points de repère et téléporteurs' }
+    talismans: { name: 'Talismans', summary: '&7Chance et protection passives' }
+    magic: { name: 'Magie et l''autel', summary: '&7Runes, bâtons et rituels' }
+    armor_gadgets: { name: 'Armure et gadgets', summary: '&7Jetpacks, panoplies et outils' }
+    backpacks: { name: 'Sacs à dos et stockage', summary: '&7Stockage portable en déplacement' }
+    food_farming: { name: 'Nourriture et agriculture', summary: '&7Jus, viande séchée et fermes auto' }
+    soulbound: { name: 'Objets liés à l''âme', summary: '&7Conservez vos objets à la mort' }
+  coverage:
+    messages: '&7Messages : &b%percent%%'
+    items: '&7Objets : &b%percent%%'
+    breakdown-hint: '&7⇨ &eClic droit : &7Détail de la traduction des objets'
+    title-suffix: 'Objets'
+    translated: '&7Traduits : &b%translated%&7/&b%total%'
+    line: '&7Couverture : %color%%percent%%'
+
+  wiki:
+    home-title: '&3Wiki Slimefun'
+    welcome:
+      title: '&3Wiki Slimefun'
+      lore:
+      - '&7Nouveau ici ? Lisez les guides ci-dessous pour apprendre'
+      - "&7comment Slimefun fonctionne - commencez par &ePremiers pas&7."
+      - '&7Ou parcourez les objets pour faire une recherche.'
+    search:
+      name: '&aRechercher dans le wiki'
+      lore:
+      - '&7Recherchez n''importe quel objet par son nom'
+      - '&7dans tous les modules installés.'
+      - ''
+      - '&7⇨ &eCliquez pour saisir un terme de recherche'
+    browse:
+      name: '&aParcourir les objets par catégorie'
+      lore:
+      - '&7Explorez toutes les catégories de Slimefun'
+      - '&7et consultez chaque objet.'
+      - ''
+      - '&7⇨ &eCliquez'
+    topic-click: '&7⇨ &eCliquez pour lire'
+    results-title: '&aRésultats de recherche pour &e"%query%&e"'
+    results-found: '&7Trouvé : &b%count% &7objet(s).'
+    item-title: 'Wiki : %item%'
+    topic-title: 'Wiki : %topic%'
+    back: '&e⇦ Retour'
+    no-info: '&7(Aucune information disponible pour le moment.)'
+    used-in:
+      name: '&eUtilisé dans'
+      lore:
+      - '&7Objets qui utilisent ceci dans leur recette.'
+      - '&7Cliquez sur l''un d''eux pour sa propre page.'
+    more: '&7+%count% de plus'
+    stats:
+      title: '&6Statistiques'
+      capacity: '&7Capacité : &e%capacity% J'
+      energy: '&7Énergie : &e%energy% J/tick'
+      speed: '&7Vitesse : &e%speed%x'
+    items-header:
+      name: '&e▼ Objets de ce guide'
+      lore:
+      - '&7Cliquez sur n''importe quel objet ci-dessous pour'
+      - "&7sa recette, ses statistiques et où il est utilisé."
+
+  installer:
+    badge:
+      working: '&e⚙ En cours…'
+      restart: '&b↻ Redémarrez pour appliquer (%version%)'
+      installed-version: '&a✔ Installé v%version%'
+      installed: '&a✔ Installé'
+      not-installed-deps: '&7＋ Non installé &8(nécessite %deps%)'
+      not-installed: '&7＋ Non installé'
+    back-settings: '&e⇦ Retour aux paramètres'
+    back: '&e⇦ Retour'
+    click-details: '&7⇨ &eCliquez pour les détails'
+    will-install: '&7Installera également : &f%deps%'
+    install:
+      install: '&aInstaller la dernière version'
+      update: '&aMettre à jour vers la dernière version'
+      lore:
+      - '&7Télécharge la dernière version GitHub'
+      - '&7et la prépare pour le prochain redémarrage.'
+      - ''
+      - '&7⇨ &eCliquez'
+    build:
+      name: '&bCompiler depuis une branche'
+      lore:
+      - '&7Clone & compile une branche choisie'
+      - '&7(environnements de développement uniquement).'
+      - ''
+      - '&7⇨ &eCliquez pour choisir une branche'
+    branches:
+      none: '&cAucune branche trouvée'
+      none-lore: "&7Impossible de joindre GitHub ou le dépôt n'a aucune branche."
+      click: '&7⇨ &eCliquez pour compiler cette branche'
+
   locked: 'VERROUILLÉ'
   work-in-progress: 'Cette fonctionnalité n''est pas encore complètement terminée !'
   locked-itemgroup:
@@ -109,6 +253,8 @@ guide:
     bugs: 'Signaler un bug'
     source: 'Code Source'
     versions: 'Versions installées'
+    addon-visibility: 'Visibilité des extensions'
+    installer: 'Installateur d''extensions'
   credits:
     commit: 'Contribution'
     commits: 'Contributions'

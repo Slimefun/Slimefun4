@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun5.utils.compatibility;
 
 import java.lang.reflect.Method;
+import java.util.Locale;
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Location;
@@ -29,6 +31,9 @@ public final class SoundCompat {
     private static final Class<?> BUKKIT_CATEGORY;
     private static final Method WORLD_PLAY_WITH_CATEGORY;
     private static final Method PLAYER_PLAY_WITH_CATEGORY;
+
+    // Flipped off permanently the first time XSeries fails to initialise (see resolveViaXSeries).
+    private static volatile boolean xSeriesUsable = true;
 
     static {
         Class<?> category = null;
@@ -59,8 +64,46 @@ public final class SoundCompat {
             return null;
         }
 
-        Optional<XSound> sound = XSound.matchXSound(soundId);
-        return sound.isPresent() ? sound.get().parseSound() : null;
+        // XSeries maps a modern sound id back to the name that exists on the running version; it is the
+        // only path that handles pre-1.13 legacy sound names.
+        Sound viaXSeries = resolveViaXSeries(soundId);
+        if (viaXSeries != null) {
+            return viaXSeries;
+        }
+
+        // Fallback: read the constant straight off org.bukkit.Sound. This works whether Sound is an enum
+        // (<= 1.20.4) or a registry-backed interface (1.21.3+ / 26.x), where the shaded XSeries 9.10.0
+        // cannot initialise at all - its Data block calls the enum-only Sound.values(), which throws
+        // IncompatibleClassChangeError once Sound is an interface, silencing every sound.
+        return resolveByField(soundId);
+    }
+
+    @Nullable
+    private static Sound resolveViaXSeries(@Nonnull String soundId) {
+        if (!xSeriesUsable) {
+            return null;
+        }
+
+        try {
+            Optional<XSound> sound = XSound.matchXSound(soundId);
+            return sound.isPresent() ? sound.get().parseSound() : null;
+        } catch (Throwable x) {
+            // Disable XSeries permanently and let the reflective fallback serve every later lookup.
+            xSeriesUsable = false;
+            return null;
+        }
+    }
+
+    @Nullable
+    private static Sound resolveByField(@Nonnull String soundId) {
+        String name = soundId.toUpperCase(Locale.ROOT).replace('.', '_').replace(' ', '_').replace('-', '_');
+
+        try {
+            Object value = Sound.class.getField(name).get(null);
+            return value instanceof Sound ? (Sound) value : null;
+        } catch (ReflectiveOperationException | RuntimeException x) {
+            return null;
+        }
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })

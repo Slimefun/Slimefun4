@@ -1,9 +1,11 @@
 import java.util.concurrent.TimeUnit
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.net.URI
 import java.net.HttpURLConnection
 import java.nio.file.FileSystems
 import java.nio.file.Files
+import java.nio.file.StandardCopyOption
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipInputStream
@@ -16,9 +18,28 @@ plugins {
 }
 
 group = "com.github.slimefun"
-// Release builds pass -Partifact_version=<tag> (e.g. v5.2.2) so plugin.yml reports the real version;
-// local/dev builds fall back to the current release number.
-version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() } ?: "5.2.2"
+// Version resolution — the standard for every Slimefun5 plugin:
+//   1. an explicit -Partifact_version=<tag> (release builds, e.g. v5.2.3) wins;
+//   2. otherwise derive it from the latest git tag in this repo (gh-v / v prefixes stripped);
+//   3. otherwise fall back to 5.0.0.
+// The "-UNOFFICIAL" suffix is appended downstream (plugin.yml + jar name), so this is the bare number.
+// Uses providers.exec (not ProcessBuilder) so reading git at configuration time stays compatible
+// with Gradle's configuration cache.
+fun latestGitTagVersion(): String? = try {
+    val execOutput = providers.exec {
+        workingDir = rootDir
+        commandLine("git", "describe", "--tags", "--abbrev=0")
+        isIgnoreExitValue = true
+    }
+    val output = execOutput.standardOutput.asText.get().trim()
+    if (execOutput.result.get().exitValue == 0) output.removePrefix("gh-").removePrefix("v").takeIf { it.isNotBlank() } else null
+} catch (e: Exception) {
+    null
+}
+
+version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() }
+    ?: latestGitTagVersion()
+    ?: "5.0.0"
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 
 github {
@@ -48,8 +69,6 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":compat-api"))
-
     githubImplementation("Slimefun5:dough:4.0.6:all")
 
     implementation("io.papermc:paperlib:1.0.8")
@@ -58,10 +77,10 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.10.0")
 
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
-    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through compat-api / NMS.
+    // Compile against the oldest Bukkit API (1.8.8); newer APIs go through the stubs module + reflection.
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     // Compile-only stubs of post-1.8 org.bukkit types; not shaded, real classes used at runtime.
-    compileOnly(project(":compat-stubs"))
+    compileOnly(project(":stubs"))
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -97,9 +116,12 @@ tasks {
     processResources {
         // Declare the version as an input so changing -Partifact_version re-expands plugin.yml
         // instead of reusing a stale cached copy (which once shipped 5.0.0-UNOFFICIAL).
-        inputs.property("version", project.version)
+        // The published jar is an UNOFFICIAL build; report that in plugin.yml so the version shown in
+        // logs/guide matches the jar name (Slimefun-<version>-UNOFFICIAL.jar) instead of bare <version>.
+        val pluginVersion = "${project.version}-UNOFFICIAL"
+        inputs.property("version", pluginVersion)
         filesMatching("plugin.yml") {
-            expand("version" to project.version)
+            expand("version" to pluginVersion)
         }
     }
 
@@ -108,7 +130,9 @@ tasks {
     }
 
     shadowJar {
-        archiveFileName.set("Slimefun v${project.version}-MC26.1.2.jar")
+        archiveBaseName.set("Slimefun")
+        archiveVersion.set("${project.version}-UNOFFICIAL")
+        archiveClassifier.set("")
 
         relocate("io.github.bakedlibs.dough", "io.github.thebusybiscuit.slimefun5.libraries.dough")
         relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun5.libraries.paperlib")
@@ -141,25 +165,78 @@ tasks {
                 return -1
             }
 
-            val uri = URI.create("jar:" + jarFile.toURI())
-            FileSystems.newFileSystem(uri, mapOf<String, String>()).use { fs ->
-                val path = fs.getPath(entryName)
-                if (!Files.exists(path)) {
-                    logger.warn("XSeries 26.x patch: $entryName not found in jar")
-                } else {
-                    val content = Files.readAllBytes(path)
-                    if (indexOf(content, newConst) >= 0) {
-                        logger.lifecycle("XSeries 26.x patch: already applied")
-                    } else {
-                        val idx = indexOf(content, oldConst)
-                        if (idx < 0) {
-                            logger.warn("XSeries 26.x patch: version regex constant not found (XSeries version changed?)")
-                        } else {
-                            val patched = content.copyOfRange(0, idx) + newConst + content.copyOfRange(idx + oldConst.size, content.size)
-                            Files.write(path, patched)
-                            logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
+            // Rewrite the jar by streaming through a temp file rather than opening a jar FileSystem.
+            // FileSystems.newFileSystem registers in the JVM-global zip FS provider, which is shared
+            // across the Gradle daemon - a prior run that failed to close (e.g. the jar was locked by a
+            // running server) leaves a stale handle and the next build dies with
+            // FileSystemAlreadyExistsException. Streaming is daemon-safe and lock-tolerant.
+            var found = false
+            var alreadyApplied = false
+            var didPatch = false
+            val temp = File(jarFile.parentFile, jarFile.name + ".xseries.tmp")
+
+            ZipInputStream(jarFile.inputStream()).use { zin ->
+                ZipOutputStream(temp.outputStream()).use { zout ->
+                    var entry = zin.nextEntry
+                    while (entry != null) {
+                        val data = zin.readBytes()
+                        var outData = data
+
+                        if (entry.name == entryName) {
+                            found = true
+                            if (indexOf(data, newConst) >= 0) {
+                                alreadyApplied = true
+                            } else {
+                                val idx = indexOf(data, oldConst)
+                                if (idx >= 0) {
+                                    outData = data.copyOfRange(0, idx) + newConst + data.copyOfRange(idx + oldConst.size, data.size)
+                                    didPatch = true
+                                }
+                            }
                         }
+
+                        zout.putNextEntry(ZipEntry(entry.name))
+                        zout.write(outData)
+                        zout.closeEntry()
+                        entry = zin.nextEntry
                     }
+                }
+            }
+
+            if (didPatch) {
+                // The move can transiently fail on Windows (jar locked by the daemon/AV); retry, and if
+                // it still fails, FAIL the build rather than silently shipping an unpatched core jar
+                // (which makes Slimefun - and therefore every addon - fail to enable on a 26.x server).
+                var moved = false
+                var lastError: Exception? = null
+
+                for (attempt in 1..10) {
+                    try {
+                        Files.move(temp.toPath(), jarFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                        moved = true
+                        break
+                    } catch (e: Exception) {
+                        lastError = e
+                        try { Thread.sleep(300) } catch (ignored: InterruptedException) { Thread.currentThread().interrupt() }
+                    }
+                }
+
+                if (!moved) {
+                    temp.delete()
+                    throw GradleException("XSeries 26.x patch: could not replace the core jar after 10 attempts (${lastError?.message}). "
+                        + "This usually means a running server still holds the jar - stop it (and any stale Gradle daemon) and rebuild. "
+                        + "Refusing to ship an unpatched core jar (it would fail to start on a 26.x server).")
+                }
+
+                logger.lifecycle("XSeries 26.x patch: rewrote XMaterial\$Data version regex for non-1.x majors")
+            } else {
+                temp.delete()
+                when {
+                    alreadyApplied -> logger.lifecycle("XSeries 26.x patch: already applied")
+                    // Never ship an unpatched jar: a missing/changed constant means the 26.x version fix
+                    // is absent, so fail loudly instead of producing a core that cannot start on 26.x.
+                    !found -> throw GradleException("XSeries 26.x patch: $entryName not found in jar - cannot ship core without the version fix")
+                    else -> throw GradleException("XSeries 26.x patch: version regex constant not found (did XSeries change?) - core would fail to parse a 26.x server version")
                 }
             }
         }
@@ -215,13 +292,13 @@ val cloneAndBuildAddons by tasks.registering {
 
         // Addon build files reference the core jar by a relative path valid only in the old layout;
         // rewrite it to the absolute jar path after each checkout (reset --hard reverts it every run).
-        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun v${project.version}-MC26.1.2.jar").get().asFile
+        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun-${project.version}-UNOFFICIAL.jar").get().asFile
         val coreJarPath = coreJarFile.absolutePath.replace("\\", "/")
         if (!coreJarFile.exists()) {
             println("WARNING: Core jar not found at ${coreJarFile.absolutePath} - addon compiles will fail until :core:shadowJar produces it.")
         }
         // Bump to force a one-time rebuild when the patching below changes.
-        val addonBuildRecipe = "4"
+        val addonBuildRecipe = "5"
         val coreJarRefRegex = Regex("""files\((["'])\.\./\.\./core/Slimefun5/core/build/libs/[^"']*\.jar\1\)""")
         fun patchCoreJarReference(repoDir: File) {
             for (name in listOf("build.gradle.kts", "build.gradle")) {
@@ -357,12 +434,73 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
+        // The set of .class entries the core jar provides. An addon must not ship duplicates of any of
+        // them: a duplicate loaded by the addon's own classloader either has null static state (e.g.
+        // core's Slimefun -> "Slimefun instance is null") or, when it appears in a shared core API
+        // signature (e.g. the relocated slimefun5.libraries.keys.NamespacedKey or dough Config), triggers
+        // a LinkageError "loader constraint violation". Core supplies every such class at runtime via the
+        // addon's `depend: [Slimefun]` classloader link.
+        val coreClassEntries: Set<String> = run {
+            val names = HashSet<String>()
+            if (coreJarFile.exists()) {
+                try {
+                    ZipFile(coreJarFile).use { zf ->
+                        val en = zf.entries()
+                        while (en.hasMoreElements()) {
+                            val n = en.nextElement().name
+                            if (n.endsWith(".class")) names.add(n)
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("WARNING: could not read core jar entries for strip: ${e.message}")
+                }
+            }
+            names
+        }
+
+        // Strips from an addon jar every .class the core jar also provides (core's own classes + its
+        // relocated libraries like keys/dough), while keeping addon-only classes and libs core does not
+        // ship (e.g. the addon's relocated xseries). Never touches plugin.yml or other resources.
+        fun stripBundledCoreClasses(jar: File) {
+            if (coreClassEntries.isEmpty()) {
+                return
+            }
+            val temp = File(jar.parentFile, jar.name + ".strip.tmp")
+            var removed = 0
+            ZipInputStream(jar.inputStream()).use { zin ->
+                ZipOutputStream(temp.outputStream()).use { zout ->
+                    var entry = zin.nextEntry
+                    while (entry != null) {
+                        val data = zin.readBytes()
+                        val name = entry.name
+                        if (name.endsWith(".class") && coreClassEntries.contains(name)) {
+                            removed++
+                        } else {
+                            zout.putNextEntry(ZipEntry(name))
+                            zout.write(data)
+                            zout.closeEntry()
+                        }
+                        entry = zin.nextEntry
+                    }
+                }
+            }
+            if (removed > 0) {
+                jar.delete()
+                temp.renameTo(jar)
+                println("Stripped $removed bundled core class(es) from ${jar.name}")
+            } else {
+                temp.delete()
+            }
+        }
+
         // Only plugin jars (with plugin.yml) go in the plugins folder; library addons are shaded into consumers.
         fun copyAddonJar(jar: File) {
             if (!jarHasPluginYml(jar)) {
                 println("Not copying ${jar.name} to plugins (library jar, no plugin.yml).")
                 return
             }
+            // Copy the build's jar as-is: each addon's own shadowJar names it "<PluginName>-<version>-UNOFFICIAL.jar".
+            // Stale jars are cleared each run, so there is exactly one jar per addon (no "Ambiguous plugin name").
             println("Copying ${jar.name} to plugins folder...")
             val dest = File(pluginsDir, jar.name)
             // A stale jar may be locked by an orphaned server JVM from a previous run; copyTo(overwrite)
@@ -381,6 +519,7 @@ val cloneAndBuildAddons by tasks.registering {
                 return
             }
             relocateSlimefun4InJar(dest)
+            stripBundledCoreClasses(dest)
         }
 
         // bStats refuses to run unless org.bstats is relocated; the committed builds omit it, so inject it.
@@ -438,8 +577,44 @@ val cloneAndBuildAddons by tasks.registering {
             if (count > 0) println("Rewrote slimefun4 -> slimefun5 in $count source file(s) for ${repoDir.name}")
         }
 
+        // Derive each addon's version from its own git tags (latest version-like tag + "-UNOFFICIAL"),
+        // mirroring the core standard. Addons hardcode placeholder versions ("1.0.0"), which made the
+        // in-game installer show meaningless versions; this rewrites them at build time. No-op without tags.
+        fun patchAddonVersion(repoDir: File) {
+            val rawTag = try {
+                val proc = ProcessBuilder("git", "-c", "safe.directory=*", "tag", "--sort=-v:refname")
+                    .directory(repoDir).redirectErrorStream(true).start()
+                proc.waitFor()
+                proc.inputStream.bufferedReader().readText().trim().lines()
+                    .firstOrNull { line -> line.isNotBlank() && line.any { it.isDigit() } }
+            } catch (e: Exception) { null } ?: return
+
+            var derivedVersion = rawTag.removePrefix("gh-").removePrefix("v").trim()
+            if (derivedVersion.isBlank()) return
+            if (!derivedVersion.endsWith("-UNOFFICIAL")) derivedVersion = "$derivedVersion-UNOFFICIAL"
+
+            for (name in listOf("build.gradle.kts", "build.gradle")) {
+                val buildFile = File(repoDir, name)
+                if (!buildFile.exists()) continue
+                val original = buildFile.readText()
+                var patched = Regex("""(?m)^version\s*=\s*"[^"]*"""").replace(original) { "version = \"$derivedVersion\"" }
+                // Keep the hardcoded jar filename's version segment in sync (cosmetic, but avoids a mismatch).
+                patched = Regex("""archiveFileName\.set\("([A-Za-z0-9_]+)-[^"]*\.jar"\)""")
+                    .replace(patched) { m -> "archiveFileName.set(\"${m.groupValues[1]}-$derivedVersion.jar\")" }
+                if (patched != original) {
+                    buildFile.writeText(patched)
+                    println("Set ${repoDir.name} version -> $derivedVersion (from tag $rawTag)")
+                }
+            }
+        }
+
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
-        pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+        // Optional: -PkeepPlugins leaves the plugins folder untouched (e.g. to keep manually-added jars).
+        if (project.hasProperty("keepPlugins")) {
+            println("[keepPlugins] leaving existing plugin jars in place")
+        } else {
+            pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+        }
 
         for (addon in addons) {
             // Each entry is Owner/Repo or Owner/Repo@branch (run.ps1 appends the chosen branch).
@@ -485,6 +660,7 @@ val cloneAndBuildAddons by tasks.registering {
             // Shade relocated InfinityLib + fix stray slimefun4 package references (both fail on every MC version).
             patchInfinityLibShading(repoDir)
             patchSlimefun4Refs(repoDir)
+            patchAddonVersion(repoDir)
 
             val newHash = getGitHash(repoDir)
             val libsDir = File(repoDir, "build/libs")
@@ -566,41 +742,61 @@ fun requiredJavaFor(mc: String): Int {
 // On by default for runServer (the scripts rely on it); disable with -PnoVia.
 val installVia = !project.hasProperty("noVia")
 
-// Downloads the latest <slug> build that supports <mcVersion> from Modrinth into pluginsDir,
-// replacing any older copy. Best-effort: a failure logs a warning and never blocks the launch.
-fun installViaPlugin(slug: String, mcVersion: String, pluginsDir: java.io.File) {
+// Deletes every jar for a given Via plugin slug from the plugins dir (so we never leave a stale or
+// incompatible copy behind, and a dependent never loads without its dependency).
+fun removeViaJars(pluginsDir: java.io.File, slug: String) {
+    pluginsDir.listFiles()?.filter { it.name.startsWith(slug, ignoreCase = true) && it.name.endsWith(".jar") }?.forEach { it.delete() }
+}
+
+// Each Via plugin's Jenkins job that publishes the latest release "downgraded" to Java 8 bytecode.
+// These run on EVERY server (Java 8 -> 25) and still support all modern Minecraft client versions, so
+// they work on the legacy servers (MC <= 1.16.4, Java 8) this universal jar targets - unlike the Modrinth
+// releases, which are Java 17+ and fail with UnsupportedClassVersionError on a Java-8 server.
+val viaJava8Jobs = mapOf(
+    "viaversion" to "ViaVersion-Java8",
+    "viabackwards" to "ViaBackwards-Java8",
+    "viarewind" to "ViaRewind-Java8"
+)
+
+// Downloads the latest Java-8 build of <slug> from the ViaVersion Jenkins CI into pluginsDir, replacing
+// any older/stale copy. Returns true iff a jar is now installed. Best-effort: failures never block launch.
+fun installViaPlugin(slug: String, pluginsDir: java.io.File): Boolean {
+    val job = viaJava8Jobs[slug] ?: return false
     try {
-        // Modrinth tags the 1.8 line as "1.8.9"; map 1.8.x to it so the query resolves.
-        val viaMc = if (mcVersion.startsWith("1.8")) "1.8.9" else mcVersion
-        val api = "https://api.modrinth.com/v2/project/$slug/version?game_versions=%5B%22$viaMc%22%5D" +
-            "&loaders=%5B%22paper%22%2C%22spigot%22%2C%22bukkit%22%5D"
-        val conn = URI.create(api).toURL().openConnection() as HttpURLConnection
+        val base = "https://ci.viaversion.com/job/$job/lastSuccessfulBuild"
+        val conn = URI.create("$base/api/json").toURL().openConnection() as HttpURLConnection
         conn.setRequestProperty("User-Agent", "Slimefun5-universal-build")
         conn.connectTimeout = 15000
         conn.readTimeout = 15000
         val body = conn.inputStream.bufferedReader().use { it.readText() }
         @Suppress("UNCHECKED_CAST")
-        val versions = groovy.json.JsonSlurper().parseText(body) as List<Map<String, Any?>>
-        if (versions.isEmpty()) {
-            logger.warn("[via] no $slug build found for MC $viaMc")
-            return
-        }
+        val json = groovy.json.JsonSlurper().parseText(body) as Map<String, Any?>
         @Suppress("UNCHECKED_CAST")
-        val files = versions[0]["files"] as List<Map<String, Any?>>
-        val file = files.firstOrNull { it["primary"] == true } ?: files[0]
-        val url = file["url"] as String
-        val name = file["filename"] as String
+        val artifacts = json["artifacts"] as? List<Map<String, Any?>> ?: emptyList()
+        val artifact = artifacts.firstOrNull { (it["fileName"] as? String)?.endsWith(".jar") == true }
+        if (artifact == null) {
+            logger.warn("[via] no jar artifact published by $job - skipping")
+            removeViaJars(pluginsDir, slug)
+            return false
+        }
+        val name = artifact["fileName"] as String
+        val relPath = artifact["relativePath"] as String
         val dest = pluginsDir.resolve(name)
         if (dest.exists()) {
             logger.lifecycle("[via] $name already present")
-            return
+            return true
         }
-        // Remove older versions of this plugin so it's an update, not a duplicate.
-        pluginsDir.listFiles()?.filter { it.name.startsWith(slug, ignoreCase = true) && it.name.endsWith(".jar") }?.forEach { it.delete() }
-        URI.create(url).toURL().openStream().use { input -> dest.outputStream().use { input.copyTo(it) } }
-        logger.lifecycle("[via] installed $name")
+        val tmp = File.createTempFile(slug, ".jar")
+        URI.create("$base/artifact/$relPath").toURL().openStream().use { input -> tmp.outputStream().use { input.copyTo(it) } }
+        // Replace any older/stale copy (incl. an incompatible Modrinth jar from a previous run).
+        removeViaJars(pluginsDir, slug)
+        tmp.copyTo(dest, overwrite = true)
+        tmp.delete()
+        logger.lifecycle("[via] installed $name (Java 8 build)")
+        return true
     } catch (e: Exception) {
-        logger.warn("[via] failed to install $slug for MC $mcVersion: ${e.message}")
+        logger.warn("[via] failed to install $slug: ${e.message}")
+        return false
     }
 }
 
@@ -614,6 +810,13 @@ tasks.runServer {
         languageVersion.set(JavaLanguageVersion.of(requiredJavaFor(runServerMcVer)))
     })
 
+    // -PdumpItems: dump plugins/Slimefun/untranslated-items.yml (+ menus-baseline.yml) on boot, for
+    // auditing translation coverage across every loaded addon. Passed as a JVM system property so it
+    // works even though the plugins folder (and its config.yml) is recreated each run.
+    if (project.hasProperty("dumpItems")) {
+        jvmArgs("-Dslimefun.dumpMenuBaseline=true")
+    }
+
     // Per-version run dir: Paper world/config aren't backward-compatible across MC versions.
     val perVersionRunDir = layout.projectDirectory.dir("run/$runServerMcVer")
     runDirectory.set(perVersionRunDir)
@@ -622,9 +825,34 @@ tasks.runServer {
         runDirFile.mkdirs()
         runDirFile.resolve("eula.txt").writeText("eula=true\n")
 
+        // Always pin the server to port 25566. Written before boot so Paper keeps it; other
+        // properties are preserved (only the server-port line is set/replaced).
+        val serverProps = runDirFile.resolve("server.properties")
+        val pinnedPort = "server-port=25566"
+        if (serverProps.exists()) {
+            val lines = serverProps.readLines()
+            val newLines = if (lines.any { it.startsWith("server-port=") }) {
+                lines.map { if (it.startsWith("server-port=")) pinnedPort else it }
+            } else {
+                lines + pinnedPort
+            }
+            serverProps.writeText(newLines.joinToString("\n") + "\n")
+        } else {
+            serverProps.writeText("$pinnedPort\n")
+        }
+
         if (installVia) {
             val pluginsDir = runDirFile.resolve("plugins").also { it.mkdirs() }
-            listOf("viaversion", "viabackwards", "viarewind").forEach { installViaPlugin(it, runServerMcVer, pluginsDir) }
+            // Dependency chain: ViaBackwards needs ViaVersion, ViaRewind needs ViaBackwards. Installing a
+            // dependent without its dependency causes UnknownDependencyException at load, so only install
+            // each once the one it depends on succeeded.
+            val viaOk = installViaPlugin("viaversion", pluginsDir)
+            val backwardsOk = viaOk && installViaPlugin("viabackwards", pluginsDir)
+            val rewindOk = backwardsOk && installViaPlugin("viarewind", pluginsDir)
+            // Remove any jar we did not (successfully) install, clearing orphans from earlier runs.
+            if (!viaOk) removeViaJars(pluginsDir, "viaversion")
+            if (!backwardsOk) removeViaJars(pluginsDir, "viabackwards")
+            if (!rewindOk) removeViaJars(pluginsDir, "viarewind")
         }
     }
 }

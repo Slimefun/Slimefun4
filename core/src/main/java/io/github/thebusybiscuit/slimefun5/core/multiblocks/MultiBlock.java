@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import com.cryptomorin.xseries.XMaterial;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.Tag;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
 import io.github.thebusybiscuit.slimefun5.api.events.MultiBlockInteractEvent;
@@ -150,6 +151,53 @@ public class MultiBlock {
     public boolean isSymmetric() {
         return isSymmetric;
     }
+
+    /**
+     * Checks whether this {@link MultiBlock}'s structure is present, treating the given {@link Block}
+     * as the structure's center (the {@code blocks[4]} cell). Shared by the interaction listener and
+     * the redstone auto-craft listener.
+     *
+     * @param center
+     *            The block to test as the structure's center
+     *
+     * @return Whether a valid orientation of this structure exists around {@code center}
+     */
+    public boolean matches(@Nonnull Block center) {
+        Validate.notNull(center, "The center block cannot be null!");
+
+        if (!matchesColumn(center, blocks[1], blocks[4], blocks[7])) {
+            return false;
+        }
+
+        BlockFace[] directions = isSymmetric ? new BlockFace[] { BlockFace.NORTH, BlockFace.EAST } : new BlockFace[] { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+
+        for (BlockFace direction : directions) {
+            if (matchesColumn(center.getRelative(direction), blocks[0], blocks[3], blocks[6]) && matchesColumn(center.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean matchesColumn(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
+        return (center == null || materialsMatch(b.getType(), center)) && (top == null || materialsMatch(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || materialsMatch(b.getRelative(BlockFace.DOWN).getType(), bottom));
+    }
+
+    private boolean materialsMatch(@Nonnull Material a, @Nonnull Material b) {
+        if (a == b) {
+            return true;
+        }
+
+        for (Tag<Material> tag : SUPPORTED_TAGS) {
+            if (tag.isTagged(a) && tag.isTagged(b)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     @Override
     public String toString() {
         return "MultiBlock (" + item.getId() + ") {" + Arrays.toString(blocks) + "}";

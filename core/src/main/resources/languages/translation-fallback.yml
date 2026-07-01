@@ -1,0 +1,12 @@
+# Strings deliberately shown in English in EVERY language — proper nouns, brand/material names,
+# universal terms. The Guide's translation-coverage UI counts these as covered (so a language can
+# reach 100% without fake translations), and the untranslated-items dump skips them.
+#
+# Runtime is unaffected: anything without a real translation already falls back to English. Only add
+# entries here that genuinely read the same in all languages.
+
+# Slimefun item ids (the id, e.g. VEX_DATA_CARD), one per line.
+items: []
+
+# Message keys (dotted, e.g. gps.status-online), one per line.
+messages: []

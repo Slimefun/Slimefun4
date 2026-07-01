@@ -1,0 +1,1107 @@
+PORTABLE_CRAFTER:
+  name: "&6便携式工作台"
+PORTABLE_DUSTBIN:
+  name: "&6便携式垃圾桶"
+ENDER_BACKPACK:
+  name: "&6末影背包"
+MAGIC_EYE_OF_ENDER:
+  name: "&6&l魔法末影之眼"
+BROKEN_SPAWNER:
+  name: "&c损坏的刷怪笼"
+REINFORCED_SPAWNER:
+  name: "&b强化刷怪笼"
+INFERNAL_BONEMEAL:
+  name: "&4地狱骨粉"
+TAPE_MEASURE:
+  name: "&6卷尺"
+GOLD_PAN:
+  name: "&6淘金盘"
+NETHER_GOLD_PAN:
+  name: "&4地狱淘金盘"
+PARACHUTE:
+  name: "&f&l降落伞"
+GRAPPLING_HOOK:
+  name: "&6抓钩"
+SOLAR_HELMET:
+  name: "&b太阳能头盔"
+CLOTH:
+  name: "&b布料"
+REINFORCED_CLOTH:
+  name: "&b强化布料"
+CAN:
+  name: "&f锡罐"
+NIGHT_VISION_GOGGLES:
+  name: "&a夜视护目镜"
+ELYTRA_CAP:
+  name: "&5鞘翅帽"
+FARMER_SHOES:
+  name: "&e农夫鞋"
+INFUSED_MAGNET:
+  name: "&a灌注磁铁"
+RAG:
+  name: "&c破布"
+BANDAGE:
+  name: "&c绷带"
+SPLINT:
+  name: "&c夹板"
+VITAMINS:
+  name: "&c维生素"
+MEDICINE:
+  name: "&c药剂"
+MAGICAL_ZOMBIE_PILLS:
+  name: "&6魔法僵尸药丸"
+FLASK_OF_KNOWLEDGE:
+  name: "&c知识之瓶"
+FILLED_FLASK_OF_KNOWLEDGE:
+  name: "&a知识之瓶"
+SMALL_BACKPACK:
+  name: "&e小型背包"
+MEDIUM_BACKPACK:
+  name: "&e背包"
+LARGE_BACKPACK:
+  name: "&e大型背包"
+WOVEN_BACKPACK:
+  name: "&e编织背包"
+GILDED_BACKPACK:
+  name: "&e镀金背包"
+RADIANT_BACKPACK:
+  name: "&e光辉背包"
+BOUND_BACKPACK:
+  name: "&c灵魂绑定背包"
+COOLER:
+  name: "&b冷却箱"
+RESTORED_BACKPACK:
+  name: "&e修复的背包"
+DURALUMIN_JETPACK:
+  name: "&9电动喷气背包 &7- &eI"
+SOLDER_JETPACK:
+  name: "&9电动喷气背包 &7- &eII"
+BILLON_JETPACK:
+  name: "&9电动喷气背包 &7- &eIII"
+STEEL_JETPACK:
+  name: "&9电动喷气背包 &7- &eIV"
+DAMASCUS_STEEL_JETPACK:
+  name: "&9电动喷气背包 &7- &eV"
+REINFORCED_ALLOY_JETPACK:
+  name: "&9电动喷气背包 &7- &eVI"
+CARBONADO_JETPACK:
+  name: "&9电动喷气背包 &7- &eVII"
+ARMORED_JETPACK:
+  name: "&9装甲喷气背包"
+DURALUMIN_JETBOOTS:
+  name: "&9喷气靴 &7- &eI"
+SOLDER_JETBOOTS:
+  name: "&9喷气靴 &7- &eII"
+BILLON_JETBOOTS:
+  name: "&9喷气靴 &7- &eIII"
+STEEL_JETBOOTS:
+  name: "&9喷气靴 &7- &eIV"
+DAMASCUS_STEEL_JETBOOTS:
+  name: "&9喷气靴 &7- &eV"
+REINFORCED_ALLOY_JETBOOTS:
+  name: "&9喷气靴 &7- &eVI"
+CARBONADO_JETBOOTS:
+  name: "&9喷气靴 &7- &eVII"
+ARMORED_JETBOOTS:
+  name: "&9装甲喷气靴"
+DURALUMIN_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eI"
+SOLDER_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eII"
+BILLON_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eIII"
+STEEL_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eIV"
+DAMASCUS_STEEL_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eV"
+REINFORCED_ALLOY_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eVI"
+CARBONADO_MULTI_TOOL:
+  name: "&9多功能工具 &7- &eVII"
+FORTUNE_COOKIE:
+  name: "&6幸运饼干"
+DIET_COOKIE:
+  name: "&6减肥饼干"
+MAGIC_SUGAR:
+  name: "&6魔法糖"
+MONSTER_JERKY:
+  name: "&6怪物肉干"
+APPLE_JUICE:
+  name: "&c苹果汁"
+MELON_JUICE:
+  name: "&c西瓜汁"
+CARROT_JUICE:
+  name: "&6胡萝卜汁"
+PUMPKIN_JUICE:
+  name: "&6南瓜汁"
+SWEET_BERRY_JUICE:
+  name: "&c甜浆果汁"
+GLOW_BERRY_JUICE:
+  name: "&6发光浆果汁"
+GOLDEN_APPLE_JUICE:
+  name: "&b金苹果汁"
+BEEF_JERKY:
+  name: "&6牛肉干"
+PORK_JERKY:
+  name: "&6猪肉干"
+CHICKEN_JERKY:
+  name: "&6鸡肉干"
+MUTTON_JERKY:
+  name: "&6羊肉干"
+RABBIT_JERKY:
+  name: "&6兔肉干"
+FISH_JERKY:
+  name: "&6鱼肉干"
+KELP_COOKIE:
+  name: "&2海带饼干"
+CHRISTMAS_MILK:
+  name: "&6一杯牛奶"
+CHRISTMAS_CHOCOLATE_MILK:
+  name: "&6巧克力牛奶"
+CHRISTMAS_EGG_NOG:
+  name: "&a蛋奶酒"
+CHRISTMAS_APPLE_CIDER:
+  name: "&c苹果酒"
+CHRISTMAS_COOKIE:
+  name: "&f圣诞饼干"
+CHRISTMAS_FRUIT_CAKE:
+  name: "&f水果蛋糕"
+CHRISTMAS_APPLE_PIE:
+  name: "&f苹果派"
+CHRISTMAS_HOT_CHOCOLATE:
+  name: "&6热巧克力"
+CHRISTMAS_CAKE:
+  name: "&f圣诞蛋糕"
+CHRISTMAS_CARAMEL:
+  name: "&6焦糖"
+CHRISTMAS_CARAMEL_APPLE:
+  name: "&6焦糖苹果"
+CHRISTMAS_CHOCOLATE_APPLE:
+  name: "&6巧克力苹果"
+CHRISTMAS_PRESENT:
+  name: "&f圣诞礼物"
+EASTER_EGG:
+  name: "&f复活节彩蛋"
+CARROT_PIE:
+  name: "&6胡萝卜派"
+EASTER_APPLE_PIE:
+  name: "&f苹果派"
+GRANDMAS_WALKING_STICK:
+  name: "&7奶奶的拐杖"
+GRANDPAS_WALKING_STICK:
+  name: "&7爷爷的拐杖"
+SWORD_OF_BEHEADING:
+  name: "&6斩首之剑"
+BLADE_OF_VAMPIRES:
+  name: "&c吸血鬼之刃"
+SEISMIC_AXE:
+  name: "&a震荡斧"
+EXPLOSIVE_BOW:
+  name: "&c爆炸弓"
+ICY_BOW:
+  name: "&b冰霜弓"
+SMELTERS_PICKAXE:
+  name: "&6冶炼者之镐"
+LUMBER_AXE:
+  name: "&6伐木斧"
+PICKAXE_OF_CONTAINMENT:
+  name: "&c收容之镐"
+EXPLOSIVE_PICKAXE:
+  name: "&e爆炸镐"
+EXPLOSIVE_SHOVEL:
+  name: "&e爆炸锹"
+PICKAXE_OF_THE_SEEKER:
+  name: "&a探寻者之镐"
+COBALT_PICKAXE:
+  name: "&9钴镐"
+PICKAXE_OF_VEIN_MINING:
+  name: "&e连锁采矿之镐"
+CLIMBING_PICK:
+  name: "&b攀爬镐"
+GLOWSTONE_HELMET:
+  name: "&e&l荧石头盔"
+GLOWSTONE_CHESTPLATE:
+  name: "&e&l荧石胸甲"
+GLOWSTONE_LEGGINGS:
+  name: "&e&l荧石护腿"
+GLOWSTONE_BOOTS:
+  name: "&e&l荧石靴子"
+RAINBOW_LEATHER:
+  name: "&d彩虹皮革"
+RAINBOW_HELMET:
+  name: "&d&l彩虹头盔"
+RAINBOW_CHESTPLATE:
+  name: "&d&l彩虹胸甲"
+RAINBOW_LEGGINGS:
+  name: "&d&l彩虹护腿"
+RAINBOW_BOOTS:
+  name: "&d&l彩虹靴子"
+ENDER_HELMET:
+  name: "&5&l末影头盔"
+ENDER_CHESTPLATE:
+  name: "&5&l末影胸甲"
+ENDER_LEGGINGS:
+  name: "&5&l末影护腿"
+ENDER_BOOTS:
+  name: "&5&l末影靴子"
+SLIME_HELMET:
+  name: "&a&l史莱姆头盔"
+SLIME_CHESTPLATE:
+  name: "&a&l史莱姆胸甲"
+SLIME_LEGGINGS:
+  name: "&a&l史莱姆护腿"
+SLIME_BOOTS:
+  name: "&a&l史莱姆靴子"
+CACTUS_HELMET:
+  name: "&2仙人掌头盔"
+CACTUS_CHESTPLATE:
+  name: "&2仙人掌胸甲"
+CACTUS_LEGGINGS:
+  name: "&2仙人掌护腿"
+CACTUS_BOOTS:
+  name: "&2仙人掌靴子"
+DAMASCUS_STEEL_HELMET:
+  name: "&7大马士革钢头盔"
+DAMASCUS_STEEL_CHESTPLATE:
+  name: "&7大马士革钢胸甲"
+DAMASCUS_STEEL_LEGGINGS:
+  name: "&7大马士革钢护腿"
+DAMASCUS_STEEL_BOOTS:
+  name: "&7大马士革钢靴子"
+REINFORCED_ALLOY_HELMET:
+  name: "&b强化头盔"
+REINFORCED_ALLOY_CHESTPLATE:
+  name: "&b强化胸甲"
+REINFORCED_ALLOY_LEGGINGS:
+  name: "&b强化护腿"
+REINFORCED_ALLOY_BOOTS:
+  name: "&b强化靴子"
+SCUBA_HELMET:
+  name: "&c潜水头盔"
+HAZMAT_CHESTPLATE:
+  name: "&c防护服"
+HAZMAT_LEGGINGS:
+  name: "&c防护服护腿"
+RUBBER_BOOTS:
+  name: "&c防护靴"
+GILDED_IRON_HELMET:
+  name: "&6镀金铁头盔"
+GILDED_IRON_CHESTPLATE:
+  name: "&6镀金铁胸甲"
+GILDED_IRON_LEGGINGS:
+  name: "&6镀金铁护腿"
+GILDED_IRON_BOOTS:
+  name: "&6镀金铁靴子"
+GOLD_12K_HELMET:
+  name: "&6黄金头盔 &7(12克拉)"
+GOLD_12K_CHESTPLATE:
+  name: "&6黄金胸甲 &7(12克拉)"
+GOLD_12K_LEGGINGS:
+  name: "&6黄金护腿 &7(12克拉)"
+GOLD_12K_BOOTS:
+  name: "&6黄金靴子 &7(12克拉)"
+SLIME_STEEL_HELMET:
+  name: "&a&l史莱姆头盔"
+SLIME_STEEL_CHESTPLATE:
+  name: "&a&l史莱姆胸甲"
+SLIME_STEEL_LEGGINGS:
+  name: "&a&l史莱姆护腿"
+SLIME_STEEL_BOOTS:
+  name: "&a&l史莱姆靴子"
+BOOTS_OF_THE_STOMPER:
+  name: "&b践踏者之靴"
+BEE_HELMET:
+  name: "&e&l蜜蜂头盔"
+BEE_WINGS:
+  name: "&e&l蜜蜂之翼"
+BEE_LEGGINGS:
+  name: "&e&l蜜蜂护腿"
+BEE_BOOTS:
+  name: "&e&l蜜蜂靴子"
+MAGIC_LUMP_1:
+  name: "&6魔法块 &7- &eI"
+MAGIC_LUMP_2:
+  name: "&6魔法块 &7- &eII"
+MAGIC_LUMP_3:
+  name: "&6魔法块 &7- &eIII"
+ENDER_LUMP_1:
+  name: "&5末影块 &7- &eI"
+ENDER_LUMP_2:
+  name: "&5末影块 &7- &eII"
+ENDER_LUMP_3:
+  name: "&5末影块 &7- &eIII"
+MAGICAL_BOOK_COVER:
+  name: "&6魔法书封面"
+MAGICAL_GLASS:
+  name: "&6魔法玻璃"
+SYNTHETIC_SHULKER_SHELL:
+  name: "&d合成潜影壳"
+BASIC_CIRCUIT_BOARD:
+  name: "&b基础电路板"
+ADVANCED_CIRCUIT_BOARD:
+  name: "&b高级电路板"
+WHEAT_FLOUR:
+  name: "&f小麦面粉"
+STEEL_PLATE:
+  name: "&7&l钢板"
+BATTERY:
+  name: "&6电池"
+CARBON:
+  name: "&e碳"
+COMPRESSED_CARBON:
+  name: "&c压缩碳"
+CARBON_CHUNK:
+  name: "&4碳块"
+STEEL_THRUSTER:
+  name: "&7&l钢制推进器"
+POWER_CRYSTAL:
+  name: "&c&l能量水晶"
+CHAIN:
+  name: "&b链条"
+HOOK:
+  name: "&b钩子"
+SIFTED_ORE:
+  name: "&6筛选矿石"
+STONE_CHUNK:
+  name: "&6石块"
+LAVA_CRYSTAL:
+  name: "&4熔岩水晶"
+SALT:
+  name: "&f盐"
+CHEESE:
+  name: "&f奶酪"
+BUTTER:
+  name: "&f黄油"
+DUCT_TAPE:
+  name: "&8强力胶带"
+HEAVY_CREAM:
+  name: "&f浓奶油"
+CRUSHED_ORE:
+  name: "&6粉碎矿石"
+PULVERIZED_ORE:
+  name: "&6粉末矿石"
+PURE_ORE_CLUSTER:
+  name: "&6纯净矿石簇"
+SMALL_URANIUM:
+  name: "&c小块铀"
+TINY_URANIUM:
+  name: "&c微量铀堆"
+SOLAR_PANEL:
+  name: "&9光伏电池"
+PLASTIC_SHEET:
+  name: "&f塑料板"
+MAGNET:
+  name: "&c磁铁"
+NECROTIC_SKULL:
+  name: "&c腐烂头颅"
+ESSENCE_OF_AFTERLIFE:
+  name: "&4来世精华"
+STRANGE_NETHER_GOO:
+  name: "&5奇异地狱黏液"
+ELECTRO_MAGNET:
+  name: "&c电磁铁"
+HEATING_COIL:
+  name: "&c加热线圈"
+COOLING_UNIT:
+  name: "&b冷却装置"
+ELECTRIC_MOTOR:
+  name: "&c电动马达"
+SLOT_LOCK:
+  name: "&b槽位锁"
+CARGO_MOTOR:
+  name: "&3货运马达"
+SCROLL_OF_DIMENSIONAL_TELEPOSITION:
+  name: "&6维度传送卷轴"
+TOME_OF_KNOWLEDGE_SHARING:
+  name: "&6知识共享典籍"
+HARDENED_GLASS:
+  name: "&7硬化玻璃"
+WITHER_PROOF_OBSIDIAN:
+  name: "&5防凋零黑曜石"
+WITHER_PROOF_GLASS:
+  name: "&5防凋零玻璃"
+REINFORCED_PLATE:
+  name: "&7强化板"
+ANCIENT_PEDESTAL:
+  name: "&d远古基座"
+ANCIENT_ALTAR:
+  name: "&d远古祭坛"
+COPPER_WIRE:
+  name: "&6铜线"
+CRAFTING_MOTOR:
+  name: "&6合成马达"
+RAINBOW_WOOL:
+  name: "&5彩虹羊毛"
+RAINBOW_GLASS:
+  name: "&5彩虹玻璃"
+RAINBOW_CLAY:
+  name: "&5彩虹黏土"
+RAINBOW_GLASS_PANE:
+  name: "&5彩虹玻璃板"
+RAINBOW_CONCRETE:
+  name: "&5彩虹混凝土"
+RAINBOW_GLAZED_TERRACOTTA:
+  name: "&5彩虹带釉陶瓦"
+RAINBOW_WOOL_XMAS:
+  name: "&5彩虹羊毛 &7(圣诞节)"
+RAINBOW_GLASS_XMAS:
+  name: "&5彩虹玻璃 &7(圣诞节)"
+RAINBOW_CLAY_XMAS:
+  name: "&5彩虹黏土 &7(圣诞节)"
+RAINBOW_GLASS_PANE_XMAS:
+  name: "&5彩虹玻璃板 &7(圣诞节)"
+RAINBOW_CONCRETE_XMAS:
+  name: "&5彩虹混凝土 &7(圣诞节)"
+RAINBOW_GLAZED_TERRACOTTA_XMAS:
+  name: "&5彩虹带釉陶瓦 &7(圣诞节)"
+RAINBOW_WOOL_VALENTINE:
+  name: "&5彩虹羊毛 &7(情人节)"
+RAINBOW_GLASS_VALENTINE:
+  name: "&5彩虹玻璃 &7(情人节)"
+RAINBOW_CLAY_VALENTINE:
+  name: "&5彩虹黏土 &7(情人节)"
+RAINBOW_GLASS_PANE_VALENTINE:
+  name: "&5彩虹玻璃板 &7(情人节)"
+RAINBOW_CONCRETE_VALENTINE:
+  name: "&5彩虹混凝土 &7(情人节)"
+RAINBOW_GLAZED_TERRACOTTA_VALENTINE:
+  name: "&5彩虹带釉陶瓦 &7(情人节)"
+RAINBOW_WOOL_HALLOWEEN:
+  name: "&5彩虹羊毛 &7(万圣节)"
+RAINBOW_GLASS_HALLOWEEN:
+  name: "&5彩虹玻璃 &7(万圣节)"
+RAINBOW_CLAY_HALLOWEEN:
+  name: "&5彩虹黏土 &7(万圣节)"
+RAINBOW_GLASS_PANE_HALLOWEEN:
+  name: "&5彩虹玻璃板 &7(万圣节)"
+RAINBOW_CONCRETE_HALLOWEEN:
+  name: "&5彩虹混凝土 &7(万圣节)"
+RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN:
+  name: "&5彩虹带釉陶瓦 &7(万圣节)"
+COPPER_INGOT:
+  name: "&b铜锭"
+TIN_INGOT:
+  name: "&b锡锭"
+SILVER_INGOT:
+  name: "&b银锭"
+ALUMINUM_INGOT:
+  name: "&b铝锭"
+LEAD_INGOT:
+  name: "&b铅锭"
+ZINC_INGOT:
+  name: "&b锌锭"
+MAGNESIUM_INGOT:
+  name: "&b镁锭"
+STEEL_INGOT:
+  name: "&b钢锭"
+BRONZE_INGOT:
+  name: "&b青铜锭"
+DURALUMIN_INGOT:
+  name: "&b硬铝锭"
+BILLON_INGOT:
+  name: "&b比隆合金锭"
+BRASS_INGOT:
+  name: "&b黄铜锭"
+ALUMINUM_BRASS_INGOT:
+  name: "&b铝黄铜锭"
+ALUMINUM_BRONZE_INGOT:
+  name: "&b铝青铜锭"
+CORINTHIAN_BRONZE_INGOT:
+  name: "&b科林斯青铜锭"
+SOLDER_INGOT:
+  name: "&b焊料锭"
+DAMASCUS_STEEL_INGOT:
+  name: "&b大马士革钢锭"
+HARDENED_METAL_INGOT:
+  name: "&b&l硬化金属"
+REINFORCED_ALLOY_INGOT:
+  name: "&b&l强化合金锭"
+FERROSILICON:
+  name: "&b硅铁"
+GILDED_IRON:
+  name: "&6&l镀金铁"
+REDSTONE_ALLOY:
+  name: "&c红石合金锭"
+NICKEL_INGOT:
+  name: "&b镍锭"
+COBALT_INGOT:
+  name: "&9钴锭"
+GOLD_4K:
+  name: "&f金锭 &7(4克拉)"
+GOLD_6K:
+  name: "&f金锭 &7(6克拉)"
+GOLD_8K:
+  name: "&f金锭 &7(8克拉)"
+GOLD_10K:
+  name: "&f金锭 &7(10克拉)"
+GOLD_12K:
+  name: "&f金锭 &7(12克拉)"
+GOLD_14K:
+  name: "&f金锭 &7(14克拉)"
+GOLD_16K:
+  name: "&f金锭 &7(16克拉)"
+GOLD_18K:
+  name: "&f金锭 &7(18克拉)"
+GOLD_20K:
+  name: "&f金锭 &7(20克拉)"
+GOLD_22K:
+  name: "&f金锭 &7(22克拉)"
+GOLD_24K:
+  name: "&f金锭 &7(24克拉)"
+IRON_DUST:
+  name: "&6铁粉"
+GOLD_DUST:
+  name: "&6金粉"
+TIN_DUST:
+  name: "&6锡粉"
+COPPER_DUST:
+  name: "&6铜粉"
+SILVER_DUST:
+  name: "&6银粉"
+ALUMINUM_DUST:
+  name: "&6铝粉"
+LEAD_DUST:
+  name: "&6铅粉"
+ZINC_DUST:
+  name: "&6锌粉"
+MAGNESIUM_DUST:
+  name: "&6镁"
+SULFATE:
+  name: "&6硫酸盐"
+SILICON:
+  name: "&6硅"
+GOLD_24K_BLOCK:
+  name: "&f金块 &7(24克拉)"
+SYNTHETIC_DIAMOND:
+  name: "&b合成钻石"
+SYNTHETIC_EMERALD:
+  name: "&b合成绿宝石"
+SYNTHETIC_SAPPHIRE:
+  name: "&b合成蓝宝石"
+CARBONADO:
+  name: "&b&lCarbonado"
+RAW_CARBONADO:
+  name: "&b原始Carbonado"
+URANIUM:
+  name: "&4铀"
+NEPTUNIUM:
+  name: "&a镎"
+PLUTONIUM:
+  name: "&7钚"
+BOOSTED_URANIUM:
+  name: "&2强化铀"
+COMMON_TALISMAN:
+  name: "&6普通护身符"
+ENDER_TALISMAN:
+  name: "&5末影护身符"
+ANVIL_TALISMAN:
+  name: "&a铁砧护身符"
+MINER_TALISMAN:
+  name: "&a矿工护身符"
+FARMER_TALISMAN:
+  name: "&a农夫护身符"
+HUNTER_TALISMAN:
+  name: "&a猎人护身符"
+LAVA_TALISMAN:
+  name: "&a熔岩行者护身符"
+WATER_TALISMAN:
+  name: "&a水下呼吸护身符"
+ANGEL_TALISMAN:
+  name: "&a天使护身符"
+FIRE_TALISMAN:
+  name: "&a消防员护身符"
+MAGICIAN_TALISMAN:
+  name: "&a魔术师护身符"
+TRAVELLER_TALISMAN:
+  name: "&a旅行者护身符"
+WARRIOR_TALISMAN:
+  name: "&a战士护身符"
+KNIGHT_TALISMAN:
+  name: "&a骑士护身符"
+WHIRLWIND_TALISMAN:
+  name: "&a旋风护身符"
+WIZARD_TALISMAN:
+  name: "&a巫师护身符"
+CAVEMAN_TALISMAN:
+  name: "&a穴居人护身符"
+WISE_TALISMAN:
+  name: "&a智者护身符"
+STAFF_ELEMENTAL:
+  name: "&6元素法杖"
+STAFF_ELEMENTAL_WIND:
+  name: "&6元素法杖 &7- &b&o风"
+STAFF_ELEMENTAL_FIRE:
+  name: "&6元素法杖 &7- &c&o火"
+STAFF_ELEMENTAL_WATER:
+  name: "&6元素法杖 &7- &1&o水"
+STAFF_ELEMENTAL_STORM:
+  name: "&6元素法杖 &7- &8&o风暴"
+ENHANCED_CRAFTING_TABLE:
+  name: "&e强化工作台"
+GRIND_STONE:
+  name: "&b研磨石"
+ARMOR_FORGE:
+  name: "&6盔甲锻造台"
+MAKESHIFT_SMELTERY:
+  name: "&e简易冶炼厂"
+SMELTERY:
+  name: "&6冶炼厂"
+ORE_CRUSHER:
+  name: "&b矿石粉碎机"
+COMPRESSOR:
+  name: "&b压缩机"
+PRESSURE_CHAMBER:
+  name: "&b高压舱"
+MAGIC_WORKBENCH:
+  name: "&6魔法工作台"
+ORE_WASHER:
+  name: "&6矿石洗涤机"
+TABLE_SAW:
+  name: "&6台锯"
+JUICER:
+  name: "&a榨汁机"
+AUTOMATED_PANNING_MACHINE:
+  name: "&e自动淘金机"
+INDUSTRIAL_MINER:
+  name: "&b工业采矿机"
+ADVANCED_INDUSTRIAL_MINER:
+  name: "&c高级工业采矿机"
+COMPOSTER:
+  name: "&a堆肥机"
+CRUCIBLE:
+  name: "&c坩埚"
+OUTPUT_CHEST:
+  name: "&4输出箱"
+IGNITION_CHAMBER:
+  name: "&4自动点火室"
+HOLOGRAM_PROJECTOR:
+  name: "&b全息投影仪"
+BLOCK_PLACER:
+  name: "&a放置方块机"
+ENHANCED_FURNACE:
+  name: "&7强化熔炉 - &eI"
+ENHANCED_FURNACE_2:
+  name: "&7强化熔炉 - &eII"
+ENHANCED_FURNACE_3:
+  name: "&7强化熔炉 - &eIII"
+ENHANCED_FURNACE_4:
+  name: "&7强化熔炉 - &eIV"
+ENHANCED_FURNACE_5:
+  name: "&7强化熔炉 - &eV"
+ENHANCED_FURNACE_6:
+  name: "&7强化熔炉 - &eVI"
+ENHANCED_FURNACE_7:
+  name: "&7强化熔炉 - &eVII"
+ENHANCED_FURNACE_8:
+  name: "&7强化熔炉 - &eVIII"
+ENHANCED_FURNACE_9:
+  name: "&7强化熔炉 - &eIX"
+ENHANCED_FURNACE_10:
+  name: "&7强化熔炉 - &eX"
+ENHANCED_FURNACE_11:
+  name: "&7强化熔炉 - &eXI"
+REINFORCED_FURNACE:
+  name: "&7强化熔炉"
+CARBONADO_EDGED_FURNACE:
+  name: "&7Carbonado镶边熔炉"
+SOULBOUND_SWORD:
+  name: "&c灵魂绑定剑"
+SOULBOUND_BOW:
+  name: "&c灵魂绑定弓"
+SOULBOUND_PICKAXE:
+  name: "&c灵魂绑定镐"
+SOULBOUND_AXE:
+  name: "&c灵魂绑定斧"
+SOULBOUND_SHOVEL:
+  name: "&c灵魂绑定锹"
+SOULBOUND_HOE:
+  name: "&c灵魂绑定锄"
+SOULBOUND_TRIDENT:
+  name: "&c灵魂绑定三叉戟"
+SOULBOUND_HELMET:
+  name: "&c灵魂绑定头盔"
+SOULBOUND_CHESTPLATE:
+  name: "&c灵魂绑定胸甲"
+SOULBOUND_LEGGINGS:
+  name: "&c灵魂绑定护腿"
+SOULBOUND_BOOTS:
+  name: "&c灵魂绑定靴子"
+BLANK_RUNE:
+  name: "&8空白符文"
+ANCIENT_RUNE_AIR:
+  name: "&7远古符文 &8&l[&b&l风&8&l]"
+ANCIENT_RUNE_WATER:
+  name: "&7远古符文 &8&l[&1&l水&8&l]"
+ANCIENT_RUNE_FIRE:
+  name: "&7远古符文 &8&l[&4&l火&8&l]"
+ANCIENT_RUNE_EARTH:
+  name: "&7远古符文 &8&l[&c&l土&8&l]"
+ANCIENT_RUNE_ENDER:
+  name: "&7远古符文 &8&l[&5&l末影&8&l]"
+ANCIENT_RUNE_RAINBOW:
+  name: "&7远古符文 &8&l[&d&l彩虹&8&l]"
+ANCIENT_RUNE_LIGHTNING:
+  name: "&7远古符文 &8&l[&e&l闪电&8&l]"
+ANCIENT_RUNE_SOULBOUND:
+  name: "&7远古符文 &8&l[&5&l灵魂绑定&8&l]"
+ANCIENT_RUNE_ENCHANTMENT:
+  name: "&7远古符文 &8&l[&6&l附魔&8&l]"
+ANCIENT_RUNE_VILLAGERS:
+  name: "&7远古符文 &8&l[&4&l村民&8&l]"
+RUNE_ANVIL:
+  name: "&5符文铁砧"
+SOLAR_GENERATOR:
+  name: "&b太阳能发电机"
+SOLAR_GENERATOR_2:
+  name: "&c高级太阳能发电机"
+SOLAR_GENERATOR_3:
+  name: "&4Carbonado太阳能发电机"
+SOLAR_GENERATOR_4:
+  name: "&e充能太阳能发电机"
+COAL_GENERATOR:
+  name: "&c煤炭发电机"
+COAL_GENERATOR_2:
+  name: "&c煤炭发电机 &7(&eII&7)"
+LAVA_GENERATOR:
+  name: "&4熔岩发电机"
+LAVA_GENERATOR_2:
+  name: "&4熔岩发电机 &7(&eII&7)"
+ELECTRIC_FURNACE:
+  name: "&c电力熔炉"
+ELECTRIC_FURNACE_2:
+  name: "&c电力熔炉 &7- &eII"
+ELECTRIC_FURNACE_3:
+  name: "&c电力熔炉 &7- &eIII"
+ELECTRIC_ORE_GRINDER:
+  name: "&c电力矿石研磨机"
+ELECTRIC_ORE_GRINDER_2:
+  name: "&c电力矿石研磨机 &7(&eII&7)"
+ELECTRIC_ORE_GRINDER_3:
+  name: "&c电力矿石研磨机 &7(&eIII&7)"
+ELECTRIC_INGOT_PULVERIZER:
+  name: "&c电力锭粉碎机"
+AUTO_DRIER:
+  name: "&6自动烘干机"
+AUTO_ENCHANTER:
+  name: "&5自动附魔机"
+AUTO_ENCHANTER_2:
+  name: "&5自动附魔机 &7- &eII"
+AUTO_DISENCHANTER:
+  name: "&5自动消魔机"
+AUTO_DISENCHANTER_2:
+  name: "&5自动消魔机 &7- &eII"
+AUTO_ANVIL:
+  name: "&7自动铁砧"
+AUTO_ANVIL_2:
+  name: "&7自动铁砧 Mk.II"
+AUTO_BREWER:
+  name: "&6自动酿造机"
+BOOK_BINDER:
+  name: "&6装订机"
+BIO_REACTOR:
+  name: "&2生物反应堆"
+MULTIMETER:
+  name: "&e万用表"
+SMALL_CAPACITOR:
+  name: "&a小型储能电容器"
+MEDIUM_CAPACITOR:
+  name: "&a中型储能电容器"
+BIG_CAPACITOR:
+  name: "&a大型储能电容器"
+LARGE_CAPACITOR:
+  name: "&a巨型储能电容器"
+CARBONADO_EDGED_CAPACITOR:
+  name: "&aCarbonado镶边储能电容器"
+ENERGIZED_CAPACITOR:
+  name: "&a充能储能电容器"
+PROGRAMMABLE_ANDROID:
+  name: "&c可编程机器人 &7(普通)"
+PROGRAMMABLE_ANDROID_FARMER:
+  name: "&c可编程机器人 &7(农夫)"
+PROGRAMMABLE_ANDROID_MINER:
+  name: "&c可编程机器人 &7(矿工)"
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  name: "&c可编程机器人 &7(伐木工)"
+PROGRAMMABLE_ANDROID_BUTCHER:
+  name: "&c可编程机器人 &7(屠夫)"
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  name: "&c可编程机器人 &7(渔夫)"
+PROGRAMMABLE_ANDROID_2:
+  name: "&c高级可编程机器人 &7(普通)"
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  name: "&c高级可编程机器人 &7(渔夫)"
+PROGRAMMABLE_ANDROID_2_FARMER:
+  name: "&c高级可编程机器人 &7(农夫)"
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  name: "&c高级可编程机器人 &7(屠夫)"
+PROGRAMMABLE_ANDROID_3:
+  name: "&e强能可编程机器人 &7(普通)"
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  name: "&e强能可编程机器人 &7(渔夫)"
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  name: "&e强能可编程机器人 &7(屠夫)"
+GPS_TRANSMITTER:
+  name: "&bGPS发射器"
+GPS_TRANSMITTER_2:
+  name: "&c高级GPS发射器"
+GPS_TRANSMITTER_3:
+  name: "&4Carbonado GPS发射器"
+GPS_TRANSMITTER_4:
+  name: "&e充能GPS发射器"
+GPS_MARKER_TOOL:
+  name: "&bGPS标记工具"
+GPS_CONTROL_PANEL:
+  name: "&bGPS控制面板"
+GPS_EMERGENCY_TRANSMITTER:
+  name: "&cGPS紧急发射器"
+ANDROID_INTERFACE_FUEL:
+  name: "&7机器人接口 &c(燃料)"
+ANDROID_INTERFACE_ITEMS:
+  name: "&7机器人接口 &9(物品)"
+GPS_GEO_SCANNER:
+  name: "&bGPS地质扫描仪"
+PORTABLE_GEO_SCANNER:
+  name: "&b便携式地质扫描仪"
+GEO_MINER:
+  name: "&6GEO采矿机"
+OIL_PUMP:
+  name: "&4抽油机"
+BUCKET_OF_OIL:
+  name: "&f一桶石油"
+BUCKET_OF_FUEL:
+  name: "&f一桶燃料"
+REFINERY:
+  name: "&c炼油厂"
+COMBUSTION_REACTOR:
+  name: "&c燃烧反应堆"
+ANDROID_MEMORY_CORE:
+  name: "&b机器人存储核心"
+GPS_TELEPORTER_PYLON:
+  name: "&5GPS传送塔"
+GPS_TELEPORTATION_MATRIX:
+  name: "&bGPS传送矩阵"
+GPS_ACTIVATION_DEVICE_SHARED:
+  name: "&fGPS激活装置 &3(共享)"
+GPS_ACTIVATION_DEVICE_PERSONAL:
+  name: "&fGPS激活装置 &a(私人)"
+PORTABLE_TELEPORTER:
+  name: "&b便携式传送器"
+ELEVATOR_PLATE:
+  name: "&b电梯踏板"
+INFUSED_HOPPER:
+  name: "&5灌注漏斗"
+HEATED_PRESSURE_CHAMBER:
+  name: "&c加热高压舱"
+HEATED_PRESSURE_CHAMBER_2:
+  name: "&c加热高压舱 &7- &eII"
+ELECTRIC_SMELTERY:
+  name: "&c电力冶炼厂"
+ELECTRIC_SMELTERY_2:
+  name: "&c电力冶炼厂 &7- &eII"
+ELECTRIC_PRESS:
+  name: "&e电力压制机"
+ELECTRIC_PRESS_2:
+  name: "&e电力压制机 &7- &eII"
+ELECTRIFIED_CRUCIBLE:
+  name: "&c电力坩埚"
+ELECTRIFIED_CRUCIBLE_2:
+  name: "&c电力坩埚 &7- &eII"
+ELECTRIFIED_CRUCIBLE_3:
+  name: "&c电力坩埚 &7- &eIII"
+CARBON_PRESS:
+  name: "&c碳压制机"
+CARBON_PRESS_2:
+  name: "&c碳压制机 &7- &eII"
+CARBON_PRESS_3:
+  name: "&c碳压制机 &7- &eIII"
+BLISTERING_INGOT:
+  name: "&6炽热锭 &7(33%)"
+BLISTERING_INGOT_2:
+  name: "&6炽热锭 &7(66%)"
+BLISTERING_INGOT_3:
+  name: "&6炽热锭"
+ENERGY_REGULATOR:
+  name: "&6能量调节器"
+ENERGY_CONNECTOR:
+  name: "&e能量连接器"
+DEBUG_FISH:
+  name: "&3这鱼多少钱?"
+NETHER_ICE:
+  name: "&e地狱冰"
+ENRICHED_NETHER_ICE:
+  name: "&e浓缩地狱冰"
+NETHER_ICE_COOLANT_CELL:
+  name: "&6地狱冰冷却单元"
+CARGO_MANAGER:
+  name: "&6货运管理器"
+CARGO_NODE:
+  name: "&7货运节点 &c(连接器)"
+CARGO_NODE_INPUT:
+  name: "&7货运节点 &c(输入)"
+CARGO_NODE_OUTPUT:
+  name: "&7货运节点 &c(输出)"
+CARGO_NODE_OUTPUT_ADVANCED:
+  name: "&6高级货运节点 &c(输出)"
+AUTO_BREEDER:
+  name: "&e自动繁殖机"
+PRODUCE_COLLECTOR:
+  name: "&b产物收集器"
+ORGANIC_FOOD:
+  name: "&a有机食物"
+ORGANIC_FOOD_WHEAT:
+  name: "&a有机小麦"
+ORGANIC_FOOD_CARROT:
+  name: "&a有机胡萝卜"
+ORGANIC_FOOD_POTATO:
+  name: "&a有机马铃薯"
+ORGANIC_FOOD_SEEDS:
+  name: "&a有机种子"
+ORGANIC_FOOD_BEETROOT:
+  name: "&a有机甜菜根"
+ORGANIC_FOOD_MELON:
+  name: "&a有机西瓜"
+ORGANIC_FOOD_APPLE:
+  name: "&a有机苹果"
+ORGANIC_FOOD_SWEET_BERRIES:
+  name: "&a有机甜浆果"
+ORGANIC_FOOD_KELP:
+  name: "&a有机干海带"
+ORGANIC_FOOD_COCOA:
+  name: "&a有机可可豆"
+ORGANIC_FOOD_SEAGRASS:
+  name: "&a有机海草"
+FERTILIZER:
+  name: "&a有机肥料"
+FERTILIZER_WHEAT:
+  name: "&a小麦肥料"
+FERTILIZER_CARROT:
+  name: "&a胡萝卜肥料"
+FERTILIZER_POTATO:
+  name: "&a马铃薯肥料"
+FERTILIZER_SEEDS:
+  name: "&a种子肥料"
+FERTILIZER_BEETROOT:
+  name: "&a甜菜根肥料"
+FERTILIZER_MELON:
+  name: "&a西瓜肥料"
+FERTILIZER_APPLE:
+  name: "&a苹果肥料"
+FERTILIZER_SWEET_BERRIES:
+  name: "&a甜浆果肥料"
+FERTILIZER_KELP:
+  name: "&a干海带肥料"
+FERTILIZER_COCOA:
+  name: "&a可可豆肥料"
+FERTILIZER_SEAGRASS:
+  name: "&a海草肥料"
+ANIMAL_GROWTH_ACCELERATOR:
+  name: "&b动物生长加速器"
+CROP_GROWTH_ACCELERATOR:
+  name: "&a作物生长加速器"
+CROP_GROWTH_ACCELERATOR_2:
+  name: "&a作物生长加速器 &7(&eII&7)"
+TREE_GROWTH_ACCELERATOR:
+  name: "&a树木生长加速器"
+FOOD_FABRICATOR:
+  name: "&c食物制造机"
+FOOD_FABRICATOR_2:
+  name: "&c食物制造机 &7(&eII&7)"
+FOOD_COMPOSTER:
+  name: "&c食物堆肥机"
+FOOD_COMPOSTER_2:
+  name: "&c食物堆肥机 &7(&eII&7)"
+XP_COLLECTOR:
+  name: "&a经验收集器"
+REACTOR_COLLANT_CELL:
+  name: "&b反应堆冷却单元"
+NUCLEAR_REACTOR:
+  name: "&2核反应堆"
+NETHERSTAR_REACTOR:
+  name: "&f下界之星反应堆"
+REACTOR_ACCESS_PORT:
+  name: "&2反应堆接入端口"
+FREEZER:
+  name: "&b冷冻机"
+FREEZER_2:
+  name: "&b冷冻机 &7(&eII&7)"
+FREEZER_3:
+  name: "&b冷冻机 &7(&eIII&7)"
+ELECTRIC_GOLD_PAN:
+  name: "&6电力淘金盘"
+ELECTRIC_GOLD_PAN_2:
+  name: "&6电力淘金盘 &7(&eII&7)"
+ELECTRIC_GOLD_PAN_3:
+  name: "&6电力淘金盘 &7(&eIII&7)"
+ELECTRIC_DUST_WASHER:
+  name: "&3电力粉末洗涤机"
+ELECTRIC_DUST_WASHER_2:
+  name: "&3电力粉末洗涤机 &7(&eII&7)"
+ELECTRIC_DUST_WASHER_3:
+  name: "&3电力粉末洗涤机 &7(&eIII&7)"
+ELECTRIC_INGOT_FACTORY:
+  name: "&c电力锭工厂"
+ELECTRIC_INGOT_FACTORY_2:
+  name: "&c电力锭工厂 &7(&eII&7)"
+ELECTRIC_INGOT_FACTORY_3:
+  name: "&c电力锭工厂 &7(&eIII&7)"
+FLUID_PUMP:
+  name: "&9流体泵"
+CHARGING_BENCH:
+  name: "&6充电台"
+VANILLA_AUTO_CRAFTER:
+  name: "&2自动合成机 &8(原版)"
+ENHANCED_AUTO_CRAFTER:
+  name: "&2自动合成机 &8(强化)"
+ARMOR_AUTO_CRAFTER:
+  name: "&2自动合成机 &8(盔甲锻造台)"
+IRON_GOLEM_ASSEMBLER:
+  name: "&6铁傀儡组装机"
+WITHER_ASSEMBLER:
+  name: "&5凋零组装机"
+TRASH_CAN_BLOCK:
+  name: "&3垃圾桶"
+ELYTRA_SCALE:
+  name: "&b鞘翅鳞片"
+INFUSED_ELYTRA:
+  name: "&5灌注鞘翅"
+SOULBOUND_ELYTRA:
+  name: "&c灵魂绑定鞘翅"
+MAGNESIUM_SALT:
+  name: "&c镁盐"
+MAGNESIUM_GENERATOR:
+  name: "&c镁动力发电机"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5末影铁砧护身符"
+ENDER_MINER_TALISMAN:
+  name: "&5末影矿工护身符"
+ENDER_FARMER_TALISMAN:
+  name: "&5末影农夫护身符"
+ENDER_HUNTER_TALISMAN:
+  name: "&5末影猎人护身符"
+ENDER_LAVA_TALISMAN:
+  name: "&5末影熔岩行者护身符"
+ENDER_WATER_TALISMAN:
+  name: "&5末影水下呼吸护身符"
+ENDER_ANGEL_TALISMAN:
+  name: "&5末影天使护身符"
+ENDER_FIRE_TALISMAN:
+  name: "&5末影消防员护身符"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5末影魔术师护身符"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5末影旅行者护身符"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5末影战士护身符"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5末影骑士护身符"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5末影穴居人护身符"
+ENDER_WISE_TALISMAN:
+  name: "&5末影智者护身符"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5末影旋风护身符"
+ENDER_WIZARD_TALISMAN:
+  name: "&5末影巫师护身符"
+BIRTHDAY_CAKE:
+  name: "&d生日蛋糕"

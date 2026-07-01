@@ -37,6 +37,150 @@ commands:
 placeholderapi:
   profile-loading: '加载中...'
 guide:
+  item:
+    name: '&aSlimefun 指南 &7(Chest GUI)'
+    cheat-only: '&4&l仅管理员可打开'
+    browse: '&e右键 &8⇨ &7浏览物品'
+    settings: '&eShift + 右键 &8⇨ &7打开设置 / 贡献者'
+  themes-meta:
+    categories: '&7分类: &e%count%'
+    open: '&7⇨ &e单击打开'
+  themes:
+    weapons: '&c武器'
+    tools: '&a工具'
+    armor: '&b护甲'
+    machines: '&6机器'
+    energy_tech: '&e能源 & 科技'
+    resources: '&f资源'
+    magic: '&d魔法'
+    food: '&2食物 & 农业'
+    logistics: '&3物流'
+    decoration: '&5装饰'
+    misc: '&7杂项'
+  addon-visibility:
+    name: '&3附属插件可见性'
+    lore:
+    - '&7选择哪些附属插件显示在你的指南中.'
+    - '&7隐藏的附属插件将从浏览和搜索中移除'
+    - '&7— 仅对你生效.'
+    - ''
+    - '&7⇨ &e单击管理'
+    menu-title: '&e附属插件可见性'
+    menu-lore:
+    - '&7单击某个附属插件以切换它是否'
+    - '&7显示在你的指南中 (浏览 + 搜索).'
+    - ''
+    - '&7至少需要保留一个附属插件可见.'
+    shown: '&a✔ 显示'
+    hidden: '&c✖ 隐藏'
+    toggle: '&7⇨ &e单击切换'
+    back: '&e⇦ 返回'
+    must-stay: '&c至少需要保留一个附属插件可见.'
+  wiki-topics:
+    getting_started: { name: '新手入门', summary: '&7你在 Slimefun 中的第一步' }
+    research: { name: '研究 & 解锁', summary: '&7用经验解锁物品' }
+    multiblocks: { name: '多方块机器', summary: '&7搭建结构来合成' }
+    ore_processing: { name: '矿石处理', summary: '&7让你的矿石产量翻倍' }
+    smeltery: { name: '冶炼厂 & 合金', summary: '&7熔炼粉末并锻造合金' }
+    energy: { name: '能源网络', summary: '&7为你的机器供能' }
+    power_generation: { name: '电力生产', summary: '&7发电机、反应堆、电容器' }
+    electric_machines: { name: '电力机器', summary: '&7由电力驱动的自动机器' }
+    cargo: { name: '货运网络', summary: '&7自动搬运物品' }
+    androids: { name: '可编程机器人', summary: '&7用机器人自动执行任务' }
+    geo_mining: { name: 'GEO 采矿 & 石油', summary: '&7开采石油和资源' }
+    gps: { name: 'GPS & 传送', summary: '&7路径点与传送器' }
+    talismans: { name: '护身符', summary: '&7被动的幸运与保护' }
+    magic: { name: '魔法 & 祭坛', summary: '&7符文、法杖与仪式' }
+    armor_gadgets: { name: '护甲 & 装置', summary: '&7喷气背包、套装与工具' }
+    backpacks: { name: '背包 & 储物', summary: '&7随身携带的便携储物' }
+    food_farming: { name: '食物 & 农业', summary: '&7果汁、肉干与自动农场' }
+    soulbound: { name: '灵魂绑定物品', summary: '&7死亡时保留物品' }
+  coverage:
+    messages: '&7消息: &b%percent%%'
+    items: '&7物品: &b%percent%%'
+    breakdown-hint: '&7⇨ &e右键: &7物品翻译明细'
+    title-suffix: '物品'
+    translated: '&7已翻译: &b%translated%&7/&b%total%'
+    line: '&7翻译进度: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Slimefun 百科'
+    welcome:
+      title: '&3Slimefun 百科'
+      lore:
+      - '&7初来乍到？阅读下方的指南来了解'
+      - '&7Slimefun 的运作方式 - 从 &e新手入门&7 开始。'
+      - '&7或浏览物品来查询信息。'
+    search:
+      name: '&a搜索百科'
+      lore:
+      - '&7按名称查询任意物品'
+      - '&7涵盖所有已安装的扩展。'
+      - ''
+      - '&7⇨ &e点击输入搜索词'
+    browse:
+      name: '&a按类别浏览物品'
+      lore:
+      - '&7探索所有 Slimefun 类别'
+      - '&7并查询单个物品。'
+      - ''
+      - '&7⇨ &e点击'
+    topic-click: '&7⇨ &e点击阅读'
+    results-title: '&a搜索结果: &e"%query%&e"'
+    results-found: '&7找到 &b%count% &7个物品。'
+    item-title: '百科: %item%'
+    topic-title: '百科: %topic%'
+    back: '&e⇦ 返回'
+    no-info: '&7（暂无可用信息。）'
+    used-in:
+      name: '&e用途'
+      lore:
+      - '&7在配方中使用此物品的物品。'
+      - '&7点击其中一个查看其页面。'
+    more: '&7+%count% 更多'
+    stats:
+      title: '&6数据'
+      capacity: '&7容量: &e%capacity% J'
+      energy: '&7能量: &e%energy% J/tick'
+      speed: '&7速度: &e%speed%x'
+    items-header:
+      name: '&e▼ 本指南中的物品'
+      lore:
+      - '&7点击下方任意物品查看其'
+      - "&7配方、数据及用途。"
+
+  installer:
+    badge:
+      working: '&e⚙ 处理中…'
+      restart: '&b↻ 重启以应用 (%version%)'
+      installed-version: '&a✔ 已安装 v%version%'
+      installed: '&a✔ 已安装'
+      not-installed-deps: '&7＋ 未安装 &8(需要 %deps%)'
+      not-installed: '&7＋ 未安装'
+    back-settings: '&e⇦ 返回设置'
+    back: '&e⇦ 返回'
+    click-details: '&7⇨ &e点击查看详情'
+    will-install: '&7同时将安装: &f%deps%'
+    install:
+      install: '&a安装最新发行版'
+      update: '&a更新到最新发行版'
+      lore:
+      - '&7下载最新的 GitHub 发行版'
+      - '&7并暂存以待下次重启。'
+      - ''
+      - '&7⇨ &e点击'
+    build:
+      name: '&b从分支构建'
+      lore:
+      - '&7克隆并编译选定的分支'
+      - '&7（仅限开发者环境）。'
+      - ''
+      - '&7⇨ &e点击选择分支'
+    branches:
+      none: '&c未找到分支'
+      none-lore: "&7无法连接 GitHub，或该仓库没有分支。"
+      click: '&7⇨ &e点击构建此分支'
+
   locked: '已锁定'
   work-in-progress: '该功能暂未推出!'
   locked-itemgroup:
@@ -129,6 +273,8 @@ guide:
     bugs: '问题反馈'
     source: '源代码'
     versions: '安装的版本'
+    addon-visibility: '附属插件可见性'
+    installer: '附属插件安装器'
   credits:
     commit: '提交'
     commits: '提交次数'

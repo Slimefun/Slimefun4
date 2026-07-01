@@ -57,7 +57,7 @@ final class ContributorsMenu {
 
             menu.addItem(i - page * 36 + 9, skull);
             menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
-                if (contributor.getProfile() != null) {
+                if (contributor.getProfile() != null && io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks()) {
                     pl.closeInventory();
                     ChatUtils.sendURL(pl, contributor.getProfile());
                 }

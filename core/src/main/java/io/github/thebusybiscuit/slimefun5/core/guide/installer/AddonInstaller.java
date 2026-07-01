@@ -1,0 +1,536 @@
+package io.github.thebusybiscuit.slimefun5.core.guide.installer;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.Nonnull;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+
+/**
+ * Orchestrates installs/updates/builds: dependency resolution, async download or build, state
+ * updates, and player feedback. Menus call this; it never touches the UI directly beyond chat
+ * messages.
+ */
+public final class AddonInstaller {
+
+    private final AddonReleaseService releaseService = new AddonReleaseService();
+    private final AddonSourceBuilder sourceBuilder = new AddonSourceBuilder();
+    private final InstallState state;
+
+    /** Entry ids with an install/build currently in flight, for the "working" badge. */
+    private final Set<String> inProgress = ConcurrentHashMap.newKeySet();
+
+    /** Cached update-check results, refreshed lazily when an entry's detail menu opens. */
+    private final java.util.Map<String, String> updateLabels = new ConcurrentHashMap<>();
+    private final java.util.Map<String, Long> lastChecked = new ConcurrentHashMap<>();
+
+    /** Don't re-hit GitHub for the same entry more than once per this window (rate-limit friendly). */
+    private static final long UPDATE_CHECK_THROTTLE_MS = 10 * 60 * 1000L;
+
+    /** Admins already shown the startup update summary this server session (so we tell them once). */
+    private final Set<java.util.UUID> notifiedPlayers = ConcurrentHashMap.newKeySet();
+
+    /** "Networks 1.0.2, …" summary built by the startup check, or null when nothing is pending. */
+    private volatile String pendingUpdateSummary = null;
+
+    /** A snapshot of one entry's install identity, captured on the main thread before checking async. */
+    private static final class UpdateProbe {
+        private final AddonCatalog.Entry entry;
+        private final InstallState.Method method;
+        private final String installed;
+        private final String commit;
+
+        UpdateProbe(AddonCatalog.Entry entry, InstallState.Method method, String installed, String commit) {
+            this.entry = entry;
+            this.method = method;
+            this.installed = installed;
+            this.commit = commit;
+        }
+    }
+
+    public AddonInstaller(@Nonnull InstallState state) {
+        this.state = state;
+    }
+
+    @Nonnull
+    public InstallState getState() {
+        return state;
+    }
+
+    public boolean isInProgress(@Nonnull String id) {
+        return inProgress.contains(id);
+    }
+
+    /**
+     * Clears stale "restart pending" flags. An entry flagged restart-pending whose plugin is now
+     * loaded was activated by the restart that just happened, so the badge should no longer nag.
+     * Must run after all plugins have enabled (e.g. once the server has finished loading).
+     */
+    public void reconcileRestartFlags() {
+        for (String id : state.getTrackedIds()) {
+            InstallState.Record record = state.get(id);
+
+            if (record != null && record.isRestartPending()) {
+                AddonCatalog.Entry entry = AddonCatalog.getById(id);
+
+                if (entry != null && isLoaded(entry)) {
+                    state.clearRestartPending(id);
+                }
+            }
+        }
+    }
+
+    /** True when a plugin matching the entry's plugin name is currently loaded. */
+    public boolean isLoaded(@Nonnull AddonCatalog.Entry entry) {
+        if (entry.isCore()) {
+            return true;
+        }
+
+        // Libraries (e.g. InfinityLib) ship no plugin.yml and so never appear as loaded plugins. Treat
+        // one as present when any addon that depends on it is loaded - its classes are then on the path.
+        if (entry.isLibrary()) {
+            for (AddonCatalog.Entry candidate : AddonCatalog.getEntries()) {
+                if (candidate.getDependencies().contains(entry.getId()) && isLoaded(candidate)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        for (Plugin plugin : Slimefun.instance().getServer().getPluginManager().getPlugins()) {
+            if (plugin.getName().equalsIgnoreCase(entry.getPluginName()) || plugin.getName().equalsIgnoreCase(entry.getRepo())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** The loaded Bukkit {@link Plugin} matching this entry, or null when not loaded / not a plugin. */
+    @javax.annotation.Nullable
+    public Plugin getLoadedPlugin(@Nonnull AddonCatalog.Entry entry) {
+        if (entry.isCore()) {
+            return Slimefun.instance();
+        }
+
+        for (Plugin plugin : Slimefun.instance().getServer().getPluginManager().getPlugins()) {
+            if (plugin.getName().equalsIgnoreCase(entry.getPluginName()) || plugin.getName().equalsIgnoreCase(entry.getRepo())) {
+                return plugin;
+            }
+        }
+
+        return null;
+    }
+
+    /** True when the last update-check found a newer release/branch head for this entry. */
+    public boolean isUpdateAvailable(@Nonnull String id) {
+        return updateLabels.containsKey(id);
+    }
+
+    /** The available version/commit label for an entry with a pending update, or "" if none. */
+    @Nonnull
+    public String getLatestVersionLabel(@Nonnull String id) {
+        String label = updateLabels.get(id);
+        return label != null ? label : "";
+    }
+
+    /**
+     * Refreshes the cached update status for installer-managed entries (UI only, no chat). Bukkit-API
+     * state is read on the calling thread; the network calls run async, throttled per entry.
+     */
+    public void refreshUpdateStatusAsync(@Nonnull List<AddonCatalog.Entry> entries) {
+        refreshUpdateStatusAsync(entries, null);
+    }
+
+    private void refreshUpdateStatusAsync(@Nonnull List<AddonCatalog.Entry> entries, @javax.annotation.Nullable Runnable onComplete) {
+        long now = System.currentTimeMillis();
+        List<UpdateProbe> probes = new ArrayList<>();
+
+        for (AddonCatalog.Entry entry : entries) {
+            if (entry.isLibrary() || !isLoaded(entry)) {
+                continue;
+            }
+
+            InstallState.Record record = state.get(entry.getId());
+
+            // Only the installer can judge updates for what IT installed. A custom/local build (e.g.
+            // core, or any orchestrator-deployed addon) has no record and no known upstream ref, so
+            // comparing it to release tags gives false positives — skip those entirely.
+            if (record == null) {
+                continue;
+            }
+
+            Long last = lastChecked.get(entry.getId());
+
+            if (last != null && now - last < UPDATE_CHECK_THROTTLE_MS) {
+                continue;
+            }
+
+            lastChecked.put(entry.getId(), now);
+            probes.add(new UpdateProbe(entry, record.getMethod(), record.getVersion(), record.getCommit()));
+        }
+
+        if (probes.isEmpty()) {
+            if (onComplete != null) {
+                Slimefun.runSync(onComplete);
+            }
+            return;
+        }
+
+        runAsync(() -> {
+            for (UpdateProbe probe : probes) {
+                try {
+                    computeAndStore(probe);
+                } catch (RuntimeException ignored) {
+                    // A single failed check must not abort the rest.
+                }
+            }
+
+            if (onComplete != null) {
+                Slimefun.runSync(onComplete);
+            }
+        });
+    }
+
+    private void computeAndStore(@Nonnull UpdateProbe probe) {
+        boolean available;
+        String label;
+
+        if (probe.method == InstallState.Method.BRANCH) {
+            // For a branch install, the head moving past the recorded commit means there's an update.
+            String head = releaseService.fetchBranchHead(probe.entry, probe.installed);
+
+            if (head == null) {
+                return;
+            }
+
+            available = !probe.commit.contains(head);
+            label = probe.installed + " @ " + head;
+        } else {
+            AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(probe.entry);
+
+            if (info == null) {
+                // No release published (or GitHub unreachable) — leave the cached state untouched.
+                return;
+            }
+
+            available = !normalizeVersion(info.getTag()).equals(normalizeVersion(probe.installed));
+            label = info.getTag();
+        }
+
+        if (available) {
+            updateLabels.put(probe.entry.getId(), label);
+        } else {
+            updateLabels.remove(probe.entry.getId());
+        }
+    }
+
+    /**
+     * Runs once after the server finishes loading: checks every managed entry, logs a console summary,
+     * and messages any online admins. The same summary is shown to admins on their first join this
+     * session (see {@link #announceTo(Player)}). Nothing is shown when no managed install has an update.
+     */
+    public void checkForUpdatesOnStartup() {
+        notifiedPlayers.clear();
+        refreshUpdateStatusAsync(AddonCatalog.getEntries(), () -> {
+            List<String> updates = new ArrayList<>();
+
+            for (AddonCatalog.Entry entry : AddonCatalog.getEntries()) {
+                String label = updateLabels.get(entry.getId());
+
+                if (label != null) {
+                    updates.add(entry.getDisplayName() + " " + label);
+                }
+            }
+
+            pendingUpdateSummary = updates.isEmpty() ? null : String.join(", ", updates);
+
+            if (pendingUpdateSummary != null) {
+                Slimefun.logger().log(java.util.logging.Level.INFO, "Addon/Slimefun updates available: {0}", pendingUpdateSummary);
+
+                for (Player online : org.bukkit.Bukkit.getOnlinePlayers()) {
+                    announceTo(online);
+                }
+            }
+        });
+    }
+
+    /**
+     * Shows the pending update summary to an admin the first time they are seen this session. No-op
+     * when nothing is pending, the player lacks the installer permission, or they were already told.
+     */
+    public void announceTo(@Nonnull Player player) {
+        String summary = pendingUpdateSummary;
+
+        if (summary == null || !player.hasPermission(AddonCatalog.PERMISSION)) {
+            return;
+        }
+
+        if (!notifiedPlayers.add(player.getUniqueId())) {
+            return;
+        }
+
+        player.sendMessage(ChatColor.GOLD + "⬆ Updates available: " + ChatColor.YELLOW + summary);
+        player.sendMessage(ChatColor.GRAY + "Open the Slimefun guide → Settings → Addon Installer to update.");
+    }
+
+    /** Strips gh-/v prefixes and any -UNOFFICIAL/-MC build suffix so two version strings compare cleanly. */
+    @Nonnull
+    private static String normalizeVersion(@Nonnull String raw) {
+        String v = raw.trim();
+        v = v.replaceFirst("^gh-", "").replaceFirst("^v", "");
+        int suffix = v.indexOf("-UNOFFICIAL");
+
+        if (suffix < 0) {
+            suffix = v.indexOf("-MC");
+        }
+
+        return suffix >= 0 ? v.substring(0, suffix) : v;
+    }
+
+    /**
+     * Installs (or updates) an entry from its latest release, plus any missing hard dependencies.
+     * Runs entirely off the main thread; messages the player on completion.
+     */
+    public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry) {
+        // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins) on the calling
+        // (main) thread, then reserve all ids before going async.
+        List<AddonCatalog.Entry> targets = new ArrayList<>();
+
+        for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
+            if (!isLoaded(dep)) {
+                targets.add(dep);
+            }
+        }
+
+        targets.add(entry);
+
+        Set<String> loadedIds = new HashSet<>();
+
+        for (AddonCatalog.Entry target : targets) {
+            if (isLoaded(target)) {
+                loadedIds.add(target.getId());
+            }
+        }
+
+        if (!reserve(targets)) {
+            return;
+        }
+
+        runAsync(() -> {
+            List<String> staged = new ArrayList<>();
+            boolean failure = false;
+
+            for (AddonCatalog.Entry target : targets) {
+                AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(target);
+
+                if (info == null) {
+                    message(player, ChatColor.RED + "✖ " + target.getDisplayName() + " is unavailable (no release / GitHub unreachable).");
+                    failure = true;
+                    break;
+                }
+
+                File dir = InstallTargets.targetDir(loadedIds.contains(target.getId()));
+                boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, target.getRepo() + ".jar");
+
+                if (!ok) {
+                    message(player, ChatColor.RED + "✖ Failed to download " + target.getDisplayName() + ".");
+                    failure = true;
+                    break;
+                }
+
+                state.set(target.getId(), InstallState.Method.RELEASE, info.getTag(), true);
+                staged.add(target.getDisplayName() + " " + info.getTag());
+            }
+
+            release(targets);
+
+            if (!failure) {
+                message(player, ChatColor.GREEN + "✔ Staged: " + String.join(", ", staged) + ChatColor.GRAY + " — restart the server to apply.");
+            }
+        });
+    }
+
+    /**
+     * Builds an entry from a branch and stages the resulting jar. Dependencies are NOT built from
+     * source — they are installed from their latest release if missing.
+     */
+    public void buildFromBranch(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @Nonnull String branch, long timestamp) {
+        // Resolve Bukkit-API state on the main thread.
+        List<AddonCatalog.Entry> missingDeps = new ArrayList<>();
+
+        for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
+            if (!isLoaded(dep)) {
+                missingDeps.add(dep);
+            }
+        }
+
+        boolean entryLoaded = isLoaded(entry);
+
+        List<AddonCatalog.Entry> reserved = new ArrayList<>(missingDeps);
+        reserved.add(entry);
+
+        if (!reserve(reserved)) {
+            return;
+        }
+
+        runAsync(() -> {
+            // Release-install any missing hard dependencies first.
+            for (AddonCatalog.Entry dep : missingDeps) {
+                AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(dep);
+
+                if (info != null) {
+                    File dir = InstallTargets.targetDir(false);
+                    releaseService.downloadJar(info.getJarUrl(), dir, dep.getRepo() + ".jar");
+                    state.set(dep.getId(), InstallState.Method.RELEASE, info.getTag(), true);
+                }
+            }
+
+            message(player, ChatColor.YELLOW + "⚙ Building " + entry.getDisplayName() + " from " + branch + "… this can take a few minutes.");
+            AddonSourceBuilder.Result result = sourceBuilder.build(entry, branch, timestamp);
+
+            if (!result.isSuccess() || result.getJar() == null) {
+                message(player, ChatColor.RED + "✖ Build failed. Log: " + result.getLogFile().getPath());
+
+                for (String line : AddonSourceBuilder.tail(result.getLogFile(), 15)) {
+                    message(player, ChatColor.DARK_GRAY + line);
+                }
+
+                release(reserved);
+                return;
+            }
+
+            File dir = InstallTargets.targetDir(entryLoaded);
+            File dest = new File(dir, entry.getRepo() + ".jar");
+            boolean copied = copy(result.getJar(), dest);
+            release(reserved);
+
+            if (copied) {
+                state.set(entry.getId(), InstallState.Method.BRANCH, branch, result.getDescribe(), true);
+                message(player, ChatColor.GREEN + "✔ Built " + entry.getDisplayName() + " (" + branch + ") — restart the server to apply.");
+            } else {
+                message(player, ChatColor.RED + "✖ Build succeeded but staging the jar failed.");
+            }
+        });
+    }
+
+    /**
+     * Deletes a loaded addon's jar from the plugins folder and forgets its install state. The plugin
+     * stays in memory until the next restart, so the player is told to restart to fully unload it.
+     * Core is never deletable here.
+     */
+    public void deleteAddon(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry) {
+        if (entry.isCore()) {
+            message(player, ChatColor.RED + "✖ Slimefun core cannot be deleted here.");
+            return;
+        }
+
+        File jar = locateJar(entry);
+
+        if (jar == null || !jar.exists()) {
+            message(player, ChatColor.RED + "✖ Could not locate the jar for " + entry.getDisplayName() + ".");
+            return;
+        }
+
+        if (jar.delete()) {
+            state.remove(entry.getId());
+            updateLabels.remove(entry.getId());
+            lastChecked.remove(entry.getId());
+            message(player, ChatColor.GREEN + "✔ Deleted " + entry.getDisplayName() + ChatColor.GRAY + " — restart the server to unload it.");
+        } else {
+            message(player, ChatColor.RED + "✖ Failed to delete " + entry.getDisplayName() + "'s jar (is the file locked?).");
+        }
+    }
+
+    /** Best-effort location of an entry's jar: the loaded plugin's own file, else a staged repo.jar. */
+    @javax.annotation.Nullable
+    private File locateJar(@Nonnull AddonCatalog.Entry entry) {
+        Plugin plugin = getLoadedPlugin(entry);
+
+        if (plugin instanceof org.bukkit.plugin.java.JavaPlugin) {
+            try {
+                java.lang.reflect.Method getFile = org.bukkit.plugin.java.JavaPlugin.class.getDeclaredMethod("getFile");
+                getFile.setAccessible(true);
+                Object file = getFile.invoke(plugin);
+
+                if (file instanceof File && ((File) file).exists()) {
+                    return (File) file;
+                }
+            } catch (ReflectiveOperationException ignored) {
+                // Fall through to the staged-name guess below.
+            }
+        }
+
+        File staged = new File(InstallTargets.pluginsDir(), entry.getRepo() + ".jar");
+        return staged.exists() ? staged : null;
+    }
+
+    /** Reserves all ids in inProgress atomically; returns false (and rolls back) if any is already in flight. */
+    private boolean reserve(List<AddonCatalog.Entry> entries) {
+        List<String> added = new ArrayList<>();
+
+        for (AddonCatalog.Entry e : entries) {
+            if (inProgress.add(e.getId())) {
+                added.add(e.getId());
+            } else {
+                inProgress.removeAll(added);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void release(List<AddonCatalog.Entry> entries) {
+        for (AddonCatalog.Entry e : entries) {
+            inProgress.remove(e.getId());
+        }
+    }
+
+    private static boolean copy(File from, File to) {
+        File tmp = new File(to.getParentFile(), to.getName() + ".tmp");
+
+        try {
+            try (java.io.InputStream in = new java.io.FileInputStream(from); java.io.OutputStream out = new java.io.FileOutputStream(tmp)) {
+                byte[] buffer = new byte[8192];
+                int read;
+
+                while ((read = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, read);
+                }
+            }
+
+            if (to.exists() && !to.delete()) {
+                tmp.delete();
+                return false;
+            }
+
+            return tmp.renameTo(to);
+        } catch (java.io.IOException e) {
+            tmp.delete();
+            return false;
+        }
+    }
+
+    private static void runAsync(Runnable runnable) {
+        Slimefun.instance().getServer().getScheduler().runTaskAsynchronously(Slimefun.instance(), runnable);
+    }
+
+    private static void message(Player player, String text) {
+        Slimefun.instance().getServer().getScheduler().runTask(Slimefun.instance(), () -> {
+            if (player.isOnline()) {
+                player.sendMessage(text);
+            }
+        });
+    }
+}

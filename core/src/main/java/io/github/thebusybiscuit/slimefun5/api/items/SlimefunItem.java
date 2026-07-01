@@ -1,9 +1,11 @@
 package io.github.thebusybiscuit.slimefun5.api.items;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -15,11 +17,13 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.permissions.Permission;
 
 import io.github.bakedlibs.dough.collections.OptionalMap;
@@ -219,6 +223,41 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull ItemStack getItem() {
         return itemStackTemplate.clone();
+    }
+
+    /**
+     * Bakes a translated display name and/or lore into this item's template, so that physical copies
+     * (the world/inventory item) show the server's default language. Called once, after translations
+     * load. A null name or empty lore leaves that part unchanged; items match by id, not display name,
+     * so re-skinning here does not affect recipe matching.
+     *
+     * @param name
+     *            The translated display name (with '&' colour codes), or null to keep the current name
+     * @param lore
+     *            The translated lore lines (with '&' colour codes); empty keeps the current lore
+     */
+    public void bakeTranslatedDisplay(@Nullable String name, @Nonnull List<String> lore) {
+        ItemMeta meta = itemStackTemplate.getItemMeta();
+
+        if (meta == null) {
+            return;
+        }
+
+        if (name != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        }
+
+        if (!lore.isEmpty()) {
+            List<String> translatedLore = new ArrayList<>();
+
+            for (String line : lore) {
+                translatedLore.add(ChatColor.translateAlternateColorCodes('&', line));
+            }
+
+            meta.setLore(translatedLore);
+        }
+
+        itemStackTemplate.setItemMeta(meta);
     }
 
     /**
@@ -884,6 +923,17 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull Optional<String> getWikipage() {
         return wikiURL;
+    }
+
+    /**
+     * Assigns authored in-game wiki text to this item. Each argument is one line and may
+     * contain color codes. Addons call this to describe what their items do.
+     *
+     * @param lines
+     *            The explanation lines for this item's in-game wiki page
+     */
+    public void setWikiText(@Nonnull String... lines) {
+        Slimefun.getWikiText().set(getId(), Arrays.asList(lines));
     }
 
     /**

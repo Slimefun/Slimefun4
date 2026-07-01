@@ -1,0 +1,84 @@
+name: Publish to GitHub only
+
+# A lightweight, GitHub-only release of the core jar — no Modrinth, no Hangar.
+# Use this for builds that addons need to consume via github-gradle (e.g. a new core API like
+# ItemGroup#setTheme) but that aren't worth a full Modrinth/Hangar release.
+#
+# Trigger either way:
+#   - push a digit-leading version tag, e.g. 5.2.3.1 (or gh-v5.2.3), or
+#   - run this workflow manually (Actions tab) with a version input.
+#
+# github-gradle consumers reference the resulting tag, e.g.  Slimefun5:Slimefun5:5.2.3.1
+#
+# The full release path (tag v* -> GitHub + Modrinth + Hangar via the @stable reusable in
+# publish-platforms.yml) is unaffected: full releases are v-prefixed (v5.2.3), GitHub-only builds
+# are not (5.2.3.1), so the two tag filters never overlap.
+
+on:
+  push:
+    tags:
+      - "[0-9]*"   # digit-leading version tags = GitHub-only builds (full releases use v*)
+      - "gh-v*"    # also accepted, for explicitness
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g. 5.2.3.1) — also used as the release tag"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish-github:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Resolve version and tag
+        id: ver
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            TAG="${{ github.event.inputs.version }}"
+          else
+            TAG="${GITHUB_REF_NAME}"
+          fi
+          # Derive the artifact version by stripping an optional gh-v or v prefix (5.2.3.1 stays 5.2.3.1).
+          VERSION="${TAG#gh-v}"
+          VERSION="${VERSION#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Build core jar
+        run: |
+          chmod +x ./gradlew
+          ./gradlew :core:shadowJar -Partifact_version="${{ steps.ver.outputs.version }}" --no-daemon
+
+      # Release notes = the tagged commit's message (the changelog you write in the commit), followed by
+      # the standard consumer note. For a manual run it uses the latest commit on the checked-out ref.
+      - name: Build release notes from the commit message
+        id: notes
+        run: |
+          {
+            echo "text<<NOTES_EOF"
+            git log -1 --pretty=%B
+            echo ""
+            echo "---"
+            echo "GitHub-only build for github-gradle consumers. Consume via \`Slimefun5:Slimefun5:${{ steps.ver.outputs.tag }}\`."
+            echo "NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub release (GitHub only)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.ver.outputs.tag }}
+          name: "Slimefun ${{ steps.ver.outputs.version }} (GitHub build)"
+          body: ${{ steps.notes.outputs.text }}
+          prerelease: true
+          files: core/build/libs/*.jar

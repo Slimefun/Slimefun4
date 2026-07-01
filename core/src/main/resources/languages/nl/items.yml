@@ -1,0 +1,1107 @@
+PORTABLE_CRAFTER:
+  name: "&6Draagbare Werkbank"
+PORTABLE_DUSTBIN:
+  name: "&6Draagbare Prullenbak"
+ENDER_BACKPACK:
+  name: "&6Ender Rugzak"
+MAGIC_EYE_OF_ENDER:
+  name: "&6&lMagisch Oog van Ender"
+BROKEN_SPAWNER:
+  name: "&cKapotte Spawner"
+REINFORCED_SPAWNER:
+  name: "&bVersterkte Spawner"
+INFERNAL_BONEMEAL:
+  name: "&4Infernaal Beendermeel"
+TAPE_MEASURE:
+  name: "&6Rolmaat"
+GOLD_PAN:
+  name: "&6Goudpan"
+NETHER_GOLD_PAN:
+  name: "&4Nether Goudpan"
+PARACHUTE:
+  name: "&f&lParachute"
+GRAPPLING_HOOK:
+  name: "&6Enterhaak"
+SOLAR_HELMET:
+  name: "&bZonne-Helm"
+CLOTH:
+  name: "&bDoek"
+REINFORCED_CLOTH:
+  name: "&bVersterkt Doek"
+CAN:
+  name: "&fBlikje"
+NIGHT_VISION_GOGGLES:
+  name: "&aNachtzichtbril"
+ELYTRA_CAP:
+  name: "&5Elytra Kap"
+FARMER_SHOES:
+  name: "&eBoerenschoenen"
+INFUSED_MAGNET:
+  name: "&aDoordrenkte Magneet"
+RAG:
+  name: "&cLap"
+BANDAGE:
+  name: "&cVerband"
+SPLINT:
+  name: "&cSpalk"
+VITAMINS:
+  name: "&cVitaminen"
+MEDICINE:
+  name: "&cMedicijn"
+MAGICAL_ZOMBIE_PILLS:
+  name: "&6Magische Zombiepillen"
+FLASK_OF_KNOWLEDGE:
+  name: "&cKolf der Kennis"
+FILLED_FLASK_OF_KNOWLEDGE:
+  name: "&aKolf der Kennis"
+SMALL_BACKPACK:
+  name: "&eKleine Rugzak"
+MEDIUM_BACKPACK:
+  name: "&eRugzak"
+LARGE_BACKPACK:
+  name: "&eGrote Rugzak"
+WOVEN_BACKPACK:
+  name: "&eGeweven Rugzak"
+GILDED_BACKPACK:
+  name: "&eVergulde Rugzak"
+RADIANT_BACKPACK:
+  name: "&eStralende Rugzak"
+BOUND_BACKPACK:
+  name: "&cZielsgebonden Rugzak"
+COOLER:
+  name: "&bKoelbox"
+RESTORED_BACKPACK:
+  name: "&eHerstelde Rugzak"
+DURALUMIN_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eI"
+SOLDER_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eII"
+BILLON_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eIII"
+STEEL_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eIV"
+DAMASCUS_STEEL_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eV"
+REINFORCED_ALLOY_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eVI"
+CARBONADO_JETPACK:
+  name: "&9Elektrische Jetpack &7- &eVII"
+ARMORED_JETPACK:
+  name: "&9Gepantserde Jetpack"
+DURALUMIN_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eI"
+SOLDER_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eII"
+BILLON_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eIII"
+STEEL_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eIV"
+DAMASCUS_STEEL_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eV"
+REINFORCED_ALLOY_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eVI"
+CARBONADO_JETBOOTS:
+  name: "&9Jetlaarzen &7- &eVII"
+ARMORED_JETBOOTS:
+  name: "&9Gepantserde Jetlaarzen"
+DURALUMIN_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eI"
+SOLDER_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eII"
+BILLON_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eIII"
+STEEL_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eIV"
+DAMASCUS_STEEL_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eV"
+REINFORCED_ALLOY_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eVI"
+CARBONADO_MULTI_TOOL:
+  name: "&9Multigereedschap &7- &eVII"
+FORTUNE_COOKIE:
+  name: "&6Gelukskoekje"
+DIET_COOKIE:
+  name: "&6Dieetkoekje"
+MAGIC_SUGAR:
+  name: "&6Magische Suiker"
+MONSTER_JERKY:
+  name: "&6Monster Jerky"
+APPLE_JUICE:
+  name: "&cAppelsap"
+MELON_JUICE:
+  name: "&cMeloensap"
+CARROT_JUICE:
+  name: "&6Wortelsap"
+PUMPKIN_JUICE:
+  name: "&6Pompoensap"
+SWEET_BERRY_JUICE:
+  name: "&cZoetebessensap"
+GLOW_BERRY_JUICE:
+  name: "&6Gloeibessensap"
+GOLDEN_APPLE_JUICE:
+  name: "&bGouden Appelsap"
+BEEF_JERKY:
+  name: "&6Rundvlees Jerky"
+PORK_JERKY:
+  name: "&6Varkensvlees Jerky"
+CHICKEN_JERKY:
+  name: "&6Kip Jerky"
+MUTTON_JERKY:
+  name: "&6Schapenvlees Jerky"
+RABBIT_JERKY:
+  name: "&6Konijn Jerky"
+FISH_JERKY:
+  name: "&6Vis Jerky"
+KELP_COOKIE:
+  name: "&2Zeewierkoekje"
+CHRISTMAS_MILK:
+  name: "&6Glas Melk"
+CHRISTMAS_CHOCOLATE_MILK:
+  name: "&6Chocolademelk"
+CHRISTMAS_EGG_NOG:
+  name: "&aAdvocaat"
+CHRISTMAS_APPLE_CIDER:
+  name: "&cAppelcider"
+CHRISTMAS_COOKIE:
+  name: "&fKerstkoekje"
+CHRISTMAS_FRUIT_CAKE:
+  name: "&fVruchtencake"
+CHRISTMAS_APPLE_PIE:
+  name: "&fAppeltaart"
+CHRISTMAS_HOT_CHOCOLATE:
+  name: "&6Warme Chocolademelk"
+CHRISTMAS_CAKE:
+  name: "&fKersttaart"
+CHRISTMAS_CARAMEL:
+  name: "&6Karamel"
+CHRISTMAS_CARAMEL_APPLE:
+  name: "&6Karamelappel"
+CHRISTMAS_CHOCOLATE_APPLE:
+  name: "&6Chocoladeappel"
+CHRISTMAS_PRESENT:
+  name: "&fKerstcadeau"
+EASTER_EGG:
+  name: "&fPaasei"
+CARROT_PIE:
+  name: "&6Worteltaart"
+EASTER_APPLE_PIE:
+  name: "&fAppeltaart"
+GRANDMAS_WALKING_STICK:
+  name: "&7Oma's Wandelstok"
+GRANDPAS_WALKING_STICK:
+  name: "&7Opa's Wandelstok"
+SWORD_OF_BEHEADING:
+  name: "&6Zwaard der Onthoofding"
+BLADE_OF_VAMPIRES:
+  name: "&cLemmet der Vampieren"
+SEISMIC_AXE:
+  name: "&aSeismische Bijl"
+EXPLOSIVE_BOW:
+  name: "&cExplosieve Boog"
+ICY_BOW:
+  name: "&bIJzige Boog"
+SMELTERS_PICKAXE:
+  name: "&6Smelters Houweel"
+LUMBER_AXE:
+  name: "&6Houthakkersbijl"
+PICKAXE_OF_CONTAINMENT:
+  name: "&cHouweel der Insluiting"
+EXPLOSIVE_PICKAXE:
+  name: "&eExplosief Houweel"
+EXPLOSIVE_SHOVEL:
+  name: "&eExplosieve Schep"
+PICKAXE_OF_THE_SEEKER:
+  name: "&aHouweel van de Zoeker"
+COBALT_PICKAXE:
+  name: "&9Kobalt Houweel"
+PICKAXE_OF_VEIN_MINING:
+  name: "&eHouweel van Adermijnen"
+CLIMBING_PICK:
+  name: "&bKlimhouweel"
+GLOWSTONE_HELMET:
+  name: "&e&lGloeisteen Helm"
+GLOWSTONE_CHESTPLATE:
+  name: "&e&lGloeisteen Borstplaat"
+GLOWSTONE_LEGGINGS:
+  name: "&e&lGloeisteen Broek"
+GLOWSTONE_BOOTS:
+  name: "&e&lGloeisteen Laarzen"
+RAINBOW_LEATHER:
+  name: "&dRegenboogleer"
+RAINBOW_HELMET:
+  name: "&d&lRegenboog Helm"
+RAINBOW_CHESTPLATE:
+  name: "&d&lRegenboog Borstplaat"
+RAINBOW_LEGGINGS:
+  name: "&d&lRegenboog Broek"
+RAINBOW_BOOTS:
+  name: "&d&lRegenboog Laarzen"
+ENDER_HELMET:
+  name: "&5&lEnder Helm"
+ENDER_CHESTPLATE:
+  name: "&5&lEnder Borstplaat"
+ENDER_LEGGINGS:
+  name: "&5&lEnder Broek"
+ENDER_BOOTS:
+  name: "&5&lEnder Laarzen"
+SLIME_HELMET:
+  name: "&a&lSlijm Helm"
+SLIME_CHESTPLATE:
+  name: "&a&lSlijm Borstplaat"
+SLIME_LEGGINGS:
+  name: "&a&lSlijm Broek"
+SLIME_BOOTS:
+  name: "&a&lSlijm Laarzen"
+CACTUS_HELMET:
+  name: "&2Cactus Helm"
+CACTUS_CHESTPLATE:
+  name: "&2Cactus Borstplaat"
+CACTUS_LEGGINGS:
+  name: "&2Cactus Broek"
+CACTUS_BOOTS:
+  name: "&2Cactus Laarzen"
+DAMASCUS_STEEL_HELMET:
+  name: "&7Damascusstaal Helm"
+DAMASCUS_STEEL_CHESTPLATE:
+  name: "&7Damascusstaal Borstplaat"
+DAMASCUS_STEEL_LEGGINGS:
+  name: "&7Damascusstaal Broek"
+DAMASCUS_STEEL_BOOTS:
+  name: "&7Damascusstaal Laarzen"
+REINFORCED_ALLOY_HELMET:
+  name: "&bVersterkte Helm"
+REINFORCED_ALLOY_CHESTPLATE:
+  name: "&bVersterkte Borstplaat"
+REINFORCED_ALLOY_LEGGINGS:
+  name: "&bVersterkte Broek"
+REINFORCED_ALLOY_BOOTS:
+  name: "&bVersterkte Laarzen"
+SCUBA_HELMET:
+  name: "&cDuikhelm"
+HAZMAT_CHESTPLATE:
+  name: "&cBeschermingspak"
+HAZMAT_LEGGINGS:
+  name: "&cBeschermingspak Broek"
+RUBBER_BOOTS:
+  name: "&cBeschermingslaarzen"
+GILDED_IRON_HELMET:
+  name: "&6Verguld IJzeren Helm"
+GILDED_IRON_CHESTPLATE:
+  name: "&6Verguld IJzeren Borstplaat"
+GILDED_IRON_LEGGINGS:
+  name: "&6Verguld IJzeren Broek"
+GILDED_IRON_BOOTS:
+  name: "&6Verguld IJzeren Laarzen"
+GOLD_12K_HELMET:
+  name: "&6Gouden Helm &7(12 karaat)"
+GOLD_12K_CHESTPLATE:
+  name: "&6Gouden Borstplaat &7(12 karaat)"
+GOLD_12K_LEGGINGS:
+  name: "&6Gouden Broek &7(12 karaat)"
+GOLD_12K_BOOTS:
+  name: "&6Gouden Laarzen &7(12 karaat)"
+SLIME_STEEL_HELMET:
+  name: "&a&lSlijm Helm"
+SLIME_STEEL_CHESTPLATE:
+  name: "&a&lSlijm Borstplaat"
+SLIME_STEEL_LEGGINGS:
+  name: "&a&lSlijm Broek"
+SLIME_STEEL_BOOTS:
+  name: "&a&lSlijm Laarzen"
+BOOTS_OF_THE_STOMPER:
+  name: "&bLaarzen van de Stamper"
+BEE_HELMET:
+  name: "&e&lBijen Helm"
+BEE_WINGS:
+  name: "&e&lBijenvleugels"
+BEE_LEGGINGS:
+  name: "&e&lBijen Broek"
+BEE_BOOTS:
+  name: "&e&lBijen Laarzen"
+MAGIC_LUMP_1:
+  name: "&6Magische Klomp &7- &eI"
+MAGIC_LUMP_2:
+  name: "&6Magische Klomp &7- &eII"
+MAGIC_LUMP_3:
+  name: "&6Magische Klomp &7- &eIII"
+ENDER_LUMP_1:
+  name: "&5Ender Klomp &7- &eI"
+ENDER_LUMP_2:
+  name: "&5Ender Klomp &7- &eII"
+ENDER_LUMP_3:
+  name: "&5Ender Klomp &7- &eIII"
+MAGICAL_BOOK_COVER:
+  name: "&6Magische Boekomslag"
+MAGICAL_GLASS:
+  name: "&6Magisch Glas"
+SYNTHETIC_SHULKER_SHELL:
+  name: "&dSynthetische Shulkerschelp"
+BASIC_CIRCUIT_BOARD:
+  name: "&bBasis Printplaat"
+ADVANCED_CIRCUIT_BOARD:
+  name: "&bGeavanceerde Printplaat"
+WHEAT_FLOUR:
+  name: "&fTarwemeel"
+STEEL_PLATE:
+  name: "&7&lStalen Plaat"
+BATTERY:
+  name: "&6Batterij"
+CARBON:
+  name: "&eKoolstof"
+COMPRESSED_CARBON:
+  name: "&cSamengeperste Koolstof"
+CARBON_CHUNK:
+  name: "&4Koolstofbrok"
+STEEL_THRUSTER:
+  name: "&7&lStalen Stuwmotor"
+POWER_CRYSTAL:
+  name: "&c&lKrachtkristal"
+CHAIN:
+  name: "&bKetting"
+HOOK:
+  name: "&bHaak"
+SIFTED_ORE:
+  name: "&6Gezeefd Erts"
+STONE_CHUNK:
+  name: "&6Steenbrok"
+LAVA_CRYSTAL:
+  name: "&4Lavakristal"
+SALT:
+  name: "&fZout"
+CHEESE:
+  name: "&fKaas"
+BUTTER:
+  name: "&fBoter"
+DUCT_TAPE:
+  name: "&8Ducttape"
+HEAVY_CREAM:
+  name: "&fSlagroom"
+CRUSHED_ORE:
+  name: "&6Vergruisd Erts"
+PULVERIZED_ORE:
+  name: "&6Verpulverd Erts"
+PURE_ORE_CLUSTER:
+  name: "&6Zuivere Ertscluster"
+SMALL_URANIUM:
+  name: "&cKleine Brok Uranium"
+TINY_URANIUM:
+  name: "&cKleine Hoop Uranium"
+SOLAR_PANEL:
+  name: "&9Fotovoltaïsche Cel"
+PLASTIC_SHEET:
+  name: "&fPlastic Plaat"
+MAGNET:
+  name: "&cMagneet"
+NECROTIC_SKULL:
+  name: "&cNecrotische Schedel"
+ESSENCE_OF_AFTERLIFE:
+  name: "&4Essentie van het Hiernamaals"
+STRANGE_NETHER_GOO:
+  name: "&5Vreemde Nether Brij"
+ELECTRO_MAGNET:
+  name: "&cElektromagneet"
+HEATING_COIL:
+  name: "&cVerwarmingsspoel"
+COOLING_UNIT:
+  name: "&bKoelunit"
+ELECTRIC_MOTOR:
+  name: "&cElektromotor"
+SLOT_LOCK:
+  name: "&bVakslot"
+CARGO_MOTOR:
+  name: "&3Vrachtmotor"
+SCROLL_OF_DIMENSIONAL_TELEPOSITION:
+  name: "&6Boekrol van Dimensionale Telepositie"
+TOME_OF_KNOWLEDGE_SHARING:
+  name: "&6Boek van Kennisdeling"
+HARDENED_GLASS:
+  name: "&7Gehard Glas"
+WITHER_PROOF_OBSIDIAN:
+  name: "&5Wither-Bestendig Obsidiaan"
+WITHER_PROOF_GLASS:
+  name: "&5Wither-Bestendig Glas"
+REINFORCED_PLATE:
+  name: "&7Versterkte Plaat"
+ANCIENT_PEDESTAL:
+  name: "&dOud Voetstuk"
+ANCIENT_ALTAR:
+  name: "&dOud Altaar"
+COPPER_WIRE:
+  name: "&6Koperdraad"
+CRAFTING_MOTOR:
+  name: "&6Maakmotor"
+RAINBOW_WOOL:
+  name: "&5Regenboogwol"
+RAINBOW_GLASS:
+  name: "&5Regenboogglas"
+RAINBOW_CLAY:
+  name: "&5Regenboogklei"
+RAINBOW_GLASS_PANE:
+  name: "&5Regenboogglasplaat"
+RAINBOW_CONCRETE:
+  name: "&5Regenboogbeton"
+RAINBOW_GLAZED_TERRACOTTA:
+  name: "&5Regenboog Geglazuurd Terracotta"
+RAINBOW_WOOL_XMAS:
+  name: "&5Regenboogwol &7(Kerstmis)"
+RAINBOW_GLASS_XMAS:
+  name: "&5Regenboogglas &7(Kerstmis)"
+RAINBOW_CLAY_XMAS:
+  name: "&5Regenboogklei &7(Kerstmis)"
+RAINBOW_GLASS_PANE_XMAS:
+  name: "&5Regenboogglasplaat &7(Kerstmis)"
+RAINBOW_CONCRETE_XMAS:
+  name: "&5Regenboogbeton &7(Kerstmis)"
+RAINBOW_GLAZED_TERRACOTTA_XMAS:
+  name: "&5Regenboog Geglazuurd Terracotta &7(Kerstmis)"
+RAINBOW_WOOL_VALENTINE:
+  name: "&5Regenboogwol &7(Valentijnsdag)"
+RAINBOW_GLASS_VALENTINE:
+  name: "&5Regenboogglas &7(Valentijnsdag)"
+RAINBOW_CLAY_VALENTINE:
+  name: "&5Regenboogklei &7(Valentijnsdag)"
+RAINBOW_GLASS_PANE_VALENTINE:
+  name: "&5Regenboogglasplaat &7(Valentijnsdag)"
+RAINBOW_CONCRETE_VALENTINE:
+  name: "&5Regenboogbeton &7(Valentijnsdag)"
+RAINBOW_GLAZED_TERRACOTTA_VALENTINE:
+  name: "&5Regenboog Geglazuurd Terracotta &7(Valentijnsdag)"
+RAINBOW_WOOL_HALLOWEEN:
+  name: "&5Regenboogwol &7(Halloween)"
+RAINBOW_GLASS_HALLOWEEN:
+  name: "&5Regenboogglas &7(Halloween)"
+RAINBOW_CLAY_HALLOWEEN:
+  name: "&5Regenboogklei &7(Halloween)"
+RAINBOW_GLASS_PANE_HALLOWEEN:
+  name: "&5Regenboogglasplaat &7(Halloween)"
+RAINBOW_CONCRETE_HALLOWEEN:
+  name: "&5Regenboogbeton &7(Halloween)"
+RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN:
+  name: "&5Regenboog Geglazuurd Terracotta &7(Halloween)"
+COPPER_INGOT:
+  name: "&bKoperen Staaf"
+TIN_INGOT:
+  name: "&bTinnen Staaf"
+SILVER_INGOT:
+  name: "&bZilveren Staaf"
+ALUMINUM_INGOT:
+  name: "&bAluminium Staaf"
+LEAD_INGOT:
+  name: "&bLoden Staaf"
+ZINC_INGOT:
+  name: "&bZinken Staaf"
+MAGNESIUM_INGOT:
+  name: "&bMagnesium Staaf"
+STEEL_INGOT:
+  name: "&bStalen Staaf"
+BRONZE_INGOT:
+  name: "&bBronzen Staaf"
+DURALUMIN_INGOT:
+  name: "&bDuralumin Staaf"
+BILLON_INGOT:
+  name: "&bBillon Staaf"
+BRASS_INGOT:
+  name: "&bMessing Staaf"
+ALUMINUM_BRASS_INGOT:
+  name: "&bAluminiummessing Staaf"
+ALUMINUM_BRONZE_INGOT:
+  name: "&bAluminiumbrons Staaf"
+CORINTHIAN_BRONZE_INGOT:
+  name: "&bKorinthisch Brons Staaf"
+SOLDER_INGOT:
+  name: "&bSoldeer Staaf"
+DAMASCUS_STEEL_INGOT:
+  name: "&bDamascusstaal Staaf"
+HARDENED_METAL_INGOT:
+  name: "&b&lGehard Metaal"
+REINFORCED_ALLOY_INGOT:
+  name: "&b&lVersterkte Legering Staaf"
+FERROSILICON:
+  name: "&bFerrosilicium"
+GILDED_IRON:
+  name: "&6&lVerguld IJzer"
+REDSTONE_ALLOY:
+  name: "&cRedstone Legering Staaf"
+NICKEL_INGOT:
+  name: "&bNikkelen Staaf"
+COBALT_INGOT:
+  name: "&9Kobalt Staaf"
+GOLD_4K:
+  name: "&fGouden Staaf &7(4 karaat)"
+GOLD_6K:
+  name: "&fGouden Staaf &7(6 karaat)"
+GOLD_8K:
+  name: "&fGouden Staaf &7(8 karaat)"
+GOLD_10K:
+  name: "&fGouden Staaf &7(10 karaat)"
+GOLD_12K:
+  name: "&fGouden Staaf &7(12 karaat)"
+GOLD_14K:
+  name: "&fGouden Staaf &7(14 karaat)"
+GOLD_16K:
+  name: "&fGouden Staaf &7(16 karaat)"
+GOLD_18K:
+  name: "&fGouden Staaf &7(18 karaat)"
+GOLD_20K:
+  name: "&fGouden Staaf &7(20 karaat)"
+GOLD_22K:
+  name: "&fGouden Staaf &7(22 karaat)"
+GOLD_24K:
+  name: "&fGouden Staaf &7(24 karaat)"
+IRON_DUST:
+  name: "&6IJzerstof"
+GOLD_DUST:
+  name: "&6Goudstof"
+TIN_DUST:
+  name: "&6Tinstof"
+COPPER_DUST:
+  name: "&6Koperstof"
+SILVER_DUST:
+  name: "&6Zilverstof"
+ALUMINUM_DUST:
+  name: "&6Aluminiumstof"
+LEAD_DUST:
+  name: "&6Loodstof"
+ZINC_DUST:
+  name: "&6Zinkstof"
+MAGNESIUM_DUST:
+  name: "&6Magnesium"
+SULFATE:
+  name: "&6Sulfaat"
+SILICON:
+  name: "&6Silicium"
+GOLD_24K_BLOCK:
+  name: "&fGoudblok &7(24 karaat)"
+SYNTHETIC_DIAMOND:
+  name: "&bSynthetische Diamant"
+SYNTHETIC_EMERALD:
+  name: "&bSynthetische Smaragd"
+SYNTHETIC_SAPPHIRE:
+  name: "&bSynthetische Saffier"
+CARBONADO:
+  name: "&b&lCarbonado"
+RAW_CARBONADO:
+  name: "&bRuwe Carbonado"
+URANIUM:
+  name: "&4Uranium"
+NEPTUNIUM:
+  name: "&aNeptunium"
+PLUTONIUM:
+  name: "&7Plutonium"
+BOOSTED_URANIUM:
+  name: "&2Versterkt Uranium"
+COMMON_TALISMAN:
+  name: "&6Gewone Talisman"
+ENDER_TALISMAN:
+  name: "&5Ender Talisman"
+ANVIL_TALISMAN:
+  name: "&aTalisman van het Aambeeld"
+MINER_TALISMAN:
+  name: "&aTalisman van de Mijnwerker"
+FARMER_TALISMAN:
+  name: "&aTalisman van de Boer"
+HUNTER_TALISMAN:
+  name: "&aTalisman van de Jager"
+LAVA_TALISMAN:
+  name: "&aTalisman van de Lavaloper"
+WATER_TALISMAN:
+  name: "&aTalisman van de Waterademhaler"
+ANGEL_TALISMAN:
+  name: "&aTalisman van de Engel"
+FIRE_TALISMAN:
+  name: "&aTalisman van de Brandweerman"
+MAGICIAN_TALISMAN:
+  name: "&aTalisman van de Magiër"
+TRAVELLER_TALISMAN:
+  name: "&aTalisman van de Reiziger"
+WARRIOR_TALISMAN:
+  name: "&aTalisman van de Krijger"
+KNIGHT_TALISMAN:
+  name: "&aTalisman van de Ridder"
+WHIRLWIND_TALISMAN:
+  name: "&aTalisman van de Wervelwind"
+WIZARD_TALISMAN:
+  name: "&aTalisman van de Tovenaar"
+CAVEMAN_TALISMAN:
+  name: "&aTalisman van de Holbewoner"
+WISE_TALISMAN:
+  name: "&aTalisman van de Wijze"
+STAFF_ELEMENTAL:
+  name: "&6Elementaire Staf"
+STAFF_ELEMENTAL_WIND:
+  name: "&6Elementaire Staf &7- &b&oWind"
+STAFF_ELEMENTAL_FIRE:
+  name: "&6Elementaire Staf &7- &c&oVuur"
+STAFF_ELEMENTAL_WATER:
+  name: "&6Elementaire Staf &7- &1&oWater"
+STAFF_ELEMENTAL_STORM:
+  name: "&6Elementaire Staf &7- &8&oStorm"
+ENHANCED_CRAFTING_TABLE:
+  name: "&eVerbeterde Werkbank"
+GRIND_STONE:
+  name: "&bSlijpsteen"
+ARMOR_FORGE:
+  name: "&6Pantsersmederij"
+MAKESHIFT_SMELTERY:
+  name: "&eGeïmproviseerde Smelterij"
+SMELTERY:
+  name: "&6Smelterij"
+ORE_CRUSHER:
+  name: "&bErtsvergruizer"
+COMPRESSOR:
+  name: "&bCompressor"
+PRESSURE_CHAMBER:
+  name: "&bDrukkamer"
+MAGIC_WORKBENCH:
+  name: "&6Magische Werkbank"
+ORE_WASHER:
+  name: "&6Ertswasser"
+TABLE_SAW:
+  name: "&6Tafelzaag"
+JUICER:
+  name: "&aSapcentrifuge"
+AUTOMATED_PANNING_MACHINE:
+  name: "&eGeautomatiseerde Pannenmachine"
+INDUSTRIAL_MINER:
+  name: "&bIndustriële Mijner"
+ADVANCED_INDUSTRIAL_MINER:
+  name: "&cGeavanceerde Industriële Mijner"
+COMPOSTER:
+  name: "&aComposteerder"
+CRUCIBLE:
+  name: "&cSmeltkroes"
+OUTPUT_CHEST:
+  name: "&4Uitvoerkist"
+IGNITION_CHAMBER:
+  name: "&4Automatische Ontstekingskamer"
+HOLOGRAM_PROJECTOR:
+  name: "&bHologramprojector"
+BLOCK_PLACER:
+  name: "&aBlokplaatser"
+ENHANCED_FURNACE:
+  name: "&7Verbeterde Oven - &eI"
+ENHANCED_FURNACE_2:
+  name: "&7Verbeterde Oven - &eII"
+ENHANCED_FURNACE_3:
+  name: "&7Verbeterde Oven - &eIII"
+ENHANCED_FURNACE_4:
+  name: "&7Verbeterde Oven - &eIV"
+ENHANCED_FURNACE_5:
+  name: "&7Verbeterde Oven - &eV"
+ENHANCED_FURNACE_6:
+  name: "&7Verbeterde Oven - &eVI"
+ENHANCED_FURNACE_7:
+  name: "&7Verbeterde Oven - &eVII"
+ENHANCED_FURNACE_8:
+  name: "&7Verbeterde Oven - &eVIII"
+ENHANCED_FURNACE_9:
+  name: "&7Verbeterde Oven - &eIX"
+ENHANCED_FURNACE_10:
+  name: "&7Verbeterde Oven - &eX"
+ENHANCED_FURNACE_11:
+  name: "&7Verbeterde Oven - &eXI"
+REINFORCED_FURNACE:
+  name: "&7Versterkte Oven"
+CARBONADO_EDGED_FURNACE:
+  name: "&7Carbonado-Geslepen Oven"
+SOULBOUND_SWORD:
+  name: "&cZielsgebonden Zwaard"
+SOULBOUND_BOW:
+  name: "&cZielsgebonden Boog"
+SOULBOUND_PICKAXE:
+  name: "&cZielsgebonden Houweel"
+SOULBOUND_AXE:
+  name: "&cZielsgebonden Bijl"
+SOULBOUND_SHOVEL:
+  name: "&cZielsgebonden Schep"
+SOULBOUND_HOE:
+  name: "&cZielsgebonden Schoffel"
+SOULBOUND_TRIDENT:
+  name: "&cZielsgebonden Drietand"
+SOULBOUND_HELMET:
+  name: "&cZielsgebonden Helm"
+SOULBOUND_CHESTPLATE:
+  name: "&cZielsgebonden Borstplaat"
+SOULBOUND_LEGGINGS:
+  name: "&cZielsgebonden Broek"
+SOULBOUND_BOOTS:
+  name: "&cZielsgebonden Laarzen"
+BLANK_RUNE:
+  name: "&8Lege Rune"
+ANCIENT_RUNE_AIR:
+  name: "&7Oude Rune &8&l[&b&lLucht&8&l]"
+ANCIENT_RUNE_WATER:
+  name: "&7Oude Rune &8&l[&1&lWater&8&l]"
+ANCIENT_RUNE_FIRE:
+  name: "&7Oude Rune &8&l[&4&lVuur&8&l]"
+ANCIENT_RUNE_EARTH:
+  name: "&7Oude Rune &8&l[&c&lAarde&8&l]"
+ANCIENT_RUNE_ENDER:
+  name: "&7Oude Rune &8&l[&5&lEnder&8&l]"
+ANCIENT_RUNE_RAINBOW:
+  name: "&7Oude Rune &8&l[&d&lRegenboog&8&l]"
+ANCIENT_RUNE_LIGHTNING:
+  name: "&7Oude Rune &8&l[&e&lBliksem&8&l]"
+ANCIENT_RUNE_SOULBOUND:
+  name: "&7Oude Rune &8&l[&5&lZielsgebonden&8&l]"
+ANCIENT_RUNE_ENCHANTMENT:
+  name: "&7Oude Rune &8&l[&6&lBetovering&8&l]"
+ANCIENT_RUNE_VILLAGERS:
+  name: "&7Oude Rune &8&l[&4&lDorpelingen&8&l]"
+RUNE_ANVIL:
+  name: "&5Rune-Aambeeld"
+SOLAR_GENERATOR:
+  name: "&bZonnegenerator"
+SOLAR_GENERATOR_2:
+  name: "&cGeavanceerde Zonnegenerator"
+SOLAR_GENERATOR_3:
+  name: "&4Carbonado Zonnegenerator"
+SOLAR_GENERATOR_4:
+  name: "&eGeënergiseerde Zonnegenerator"
+COAL_GENERATOR:
+  name: "&cKoolgenerator"
+COAL_GENERATOR_2:
+  name: "&cKoolgenerator &7(&eII&7)"
+LAVA_GENERATOR:
+  name: "&4Lavagenerator"
+LAVA_GENERATOR_2:
+  name: "&4Lavagenerator &7(&eII&7)"
+ELECTRIC_FURNACE:
+  name: "&cElektrische Oven"
+ELECTRIC_FURNACE_2:
+  name: "&cElektrische Oven &7- &eII"
+ELECTRIC_FURNACE_3:
+  name: "&cElektrische Oven &7- &eIII"
+ELECTRIC_ORE_GRINDER:
+  name: "&cElektrische Ertsmaler"
+ELECTRIC_ORE_GRINDER_2:
+  name: "&cElektrische Ertsmaler &7(&eII&7)"
+ELECTRIC_ORE_GRINDER_3:
+  name: "&cElektrische Ertsmaler &7(&eIII&7)"
+ELECTRIC_INGOT_PULVERIZER:
+  name: "&cElektrische Staafverpulveraar"
+AUTO_DRIER:
+  name: "&6Automatische Droger"
+AUTO_ENCHANTER:
+  name: "&5Automatische Betoveraar"
+AUTO_ENCHANTER_2:
+  name: "&5Automatische Betoveraar &7- &eII"
+AUTO_DISENCHANTER:
+  name: "&5Automatische Ontbetoveraar"
+AUTO_DISENCHANTER_2:
+  name: "&5Automatische Ontbetoveraar &7- &eII"
+AUTO_ANVIL:
+  name: "&7Automatisch Aambeeld"
+AUTO_ANVIL_2:
+  name: "&7Automatisch Aambeeld Mk.II"
+AUTO_BREWER:
+  name: "&6Automatische Brouwer"
+BOOK_BINDER:
+  name: "&6Boekbinder"
+BIO_REACTOR:
+  name: "&2Bioreactor"
+MULTIMETER:
+  name: "&eMultimeter"
+SMALL_CAPACITOR:
+  name: "&aKleine Energiecondensator"
+MEDIUM_CAPACITOR:
+  name: "&aMiddelgrote Energiecondensator"
+BIG_CAPACITOR:
+  name: "&aGrote Energiecondensator"
+LARGE_CAPACITOR:
+  name: "&aGrote Energiecondensator"
+CARBONADO_EDGED_CAPACITOR:
+  name: "&aCarbonado-Geslepen Energiecondensator"
+ENERGIZED_CAPACITOR:
+  name: "&aGeënergiseerde Energiecondensator"
+PROGRAMMABLE_ANDROID:
+  name: "&cProgrammeerbare Android &7(Normaal)"
+PROGRAMMABLE_ANDROID_FARMER:
+  name: "&cProgrammeerbare Android &7(Boer)"
+PROGRAMMABLE_ANDROID_MINER:
+  name: "&cProgrammeerbare Android &7(Mijnwerker)"
+PROGRAMMABLE_ANDROID_WOODCUTTER:
+  name: "&cProgrammeerbare Android &7(Houthakker)"
+PROGRAMMABLE_ANDROID_BUTCHER:
+  name: "&cProgrammeerbare Android &7(Slager)"
+PROGRAMMABLE_ANDROID_FISHERMAN:
+  name: "&cProgrammeerbare Android &7(Visser)"
+PROGRAMMABLE_ANDROID_2:
+  name: "&cGeavanceerde Programmeerbare Android &7(Normaal)"
+PROGRAMMABLE_ANDROID_2_FISHERMAN:
+  name: "&cGeavanceerde Programmeerbare Android &7(Visser)"
+PROGRAMMABLE_ANDROID_2_FARMER:
+  name: "&cGeavanceerde Programmeerbare Android &7(Boer)"
+PROGRAMMABLE_ANDROID_2_BUTCHER:
+  name: "&cGeavanceerde Programmeerbare Android &7(Slager)"
+PROGRAMMABLE_ANDROID_3:
+  name: "&eVersterkte Programmeerbare Android &7(Normaal)"
+PROGRAMMABLE_ANDROID_3_FISHERMAN:
+  name: "&eVersterkte Programmeerbare Android &7(Visser)"
+PROGRAMMABLE_ANDROID_3_BUTCHER:
+  name: "&eVersterkte Programmeerbare Android &7(Slager)"
+GPS_TRANSMITTER:
+  name: "&bGPS Zender"
+GPS_TRANSMITTER_2:
+  name: "&cGeavanceerde GPS Zender"
+GPS_TRANSMITTER_3:
+  name: "&4Carbonado GPS Zender"
+GPS_TRANSMITTER_4:
+  name: "&eGeënergiseerde GPS Zender"
+GPS_MARKER_TOOL:
+  name: "&bGPS Markeergereedschap"
+GPS_CONTROL_PANEL:
+  name: "&bGPS Bedieningspaneel"
+GPS_EMERGENCY_TRANSMITTER:
+  name: "&cGPS Noodzender"
+ANDROID_INTERFACE_FUEL:
+  name: "&7Android Interface &c(Brandstof)"
+ANDROID_INTERFACE_ITEMS:
+  name: "&7Android Interface &9(Items)"
+GPS_GEO_SCANNER:
+  name: "&bGPS Geo-Scanner"
+PORTABLE_GEO_SCANNER:
+  name: "&bDraagbare Geo-Scanner"
+GEO_MINER:
+  name: "&6GEO Mijner"
+OIL_PUMP:
+  name: "&4Oliepomp"
+BUCKET_OF_OIL:
+  name: "&fEmmer Olie"
+BUCKET_OF_FUEL:
+  name: "&fEmmer Brandstof"
+REFINERY:
+  name: "&cRaffinaderij"
+COMBUSTION_REACTOR:
+  name: "&cVerbrandingsreactor"
+ANDROID_MEMORY_CORE:
+  name: "&bAndroid Geheugenkern"
+GPS_TELEPORTER_PYLON:
+  name: "&5GPS Teleporter Pyloon"
+GPS_TELEPORTATION_MATRIX:
+  name: "&bGPS Teleporter Matrix"
+GPS_ACTIVATION_DEVICE_SHARED:
+  name: "&fGPS Activeringsapparaat &3(Gedeeld)"
+GPS_ACTIVATION_DEVICE_PERSONAL:
+  name: "&fGPS Activeringsapparaat &a(Persoonlijk)"
+PORTABLE_TELEPORTER:
+  name: "&bDraagbare Teleporter"
+ELEVATOR_PLATE:
+  name: "&bLiftplaat"
+INFUSED_HOPPER:
+  name: "&5Doordrenkte Trechter"
+HEATED_PRESSURE_CHAMBER:
+  name: "&cVerwarmde Drukkamer"
+HEATED_PRESSURE_CHAMBER_2:
+  name: "&cVerwarmde Drukkamer &7- &eII"
+ELECTRIC_SMELTERY:
+  name: "&cElektrische Smelterij"
+ELECTRIC_SMELTERY_2:
+  name: "&cElektrische Smelterij &7- &eII"
+ELECTRIC_PRESS:
+  name: "&eElektrische Pers"
+ELECTRIC_PRESS_2:
+  name: "&eElektrische Pers &7- &eII"
+ELECTRIFIED_CRUCIBLE:
+  name: "&cGeëlektrificeerde Smeltkroes"
+ELECTRIFIED_CRUCIBLE_2:
+  name: "&cGeëlektrificeerde Smeltkroes &7- &eII"
+ELECTRIFIED_CRUCIBLE_3:
+  name: "&cGeëlektrificeerde Smeltkroes &7- &eIII"
+CARBON_PRESS:
+  name: "&cKoolstofpers"
+CARBON_PRESS_2:
+  name: "&cKoolstofpers &7- &eII"
+CARBON_PRESS_3:
+  name: "&cKoolstofpers &7- &eIII"
+BLISTERING_INGOT:
+  name: "&6Blaarvormende Staaf &7(33%)"
+BLISTERING_INGOT_2:
+  name: "&6Blaarvormende Staaf &7(66%)"
+BLISTERING_INGOT_3:
+  name: "&6Blaarvormende Staaf"
+ENERGY_REGULATOR:
+  name: "&6Energieregelaar"
+ENERGY_CONNECTOR:
+  name: "&eEnergieconnector"
+DEBUG_FISH:
+  name: "&3Hoeveel kost de Vis?"
+NETHER_ICE:
+  name: "&eNether IJs"
+ENRICHED_NETHER_ICE:
+  name: "&eVerrijkt Nether IJs"
+NETHER_ICE_COOLANT_CELL:
+  name: "&6Nether IJs Koelvloeistofcel"
+CARGO_MANAGER:
+  name: "&6Vrachtbeheerder"
+CARGO_NODE:
+  name: "&7Vrachtknooppunt &c(Connector)"
+CARGO_NODE_INPUT:
+  name: "&7Vrachtknooppunt &c(Invoer)"
+CARGO_NODE_OUTPUT:
+  name: "&7Vrachtknooppunt &c(Uitvoer)"
+CARGO_NODE_OUTPUT_ADVANCED:
+  name: "&6Geavanceerd Vrachtknooppunt &c(Uitvoer)"
+AUTO_BREEDER:
+  name: "&eAutomatische Fokker"
+PRODUCE_COLLECTOR:
+  name: "&bGewasverzamelaar"
+ORGANIC_FOOD:
+  name: "&aBiologisch Voedsel"
+ORGANIC_FOOD_WHEAT:
+  name: "&aBiologische Tarwe"
+ORGANIC_FOOD_CARROT:
+  name: "&aBiologische Wortel"
+ORGANIC_FOOD_POTATO:
+  name: "&aBiologische Aardappel"
+ORGANIC_FOOD_SEEDS:
+  name: "&aBiologische Zaden"
+ORGANIC_FOOD_BEETROOT:
+  name: "&aBiologische Biet"
+ORGANIC_FOOD_MELON:
+  name: "&aBiologische Meloen"
+ORGANIC_FOOD_APPLE:
+  name: "&aBiologische Appel"
+ORGANIC_FOOD_SWEET_BERRIES:
+  name: "&aBiologische Zoete Bessen"
+ORGANIC_FOOD_KELP:
+  name: "&aBiologisch Gedroogd Zeewier"
+ORGANIC_FOOD_COCOA:
+  name: "&aBiologische Cacaobonen"
+ORGANIC_FOOD_SEAGRASS:
+  name: "&aBiologisch Zeegras"
+FERTILIZER:
+  name: "&aBiologische Meststof"
+FERTILIZER_WHEAT:
+  name: "&aTarwemeststof"
+FERTILIZER_CARROT:
+  name: "&aWortelmeststof"
+FERTILIZER_POTATO:
+  name: "&aAardappelmeststof"
+FERTILIZER_SEEDS:
+  name: "&aZadenmeststof"
+FERTILIZER_BEETROOT:
+  name: "&aBietmeststof"
+FERTILIZER_MELON:
+  name: "&aMeloenmeststof"
+FERTILIZER_APPLE:
+  name: "&aAppelmeststof"
+FERTILIZER_SWEET_BERRIES:
+  name: "&aZoete Bessen Meststof"
+FERTILIZER_KELP:
+  name: "&aGedroogd Zeewier Meststof"
+FERTILIZER_COCOA:
+  name: "&aCacaobonen Meststof"
+FERTILIZER_SEAGRASS:
+  name: "&aZeegrasmeststof"
+ANIMAL_GROWTH_ACCELERATOR:
+  name: "&bDierengroeiversneller"
+CROP_GROWTH_ACCELERATOR:
+  name: "&aGewasgroeiversneller"
+CROP_GROWTH_ACCELERATOR_2:
+  name: "&aGewasgroeiversneller &7(&eII&7)"
+TREE_GROWTH_ACCELERATOR:
+  name: "&aBoomgroeiversneller"
+FOOD_FABRICATOR:
+  name: "&cVoedselfabrikant"
+FOOD_FABRICATOR_2:
+  name: "&cVoedselfabrikant &7(&eII&7)"
+FOOD_COMPOSTER:
+  name: "&cVoedselcomposteerder"
+FOOD_COMPOSTER_2:
+  name: "&cVoedselcomposteerder &7(&eII&7)"
+XP_COLLECTOR:
+  name: "&aEXP Verzamelaar"
+REACTOR_COLLANT_CELL:
+  name: "&bReactorkoelvloeistofcel"
+NUCLEAR_REACTOR:
+  name: "&2Kernreactor"
+NETHERSTAR_REACTOR:
+  name: "&fNetherster Reactor"
+REACTOR_ACCESS_PORT:
+  name: "&2Reactortoegangspoort"
+FREEZER:
+  name: "&bVriezer"
+FREEZER_2:
+  name: "&bVriezer &7(&eII&7)"
+FREEZER_3:
+  name: "&bVriezer &7(&eIII&7)"
+ELECTRIC_GOLD_PAN:
+  name: "&6Elektrische Goudpan"
+ELECTRIC_GOLD_PAN_2:
+  name: "&6Elektrische Goudpan &7(&eII&7)"
+ELECTRIC_GOLD_PAN_3:
+  name: "&6Elektrische Goudpan &7(&eIII&7)"
+ELECTRIC_DUST_WASHER:
+  name: "&3Elektrische Stofwasser"
+ELECTRIC_DUST_WASHER_2:
+  name: "&3Elektrische Stofwasser &7(&eII&7)"
+ELECTRIC_DUST_WASHER_3:
+  name: "&3Elektrische Stofwasser &7(&eIII&7)"
+ELECTRIC_INGOT_FACTORY:
+  name: "&cElektrische Staaffabriek"
+ELECTRIC_INGOT_FACTORY_2:
+  name: "&cElektrische Staaffabriek &7(&eII&7)"
+ELECTRIC_INGOT_FACTORY_3:
+  name: "&cElektrische Staaffabriek &7(&eIII&7)"
+FLUID_PUMP:
+  name: "&9Vloeistofpomp"
+CHARGING_BENCH:
+  name: "&6Oplaadbank"
+VANILLA_AUTO_CRAFTER:
+  name: "&2Automatische Maker &8(Vanilla)"
+ENHANCED_AUTO_CRAFTER:
+  name: "&2Automatische Maker &8(Verbeterd)"
+ARMOR_AUTO_CRAFTER:
+  name: "&2Automatische Maker &8(Pantsersmederij)"
+IRON_GOLEM_ASSEMBLER:
+  name: "&6IJzeren Golem Assembleerder"
+WITHER_ASSEMBLER:
+  name: "&5Wither Assembleerder"
+TRASH_CAN_BLOCK:
+  name: "&3Prullenbak"
+ELYTRA_SCALE:
+  name: "&bElytra Schub"
+INFUSED_ELYTRA:
+  name: "&5Doordrenkte Elytra"
+SOULBOUND_ELYTRA:
+  name: "&cZielsgebonden Elytra"
+MAGNESIUM_SALT:
+  name: "&cMagnesiumzout"
+MAGNESIUM_GENERATOR:
+  name: "&cMagnesium-aangedreven Generator"
+
+ENDER_ANVIL_TALISMAN:
+  name: "&5Ender Talisman van het Aambeeld"
+ENDER_MINER_TALISMAN:
+  name: "&5Ender Talisman van de Mijnwerker"
+ENDER_FARMER_TALISMAN:
+  name: "&5Ender Talisman van de Boer"
+ENDER_HUNTER_TALISMAN:
+  name: "&5Ender Talisman van de Jager"
+ENDER_LAVA_TALISMAN:
+  name: "&5Ender Talisman van de Lavaloper"
+ENDER_WATER_TALISMAN:
+  name: "&5Ender Talisman van de Waterademhaler"
+ENDER_ANGEL_TALISMAN:
+  name: "&5Ender Talisman van de Engel"
+ENDER_FIRE_TALISMAN:
+  name: "&5Ender Talisman van de Brandweerman"
+ENDER_MAGICIAN_TALISMAN:
+  name: "&5Ender Talisman van de Magiër"
+ENDER_TRAVELLER_TALISMAN:
+  name: "&5Ender Talisman van de Reiziger"
+ENDER_WARRIOR_TALISMAN:
+  name: "&5Ender Talisman van de Krijger"
+ENDER_KNIGHT_TALISMAN:
+  name: "&5Ender Talisman van de Ridder"
+ENDER_CAVEMAN_TALISMAN:
+  name: "&5Ender Talisman van de Holbewoner"
+ENDER_WISE_TALISMAN:
+  name: "&5Ender Talisman van de Wijze"
+ENDER_WHIRLWIND_TALISMAN:
+  name: "&5Ender Talisman van de Wervelwind"
+ENDER_WIZARD_TALISMAN:
+  name: "&5Ender Talisman van de Tovenaar"
+BIRTHDAY_CAKE:
+  name: "&dVerjaardagstaart"

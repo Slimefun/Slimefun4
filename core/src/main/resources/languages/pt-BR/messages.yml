@@ -32,6 +32,150 @@ commands:
 placeholderapi:
   profile-loading: 'Carregando...'
 guide:
+  item:
+    name: '&aGuia do Slimefun &7(Chest GUI)'
+    cheat-only: '&4&lAbrível apenas por Admins'
+    browse: '&eClique com o botão direito &8⇨ &7Navegar Itens'
+    settings: '&eShift + Clique com o botão direito &8⇨ &7Abrir Configurações / Créditos'
+  themes-meta:
+    categories: '&7Categorias: &e%count%'
+    open: '&7⇨ &eClique para abrir'
+  themes:
+    weapons: '&cArmas'
+    tools: '&aFerramentas'
+    armor: '&bArmaduras'
+    machines: '&6Máquinas'
+    energy_tech: '&eEnergia & Tecnologia'
+    resources: '&fRecursos'
+    magic: '&dMagia'
+    food: '&2Comida & Agricultura'
+    logistics: '&3Logística'
+    decoration: '&5Decoração'
+    misc: '&7Diversos'
+  addon-visibility:
+    name: '&3Visibilidade de Add-ons'
+    lore:
+    - '&7Escolha quais add-ons aparecem no seu guia.'
+    - '&7Add-ons ocultos são removidos da navegação'
+    - '&7e da busca — apenas para você.'
+    - ''
+    - '&7⇨ &eClique para gerenciar'
+    menu-title: '&eVisibilidade de Add-ons'
+    menu-lore:
+    - '&7Clique em um add-on para alternar se ele'
+    - '&7aparece no seu guia (navegação + busca).'
+    - ''
+    - '&7Pelo menos um add-on deve permanecer visível.'
+    shown: '&a✔ Visível'
+    hidden: '&c✖ Oculto'
+    toggle: '&7⇨ &eClique para alternar'
+    back: '&e⇦ Voltar'
+    must-stay: '&cPelo menos um add-on deve permanecer visível.'
+  wiki-topics:
+    getting_started: { name: 'Primeiros Passos', summary: '&7Seus primeiros passos no Slimefun' }
+    research: { name: 'Pesquisa & Desbloqueio', summary: '&7Desbloqueie itens com experiência' }
+    multiblocks: { name: 'Máquinas Multibloco', summary: '&7Construa estruturas para fabricar' }
+    ore_processing: { name: 'Processamento de Minérios', summary: '&7Dobre o rendimento dos seus minérios' }
+    smeltery: { name: 'Fundição & Ligas', summary: '&7Funda pós e forje ligas' }
+    energy: { name: 'Redes de Energia', summary: '&7Alimente suas máquinas' }
+    power_generation: { name: 'Geração de Energia', summary: '&7Geradores, reatores, capacitores' }
+    electric_machines: { name: 'Máquinas Elétricas', summary: '&7Máquinas automáticas alimentadas' }
+    cargo: { name: 'Redes de Carga', summary: '&7Mova itens automaticamente' }
+    androids: { name: 'Androides Programáveis', summary: '&7Automatize tarefas com robôs' }
+    geo_mining: { name: 'Mineração GEO & Petróleo', summary: '&7Extraia petróleo e recursos' }
+    gps: { name: 'GPS & Teletransporte', summary: '&7Waypoints e teletransportadores' }
+    talismans: { name: 'Talismãs', summary: '&7Sorte e proteção passivas' }
+    magic: { name: 'Magia & o Altar', summary: '&7Runas, cajados e rituais' }
+    armor_gadgets: { name: 'Armaduras & Gadgets', summary: '&7Jetpacks, conjuntos e ferramentas' }
+    backpacks: { name: 'Mochilas & Armazenamento', summary: '&7Armazenamento portátil para levar' }
+    food_farming: { name: 'Comida & Agricultura', summary: '&7Sucos, charque e fazendas automáticas' }
+    soulbound: { name: 'Itens Vinculados à Alma', summary: '&7Mantenha itens quando você morrer' }
+  coverage:
+    messages: '&7Mensagens: &b%percent%%'
+    items: '&7Itens: &b%percent%%'
+    breakdown-hint: '&7⇨ &eClique com o botão direito: &7Detalhamento da tradução de itens'
+    title-suffix: 'Itens'
+    translated: '&7Traduzidos: &b%translated%&7/&b%total%'
+    line: '&7Cobertura: %color%%percent%%'
+
+  wiki:
+    home-title: '&3Wiki do Slimefun'
+    welcome:
+      title: '&3Wiki do Slimefun'
+      lore:
+      - '&7Novo por aqui? Leia os guias abaixo para aprender'
+      - '&7como o Slimefun funciona - comece com &ePrimeiros Passos&7.'
+      - '&7Ou navegue pelos itens para consultar algo.'
+    search:
+      name: '&aPesquisar na wiki'
+      lore:
+      - '&7Consulte qualquer item pelo nome'
+      - '&7em todos os complementos instalados.'
+      - ''
+      - '&7⇨ &eClique para digitar um termo de busca'
+    browse:
+      name: '&aNavegar itens por categoria'
+      lore:
+      - '&7Explore todas as categorias do Slimefun'
+      - '&7e consulte itens individuais.'
+      - ''
+      - '&7⇨ &eClique'
+    topic-click: '&7⇨ &eClique para ler'
+    results-title: '&aResultados da busca por &e"%query%&e"'
+    results-found: '&7Encontrado(s) &b%count% &7item(ns).'
+    item-title: 'Wiki: %item%'
+    topic-title: 'Wiki: %topic%'
+    back: '&e⇦ Voltar'
+    no-info: '&7(Nenhuma informação disponível ainda.)'
+    used-in:
+      name: '&eUsado em'
+      lore:
+      - '&7Itens que usam isto em sua receita.'
+      - '&7Clique em um para ver sua própria página.'
+    more: '&7+%count% mais'
+    stats:
+      title: '&6Estatísticas'
+      capacity: '&7Capacidade: &e%capacity% J'
+      energy: '&7Energia: &e%energy% J/tick'
+      speed: '&7Velocidade: &e%speed%x'
+    items-header:
+      name: '&e▼ Itens neste guia'
+      lore:
+      - '&7Clique em qualquer item abaixo para ver sua'
+      - "&7receita, estatísticas e onde é usado."
+
+  installer:
+    badge:
+      working: '&e⚙ Trabalhando…'
+      restart: '&b↻ Reinicie para aplicar (%version%)'
+      installed-version: '&a✔ Instalado v%version%'
+      installed: '&a✔ Instalado'
+      not-installed-deps: '&7＋ Não instalado &8(precisa de %deps%)'
+      not-installed: '&7＋ Não instalado'
+    back-settings: '&e⇦ Voltar às Configurações'
+    back: '&e⇦ Voltar'
+    click-details: '&7⇨ &eClique para detalhes'
+    will-install: '&7Também instalará: &f%deps%'
+    install:
+      install: '&aInstalar a versão mais recente'
+      update: '&aAtualizar para a versão mais recente'
+      lore:
+      - '&7Baixa a versão mais recente do GitHub'
+      - '&7e a prepara para o próximo reinício.'
+      - ''
+      - '&7⇨ &eClique'
+    build:
+      name: '&bCompilar a partir de um branch'
+      lore:
+      - '&7Clone & compile um branch escolhido'
+      - '&7(apenas ambientes de desenvolvimento).'
+      - ''
+      - '&7⇨ &eClique para escolher um branch'
+    branches:
+      none: '&cNenhum branch encontrado'
+      none-lore: "&7Não foi possível acessar o GitHub ou o repositório não tem branches."
+      click: '&7⇨ &eClique para compilar este branch'
+
   locked: 'BLOQUEADO'
   work-in-progress: 'Este recurso não está totalmente concluído ainda!'
   locked-itemgroup:
@@ -86,6 +230,8 @@ guide:
     bugs: 'Relatório de Erros'
     source: 'Código Fonte'
     versions: 'Versões instaladas'
+    addon-visibility: 'Visibilidade de Add-ons'
+    installer: 'Instalador de Add-ons'
   credits:
     commit: 'Comissão'
     commits: 'Comissões'

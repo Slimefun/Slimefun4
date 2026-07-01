@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.utils.compatibility;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,13 +56,38 @@ public final class HandCompat {
         return result instanceof EquipmentSlot ? (EquipmentSlot) result : EquipmentSlot.HAND;
     }
 
-    @Nullable
-    private static Method method(@Nonnull Object holder, @Nonnull String name, Class<?>... params) {
+    // getMethod() scans the class's public methods on every call; these run on the interaction path,
+    // so cache the resolved handle per (holder class, name, arity). A sentinel marks "no such method".
+    private static final ConcurrentHashMap<String, Method> METHOD_CACHE = new ConcurrentHashMap<>();
+    private static final Method MISSING = missingSentinel();
+
+    private static Method missingSentinel() {
         try {
-            return holder.getClass().getMethod(name, params);
-        } catch (Throwable ignored) {
+            return Object.class.getMethod("toString");
+        } catch (NoSuchMethodException e) {
             return null;
         }
+    }
+
+    @Nullable
+    private static Method method(@Nonnull Object holder, @Nonnull String name, Class<?>... params) {
+        String key = holder.getClass().getName() + '#' + name + '/' + params.length;
+        Method cached = METHOD_CACHE.get(key);
+
+        if (cached != null) {
+            return cached == MISSING ? null : cached;
+        }
+
+        Method resolved;
+
+        try {
+            resolved = holder.getClass().getMethod(name, params);
+        } catch (Throwable ignored) {
+            resolved = null;
+        }
+
+        METHOD_CACHE.put(key, resolved == null ? MISSING : resolved);
+        return resolved;
     }
 
     @Nonnull
