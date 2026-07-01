@@ -60,13 +60,25 @@ jobs:
           chmod +x ./gradlew
           ./gradlew :core:shadowJar -Partifact_version="${{ steps.ver.outputs.version }}" --no-daemon
 
+      # Release notes = the tagged commit's message (the changelog you write in the commit), followed by
+      # the standard consumer note. For a manual run it uses the latest commit on the checked-out ref.
+      - name: Build release notes from the commit message
+        id: notes
+        run: |
+          {
+            echo "text<<NOTES_EOF"
+            git log -1 --pretty=%B
+            echo ""
+            echo "---"
+            echo "GitHub-only build for github-gradle consumers. Consume via \`Slimefun5:Slimefun5:${{ steps.ver.outputs.tag }}\`."
+            echo "NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Publish GitHub release (GitHub only)
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.ver.outputs.tag }}
           name: "Slimefun ${{ steps.ver.outputs.version }} (GitHub build)"
-          body: |
-            GitHub-only build of Slimefun core for github-gradle consumers (addons).
-            Not published to Modrinth or Hangar. Consume via `Slimefun5:Slimefun5:${{ steps.ver.outputs.tag }}`.
+          body: ${{ steps.notes.outputs.text }}
           prerelease: true
           files: core/build/libs/*.jar
