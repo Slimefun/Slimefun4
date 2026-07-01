@@ -91,9 +91,26 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
     }
 
-    /** Drops the crafted output above a block - used when no inventory has room, so nothing is lost. */
+    /** Drops the crafted output into open space around a block - used when no inventory has room. */
     protected void dropOutput(@Nonnull Block block, @Nonnull ItemStack output) {
-        block.getWorld().dropItemNaturally(block.getLocation().add(0.5, 1.0, 0.5), output);
+        Block target = firstOpenBlock(
+            block.getRelative(BlockFace.UP),
+            block.getRelative(BlockFace.NORTH), block.getRelative(BlockFace.EAST),
+            block.getRelative(BlockFace.SOUTH), block.getRelative(BlockFace.WEST),
+            block
+        );
+        block.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), output);
+    }
+
+    /** First candidate block that isn't solid (so a dropped item lands in open air, never trapped inside
+     *  a block where it would be lost); falls back to the last candidate. */
+    private static Block firstOpenBlock(Block... candidates) {
+        for (Block candidate : candidates) {
+            if (candidate != null && !candidate.getType().isSolid()) {
+                return candidate;
+            }
+        }
+        return candidates[candidates.length - 1];
     }
 
     /**
@@ -143,10 +160,18 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         return false;
     }
 
-    /** Drops the crafted item out of the dispenser in the direction it is facing. */
+    /** Drops the crafted item out of the dispenser, preferring its facing direction but always landing in
+     *  open air so the item is never lost (e.g. when the facing resolves to the crafting table above it). */
     private void ejectOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
         BlockFace facing = getDispenserFacing(dispenser);
-        Location location = dispenser.getRelative(facing).getLocation().add(0.5, 0.5, 0.5);
+        Block target = firstOpenBlock(
+            dispenser.getRelative(facing),
+            dispenser.getRelative(BlockFace.NORTH), dispenser.getRelative(BlockFace.EAST),
+            dispenser.getRelative(BlockFace.SOUTH), dispenser.getRelative(BlockFace.WEST),
+            dispenser.getRelative(BlockFace.DOWN), dispenser.getRelative(BlockFace.UP),
+            dispenser
+        );
+        Location location = target.getLocation().add(0.5, 0.5, 0.5);
 
         dispenser.getWorld().dropItem(location, output).setVelocity(new Vector(facing.getModX() * 0.2, facing.getModY() * 0.2, facing.getModZ() * 0.2));
     }
