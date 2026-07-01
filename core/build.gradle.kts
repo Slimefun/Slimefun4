@@ -40,6 +40,18 @@ fun latestGitTagVersion(): String? = try {
 version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() }
     ?: latestGitTagVersion()
     ?: "5.0.0"
+
+// Build-context suffix appended to the reported version (plugin.yml + jar name). The standard for
+// every Slimefun5 plugin:
+//   - a release build (a publish workflow passed -Partifact_version) -> NO suffix (official build);
+//   - any other CI build (the Slimefun5/builds page or branch CI) -> "-EXPERIMENTAL";
+//   - a local build -> "-UNOFFICIAL".
+val versionSuffix: String = when {
+    !(project.findProperty("artifact_version") as String?).isNullOrBlank() -> ""
+    System.getenv("GITHUB_ACTIONS") == "true" -> "-EXPERIMENTAL"
+    else -> "-UNOFFICIAL"
+}
+val displayVersion = "${project.version}$versionSuffix"
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 
 github {
@@ -114,11 +126,10 @@ tasks {
     test { enabled = false }
 
     processResources {
-        // Declare the version as an input so changing -Partifact_version re-expands plugin.yml
-        // instead of reusing a stale cached copy (which once shipped 5.0.0-UNOFFICIAL).
-        // The published jar is an UNOFFICIAL build; report that in plugin.yml so the version shown in
-        // logs/guide matches the jar name (Slimefun-<version>-UNOFFICIAL.jar) instead of bare <version>.
-        val pluginVersion = "${project.version}-UNOFFICIAL"
+        // Declare the version as an input so changing -Partifact_version (or the build context) re-expands
+        // plugin.yml instead of reusing a stale cached copy (which once shipped 5.0.0-UNOFFICIAL). The
+        // reported version carries the build-context suffix so it matches the jar name.
+        val pluginVersion = displayVersion
         inputs.property("version", pluginVersion)
         filesMatching("plugin.yml") {
             expand("version" to pluginVersion)
@@ -131,7 +142,7 @@ tasks {
 
     shadowJar {
         archiveBaseName.set("Slimefun")
-        archiveVersion.set("${project.version}-UNOFFICIAL")
+        archiveVersion.set(displayVersion)
         archiveClassifier.set("")
 
         relocate("io.github.bakedlibs.dough", "io.github.thebusybiscuit.slimefun5.libraries.dough")
@@ -292,7 +303,7 @@ val cloneAndBuildAddons by tasks.registering {
 
         // Addon build files reference the core jar by a relative path valid only in the old layout;
         // rewrite it to the absolute jar path after each checkout (reset --hard reverts it every run).
-        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun-${project.version}-UNOFFICIAL.jar").get().asFile
+        val coreJarFile = project.layout.buildDirectory.file("libs/Slimefun-$displayVersion.jar").get().asFile
         val coreJarPath = coreJarFile.absolutePath.replace("\\", "/")
         if (!coreJarFile.exists()) {
             println("WARNING: Core jar not found at ${coreJarFile.absolutePath} - addon compiles will fail until :core:shadowJar produces it.")
