@@ -151,6 +151,7 @@ guide:
     addon-visibility: 'Addon Visibility'
     installer: 'Addon Installer'
     discord: 'Join our Discord'
+    config-editor: 'Config Editor'
 
   panel:
     wiki:
@@ -195,6 +196,12 @@ guide:
     - '&7help, addon news and to chat with others.'
     - ''
     - '&7⇨ &eClick to join our Discord'
+    config-editor:
+    - ''
+    - '&7Edit this server''s Slimefun config from a menu.'
+    - '&cAdmin only. Changes are saved immediately.'
+    - ''
+    - '&7⇨ &eClick to open the Config Editor'
     bugs:
     - ''
     - '&7&oBug reports have to be made in English!'
@@ -248,6 +255,26 @@ guide:
     cheat-only: '&4&lOnly openable by Admins'
     browse: '&eRight Click &8⇨ &7Browse Items'
     settings: '&eShift + Right Click &8⇨ &7Open Settings / Credits'
+
+  config:
+    title: '&cConfig Editor'
+    back: 'Back'
+    page: 'Page %page%/%pages%'
+    disabled: '&cThe in-game config editor is disabled in the config.'
+    prompt: '&eType the new value in chat (or type &ccancel&e to keep it).'
+    invalid: '&cThat value is not valid for this setting.'
+    saved: '&aSaved.'
+    section-lore:
+    - '&7Section'
+    - '&7⇨ &eClick to open'
+    value-toggle:
+    - '&7Value: %value%'
+    - '&7⇨ &eClick to toggle'
+    value-edit:
+    - '&7Value: %value%'
+    - '&7⇨ &eClick to edit'
+    value-list:
+    - '&7List (read-only)'
 
   report:
     menu-title: '&4Report a Bug'

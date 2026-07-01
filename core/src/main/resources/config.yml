@@ -65,6 +65,13 @@ bug-reports:
     # A Discord webhook URL to mirror reports to. Empty disables Discord posting.
     webhook-url: ''
 
+# In-game config editor: a chest GUI (via /sf config or the guide's settings panel) that lets admins
+# edit this config. Admin-only (OP or slimefun.config-editor). IMPORTANT: this switch can ONLY be
+# changed here in the file - the editor hides the whole config-editor section, so it can never be
+# toggled from in-game. Note: editing via the GUI rewrites config.yml and does not keep comments.
+config-editor:
+  enabled: true
+
 researches:
   free-in-creative-mode: true
   enable-fireworks: true

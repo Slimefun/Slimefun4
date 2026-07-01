@@ -202,6 +202,16 @@ public final class SlimefunGuideSettings {
             return false;
         });
 
+        // Admin-only: opens the in-game config editor (also available via /sf config).
+        if (ConfigEditorMenu.isEnabled() && ConfigEditorMenu.canUse(p)) {
+            menu.addItem(45, CustomItemStack.create(XMaterial.COMMAND_BLOCK.parseMaterial(),
+                "&c" + locale.getMessage(p, "guide.title.config-editor"),
+                locale.getMessages(p, "guide.panel.config-editor").toArray(new String[0])));
+            menu.addMenuClickHandler(45, (pl, slot, item, action) -> {
+                ConfigEditorMenu.open(pl);
+                return false;
+            });
+        }
     }
 
     @ParametersAreNonnullByDefault

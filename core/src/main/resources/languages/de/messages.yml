@@ -45,6 +45,26 @@ guide:
     cheat-only: '&4&lNur von Admins zu öffnen'
     browse: '&eRechtsklick &8⇨ &7Items durchsuchen'
     settings: '&eUmschalt + Rechtsklick &8⇨ &7Einstellungen / Credits öffnen'
+  config:
+    title: '&cKonfigurations-Editor'
+    back: 'Zurück'
+    page: 'Seite %page%/%pages%'
+    disabled: '&cDer In-Game-Konfigurations-Editor ist in der Konfiguration deaktiviert.'
+    prompt: '&eGib den neuen Wert in den Chat ein (oder &ccancel&e, um ihn zu behalten).'
+    invalid: '&cDieser Wert ist für diese Einstellung ungültig.'
+    saved: '&aGespeichert.'
+    section-lore:
+    - '&7Abschnitt'
+    - '&7⇨ &eKlicke zum Öffnen'
+    value-toggle:
+    - '&7Wert: %value%'
+    - '&7⇨ &eKlicke zum Umschalten'
+    value-edit:
+    - '&7Wert: %value%'
+    - '&7⇨ &eKlicke zum Bearbeiten'
+    value-list:
+    - '&7Liste (schreibgeschützt)'
+
   report:
     menu-title: '&4Fehler melden'
     button-lore:
@@ -134,6 +154,13 @@ guide:
     - '&7für Hilfe, Addon-News und zum Austausch mit anderen.'
     - ''
     - '&7⇨ &eKlicke, um unserem Discord beizutreten'
+    config-editor:
+    - ''
+    - '&7Bearbeite die Slimefun-Konfiguration dieses Servers'
+    - '&7über ein Menü. &cNur für Admins. Änderungen werden'
+    - '&csofort gespeichert.'
+    - ''
+    - '&7⇨ &eKlicke, um den Konfigurations-Editor zu öffnen'
     bugs:
     - ''
     - '&7&oFehlermeldungen müssen auf Englisch erfolgen!'
@@ -400,6 +427,7 @@ guide:
     addon-visibility: 'Addon-Sichtbarkeit'
     installer: 'Addon-Installer'
     discord: 'Tritt unserem Discord bei'
+    config-editor: 'Konfigurations-Editor'
   credits:
     commit: 'Beitrag'
     commits: 'Beiträge'
