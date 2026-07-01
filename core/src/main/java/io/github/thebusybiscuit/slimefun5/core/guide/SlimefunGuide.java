@@ -114,6 +114,14 @@ public final class SlimefunGuide {
         return cfg.contains(key) ? cfg.getBoolean(key) : fallback;
     }
 
+    /** Our Discord invite, promoted from the guide (respects the external-links toggle). */
+    public static final String DISCORD_INVITE = "https://discord.gg/CbBYZBEWdR";
+
+    /** Whether guide buttons that open an external website should be shown (config, default true). */
+    public static boolean showExternalLinks() {
+        return boolOrDefault(Slimefun.getCfg(), "guide.external-links", true);
+    }
+
     public static void openGuide(@Nonnull Player p, @Nonnull SlimefunGuideMode mode) {
         if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
             return;

@@ -150,6 +150,7 @@ guide:
     versions: 'Installed versions'
     addon-visibility: 'Addon Visibility'
     installer: 'Addon Installer'
+    discord: 'Join our Discord'
 
   panel:
     wiki:
@@ -188,6 +189,12 @@ guide:
     - '&7&othen please consider contributing to it'
     - ''
     - '&7⇨ &eClick to go to GitHub'
+    discord:
+    - ''
+    - '&7Join the Slimefun community on Discord for'
+    - '&7help, addon news and to chat with others.'
+    - ''
+    - '&7⇨ &eClick to join our Discord'
     bugs:
     - ''
     - '&7&oBug reports have to be made in English!'

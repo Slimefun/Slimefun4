@@ -28,6 +28,9 @@ guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
   show-hidden-item-groups-in-search: false
+  # When false, every guide button that opens an external website (GitHub source, item wiki pages,
+  # contributor profiles, the Discord invite, ...) is hidden. Leave true to keep them.
+  external-links: true
   # When true, players without the slimefun.installer permission can still OPEN the Addon Installer
   # to browse installed/available addons (read-only - no install/update/build buttons).
   show-addon-installer-to-everyone: true

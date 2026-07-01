@@ -125,19 +125,32 @@ public final class SlimefunGuideSettings {
         );
         // @formatter:on
 
-        List<String> sourceLore = locale.getMessages(p, "guide.panel.source", msg -> msg
-            .replace("%activity%", NumberUtils.getElapsedTime(github.getLastUpdate()))
-            .replace("%forks%", String.valueOf(github.getForks()))
-            .replace("%stars%", String.valueOf(github.getStars())));
-        menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
-           "&e" + locale.getMessage(p, "guide.title.source"),
-           sourceLore.toArray(new String[0])));
+        // External-website buttons (source, Discord) are shown only when guide.external-links is on.
+        if (SlimefunGuide.showExternalLinks()) {
+            List<String> sourceLore = locale.getMessages(p, "guide.panel.source", msg -> msg
+                .replace("%activity%", NumberUtils.getElapsedTime(github.getLastUpdate()))
+                .replace("%forks%", String.valueOf(github.getForks()))
+                .replace("%stars%", String.valueOf(github.getStars())));
+            menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
+               "&e" + locale.getMessage(p, "guide.title.source"),
+               sourceLore.toArray(new String[0])));
 
-        menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
-            return false;
-        });
+            menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
+                return false;
+            });
+
+            menu.addItem(8, CustomItemStack.create(XMaterial.LIGHT_BLUE_DYE.parseMaterial(),
+                "&9" + locale.getMessage(p, "guide.title.discord"),
+                locale.getMessages(p, "guide.panel.discord").toArray(new String[0])));
+
+            menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                ChatUtils.sendURL(pl, SlimefunGuide.DISCORD_INVITE);
+                return false;
+            });
+        }
 
         // In-game Wiki, sitting opposite the Addon Installer (slot 47). Opens the teaching-focused
         // wiki home; shown to everyone, no external links.
@@ -166,7 +179,7 @@ public final class SlimefunGuideSettings {
                 AddonInstallerMenu.open(pl, guide);
                 return false;
             });
-        } else {
+        } else if (SlimefunGuide.showExternalLinks()) {
             List<String> addonsLore = locale.getMessages(p, "guide.panel.addons", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
             menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
                 "&3" + locale.getMessage(p, "guide.title.addons"),

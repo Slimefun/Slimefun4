@@ -102,7 +102,8 @@ public final class AddonDetailMenu {
         boolean showDelete = canManage && !entry.isCore() && !entry.isLibrary() && inst.isLoaded(entry);
         boolean showBuild = canManage && EnvironmentDetector.canBuildFromSource();
 
-        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + 1);
+        boolean showGithub = io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks();
+        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + (showGithub ? 1 : 0));
         int idx = 0;
 
         if (showInstall) {
@@ -146,18 +147,20 @@ public final class AddonDetailMenu {
             });
         }
 
-        int githubSlot = slots[idx];
-        List<String> githubLore = new ArrayList<>();
-        githubLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.github.name"));
-        githubLore.add("");
-        githubLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.github.lore"));
-        menu.addItem(githubSlot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), githubLore));
-        menu.addMenuClickHandler(githubSlot, (pl, slot, item, action) -> {
-            pl.closeInventory();
-            Slimefun.getLocalization().sendMessage(pl, "guide.installer.github.chat", true);
-            pl.sendMessage("https://github.com/" + entry.getSlug());
-            return false;
-        });
+        if (showGithub) {
+            int githubSlot = slots[idx];
+            List<String> githubLore = new ArrayList<>();
+            githubLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.github.name"));
+            githubLore.add("");
+            githubLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.github.lore"));
+            menu.addItem(githubSlot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), githubLore));
+            menu.addMenuClickHandler(githubSlot, (pl, slot, item, action) -> {
+                pl.closeInventory();
+                Slimefun.getLocalization().sendMessage(pl, "guide.installer.github.chat", true);
+                pl.sendMessage("https://github.com/" + entry.getSlug());
+                return false;
+            });
+        }
 
         menu.open(p);
     }
