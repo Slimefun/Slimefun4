@@ -37,7 +37,7 @@ public class GitHubService {
      * so every fork contributor is shown. Maintainers should set this to the branch their fork work
      * lives on; it must be pushed to the fork repository for GitHub to return its commits.
      */
-    private static final String DEVELOPMENT_BRANCH = "feature/java8-universal-jar";
+    private static final String DEVELOPMENT_BRANCH = "experimental";
 
     private final String repository;
     private final Set<GitHubConnector> connectors;
