@@ -119,17 +119,6 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
     }
 
-    /** Drops the crafted output into open space around a block - used when no inventory has room. */
-    protected void dropOutput(@Nonnull Block block, @Nonnull ItemStack output) {
-        Block target = firstOpenBlock(
-            block.getRelative(BlockFace.UP),
-            block.getRelative(BlockFace.NORTH), block.getRelative(BlockFace.EAST),
-            block.getRelative(BlockFace.SOUTH), block.getRelative(BlockFace.WEST),
-            block
-        );
-        block.getWorld().dropItemNaturally(target.getLocation().add(0.5, 0.5, 0.5), output);
-    }
-
     /** First candidate block that isn't solid (so a dropped item lands in open air, never trapped inside
      *  a block where it would be lost); falls back to the last candidate. */
     private static Block firstOpenBlock(Block... candidates) {
@@ -190,7 +179,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
 
     /** Drops the crafted item out of the dispenser, preferring its facing direction but always landing in
      *  open air so the item is never lost (e.g. when the facing resolves to the crafting table above it). */
-    private void ejectOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
+    protected void ejectOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
         BlockFace facing = getDispenserFacing(dispenser);
         Block target = firstOpenBlock(
             dispenser.getRelative(facing),
@@ -228,9 +217,11 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
 
             /*
              * Fixes #2103 - Properly simulating the consumption
-             * (which may leave behind empty buckets or glass bottles)
+             * (which may leave behind empty buckets or glass bottles).
+             * Slot locks are never consumed, so they must keep occupying the slot in the simulation too -
+             * otherwise the output falsely "fits" and gets added to a still-full dispenser and lost.
              */
-            if (stack != null) {
+            if (stack != null && !isSlotLock(stack)) {
                 stack = stack.clone();
                 ItemUtils.consumeItem(stack, true);
             }

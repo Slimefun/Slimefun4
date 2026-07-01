@@ -100,9 +100,10 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
             startAnimation(p, b, inv, dispenser, output);
         } else {
-            // Output has nowhere to go (dispenser + surroundings full): craft anyway and drop it.
+            // Output has nowhere to go (dispenser full): craft anyway and eject it out of the dispenser,
+            // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
             consumeInputs(inv);
-            dropOutput(b, output);
+            ejectOutput(dispenser, output);
             SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
         }
     }
