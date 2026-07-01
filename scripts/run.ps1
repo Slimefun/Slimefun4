@@ -278,11 +278,12 @@ function Select-Options($lastOptions) {
     $keepPlugins = if ($null -ne $lastOptions -and $null -ne $lastOptions.keepPlugins) { [bool]$lastOptions.keepPlugins } else { $false }
     $dumpItems = if ($null -ne $lastOptions -and $null -ne $lastOptions.dumpItems) { [bool]$lastOptions.dumpItems } else { $false }
 
+    # Each label ends with the gradle -P flag it maps to, so it's clear what gets passed to runServer.
     $items = @(
-        "Auto-install ViaVersion + ViaBackwards + ViaRewind",
-        "Build addon working copies as-is (skip git fetch/reset)",
-        "Keep existing plugin jars (don't clear the plugins folder)",
-        "Dump untranslated-item audit on boot (plugins/Slimefun/untranslated-items.yml)"
+        "Auto-install ViaVersion + ViaBackwards + ViaRewind  (-PnoVia when off)",
+        "Build addon working copies as-is (skip git fetch/reset)  (-PlocalAddons)",
+        "Keep existing plugin jars (don't clear the plugins folder)  (-PkeepPlugins)",
+        "Dump untranslated-item audit on boot  (-PdumpItems)"
     )
     $values = @($via, $localAddons, $keepPlugins, $dumpItems)
     $count = $items.Length

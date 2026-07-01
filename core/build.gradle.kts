@@ -609,12 +609,13 @@ val cloneAndBuildAddons by tasks.registering {
         }
 
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
-        // Optional: -PkeepPlugins leaves the plugins folder untouched (e.g. to keep manually-added jars).
+        // Optional: -PkeepPlugins keeps whatever is already in the plugins folder AND skips building addons
+        // entirely - you're deliberately reusing the existing jars, so there's nothing to rebuild or copy.
         if (project.hasProperty("keepPlugins")) {
-            println("[keepPlugins] leaving existing plugin jars in place")
-        } else {
-            pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+            println("[keepPlugins] keeping existing plugin jars; skipping addon clone/build/copy")
+            return@doLast
         }
+        pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
 
         for (addon in addons) {
             // Each entry is Owner/Repo or Owner/Repo@branch (run.ps1 appends the chosen branch).
