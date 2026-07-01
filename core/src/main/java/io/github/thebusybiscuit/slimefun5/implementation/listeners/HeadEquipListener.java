@@ -4,6 +4,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,7 +28,10 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
  */
 public class HeadEquipListener implements Listener {
 
+    private final Slimefun plugin;
+
     public HeadEquipListener(@Nonnull Slimefun plugin) {
+        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -45,6 +50,19 @@ public class HeadEquipListener implements Listener {
         return SlimefunItem.getByItem(item) != null;
     }
 
+    /**
+     * Cancelling an armor-slot click stops the server-side equip, but the client has already optimistically
+     * moved the item into the helmet slot; without a resync it renders as equipped while the server still
+     * holds it elsewhere, so the item appears to vanish (Slimefun #... - custom skulls deleted on equip).
+     * Re-sending the inventory next tick restores the correct client view.
+     */
+    private void resync(@Nonnull HumanEntity who) {
+        if (who instanceof Player) {
+            Player p = (Player) who;
+            plugin.getServer().getScheduler().runTask(plugin, () -> p.updateInventory());
+        }
+    }
+
     /** Vanilla equips a player head to the helmet slot on right-click in the air. */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onRightClickEquip(PlayerInteractEvent e) {
@@ -59,6 +77,7 @@ public class HeadEquipListener implements Listener {
         // Click a head onto an armor slot.
         if (e.getSlotType() == InventoryType.SlotType.ARMOR && isSlimefunHead(e.getCursor())) {
             e.setCancelled(true);
+            resync(e.getWhoClicked());
             return;
         }
 
@@ -69,6 +88,7 @@ public class HeadEquipListener implements Listener {
 
             if (isSlimefunHead(hotbar)) {
                 e.setCancelled(true);
+                resync(e.getWhoClicked());
                 return;
             }
         }
@@ -83,6 +103,7 @@ public class HeadEquipListener implements Listener {
 
             if (helmet == null || helmet.getType() == Material.AIR) {
                 e.setCancelled(true);
+                resync(e.getWhoClicked());
             }
         }
     }
