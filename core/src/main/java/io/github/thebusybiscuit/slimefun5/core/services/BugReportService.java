@@ -85,18 +85,20 @@ public final class BugReportService {
         String mcVersion = Bukkit.getBukkitVersion();
         String sfVersion = Slimefun.getVersion();
         String pluginList = plugins.isEmpty() ? "(unspecified)" : String.join(", ", plugins);
+        // Ops are treated as the server owner/admin; everyone else is a regular player.
+        String reporter = p.isOp() ? "Server Owner" : "Player";
 
         Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-            boolean relayed = postRelay(title, description, plugins, player, mcVersion, sfVersion);
-            boolean discord = !relayed && postDiscord(title, description, pluginList, player, mcVersion, sfVersion);
-            boolean github = postGitHubIssue(title, description, pluginList, player, mcVersion, sfVersion);
+            boolean relayed = postRelay(title, description, plugins, player, mcVersion, sfVersion, reporter);
+            boolean discord = !relayed && postDiscord(title, description, pluginList, player, mcVersion, sfVersion, reporter);
+            boolean github = postGitHubIssue(title, description, pluginList, player, mcVersion, sfVersion, reporter);
             boolean delivered = relayed || discord || github;
 
             Slimefun.runSync(() -> Slimefun.getLocalization().sendMessage(p, delivered ? "guide.report.success" : "guide.report.failed", true));
         });
     }
 
-    private static boolean postRelay(String title, String description, List<String> plugins, String player, String mc, String sf) {
+    private static boolean postRelay(String title, String description, List<String> plugins, String player, String mc, String sf, String reporter) {
         // A blank relay-url (absent, or an older/stale config that persisted it empty) falls back to the
         // built-in relay so reports still reach us. To turn the reporter off entirely, set enabled: false.
         String relay = Slimefun.getCfg().getString("bug-reports.relay-url");
@@ -115,13 +117,14 @@ public final class BugReportService {
         body.addProperty("description", description);
         body.add("plugins", pluginsJson);
         body.addProperty("player", player);
+        body.addProperty("reporter", reporter);
         body.addProperty("mcVersion", mc);
         body.addProperty("sfVersion", sf);
 
         return post(relay.trim(), body.toString(), null, null);
     }
 
-    private static boolean postDiscord(String title, String description, String plugins, String player, String mc, String sf) {
+    private static boolean postDiscord(String title, String description, String plugins, String player, String mc, String sf, String reporter) {
         String webhook = Slimefun.getCfg().getString("bug-reports.discord.webhook-url");
 
         if (webhook == null || webhook.trim().isEmpty()) {
@@ -129,12 +132,12 @@ public final class BugReportService {
         }
 
         JsonObject body = new JsonObject();
-        body.addProperty("content", "**Bug Report: " + title + "**\n**Plugins:** " + plugins + "\n**Player:** " + player + "\n**Slimefun:** " + sf + "  **MC:** " + mc + "\n\n" + description);
+        body.addProperty("content", "**Bug Report: " + title + "**\n**Plugins:** " + plugins + "\n**By:** " + player + " (" + reporter + ")\n**Slimefun:** " + sf + "  **MC:** " + mc + "\n\n" + description);
 
         return post(webhook, body.toString(), null, null);
     }
 
-    private static boolean postGitHubIssue(String title, String description, String plugins, String player, String mc, String sf) {
+    private static boolean postGitHubIssue(String title, String description, String plugins, String player, String mc, String sf, String reporter) {
         String token = Slimefun.getCfg().getString("bug-reports.github.token");
 
         if (token == null || token.trim().isEmpty()) {
@@ -148,7 +151,7 @@ public final class BugReportService {
 
         JsonObject body = new JsonObject();
         body.addProperty("title", title);
-        body.addProperty("body", "Reported in-game by **" + player + "**\n\n- Affected: " + plugins + "\n- Slimefun: `" + sf + "`\n- Minecraft: `" + mc + "`\n\n---\n\n" + description);
+        body.addProperty("body", "Reported in-game by **" + player + "** (" + reporter + ")\n\n- Affected: " + plugins + "\n- Slimefun: `" + sf + "`\n- Minecraft: `" + mc + "`\n\n---\n\n" + description);
 
         JsonArray labels = new JsonArray();
         labels.add(new JsonPrimitive("in-game-report"));
