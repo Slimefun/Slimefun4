@@ -101,7 +101,7 @@ public final class ConfigEditorMenu {
             keys.add(key);
         }
 
-        String title = locale.getMessage(p, "guide.config.title") + (path.isEmpty() ? "" : " /" + path);
+        String title = locale.getMessage(p, "guide.config.title") + breadcrumb(path);
         ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
@@ -186,6 +186,18 @@ public final class ConfigEditorMenu {
                 return false;
             });
         }
+    }
+
+    /** A readable breadcrumb for the title, e.g. "guide.settings-buttons" -&gt; " › Guide › Settings Buttons". */
+    private static String breadcrumb(@Nonnull String path) {
+        if (path.isEmpty()) {
+            return "";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String segment : path.split("\\.")) {
+            sb.append(" › ").append(readableName(segment));
+        }
+        return sb.toString();
     }
 
     /** Turns a config key like "show-vanilla-recipes" into "Show Vanilla Recipes" for a friendly label. */

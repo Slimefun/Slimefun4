@@ -119,17 +119,6 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
     }
 
-    /** First candidate block that isn't solid (so a dropped item lands in open air, never trapped inside
-     *  a block where it would be lost); falls back to the last candidate. */
-    private static Block firstOpenBlock(Block... candidates) {
-        for (Block candidate : candidates) {
-            if (candidate != null && !candidate.getType().isSolid()) {
-                return candidate;
-            }
-        }
-        return candidates[candidates.length - 1];
-    }
-
     /**
      * Performs a single craft headlessly (no {@link Player}, no permission check, no
      * {@link io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent}) directly from a
@@ -177,20 +166,18 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         return false;
     }
 
-    /** Drops the crafted item out of the dispenser, preferring its facing direction but always landing in
-     *  open air so the item is never lost (e.g. when the facing resolves to the crafting table above it). */
+    /** Ejects the crafted item out of the dispenser's front, exactly like a vanilla dispenser: spawned
+     *  at the facing face, launched in that direction, with the dispenser dispense sound. */
     protected void ejectOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
         BlockFace facing = getDispenserFacing(dispenser);
-        Block target = firstOpenBlock(
-            dispenser.getRelative(facing),
-            dispenser.getRelative(BlockFace.NORTH), dispenser.getRelative(BlockFace.EAST),
-            dispenser.getRelative(BlockFace.SOUTH), dispenser.getRelative(BlockFace.WEST),
-            dispenser.getRelative(BlockFace.DOWN), dispenser.getRelative(BlockFace.UP),
-            dispenser
-        );
-        Location location = target.getLocation().add(0.5, 0.5, 0.5);
+        Location location = dispenser.getLocation().add(
+            0.5 + facing.getModX() * 0.7,
+            0.5 + facing.getModY() * 0.7,
+            0.5 + facing.getModZ() * 0.7);
 
-        dispenser.getWorld().dropItem(location, output).setVelocity(new Vector(facing.getModX() * 0.2, facing.getModY() * 0.2, facing.getModZ() * 0.2));
+        dispenser.getWorld().dropItem(location, output)
+            .setVelocity(new Vector(facing.getModX(), facing.getModY(), facing.getModZ()).multiply(0.25));
+        SoundEffect.DISPENSER_DISPENSE_SOUND.playAt(dispenser);
     }
 
     @Nonnull
