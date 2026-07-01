@@ -105,7 +105,10 @@ public class ArmorForge extends AbstractCraftingTable {
             }
 
         } else {
-            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            // Output has nowhere to go (dispenser + surroundings full): craft anyway and drop it.
+            consumeInputs(inv);
+            dropOutput(dispenser, output);
+            SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
         }
     }
 }

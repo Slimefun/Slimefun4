@@ -100,7 +100,10 @@ public class MagicWorkbench extends AbstractCraftingTable {
 
             startAnimation(p, b, inv, dispenser, output);
         } else {
-            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            // Output has nowhere to go (dispenser + surroundings full): craft anyway and drop it.
+            consumeInputs(inv);
+            dropOutput(b, output);
+            SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
         }
     }
 

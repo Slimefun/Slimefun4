@@ -92,7 +92,10 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             outputInv.addItem(output);
 
         } else {
-            Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
+            // Output has nowhere to go (dispenser + surroundings full): craft anyway and drop it.
+            consumeInputs(inv);
+            dropOutput(b, output);
+            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
         }
     }
 

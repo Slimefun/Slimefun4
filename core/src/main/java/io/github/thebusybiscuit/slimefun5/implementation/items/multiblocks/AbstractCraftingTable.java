@@ -80,6 +80,22 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         return isSlotLock(item) ? null : item;
     }
 
+    /** Consumes one of each non-lock input, mirroring a successful craft. */
+    protected void consumeInputs(@Nonnull Inventory inv) {
+        for (int j = 0; j < 9; j++) {
+            ItemStack item = inv.getContents()[j];
+
+            if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
+                ItemUtils.consumeItem(item, true);
+            }
+        }
+    }
+
+    /** Drops the crafted output above a block - used when no inventory has room, so nothing is lost. */
+    protected void dropOutput(@Nonnull Block block, @Nonnull ItemStack output) {
+        block.getWorld().dropItemNaturally(block.getLocation().add(0.5, 1.0, 0.5), output);
+    }
+
     /**
      * Performs a single craft headlessly (no {@link Player}, no permission check, no
      * {@link io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent}) directly from a
