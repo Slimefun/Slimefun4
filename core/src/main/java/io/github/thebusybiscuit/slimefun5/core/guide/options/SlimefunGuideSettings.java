@@ -33,7 +33,7 @@ import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuClickHandler;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 
 /**
  * This static utility class offers various methods that provide access to the
