@@ -38,12 +38,23 @@ public final class ConfigEditorMenu {
 
     public static final String PERMISSION = "slimefun.config-editor";
     private static final String HIDDEN_ROOT = "config-editor";
-    private static final int PAGE_SIZE = 45;
+    // Framed layout: entries sit in the inner area (not crammed into the top row), nav in the bottom row.
+    private static final int[] CONTENT_SLOTS = {
+        10, 11, 12, 13, 14, 15, 16,
+        19, 20, 21, 22, 23, 24, 25,
+        28, 29, 30, 31, 32, 33, 34,
+        37, 38, 39, 40, 41, 42, 43
+    };
+    private static final int[] BORDER = {
+        0, 1, 2, 3, 4, 5, 6, 7, 8,
+        9, 17, 18, 26, 27, 35, 36, 44,
+        45, 46, 47, 48, 49, 50, 51, 52, 53
+    };
+    private static final int PAGE_SIZE = CONTENT_SLOTS.length;
     private static final int BACK_SLOT = 45;
     private static final int PREV_SLOT = 48;
     private static final int INFO_SLOT = 49;
     private static final int NEXT_SLOT = 50;
-    private static final int[] BORDER = { 45, 46, 47, 48, 49, 50, 51, 52, 53 };
 
     private ConfigEditorMenu() {}
 
@@ -111,7 +122,7 @@ public final class ConfigEditorMenu {
         for (int i = start, shown = 0; i < keys.size() && shown < PAGE_SIZE; i++, shown++) {
             String key = keys.get(i);
             String full = path.isEmpty() ? key : path + "." + key;
-            renderEntry(menu, shown, p, cfg, path, page, key, full);
+            renderEntry(menu, CONTENT_SLOTS[shown], p, cfg, path, page, key, full);
         }
 
         menu.addItem(INFO_SLOT, CustomItemStack.create(MaterialCompat.stack(XMaterial.PAPER),
@@ -140,8 +151,11 @@ public final class ConfigEditorMenu {
     private static void renderEntry(ChestMenu menu, int slot, Player p, FileConfiguration cfg, String path, int page, String key, String full) {
         LocalizationService locale = Slimefun.getLocalization();
 
+        // Shown as "Readable Name (raw-key)" so admins see a friendly label but still the exact key.
+        String label = "&e" + readableName(key) + " &7(" + key + ")";
+
         if (cfg.isConfigurationSection(full)) {
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOKSHELF), "&b" + key,
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.CHEST), "&b" + readableName(key) + " &7(" + key + ")",
                 locale.getMessages(p, "guide.config.section-lore").toArray(new String[0])));
             menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 open(pl, full, 0);
@@ -149,7 +163,7 @@ public final class ConfigEditorMenu {
             });
         } else if (cfg.isBoolean(full)) {
             boolean value = cfg.getBoolean(full);
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(value ? XMaterial.LIME_DYE : XMaterial.GRAY_DYE), "&e" + key,
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(value ? XMaterial.LIME_DYE : XMaterial.GRAY_DYE), label,
                 lore(p, "guide.config.value-toggle", value ? "&atrue" : "&cfalse")));
             menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 setAndSave(full, !value);
@@ -161,16 +175,35 @@ public final class ConfigEditorMenu {
             for (Object entry : cfg.getList(full)) {
                 lore.add("&8- &7" + entry);
             }
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.PAPER), "&e" + key, lore.toArray(new String[0])));
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.BOOK), label, lore.toArray(new String[0])));
             menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
         } else {
-            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.NAME_TAG), "&e" + key,
+            boolean numeric = cfg.isInt(full) || cfg.isLong(full) || cfg.isDouble(full);
+            menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(numeric ? XMaterial.CLOCK : XMaterial.NAME_TAG), label,
                 lore(p, "guide.config.value-edit", "&f" + cfg.get(full))));
             menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 promptEdit(pl, path, page, full);
                 return false;
             });
         }
+    }
+
+    /** Turns a config key like "show-vanilla-recipes" into "Show Vanilla Recipes" for a friendly label. */
+    private static String readableName(@Nonnull String key) {
+        StringBuilder sb = new StringBuilder();
+        boolean capitalize = true;
+        for (char c : key.toCharArray()) {
+            if (c == '-' || c == '_' || c == '.') {
+                sb.append(' ');
+                capitalize = true;
+            } else if (capitalize) {
+                sb.append(Character.toUpperCase(c));
+                capitalize = false;
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 
     @ParametersAreNonnullByDefault

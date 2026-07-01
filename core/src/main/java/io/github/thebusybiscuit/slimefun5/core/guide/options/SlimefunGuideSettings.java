@@ -33,6 +33,7 @@ import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuClickHandler;
 
 /**
  * This static utility class offers various methods that provide access to the
@@ -47,7 +48,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class SlimefunGuideSettings {
 
-    private static final int[] BACKGROUND_SLOTS = { 1, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53 };
+    // The whole top row (1-8) and bottom row (45-53) are background; the panel buttons are placed
+    // centered on top and re-center automatically as buttons are toggled off, leaving glass in the gaps.
+    private static final int[] BACKGROUND_SLOTS = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final List<SlimefunGuideOption<?>> options = new ArrayList<>();
 
     static {
@@ -82,135 +85,169 @@ public final class SlimefunGuideSettings {
     @ParametersAreNonnullByDefault
     private static void addHeader(Player p, ChestMenu menu, ItemStack guide) {
         LocalizationService locale = Slimefun.getLocalization();
+        GitHubService github = Slimefun.getGitHubService();
 
-        // @formatter:off
+        // Fixed back-to-guide button.
         menu.addItem(0, CustomItemStack.create(SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE),
-            "&e\u21E6 " + locale.getMessage(p, "guide.back.title"),
-            "",
-            "&7" + locale.getMessage(p, "guide.back.guide")));
-        // @formatter:on
-
+            "&e\u21E6 " + locale.getMessage(p, "guide.back.title"), "", "&7" + locale.getMessage(p, "guide.back.guide")));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
             SlimefunGuide.openGuide(pl, guide);
             return false;
         });
 
-        GitHubService github = Slimefun.getGitHubService();
+        // Top row: each button is individually toggleable via guide.settings-buttons.<name>; the row
+        // re-centers automatically as buttons are hidden (slots 1-8, slot 0 is the back button).
+        List<PanelButton> top = new ArrayList<>();
 
-        List<String> contributorsLore = new ArrayList<>();
-        contributorsLore.add("");
-        contributorsLore.addAll(locale.getMessages(p, "guide.credits.description", msg -> msg.replace("%contributors%", String.valueOf(github.getContributors().size()))));
-        contributorsLore.add("");
-        contributorsLore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
+        if (buttonEnabled("credits")) {
+            List<String> lore = new ArrayList<>();
+            lore.add("");
+            lore.addAll(locale.getMessages(p, "guide.credits.description", msg -> msg.replace("%contributors%", String.valueOf(github.getContributors().size()))));
+            lore.add("");
+            lore.add("&7\u21E8 &e" + locale.getMessage(p, "guide.credits.open"));
+            top.add(new PanelButton(
+                CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
+                    "&c" + locale.getMessage(p, "guide.title.credits"), lore.toArray(new String[0])),
+                (pl, slot, item, action) -> {
+                    ContributorsMenu.open(pl, 0);
+                    return false;
+                }));
+        }
 
-        // @formatter:off
-        menu.addItem(2, CustomItemStack.create(SlimefunUtils.getCustomHead("e952d2b3f351a6b0487cc59db31bf5f2641133e5ba0006b18576e996a0293e52"),
-            "&c" + locale.getMessage(p, "guide.title.credits"),
-            contributorsLore.toArray(new String[0])));
-        // @formatter:on
+        if (buttonEnabled("versions")) {
+            top.add(new PanelButton(
+                CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
+                    ChatColor.GREEN + locale.getMessage(p, "guide.title.versions"),
+                    "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"), "",
+                    "&fMinecraft: &a" + Bukkit.getBukkitVersion(), "&fSlimefun: &a" + Slimefun.getVersion()),
+                ChestMenuUtils.getEmptyClickHandler()));
+        }
 
-        menu.addMenuClickHandler(2, (pl, slot, action, item) -> {
-            ContributorsMenu.open(pl, 0);
-            return false;
-        });
-
-        // @formatter:off
-        menu.addItem(4, CustomItemStack.create(XMaterial.WRITABLE_BOOK.parseMaterial(),
-            ChatColor.GREEN + locale.getMessage(p, "guide.title.versions"),
-            "&7&o" + locale.getMessage(p, "guide.tooltips.versions-notice"),
-            "",
-            "&fMinecraft: &a" + Bukkit.getBukkitVersion(),
-            "&fSlimefun: &a" + Slimefun.getVersion()),
-            ChestMenuUtils.getEmptyClickHandler()
-        );
-        // @formatter:on
-
-        // External-website buttons (source, Discord) are shown only when guide.external-links is on.
-        if (SlimefunGuide.showExternalLinks()) {
-            List<String> sourceLore = locale.getMessages(p, "guide.panel.source", msg -> msg
+        if (buttonEnabled("source")) {
+            List<String> lore = locale.getMessages(p, "guide.panel.source", msg -> msg
                 .replace("%activity%", NumberUtils.getElapsedTime(github.getLastUpdate()))
                 .replace("%forks%", String.valueOf(github.getForks()))
                 .replace("%stars%", String.valueOf(github.getStars())));
-            menu.addItem(6, CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(),
-               "&e" + locale.getMessage(p, "guide.title.source"),
-               sourceLore.toArray(new String[0])));
-
-            menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
-                return false;
-            });
-
-            menu.addItem(8, CustomItemStack.create(XMaterial.LIGHT_BLUE_DYE.parseMaterial(),
-                "&9" + locale.getMessage(p, "guide.title.discord"),
-                locale.getMessages(p, "guide.panel.discord").toArray(new String[0])));
-
-            menu.addMenuClickHandler(8, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, SlimefunGuide.DISCORD_INVITE);
-                return false;
-            });
+            top.add(new PanelButton(
+                CustomItemStack.create(XMaterial.COMPARATOR.parseMaterial(), "&e" + locale.getMessage(p, "guide.title.source"), lore.toArray(new String[0])),
+                (pl, slot, item, action) -> {
+                    pl.closeInventory();
+                    ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5");
+                    return false;
+                }));
         }
 
-        // In-game Wiki, sitting opposite the Addon Installer (slot 47). Opens the teaching-focused
-        // wiki home; shown to everyone, no external links.
-        List<String> wikiLore = locale.getMessages(p, "guide.panel.wiki");
-        menu.addItem(51, CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(),
-            "&3" + locale.getMessage(p, "guide.title.wiki"),
-            wikiLore.toArray(new String[0])));
-
-        menu.addMenuClickHandler(51, (pl, slot, item, action) -> {
-            WikiIndex.open(pl, guide);
-            return false;
-        });
-
-        // @formatter:off
-        // Anyone with the permission can manage; everyone else can still VIEW (read-only) unless the
-        // server disables it. Only when viewing is off do non-permitted players get the addons link.
-        boolean canViewInstaller = p.hasPermission(AddonCatalog.PERMISSION)
-            || Slimefun.getCfg().getBoolean("guide.show-addon-installer-to-everyone");
-        if (canViewInstaller) {
-            List<String> installerLore = locale.getMessages(p, "guide.panel.installer", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
-            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
-                "&3" + locale.getMessage(p, "guide.title.installer"),
-                installerLore.toArray(new String[0])));
-
-            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-                AddonInstallerMenu.open(pl, guide);
-                return false;
-            });
-        } else if (SlimefunGuide.showExternalLinks()) {
-            List<String> addonsLore = locale.getMessages(p, "guide.panel.addons", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
-            menu.addItem(47, CustomItemStack.create(Material.BOOKSHELF,
-                "&3" + locale.getMessage(p, "guide.title.addons"),
-                addonsLore.toArray(new String[0])));
-
-            menu.addMenuClickHandler(47, (pl, slot, item, action) -> {
-                pl.closeInventory();
-                ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
-                return false;
-            });
+        if (buttonEnabled("discord")) {
+            top.add(new PanelButton(
+                CustomItemStack.create(XMaterial.LIGHT_BLUE_DYE.parseMaterial(), "&9" + locale.getMessage(p, "guide.title.discord"),
+                    locale.getMessages(p, "guide.panel.discord").toArray(new String[0])),
+                (pl, slot, item, action) -> {
+                    pl.closeInventory();
+                    ChatUtils.sendURL(pl, SlimefunGuide.DISCORD_INVITE);
+                    return false;
+                }));
         }
 
-        // In-game bug reporting (replaces the external issue-tracker link). Always available.
-        menu.addItem(49, CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(),
-            "&4" + locale.getMessage(p, "guide.title.bugs"),
-            locale.getMessages(p, "guide.report.button-lore").toArray(new String[0])));
+        place(menu, top, 1, 8);
 
-        menu.addMenuClickHandler(49, (pl, slot, item, action) -> {
-            BugReportMenu.open(pl, guide);
-            return false;
-        });
+        // Bottom row: installer / bug reports / config editor are toggleable; the Wiki is always shown.
+        List<PanelButton> bottom = new ArrayList<>();
 
-        // Admin-only: opens the in-game config editor (also available via /sf config).
-        if (ConfigEditorMenu.isEnabled() && ConfigEditorMenu.canUse(p)) {
-            menu.addItem(45, CustomItemStack.create(XMaterial.COMMAND_BLOCK.parseMaterial(),
-                "&c" + locale.getMessage(p, "guide.title.config-editor"),
-                locale.getMessages(p, "guide.panel.config-editor").toArray(new String[0])));
-            menu.addMenuClickHandler(45, (pl, slot, item, action) -> {
-                ConfigEditorMenu.open(pl);
+        if (buttonEnabled("installer")) {
+            boolean canViewInstaller = p.hasPermission(AddonCatalog.PERMISSION) || Slimefun.getCfg().getBoolean("guide.show-addon-installer-to-everyone");
+            if (canViewInstaller) {
+                List<String> lore = locale.getMessages(p, "guide.panel.installer", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
+                bottom.add(new PanelButton(
+                    CustomItemStack.create(Material.BOOKSHELF, "&3" + locale.getMessage(p, "guide.title.installer"), lore.toArray(new String[0])),
+                    (pl, slot, item, action) -> {
+                        AddonInstallerMenu.open(pl, guide);
+                        return false;
+                    }));
+            } else if (SlimefunGuide.showExternalLinks()) {
+                List<String> lore = locale.getMessages(p, "guide.panel.addons", msg -> msg.replace("%count%", String.valueOf(Slimefun.getInstalledAddons().size())));
+                bottom.add(new PanelButton(
+                    CustomItemStack.create(Material.BOOKSHELF, "&3" + locale.getMessage(p, "guide.title.addons"), lore.toArray(new String[0])),
+                    (pl, slot, item, action) -> {
+                        pl.closeInventory();
+                        ChatUtils.sendURL(pl, "https://github.com/Slimefun5/Slimefun5/wiki/Addons");
+                        return false;
+                    }));
+            }
+        }
+
+        if (buttonEnabled("bug-reports")) {
+            bottom.add(new PanelButton(
+                CustomItemStack.create(XMaterial.REDSTONE_TORCH.parseMaterial(), "&4" + locale.getMessage(p, "guide.title.bugs"),
+                    locale.getMessages(p, "guide.report.button-lore").toArray(new String[0])),
+                (pl, slot, item, action) -> {
+                    BugReportMenu.open(pl, guide);
+                    return false;
+                }));
+        }
+
+        if (buttonEnabled("config-editor") && ConfigEditorMenu.isEnabled() && ConfigEditorMenu.canUse(p)) {
+            bottom.add(new PanelButton(
+                CustomItemStack.create(XMaterial.COMMAND_BLOCK.parseMaterial(), "&c" + locale.getMessage(p, "guide.title.config-editor"),
+                    locale.getMessages(p, "guide.panel.config-editor").toArray(new String[0])),
+                (pl, slot, item, action) -> {
+                    ConfigEditorMenu.open(pl);
+                    return false;
+                }));
+        }
+
+        // The Wiki button is never toggleable.
+        bottom.add(new PanelButton(
+            CustomItemStack.create(XMaterial.ENCHANTED_BOOK.parseMaterial(), "&3" + locale.getMessage(p, "guide.title.wiki"),
+                locale.getMessages(p, "guide.panel.wiki").toArray(new String[0])),
+            (pl, slot, item, action) -> {
+                WikiIndex.open(pl, guide);
                 return false;
-            });
+            }));
+
+        place(menu, bottom, 45, 9);
+    }
+
+    /** Whether a settings-panel button is shown (config guide.settings-buttons.&lt;name&gt;, default true). */
+    private static boolean buttonEnabled(@Nonnull String name) {
+        String key = "guide.settings-buttons." + name;
+        return !Slimefun.getCfg().contains(key) || Slimefun.getCfg().getBoolean(key);
+    }
+
+    /** Places the buttons centered within a 9-wide row, so hiding one re-centers the rest. */
+    private static void place(@Nonnull ChestMenu menu, @Nonnull List<PanelButton> buttons, int rangeStart, int rangeWidth) {
+        int[] slots = centeredRow(rangeStart, rangeWidth, buttons.size());
+        for (int i = 0; i < buttons.size(); i++) {
+            menu.addItem(slots[i], buttons.get(i).item);
+            menu.addMenuClickHandler(slots[i], buttons.get(i).handler);
+        }
+    }
+
+    private static int[] centeredRow(int rangeStart, int rangeWidth, int count) {
+        int[] slots = new int[count];
+        int span = 2 * count - 1;
+
+        if (span >= rangeWidth) {
+            for (int i = 0; i < count; i++) {
+                slots[i] = rangeStart + Math.min(i, rangeWidth - 1);
+            }
+        } else {
+            int start = rangeStart + (rangeWidth - span) / 2;
+            for (int i = 0; i < count; i++) {
+                slots[i] = start + i * 2;
+            }
+        }
+
+        return slots;
+    }
+
+    private static final class PanelButton {
+
+        private final ItemStack item;
+        private final MenuClickHandler handler;
+
+        private PanelButton(@Nonnull ItemStack item, @Nonnull MenuClickHandler handler) {
+            this.item = item;
+            this.handler = handler;
         }
     }
 

@@ -626,6 +626,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 ChatUtils.sendURL(pl, wiki.get());
                 return false;
             });
+        } else {
+            // No wiki page (e.g. most addon items) or external links disabled: fill the slot with the
+            // background glass so it doesn't look like a broken empty slot.
+            menu.addItem(8, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
         AsyncRecipeChoiceTask task = new AsyncRecipeChoiceTask();
