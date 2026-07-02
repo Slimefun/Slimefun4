@@ -28,6 +28,12 @@ public class JetpackTask extends AbstractPlayerTask {
             return;
         }
 
+        // Only thrust while airborne, so simply crouching on the ground doesn't fire the jetpack (and
+        // doesn't waste charge). Jump first, then hold crouch to fly.
+        if (p.isOnGround()) {
+            return;
+        }
+
         if (jetpack.removeItemCharge(p.getInventory().getChestplate(), COST)) {
             SoundEffect.JETPACK_THRUST_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
             p.getWorld().playEffect(p.getLocation(), Effect.SMOKE, 1, 1);
