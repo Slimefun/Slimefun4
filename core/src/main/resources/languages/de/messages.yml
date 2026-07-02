@@ -308,6 +308,7 @@ guide:
     install:
       install: '&aNeuestes Release installieren'
       update: '&aAuf neuestes Release aktualisieren'
+      working: '&e⏳ Installiere… &7(zum Anwenden neu starten)'
       lore:
       - '&7Lädt das neueste GitHub-Release herunter'
       - '&7und bereitet es für den nächsten Neustart vor.'

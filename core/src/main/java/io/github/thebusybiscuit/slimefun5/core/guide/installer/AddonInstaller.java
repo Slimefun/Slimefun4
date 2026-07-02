@@ -224,6 +224,7 @@ public final class AddonInstaller {
                 return;
             }
 
+            latestTags.put(probe.entry.getId(), info.getTag());
             available = !normalizeVersion(info.getTag()).equals(normalizeVersion(probe.installed));
             label = info.getTag();
         }
@@ -303,8 +304,16 @@ public final class AddonInstaller {
      * Runs entirely off the main thread; messages the player on completion.
      */
     public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry) {
-        // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins) on the calling
-        // (main) thread, then reserve all ids before going async.
+        installRelease(player, entry, null);
+    }
+
+    /**
+     * As {@link #installRelease(Player, AddonCatalog.Entry)}, but invokes {@code onComplete} on the main
+     * thread when finished (true = success), so a menu can re-render with in-GUI feedback.
+     */
+    public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable java.util.function.Consumer<Boolean> onComplete) {
+        // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins, jar file names) on the
+        // calling (main) thread, then reserve all ids before going async.
         List<AddonCatalog.Entry> targets = new ArrayList<>();
 
         for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
@@ -316,10 +325,16 @@ public final class AddonInstaller {
         targets.add(entry);
 
         Set<String> loadedIds = new HashSet<>();
+        java.util.Map<String, String> loadedJarNames = new java.util.HashMap<>();
 
         for (AddonCatalog.Entry target : targets) {
             if (isLoaded(target)) {
                 loadedIds.add(target.getId());
+                File jar = locateJar(target);
+
+                if (jar != null) {
+                    loadedJarNames.put(target.getId(), jar.getName());
+                }
             }
         }
 
@@ -340,8 +355,14 @@ public final class AddonInstaller {
                     break;
                 }
 
-                File dir = InstallTargets.targetDir(loadedIds.contains(target.getId()));
-                boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, target.getRepo() + ".jar");
+                boolean loaded = loadedIds.contains(target.getId());
+                File dir = InstallTargets.targetDir(loaded);
+                // Fresh installs get a versioned file name (e.g. Networks-v1.0.2.jar); an update must reuse
+                // the loaded jar's own file name so Bukkit's (filename-matched) update folder swaps it in.
+                String fileName = loaded
+                    ? loadedJarNames.getOrDefault(target.getId(), target.getRepo() + ".jar")
+                    : target.getRepo() + "-" + info.getTag() + ".jar";
+                boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName);
 
                 if (!ok) {
                     message(player, ChatColor.RED + "✖ Failed to download " + target.getDisplayName() + ".");
@@ -349,14 +370,51 @@ public final class AddonInstaller {
                     break;
                 }
 
+                latestTags.put(target.getId(), info.getTag());
                 state.set(target.getId(), InstallState.Method.RELEASE, info.getTag(), true);
                 staged.add(target.getDisplayName() + " " + info.getTag());
             }
 
             release(targets);
+            boolean success = !failure;
 
-            if (!failure) {
+            if (success) {
                 message(player, ChatColor.GREEN + "✔ Staged: " + String.join(", ", staged) + ChatColor.GRAY + " — restart the server to apply.");
+            }
+
+            if (onComplete != null) {
+                Slimefun.runSync(() -> onComplete.accept(success));
+            }
+        });
+    }
+
+    /** Latest release tag per entry, cached from update-checks and installs, for showing "Install v…" upfront. */
+    private final java.util.Map<String, String> latestTags = new ConcurrentHashMap<>();
+
+    /** The cached latest release tag for an entry, or "" if not yet fetched. */
+    @Nonnull
+    public String getCachedLatestTag(@Nonnull String id) {
+        return latestTags.getOrDefault(id, "");
+    }
+
+    /**
+     * Fetches (async, cached) the latest release tag for an entry so a menu can show the version it would
+     * install. Runs {@code onDone} on the main thread once cached (only if the tag changed/first arrived).
+     */
+    public void fetchLatestTagAsync(@Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable Runnable onDone) {
+        if (latestTags.containsKey(entry.getId())) {
+            return; // already known — the menu shows it immediately, no refresh needed
+        }
+
+        runAsync(() -> {
+            AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(entry);
+
+            if (info != null) {
+                latestTags.put(entry.getId(), info.getTag());
+
+                if (onDone != null) {
+                    Slimefun.runSync(onDone);
+                }
             }
         });
     }

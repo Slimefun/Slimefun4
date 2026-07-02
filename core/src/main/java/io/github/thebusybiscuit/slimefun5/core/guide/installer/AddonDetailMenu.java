@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -34,6 +35,7 @@ public final class AddonDetailMenu {
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull AddonCatalog.Entry entry) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer"));
         menu.setEmptySlotsClickable(false);
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
         AddonInstaller inst = AddonInstallerMenu.installer();
@@ -41,6 +43,14 @@ public final class AddonDetailMenu {
 
         // async + throttled; updates are announced at startup/join, not from here
         inst.refreshUpdateStatusAsync(java.util.Collections.singletonList(entry));
+
+        // Fetch the latest release tag so the install button can show the version it would install.
+        // Re-render once it first arrives (only while the player is still viewing an installer menu).
+        inst.fetchLatestTagAsync(entry, () -> {
+            if (p.getOpenInventory().getType() == org.bukkit.event.inventory.InventoryType.CHEST) {
+                open(p, guide, entry);
+            }
+        });
 
         menu.addItem(0, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
@@ -108,16 +118,35 @@ public final class AddonDetailMenu {
 
         if (showInstall) {
             int s = slots[idx++];
-            List<String> installLore = new ArrayList<>();
-            installLore.add(Slimefun.getLocalization().getMessage(p, inst.isLoaded(entry) ? "guide.installer.install.update" : "guide.installer.install.install"));
-            installLore.add("");
-            installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
-            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
-            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
-                inst.installRelease(pl, entry);
-                open(pl, guide, entry);
-                return false;
-            });
+
+            if (inst.isInProgress(entry.getId())) {
+                // Installing: a clear in-GUI "working" state, so the chat line isn't the only signal.
+                menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK),
+                    Slimefun.getLocalization().getMessage(p, "guide.installer.install.working")));
+                menu.addMenuClickHandler(s, ChestMenuUtils.getEmptyClickHandler());
+            } else {
+                String tag = inst.getCachedLatestTag(entry.getId());
+                String title = Slimefun.getLocalization().getMessage(p, inst.isLoaded(entry) ? "guide.installer.install.update" : "guide.installer.install.install");
+
+                if (!tag.isEmpty()) {
+                    title = title + " &7(" + tag + ")";
+                }
+
+                List<String> installLore = new ArrayList<>();
+                installLore.add(title);
+                installLore.add("");
+                installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
+                menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
+                menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                    SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
+                    inst.installRelease(pl, entry, success -> {
+                        (success ? SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND : SoundEffect.ADDON_INSTALLER_FAIL_SOUND).playFor(pl);
+                        open(pl, guide, entry);
+                    });
+                    open(pl, guide, entry); // immediately re-render into the "Installing…" state
+                    return false;
+                });
+            }
         }
 
         if (showDelete) {
