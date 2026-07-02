@@ -1,0 +1,13 @@
+# Item descriptions (English). Keyed by Slimefun item id.
+# The base name/lore for English comes from the item's own Java registration (the built-in
+# baseline), so this file only ever carries the optional "description" list. Colour codes use '&'.
+
+ELECTRIC_MOTOR:
+  description:
+    - "&7A crafting component used to"
+    - "&7build many electric machines."
+
+ANDROID_INTERFACE_FUEL:
+  description:
+    - "&7Feeds stored fuel into an android when"
+    - "&7its script requests it."

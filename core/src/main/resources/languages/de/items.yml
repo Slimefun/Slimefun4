@@ -53,6 +53,9 @@ HEATING_COIL:
   name: "&cHeizspule"
 ELECTRIC_MOTOR:
   name: "&cElektromotor"
+  description:
+    - "&7Eine Handwerkskomponente für den Bau"
+    - "&7vieler elektrischer Maschinen."
 REINFORCED_PLATE:
   name: "&7Verstärkte Platte"
 COPPER_INGOT:
@@ -1755,6 +1758,9 @@ ANDROID_INTERFACE_FUEL:
     - "&fIn dieser Schnittstelle gespeicherte Gegenstände"
     - "&fwerden in den Brennstoffslot eines Androids eingefügt,"
     - "&fwenn sein Skript dies anweist"
+  description:
+    - "&7Versorgt einen Android mit gespeichertem"
+    - "&7Brennstoff, wenn sein Skript es anfordert."
 ANDROID_INTERFACE_ITEMS:
   name: "&7Android-Schnittstelle &9(Gegenstände)"
   lore:
