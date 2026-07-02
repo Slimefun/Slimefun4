@@ -5,6 +5,9 @@ options:
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/
 
   auto-update: true
+  # bStats metrics module. Off by default on this fork: the module targets the old slimefun4 package and
+  # its data would report to upstream Slimefun's bStats project, not this fork. Enable only if you know why.
+  metrics-service: false
   chat-prefix: '&a&lSlimefun 5&7> '
   armor-update-interval: 10
   enable-armor-effects: true
