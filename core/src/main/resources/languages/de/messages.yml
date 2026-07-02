@@ -340,6 +340,22 @@ guide:
       unreachable-lore: '&7Prüfe die Internetverbindung des Servers und versuche es erneut.'
       click: '&7⇨ &eKlicke, um diesen Branch zu bauen'
 
+  balance:
+    header: '&6&lBalance-Bewertung &7(Admin)'
+    average: '&7Durchschnitt: %tier% &8(&7%score%&8/100)'
+    peak: '&7Höchstwert: %tier% &8(&7%score%&8/100)'
+    op-count: '&7Übermächtige Items: &c%count%'
+    view-items: '&eKlicke, um die stärksten Items zu sehen'
+    item-line: '%tier% &8(&7%score%&8/100)'
+    detected: '&d&lErkanntes Addon'
+    detected-lore: '&7Ein eigenes Addon, das nicht im Katalog ist'
+    tier:
+      trivial: '&8Trivial'
+      standard: '&aStandard'
+      advanced: '&2Fortgeschritten'
+      powerful: '&6Mächtig'
+      overpowered: '&cÜbermächtig'
+
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
   locked-itemgroup:

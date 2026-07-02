@@ -181,6 +181,22 @@ guide:
       none-lore: "&7No se pudo conectar con GitHub o el repositorio no tiene ramas."
       click: '&7⇨ &eHaz clic para compilar esta rama'
 
+  balance:
+    header: '&6&lValoración de equilibrio &7(admin)'
+    average: '&7Media: %tier% &8(&7%score%&8/100)'
+    peak: '&7Máximo: %tier% &8(&7%score%&8/100)'
+    op-count: '&7Objetos sobrepotenciados: &c%count%'
+    view-items: '&eHaz clic para ver los objetos más potentes'
+    item-line: '%tier% &8(&7%score%&8/100)'
+    detected: '&d&lAddon detectado'
+    detected-lore: '&7Un addon personalizado que no está en el catálogo'
+    tier:
+      trivial: '&8Trivial'
+      standard: '&aEstándar'
+      advanced: '&2Avanzado'
+      powerful: '&6Potente'
+      overpowered: '&cSobrepotenciado'
+
   locked: 'BLOQUEADO'
   work-in-progress: '¡¡¡Esta característica no está completamente terminada todavía!!'
   locked-itemgroup:

@@ -477,6 +477,22 @@ guide:
       unreachable-lore: "&7Check the server's internet connection and try again."
       click: '&7⇨ &eClick to build this branch'
 
+  balance:
+    header: '&6&lBalance rating &7(admin)'
+    average: '&7Average: %tier% &8(&7%score%&8/100)'
+    peak: '&7Peak: %tier% &8(&7%score%&8/100)'
+    op-count: '&7Overpowered items: &c%count%'
+    view-items: '&eClick to view the strongest items'
+    item-line: '%tier% &8(&7%score%&8/100)'
+    detected: '&d&lDetected addon'
+    detected-lore: '&7A custom addon not in the catalog'
+    tier:
+      trivial: '&8Trivial'
+      standard: '&aStandard'
+      advanced: '&2Advanced'
+      powerful: '&6Powerful'
+      overpowered: '&cOverpowered'
+
 actionbar:
   radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'
 

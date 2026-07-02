@@ -181,6 +181,22 @@ guide:
       none-lore: "&7Impossible de joindre GitHub ou le dépôt n'a aucune branche."
       click: '&7⇨ &eCliquez pour compiler cette branche'
 
+  balance:
+    header: '&6&lÉvaluation d''équilibre &7(admin)'
+    average: '&7Moyenne : %tier% &8(&7%score%&8/100)'
+    peak: '&7Maximum : %tier% &8(&7%score%&8/100)'
+    op-count: '&7Objets surpuissants : &c%count%'
+    view-items: '&eCliquez pour voir les objets les plus puissants'
+    item-line: '%tier% &8(&7%score%&8/100)'
+    detected: '&d&lAddon détecté'
+    detected-lore: '&7Un addon personnalisé absent du catalogue'
+    tier:
+      trivial: '&8Trivial'
+      standard: '&aStandard'
+      advanced: '&2Avancé'
+      powerful: '&6Puissant'
+      overpowered: '&cSurpuissant'
+
   locked: 'VERROUILLÉ'
   work-in-progress: 'Cette fonctionnalité n''est pas encore complètement terminée !'
   locked-itemgroup:
