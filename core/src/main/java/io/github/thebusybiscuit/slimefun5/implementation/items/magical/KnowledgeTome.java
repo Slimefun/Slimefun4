@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.implementation.items.magical;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +49,13 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
             e.setUseBlock(Result.DENY);
 
             ItemMeta im = item.getItemMeta();
-            List<String> lore = im.getLore();
+            List<String> lore = im.hasLore() ? im.getLore() : new ArrayList<>();
+
+            // The owner is stored on lore lines 0-1; ensure they exist before indexing so a short or
+            // translated lore can't throw an exception (which callItemHandler would silently swallow).
+            while (lore.size() < 2) {
+                lore.add("");
+            }
 
             if (lore.get(1).isEmpty()) {
                 lore.set(0, ChatColors.color("&7Owner: &b" + p.getName()));
@@ -57,7 +64,7 @@ public class KnowledgeTome extends SimpleSlimefunItem<ItemUseHandler> {
                 item.setItemMeta(im);
                 SoundEffect.TOME_OF_KNOWLEDGE_USE_SOUND.playFor(p);
             } else {
-                UUID uuid = UUID.fromString(ChatColor.stripColor(item.getItemMeta().getLore().get(1)));
+                UUID uuid = UUID.fromString(ChatColor.stripColor(lore.get(1)));
 
                 if (p.getUniqueId().equals(uuid)) {
                     Slimefun.getLocalization().sendMessage(p, "messages.no-tome-yourself");
