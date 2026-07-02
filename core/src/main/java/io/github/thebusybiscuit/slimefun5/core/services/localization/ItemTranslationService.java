@@ -231,9 +231,13 @@ public class ItemTranslationService {
 
         // Base display: the player's translated template if available, else the English baseline
         // (when the physical template was baked to the server default), else the item template.
+        // A description-only entry (name null, lore empty) is not a usable name/lore translation, so fall
+        // back to the English baseline template for the base display, then append the description below.
+        boolean usableTranslation = translation != null && (translation.name != null || !translation.lore.isEmpty());
+
         ItemStack display;
 
-        if (translation == null) {
+        if (!usableTranslation) {
             ItemStack baseline = englishBaseline.get(item.getId());
             display = baseline != null ? baseline.clone() : item.getItem();
         } else {
