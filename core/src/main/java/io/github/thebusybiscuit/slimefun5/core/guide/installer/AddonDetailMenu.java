@@ -46,13 +46,10 @@ public final class AddonDetailMenu {
         // async + throttled; updates are announced at startup/join, not from here
         inst.refreshUpdateStatusAsync(java.util.Collections.singletonList(entry));
 
-        // Fetch the latest release tag so the install button can show the version it would install.
-        // Re-render once it first arrives (only while the player is still viewing an installer menu).
-        inst.fetchLatestTagAsync(entry, () -> {
-            if (p.getOpenInventory().getType() == org.bukkit.event.inventory.InventoryType.CHEST) {
-                open(p, guide, entry);
-            }
-        });
+        // Warm the version cache so the install button can show the version (from the grid's warm this
+        // is usually already cached). No re-open on completion — that re-fires the open sound and can
+        // cascade (see AddonInstallerMenu).
+        inst.fetchLatestTagAsync(entry, null);
 
         menu.addItem(0, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {

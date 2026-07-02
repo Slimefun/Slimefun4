@@ -84,13 +84,10 @@ public final class AddonInstallerMenu {
             slot++;
         }
 
-        // Fill in latest versions for not-installed addons (persistent cache, throttled, stops on
-        // rate-limit); re-render once when they arrive, only if the player is still in an installer menu.
-        inst.warmLatestTagsAsync(entries, () -> {
-            if (p.getOpenInventory().getType() == org.bukkit.event.inventory.InventoryType.CHEST) {
-                open(p, guide);
-            }
-        });
+        // Fill the version cache in the background (persisted); versions show on the next open.
+        // Do NOT re-open the menu when it completes — a programmatic re-open re-fires the open sound
+        // and each open spawns another warm-fetch, which cascaded into dozens of rapid page-turn sounds.
+        inst.warmLatestTagsAsync(entries, null);
 
         menu.open(p);
     }
