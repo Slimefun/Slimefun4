@@ -41,10 +41,12 @@ public class ItemTranslationService {
 
         private final String name;
         private final List<String> lore;
+        private final List<String> description;
 
-        ItemTranslation(@Nullable String name, @Nonnull List<String> lore) {
+        ItemTranslation(@Nullable String name, @Nonnull List<String> lore, @Nonnull List<String> description) {
             this.name = name;
             this.lore = lore;
+            this.description = description;
         }
     }
 
@@ -96,15 +98,18 @@ public class ItemTranslationService {
                     ids.add(path.substring(0, path.length() - ".name".length()));
                 } else if (path.endsWith(".lore")) {
                     ids.add(path.substring(0, path.length() - ".lore".length()));
+                } else if (path.endsWith(".description")) {
+                    ids.add(path.substring(0, path.length() - ".description".length()));
                 }
             }
 
             for (String id : ids) {
                 String name = config.getString(id + ".name");
                 List<String> lore = config.getStringList(id + ".lore");
+                List<String> description = config.getStringList(id + ".description");
 
-                if (name != null || !lore.isEmpty()) {
-                    map.put(id, new ItemTranslation(name, lore));
+                if (name != null || !lore.isEmpty() || !description.isEmpty()) {
+                    map.put(id, new ItemTranslation(name, lore, description));
                 }
             }
         } catch (RuntimeException e) {
@@ -479,7 +484,7 @@ public class ItemTranslationService {
                 String name = englishName(item);
 
                 if (name != null && !ChatColor.stripColor(name).trim().isEmpty()) {
-                    map.put(item.getId(), new ItemTranslation(name, new ArrayList<>()));
+                    map.put(item.getId(), new ItemTranslation(name, new ArrayList<>(), new ArrayList<>()));
                 }
             } catch (Exception | LinkageError ignored) {
                 // A broken item must not break the English baseline.
