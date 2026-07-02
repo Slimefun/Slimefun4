@@ -375,6 +375,12 @@ public final class AddonInstaller {
                         break;
                     }
 
+                    // Make the downloaded jar run on this fork: strip any bundled core + relocate
+                    // slimefun4 -> slimefun5 (same repair run.ps1 does). Never on core (it IS the core).
+                    if (!target.isCore()) {
+                        AddonJarProcessor.repair(new File(dir, fileName));
+                    }
+
                     latestTags.put(target.getId(), info.getTag());
                     state.set(target.getId(), InstallState.Method.RELEASE, info.getTag(), true);
                     staged.add(target.getDisplayName() + " " + info.getTag());
@@ -578,8 +584,12 @@ public final class AddonInstaller {
 
                 if (info != null) {
                     File dir = InstallTargets.targetDir(false);
-                    releaseService.downloadJar(info.getJarUrl(), dir, dep.getRepo() + ".jar");
-                    state.set(dep.getId(), InstallState.Method.RELEASE, info.getTag(), true);
+                    String depName = dep.getRepo() + "-" + stripVersionPrefix(info.getTag()) + ".jar";
+
+                    if (releaseService.downloadJar(info.getJarUrl(), dir, depName)) {
+                        AddonJarProcessor.repair(new File(dir, depName));
+                        state.set(dep.getId(), InstallState.Method.RELEASE, info.getTag(), true);
+                    }
                 }
             }
 
@@ -600,6 +610,11 @@ public final class AddonInstaller {
             File dir = InstallTargets.targetDir(entryLoaded);
             File dest = new File(dir, entry.getRepo() + ".jar");
             boolean copied = copy(result.getJar(), dest);
+
+            if (copied) {
+                AddonJarProcessor.repair(dest); // strip bundled core + relocate slimefun4 -> slimefun5
+            }
+
             release(reserved);
 
             if (copied) {
