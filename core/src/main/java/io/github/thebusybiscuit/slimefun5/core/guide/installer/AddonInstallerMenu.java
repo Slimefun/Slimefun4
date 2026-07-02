@@ -66,16 +66,21 @@ public final class AddonInstallerMenu {
                 continue;
             }
 
+            int entrySlot = slot;
             menu.addItem(slot, icon(p, inst, entry, canManage));
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
                 // Left-click opens details; right-click installs/updates straight from the grid.
-                if (canManage && action.isRightClicked() && !inst.isInProgress(entry.getId())) {
+                if (canManage && action.isRightClicked()) {
+                    if (inst.isInProgress(entry.getId())) {
+                        return false; // already working — the slot shows a live progress bar
+                    }
+
                     SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
                     inst.installRelease(pl, entry, success -> {
                         (success ? SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND : SoundEffect.ADDON_INSTALLER_FAIL_SOUND).playFor(pl);
-                        open(pl, guide);
-                    });
-                    open(pl, guide); // refresh into the "Working…" badge
+                        menu.replaceExistingItem(entrySlot, icon(pl, inst, entry, canManage));
+                    }, () -> menu.replaceExistingItem(entrySlot, icon(pl, inst, entry, canManage)));
+                    menu.replaceExistingItem(entrySlot, icon(pl, inst, entry, canManage)); // into the "Working…" badge
                 } else {
                     AddonDetailMenu.open(pl, guide, entry);
                 }
@@ -118,8 +123,12 @@ public final class AddonInstallerMenu {
 
         lore.add("");
 
-        // A manager gets a one-click install straight from the grid; everyone can open details.
-        if (canManage && !inst.isInProgress(entry.getId())) {
+        if (inst.isInProgress(entry.getId())) {
+            // A live download bar for the entry being installed from this grid.
+            lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.install.progress")
+                .replace("%bar%", AddonInstaller.progressBar(inst.getProgress(entry.getId()))));
+        } else if (canManage) {
+            // A manager gets a one-click install straight from the grid; everyone can open details.
             lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.quick-install"));
         }
 

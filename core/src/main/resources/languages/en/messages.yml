@@ -448,6 +448,7 @@ guide:
       install: '&aInstall latest release'
       update: '&aUpdate to latest release'
       working: '&e⏳ Installing… &7(restart to apply)'
+      progress: '&e⏳ %bar%'
       lore:
       - '&7Downloads the latest GitHub release'
       - '&7and stages it for the next restart.'

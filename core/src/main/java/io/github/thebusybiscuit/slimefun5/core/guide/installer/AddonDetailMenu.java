@@ -119,9 +119,9 @@ public final class AddonDetailMenu {
             int s = slots[idx++];
 
             if (inst.isInProgress(entry.getId())) {
-                // Installing: a clear in-GUI "working" state, so the chat line isn't the only signal.
-                menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK),
-                    Slimefun.getLocalization().getMessage(p, "guide.installer.install.working")));
+                // Installing: a clear in-GUI "working" state with a live progress bar, so the chat
+                // line isn't the only signal.
+                menu.addItem(s, workingButton(p, inst, entry));
                 menu.addMenuClickHandler(s, ChestMenuUtils.getEmptyClickHandler());
             } else {
                 String tag = inst.getCachedLatestTag(entry.getId());
@@ -136,12 +136,13 @@ public final class AddonDetailMenu {
                 installLore.add("");
                 installLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.install.lore"));
                 menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.LIME_DYE), installLore));
+                int buttonSlot = s;
                 menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
                     SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
                     inst.installRelease(pl, entry, success -> {
                         (success ? SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND : SoundEffect.ADDON_INSTALLER_FAIL_SOUND).playFor(pl);
                         open(pl, guide, entry);
-                    });
+                    }, () -> menu.replaceExistingItem(buttonSlot, workingButton(pl, inst, entry)));
                     open(pl, guide, entry); // immediately re-render into the "Installing…" state
                     return false;
                 });
@@ -191,6 +192,15 @@ public final class AddonDetailMenu {
         }
 
         menu.open(p);
+    }
+
+    /** The "Installing…" button with a live progress bar, shared by the initial render and progress updates. */
+    @Nonnull
+    private static ItemStack workingButton(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+        List<String> workingLore = new ArrayList<>();
+        workingLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.install.working"));
+        workingLore.add(AddonInstaller.progressBar(inst.getProgress(entry.getId())));
+        return CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK), workingLore);
     }
 
     /** Action-button slots in the bottom row, centered on slot 31 with a gap between each. */

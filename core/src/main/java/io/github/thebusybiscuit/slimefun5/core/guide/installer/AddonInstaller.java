@@ -29,6 +29,9 @@ public final class AddonInstaller {
     /** Entry ids with an install/build currently in flight, for the "working" badge. */
     private final Set<String> inProgress = ConcurrentHashMap.newKeySet();
 
+    /** Live download progress in [0,1] per in-flight entry id, or -1 for an indeterminate stage. */
+    private final java.util.Map<String, Double> progress = new ConcurrentHashMap<>();
+
     /** Cached update-check results, refreshed lazily when an entry's detail menu opens. */
     private final java.util.Map<String, String> updateLabels = new ConcurrentHashMap<>();
     private final java.util.Map<String, Long> lastChecked = new ConcurrentHashMap<>();
@@ -69,6 +72,16 @@ public final class AddonInstaller {
 
     public boolean isInProgress(@Nonnull String id) {
         return inProgress.contains(id);
+    }
+
+    /**
+     * The download progress for an in-flight entry: a fraction in [0,1], or -1 when the stage is
+     * indeterminate (resolving the release, or a server that sent no content length). Returns -1
+     * when nothing is in flight for this id.
+     */
+    public double getProgress(@Nonnull String id) {
+        Double value = progress.get(id);
+        return value != null ? value : -1;
     }
 
     /**
@@ -313,6 +326,15 @@ public final class AddonInstaller {
      * thread when finished (true = success), so a menu can re-render with in-GUI feedback.
      */
     public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable java.util.function.Consumer<Boolean> onComplete) {
+        installRelease(player, entry, onComplete, null);
+    }
+
+    /**
+     * As {@link #installRelease(Player, AddonCatalog.Entry, java.util.function.Consumer)}, but also
+     * invokes {@code onProgress} on the main thread as bytes arrive, with a fraction in [0,1] (or -1
+     * for an indeterminate stage), so a menu can render a live progress bar for the clicked entry.
+     */
+    public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable java.util.function.Consumer<Boolean> onComplete, @javax.annotation.Nullable Runnable onProgress) {
         // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins, jar file names) on the
         // calling (main) thread, then reserve all ids before going async.
         List<AddonCatalog.Entry> targets = new ArrayList<>();
@@ -342,8 +364,15 @@ public final class AddonInstaller {
         }
 
         if (!reserve(targets)) {
+            // A dependency (or this entry) is already being installed. Say so instead of no-op'ing —
+            // a silent return here is what made a grid right-click look like it did nothing.
+            message(player, ChatColor.YELLOW + "⏳ " + entry.getDisplayName() + " is already installing…");
             return;
         }
+
+        // The entry the player clicked is the one whose progress bar we surface in the menu.
+        String progressId = entry.getId();
+        progress.put(progressId, -1.0);
 
         runAsync(() -> {
             List<String> staged = new ArrayList<>();
@@ -367,7 +396,13 @@ public final class AddonInstaller {
                     String fileName = loaded
                         ? loadedJarNames.getOrDefault(target.getId(), target.getRepo() + ".jar")
                         : target.getRepo() + "-" + stripVersionPrefix(info.getTag()) + ".jar";
-                    boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName);
+                    boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName, fraction -> {
+                        progress.put(progressId, fraction);
+
+                        if (onProgress != null) {
+                            Slimefun.runSync(onProgress);
+                        }
+                    });
 
                     if (!ok) {
                         message(player, ChatColor.RED + "✖ Failed to download " + target.getDisplayName() + ".");
@@ -392,6 +427,7 @@ public final class AddonInstaller {
             }
 
             release(targets);
+            progress.remove(progressId);
             saveVersionCache(); // persist any tags learned during this install
             boolean success = !failure;
 
@@ -519,6 +555,33 @@ public final class AddonInstaller {
                 Slimefun.runSync(onDone);
             }
         });
+    }
+
+    /**
+     * Renders a 10-cell progress bar for a fraction in [0,1], e.g. "&a▰▰▰▰▰▱▱▱▱▱ &750%". A negative
+     * fraction (indeterminate stage) yields an empty bar with no percentage.
+     */
+    @Nonnull
+    static String progressBar(double fraction) {
+        int cells = 10;
+        int filled = fraction < 0 ? 0 : (int) Math.round(Math.min(1.0, fraction) * cells);
+        StringBuilder bar = new StringBuilder(ChatColor.GREEN.toString());
+
+        for (int i = 0; i < filled; i++) {
+            bar.append('▰');
+        }
+
+        bar.append(ChatColor.GRAY);
+
+        for (int i = filled; i < cells; i++) {
+            bar.append('▱');
+        }
+
+        if (fraction >= 0) {
+            bar.append(' ').append((int) Math.round(Math.min(1.0, fraction) * 100)).append('%');
+        }
+
+        return bar.toString();
     }
 
     /** Strips a leading gh-/v so a release tag becomes a bare version (v1.0.2 → 1.0.2), matching jar names. */

@@ -157,6 +157,17 @@ public final class AddonReleaseService {
      * @return true on success.
      */
     public boolean downloadJar(@Nonnull String jarUrl, @Nonnull File targetDir, @Nonnull String fileName) {
+        return downloadJar(jarUrl, targetDir, fileName, null);
+    }
+
+    /**
+     * As {@link #downloadJar(String, File, String)}, but reports download progress as a fraction in
+     * [0,1] to {@code onProgress}. When the server doesn't send a content length, progress can't be
+     * computed and the callback is not invoked (callers should show an indeterminate state).
+     *
+     * @return true on success.
+     */
+    public boolean downloadJar(@Nonnull String jarUrl, @Nonnull File targetDir, @Nonnull String fileName, @Nullable java.util.function.DoubleConsumer onProgress) {
         File tmp = new File(targetDir, fileName + ".tmp");
         File dest = new File(targetDir, fileName);
         HttpURLConnection connection = null;
@@ -169,12 +180,27 @@ public final class AddonReleaseService {
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
 
+            long total = connection.getContentLengthLong();
+
             try (InputStream in = connection.getInputStream(); FileOutputStream out = new FileOutputStream(tmp)) {
                 byte[] buffer = new byte[8192];
                 int read;
+                long done = 0;
+                double lastReported = -1;
 
                 while ((read = in.read(buffer)) != -1) {
                     out.write(buffer, 0, read);
+                    done += read;
+
+                    if (onProgress != null && total > 0) {
+                        double fraction = Math.min(1.0, (double) done / total);
+
+                        // Only fire on ~5% steps, so we don't schedule a sync task per 8 KiB chunk.
+                        if (fraction - lastReported >= 0.05 || fraction >= 1.0) {
+                            lastReported = fraction;
+                            onProgress.accept(fraction);
+                        }
+                    }
                 }
             }
 
