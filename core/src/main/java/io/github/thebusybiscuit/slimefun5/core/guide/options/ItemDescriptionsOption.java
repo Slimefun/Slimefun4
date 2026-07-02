@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
  * Default on; players who already know the items can switch the extra lore off. The guide item-view
  * always shows descriptions regardless of this toggle.
  */
-class ItemDescriptionsOption implements SlimefunGuideOption<Boolean> {
+public class ItemDescriptionsOption implements SlimefunGuideOption<Boolean> {
 
     private static final NamespacedKey KEY = new NamespacedKey(Slimefun.instance(), "item_descriptions");
 
