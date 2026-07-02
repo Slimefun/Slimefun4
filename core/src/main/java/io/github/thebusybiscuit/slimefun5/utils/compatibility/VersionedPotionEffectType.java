@@ -28,6 +28,8 @@ public class VersionedPotionEffectType {
     public static final PotionEffectType LEVITATION;
     // Added in 1.14 with no legacy alias; null on versions lacking it.
     public static final PotionEffectType BAD_OMEN;
+    // Added in 1.9 with no legacy alias; null on versions lacking it.
+    public static final PotionEffectType GLOWING;
 
     static {
         SLOWNESS = resolve("SLOWNESS", "SLOW");
@@ -42,6 +44,7 @@ public class VersionedPotionEffectType {
         SLOW_FALLING = resolve("SLOW_FALLING", "SLOW_FALLING");
         LEVITATION = resolve("LEVITATION", "LEVITATION");
         BAD_OMEN = resolve("BAD_OMEN", "BAD_OMEN");
+        GLOWING = resolve("GLOWING", "GLOWING");
     }
 
     @Nullable

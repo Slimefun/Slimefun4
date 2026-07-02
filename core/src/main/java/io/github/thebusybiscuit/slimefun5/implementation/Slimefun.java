@@ -71,8 +71,10 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.AncientAltarL
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.AutoCrafterListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BackpackListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BeeWingsListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.ArmorEquipListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BlockListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BlockPhysicsListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.EnderArmorListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.ButcherAndroidListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.CargoNodeListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.CoolerListener;
@@ -670,6 +672,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new MenuListener(this));
 
         register(() -> new SlimefunBootsListener(this));
+        register(() -> new EnderArmorListener(this));
+        // PlayerArmorChangeEvent is a Paper-only event; only register the listener when it is present.
+        if (isClassPresent("com.destroystokyo.paper.event.player.PlayerArmorChangeEvent")) {
+            register(() -> new ArmorEquipListener(this));
+        }
         register(() -> new SlimefunItemInteractListener(this));
         register(() -> new SlimefunItemConsumeListener(this));
         register(() -> new BlockPhysicsListener(this));
@@ -758,6 +765,15 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             listenerInit.run();
         } catch (LinkageError | RuntimeException e) {
             getLogger().log(Level.WARNING, e, () -> "Skipped a listener that is unavailable on this Minecraft version");
+        }
+    }
+
+    private static boolean isClassPresent(@Nonnull String className) {
+        try {
+            Class.forName(className);
+            return true;
+        } catch (Throwable ignored) {
+            return false;
         }
     }
 

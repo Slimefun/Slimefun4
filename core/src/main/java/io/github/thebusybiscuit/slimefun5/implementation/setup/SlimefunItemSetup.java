@@ -44,6 +44,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.items.androids.Woodcutt
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.ElytraCap;
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.EnderBoots;
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.FarmerShoes;
+import io.github.thebusybiscuit.slimefun5.implementation.items.armor.GlowstoneArmorPiece;
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.HazmatArmorPiece;
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.LongFallBoots;
 import io.github.thebusybiscuit.slimefun5.implementation.items.armor.Parachute;
@@ -431,13 +432,7 @@ public final class SlimefunItemSetup {
                 new ItemStack[] {null, new ItemStack(Material.REDSTONE), null, SlimefunItems.ZINC_INGOT.item(), SlimefunItems.SULFATE.item(), SlimefunItems.COPPER_INGOT.item(), SlimefunItems.ZINC_INGOT.item(), SlimefunItems.SULFATE.item(), SlimefunItems.COPPER_INGOT.item()})
                 .register(plugin);
 
-        registerArmorSet(itemGroups.magicalArmor, new ItemStack(Material.GLOWSTONE), new ItemStack[] {SlimefunItems.GLOWSTONE_HELMET.item(), SlimefunItems.GLOWSTONE_CHESTPLATE.item(), SlimefunItems.GLOWSTONE_LEGGINGS.item(), SlimefunItems.GLOWSTONE_BOOTS.item()}, "GLOWSTONE", false,
-                new PotionEffect[][] {
-                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
-                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
-                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)},
-                        new PotionEffect[] {new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0)}
-                }, plugin);
+        registerGlowstoneArmorSet(itemGroups.magicalArmor, plugin);
 
         DyeColor[] rainbowArmorColors = {
                 DyeColor.RED,
@@ -2723,6 +2718,32 @@ public final class SlimefunItemSetup {
                 .register(plugin);
 
         // @formatter:on
+    }
+
+    @ParametersAreNonnullByDefault
+    private static void registerGlowstoneArmorSet(ItemGroup itemGroup, Slimefun plugin) {
+        // GLOWING is a 1.9+ effect; pre-1.9 servers only receive Night Vision.
+        List<PotionEffect> effects = new ArrayList<>();
+        effects.add(new PotionEffect(PotionEffectType.NIGHT_VISION, 600, 0));
+
+        if (VersionedPotionEffectType.GLOWING != null) {
+            effects.add(new PotionEffect(VersionedPotionEffectType.GLOWING, 600, 0));
+        }
+
+        PotionEffect[] effectArray = effects.toArray(new PotionEffect[0]);
+        ItemStack base = new ItemStack(Material.GLOWSTONE);
+
+        List<ItemStack[]> recipes = new ArrayList<>();
+        recipes.add(new ItemStack[] { base, base, base, base, null, base, null, null, null });
+        recipes.add(new ItemStack[] { base, null, base, base, base, base, base, base, base });
+        recipes.add(new ItemStack[] { base, base, base, base, null, base, base, null, base });
+        recipes.add(new ItemStack[] { null, null, null, base, null, base, base, null, base });
+
+        SlimefunItemStack[] items = { SlimefunItems.GLOWSTONE_HELMET, SlimefunItems.GLOWSTONE_CHESTPLATE, SlimefunItems.GLOWSTONE_LEGGINGS, SlimefunItems.GLOWSTONE_BOOTS };
+
+        for (int i = 0; i < 4; i++) {
+            new GlowstoneArmorPiece(itemGroup, items[i], RecipeType.ARMOR_FORGE, recipes.get(i), effectArray).register(plugin);
+        }
     }
 
     @ParametersAreNonnullByDefault
