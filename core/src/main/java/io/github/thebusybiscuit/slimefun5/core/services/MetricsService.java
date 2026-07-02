@@ -1,9 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.core.services;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,9 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Level;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -121,8 +116,6 @@ public class MetricsService {
              * Load the jar file into a child class loader using the Slimefun
              * PluginClassLoader as a parent.
              */
-            // The module is built against the upstream slimefun4 package; rewrite it to our slimefun5 one.
-            relocateToSlimefun5(metricsModuleFile);
             moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
             Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
@@ -156,58 +149,6 @@ public class MetricsService {
         } catch (Exception | LinkageError e) {
             plugin.getLogger().log(Level.WARNING, "Failed to load the metrics module. Maybe the jar is corrupt?", e);
         }
-    }
-
-    // Rewrites slimefun4 -> slimefun5 in each .class entry (equal length, so a direct byte swap). Idempotent.
-    private void relocateToSlimefun5(@Nonnull File jar) throws IOException {
-        byte[] from = "slimefun4".getBytes(StandardCharsets.UTF_8);
-        byte[] to = "slimefun5".getBytes(StandardCharsets.UTF_8);
-        File temp = new File(jar.getParentFile(), jar.getName() + ".tmp");
-        boolean changed = false;
-
-        try (ZipInputStream in = new ZipInputStream(new FileInputStream(jar));
-                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(temp))) {
-            ZipEntry entry;
-            while ((entry = in.getNextEntry()) != null) {
-                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                byte[] chunk = new byte[8192];
-                int read;
-                while ((read = in.read(chunk)) != -1) {
-                    buffer.write(chunk, 0, read);
-                }
-                byte[] data = buffer.toByteArray();
-                if (entry.getName().endsWith(".class") && replaceBytes(data, from, to)) {
-                    changed = true;
-                }
-                out.putNextEntry(new ZipEntry(entry.getName()));
-                out.write(data);
-                out.closeEntry();
-            }
-        }
-
-        if (changed) {
-            Files.move(temp.toPath(), jar.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } else {
-            temp.delete();
-        }
-    }
-
-    private boolean replaceBytes(@Nonnull byte[] data, @Nonnull byte[] from, @Nonnull byte[] to) {
-        boolean replaced = false;
-        for (int i = 0; i <= data.length - from.length; i++) {
-            boolean match = true;
-            for (int j = 0; j < from.length; j++) {
-                if (data[i + j] != from[j]) {
-                    match = false;
-                    break;
-                }
-            }
-            if (match) {
-                System.arraycopy(to, 0, data, i, to.length);
-                replaced = true;
-            }
-        }
-        return replaced;
     }
 
     /**
@@ -293,7 +234,9 @@ public class MetricsService {
             JsonElement element = JsonUtils.parseString(readBody(connection));
 
             return element.getAsJsonObject().get("tag_name").getAsInt();
-        } catch (IOException | JsonParseException e) {
+        } catch (IOException | JsonParseException | NumberFormatException e) {
+            // A non-numeric tag (e.g. the semver "v1.0.0" release) is expected: the numeric build-number
+            // scheme is legacy. Returning -1 makes the auto-updater fall back to the bundled module.
             plugin.getLogger().log(Level.WARNING, "Failed to fetch latest builds for Metrics: {0}", e.getMessage());
             return -1;
         } finally {

@@ -375,8 +375,8 @@ public final class AddonInstaller {
                         break;
                     }
 
-                    // Make the downloaded jar run on this fork: strip any bundled core + relocate
-                    // slimefun4 -> slimefun5 (same repair run.ps1 does). Never on core (it IS the core).
+                    // Make the downloaded jar run on this fork: strip any bundled core classes
+                    // (same repair run.ps1 does). Never on core (it IS the core).
                     if (!target.isCore()) {
                         AddonJarProcessor.repair(new File(dir, fileName));
                     }
@@ -612,7 +612,7 @@ public final class AddonInstaller {
             boolean copied = copy(result.getJar(), dest);
 
             if (copied) {
-                AddonJarProcessor.repair(dest); // strip bundled core + relocate slimefun4 -> slimefun5
+                AddonJarProcessor.repair(dest); // strip bundled core classes the addon must not carry
             }
 
             release(reserved);

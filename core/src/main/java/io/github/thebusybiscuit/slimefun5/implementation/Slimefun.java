@@ -326,8 +326,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         playerStorage = new LegacyStorage();
         logger.log(Level.INFO, "Using legacy storage for player data");
 
-        // Setting up bStats and analytics. Metrics is OFF by default on this fork: its module targets the
-        // old slimefun4 package and reports to upstream Slimefun's bStats, not this fork. (options.metrics-service)
+        // Setting up bStats and analytics. Metrics is OFF by default on this fork: the module still
+        // reports to upstream Slimefun's bStats project, not this fork. (options.metrics-service)
         if (config.getBoolean("options.metrics-service")) {
             new Thread(metricsService::start, "Slimefun Metrics").start();
         }
