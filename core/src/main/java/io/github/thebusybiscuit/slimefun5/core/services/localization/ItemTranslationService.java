@@ -267,8 +267,10 @@ public class ItemTranslationService {
      * Per-holder translation: rewrites a real {@link ItemStack}'s name (and static lore) in place into
      * the holding player's language, identifying the item by its Slimefun id so it can be re-translated
      * from any language. Preserves per-instance data (amount, durability, enchants, PDC) by editing meta
-     * rather than replacing the stack. Lore is only swapped when the item carries no dynamic lore
-     * (its line count still matches the canonical template), so charge/soulbound/backpack lore is left
+     * rather than replacing the stack. Lore is only rewritten when it is still a pristine template — i.e.
+     * it matches the English baseline or one of the shipped language renderings (with or without the
+     * appended description block), as determined by {@link #isPristineOrComposed}. Runtime-mutated lore
+     * (charge/uses counters, backpack id, spawner type, tome owner) matches none of these and is left
      * untouched. Returns whether the stack was changed.
      */
     public boolean applyHolderTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
@@ -310,17 +312,15 @@ public class ItemTranslationService {
             changed = true;
         }
 
-        // Only translate lore that is still a pristine template. Game logic mutates the lore of some
-        // items in place (spawner "<Type>", backpack "<ID>", tome owner, charge/uses counters) without
-        // changing the line count, so a line-count check alone would clobber that per-item state and
-        // permanently break the item. We translate only when the current lore still matches the English
-        // baseline or one of the shipped language templates (i.e. it has NOT been modified at runtime).
+        // Game logic mutates the lore of some items in place (spawner "<Type>", backpack "<ID>", tome
+        // owner, charge/uses counters). Those items must be left untouched, so we only rewrite lore
+        // that is still recognized as a pristine template.
         List<String> englishLore = englishMeta.getLore();
         List<String> currentLore = meta.getLore();
 
-        // Only rewrite lore that is still a pristine template (any language's base lore, with or without
-        // the description block). Runtime-mutated lore (charge/uses counters, backpack id, spawner type,
-        // tome owner) matches none of these and is left untouched, or its per-item state is clobbered.
+        // A lore list is pristine when it matches the English baseline, or the base lore of any shipped
+        // language rendering with or without its appended description block (see isPristineOrComposed).
+        // Runtime-mutated lore matches none of these variants and is correctly skipped.
         if (isPristineOrComposed(item, currentLore, englishLore)) {
             List<String> base = (translation != null && !translation.lore.isEmpty())
                 ? render(translation.lore)
