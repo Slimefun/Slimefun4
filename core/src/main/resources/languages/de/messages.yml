@@ -342,6 +342,7 @@ guide:
 
   balance:
     header: '&6&lBalance-Bewertung &7(Admin)'
+    tile: '&7Balance: %tier% &8(%score%)'
     average: '&7Durchschnitt: %tier% &8(&7%score%&8/100)'
     peak: '&7Höchstwert: %tier% &8(&7%score%&8/100)'
     op-count: '&7Übermächtige Items: &c%count%'

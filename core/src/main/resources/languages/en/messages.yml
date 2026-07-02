@@ -479,6 +479,7 @@ guide:
 
   balance:
     header: '&6&lBalance rating &7(admin)'
+    tile: '&7Balance: %tier% &8(%score%)'
     average: '&7Average: %tier% &8(&7%score%&8/100)'
     peak: '&7Peak: %tier% &8(&7%score%&8/100)'
     op-count: '&7Overpowered items: &c%count%'

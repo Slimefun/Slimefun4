@@ -183,6 +183,7 @@ guide:
 
   balance:
     header: '&6&lValoración de equilibrio &7(admin)'
+    tile: '&7Equilibrio: %tier% &8(%score%)'
     average: '&7Media: %tier% &8(&7%score%&8/100)'
     peak: '&7Máximo: %tier% &8(&7%score%&8/100)'
     op-count: '&7Objetos sobrepotenciados: &c%count%'

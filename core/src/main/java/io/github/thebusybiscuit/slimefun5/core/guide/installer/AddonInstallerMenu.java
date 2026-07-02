@@ -161,6 +161,19 @@ public final class AddonInstallerMenu {
             if (authors != null && !authors.isEmpty()) {
                 lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.info.authors").replace("%authors%", String.join(", ", authors)));
             }
+
+            // Admin-only compact balance rating on the grid tile, so managers see it without opening the
+            // detail screen. Only for loaded addons (unloaded ones have no registered items to score).
+            if (canManage) {
+                String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
+                AddonBalanceSummary balance = BalanceService.instance().summarize(addonName);
+
+                if (!balance.isEmpty()) {
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.tile")
+                        .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + balance.getAverageTier().name().toLowerCase(Locale.ROOT)))
+                        .replace("%score%", String.valueOf(balance.getAverage())));
+                }
+            }
         } else {
             // Not installed: show the latest version it would install (from the persistent cache, no live call).
             String tag = inst.getCachedLatestTag(entry.getId());
