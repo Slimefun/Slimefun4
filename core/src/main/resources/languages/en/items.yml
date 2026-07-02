@@ -2,6 +2,18 @@
 # The base name/lore for English comes from the item's own Java registration (the built-in
 # baseline), so this file only ever carries the optional "description" list. Colour codes use '&'.
 
+SMALL_CAPACITOR:
+  name: "&aSmall Energy Capacitor"
+  type:
+    - "&7&oEnergy Capacitor"
+  description:
+    - "&7Stores energy inside an energy network"
+    - "&7and releases it when demand exceeds supply."
+  stats:
+    - "&8⇨ &e⚡ &7%capacity% J Buffer"
+  usage:
+    - "&7Place it on your energy network."
+
 ELECTRIC_MOTOR:
   description:
     - "&7A crafting component used to"

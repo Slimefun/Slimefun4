@@ -159,6 +159,15 @@ SULFATE:
   name: "&6Sulfat"
 SMALL_CAPACITOR:
   name: "&aKleiner Energiekondensator"
+  type:
+    - "&7&oEnergiekondensator"
+  description:
+    - "&7Speichert Energie in einem Energienetz"
+    - "&7und gibt sie ab, wenn der Bedarf die Erzeugung übersteigt."
+  stats:
+    - "&8⇨ &e⚡ &7%capacity% J Puffer"
+  usage:
+    - "&7Platziere ihn in deinem Energienetz."
 MEDIUM_CAPACITOR:
   name: "&aMittlerer Energiekondensator"
 LARGE_CAPACITOR:
