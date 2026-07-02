@@ -29,12 +29,32 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 public final class AddonBalanceMenu {
 
     private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
-    private static final int LIMIT = 36; // slots 9..44
+    private static final int PER_PAGE = 36; // slots 9..44
+    private static final int PREV_SLOT = 45;
+    private static final int NEXT_SLOT = 53;
 
     private AddonBalanceMenu() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String addonName, @Nonnull String displayName, @Nonnull Runnable back) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer") + " - " + displayName);
+        open(p, guide, addonName, displayName, back, 0);
+    }
+
+    public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String addonName, @Nonnull String displayName, @Nonnull Runnable back, int page) {
+        List<SlimefunItem> all = BalanceService.instance().topItems(addonName, Integer.MAX_VALUE);
+
+        int pages = Math.max(1, (all.size() + PER_PAGE - 1) / PER_PAGE);
+        int clamped = Math.max(0, Math.min(page, pages - 1));
+        int start = clamped * PER_PAGE;
+        List<SlimefunItem> items = all.subList(start, Math.min(start + PER_PAGE, all.size()));
+
+        String title = Slimefun.getLocalization().getMessage(p, "guide.title.installer") + " - " + displayName;
+        if (pages > 1) {
+            title += " " + Slimefun.getLocalization().getMessage(p, "guide.config.page")
+                .replace("%page%", String.valueOf(clamped + 1))
+                .replace("%pages%", String.valueOf(pages));
+        }
+
+        ChestMenu menu = new ChestMenu(title);
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         ChestMenuUtils.drawBackground(menu, BORDER);
@@ -45,14 +65,9 @@ public final class AddonBalanceMenu {
             return false;
         });
 
-        List<SlimefunItem> items = BalanceService.instance().topItems(addonName, LIMIT);
         int slot = 9;
 
         for (SlimefunItem sfItem : items) {
-            if (slot >= 45) {
-                break;
-            }
-
             BalanceScore score = BalanceService.instance().scoreOf(sfItem);
             String tierName = Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + score.getTier().name().toLowerCase(Locale.ROOT));
             String line = Slimefun.getLocalization().getMessage(p, "guide.balance.item-line")
@@ -67,6 +82,22 @@ public final class AddonBalanceMenu {
             menu.addItem(slot, CustomItemStack.create(icon, "&f" + sfItem.getItemName(), lore.toArray(new String[0])));
             menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
             slot++;
+        }
+
+        if (clamped > 0) {
+            menu.addItem(PREV_SLOT, ChestMenuUtils.getPreviousButton(p, clamped + 1, pages));
+            menu.addMenuClickHandler(PREV_SLOT, (pl, s, item, action) -> {
+                open(pl, guide, addonName, displayName, back, clamped - 1);
+                return false;
+            });
+        }
+
+        if (clamped < pages - 1) {
+            menu.addItem(NEXT_SLOT, ChestMenuUtils.getNextButton(p, clamped + 1, pages));
+            menu.addMenuClickHandler(NEXT_SLOT, (pl, s, item, action) -> {
+                open(pl, guide, addonName, displayName, back, clamped + 1);
+                return false;
+            });
         }
 
         menu.open(p);
