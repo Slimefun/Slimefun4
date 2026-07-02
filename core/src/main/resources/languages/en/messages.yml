@@ -424,7 +424,8 @@ guide:
       not-installed: '&7＋ Not installed'
     back-settings: '&e⇦ Back to Settings'
     back: '&e⇦ Back'
-    click-details: '&7⇨ &eClick for details'
+    click-details: '&7⇨ &eLeft-click for details'
+    quick-install: '&7⇨ &eRight-click to install / update'
     will-install: '&7Will also install: &f%deps%'
     version:
       release: '&7Version: &f%version%'

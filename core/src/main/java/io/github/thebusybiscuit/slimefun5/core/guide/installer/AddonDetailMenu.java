@@ -28,7 +28,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
  */
 public final class AddonDetailMenu {
 
-    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    // Frame the top and bottom rows only; the icon (13) and action buttons float in the airy middle,
+    // matching the clean wiki-style layout rather than flooding every slot with glass panes.
+    private static final int[] BORDER = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
 
     private AddonDetailMenu() {}
 

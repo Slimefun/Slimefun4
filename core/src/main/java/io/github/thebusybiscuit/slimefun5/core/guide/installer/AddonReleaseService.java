@@ -19,6 +19,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.JsonUtils;
 
 /**
@@ -31,6 +32,30 @@ public final class AddonReleaseService {
     private static final String API_URL = "https://api.github.com/";
     private static final String USER_AGENT = "Slimefun5 (https://github.com/Slimefun)";
     private static final int TIMEOUT = 10_000;
+
+    /**
+     * Thrown when GitHub answers 403 with no remaining rate-limit quota. Unauthenticated requests get
+     * only 60/hour; set {@code installer.github-token} in config.yml to raise it to 5000/hour.
+     */
+    public static final class RateLimitException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+    }
+
+    /** Optional token from config.yml; when set, requests are authenticated (5000/hour instead of 60). */
+    @Nullable
+    private static String token() {
+        String token = Slimefun.getCfg().getString("installer.github-token");
+        return token != null && !token.trim().isEmpty() ? token.trim() : null;
+    }
+
+    private static void applyHeaders(@Nonnull HttpURLConnection connection) {
+        connection.setRequestProperty("User-Agent", USER_AGENT);
+        String token = token();
+
+        if (token != null) {
+            connection.setRequestProperty("Authorization", "token " + token);
+        }
+    }
 
     /** The resolved latest release of an entry. */
     public static final class ReleaseInfo {
@@ -139,7 +164,7 @@ public final class AddonReleaseService {
         try {
             URL url = new URI(jarUrl).toURL();
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("User-Agent", USER_AGENT);
+            applyHeaders(connection);
             connection.setInstanceFollowRedirects(true);
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
@@ -176,17 +201,23 @@ public final class AddonReleaseService {
         try {
             URL url = new URI(endpoint).toURL();
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("User-Agent", USER_AGENT);
+            applyHeaders(connection);
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
 
             int status = connection.getResponseCode();
+
+            if (status == 403 && "0".equals(connection.getHeaderField("X-RateLimit-Remaining"))) {
+                throw new RateLimitException();
+            }
 
             if (status < 200 || status >= 300) {
                 return null;
             }
 
             return JsonUtils.parseString(readBody(connection.getInputStream()));
+        } catch (RateLimitException e) {
+            throw e;
         } catch (Exception e) {
             return null;
         } finally {

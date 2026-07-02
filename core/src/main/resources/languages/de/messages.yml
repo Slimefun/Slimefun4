@@ -287,7 +287,8 @@ guide:
       not-installed: '&7＋ Nicht installiert'
     back-settings: '&e⇦ Zurück zu den Einstellungen'
     back: '&e⇦ Zurück'
-    click-details: '&7⇨ &eKlicke für Details'
+    click-details: '&7⇨ &eLinksklick für Details'
+    quick-install: '&7⇨ &eRechtsklick zum Installieren / Aktualisieren'
     will-install: '&7Wird außerdem installieren: &f%deps%'
     version:
       release: '&7Version: &f%version%'

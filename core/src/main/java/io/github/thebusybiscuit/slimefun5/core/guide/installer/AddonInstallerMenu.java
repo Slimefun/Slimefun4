@@ -51,6 +51,7 @@ public final class AddonInstallerMenu {
         });
 
         AddonInstaller inst = installer();
+        boolean canManage = p.hasPermission(AddonCatalog.PERMISSION);
         List<AddonCatalog.Entry> entries = AddonCatalog.getEntries();
 
         int slot = 9;
@@ -65,9 +66,19 @@ public final class AddonInstallerMenu {
                 continue;
             }
 
-            menu.addItem(slot, icon(p, inst, entry));
+            menu.addItem(slot, icon(p, inst, entry, canManage));
             menu.addMenuClickHandler(slot, (pl, sl, item, action) -> {
-                AddonDetailMenu.open(pl, guide, entry);
+                // Left-click opens details; right-click installs/updates straight from the grid.
+                if (canManage && action.isRightClicked() && !inst.isInProgress(entry.getId())) {
+                    SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
+                    inst.installRelease(pl, entry, success -> {
+                        (success ? SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND : SoundEffect.ADDON_INSTALLER_FAIL_SOUND).playFor(pl);
+                        open(pl, guide);
+                    });
+                    open(pl, guide); // refresh into the "Working…" badge
+                } else {
+                    AddonDetailMenu.open(pl, guide, entry);
+                }
                 return false;
             });
             slot++;
@@ -77,7 +88,7 @@ public final class AddonInstallerMenu {
     }
 
     @Nonnull
-    private static ItemStack icon(Player p, AddonInstaller inst, AddonCatalog.Entry entry) {
+    private static ItemStack icon(Player p, AddonInstaller inst, AddonCatalog.Entry entry, boolean canManage) {
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add(StatusBadges.badge(p, inst, entry));
@@ -94,6 +105,12 @@ public final class AddonInstallerMenu {
         }
 
         lore.add("");
+
+        // A manager gets a one-click install straight from the grid; everyone can open details.
+        if (canManage && !inst.isInProgress(entry.getId())) {
+            lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.quick-install"));
+        }
+
         lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.click-details"));
         return CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), lore.toArray(new String[0]));
     }

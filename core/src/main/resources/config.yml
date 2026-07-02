@@ -82,6 +82,13 @@ bug-reports:
 config-editor:
   enabled: true
 
+installer:
+  # Optional GitHub token for the in-game addon installer. Unauthenticated GitHub API access is limited
+  # to 60 requests/hour (shared per server IP), which the installer can exhaust quickly and then reports
+  # addons as "unavailable". A token (a fine-grained PAT with no scopes / public read is enough) raises
+  # this to 5000/hour. Leave blank to run unauthenticated.
+  github-token: ''
+
 researches:
   free-in-creative-mode: true
   enable-fireworks: true

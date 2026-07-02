@@ -317,7 +317,9 @@ public final class AddonInstaller {
         List<AddonCatalog.Entry> targets = new ArrayList<>();
 
         for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
-            if (!isLoaded(dep)) {
+            // Libraries (InfinityLib) are shaded into the addons that need them, so they must never be
+            // installed as a separate jar — doing so downloads a plugin.yml-less jar that can't load.
+            if (!dep.isLibrary() && !isLoaded(dep)) {
                 targets.add(dep);
             }
         }
@@ -346,33 +348,39 @@ public final class AddonInstaller {
             List<String> staged = new ArrayList<>();
             boolean failure = false;
 
-            for (AddonCatalog.Entry target : targets) {
-                AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(target);
+            try {
+                for (AddonCatalog.Entry target : targets) {
+                    AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(target);
 
-                if (info == null) {
-                    message(player, ChatColor.RED + "✖ " + target.getDisplayName() + " is unavailable (no release / GitHub unreachable).");
-                    failure = true;
-                    break;
+                    if (info == null) {
+                        message(player, ChatColor.RED + "✖ " + target.getDisplayName() + " has no published release yet.");
+                        failure = true;
+                        break;
+                    }
+
+                    boolean loaded = loadedIds.contains(target.getId());
+                    File dir = InstallTargets.targetDir(loaded);
+                    // Fresh installs get a versioned file name (e.g. Networks-v1.0.2.jar); an update must reuse
+                    // the loaded jar's own file name so Bukkit's (filename-matched) update folder swaps it in.
+                    String fileName = loaded
+                        ? loadedJarNames.getOrDefault(target.getId(), target.getRepo() + ".jar")
+                        : target.getRepo() + "-" + info.getTag() + ".jar";
+                    boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName);
+
+                    if (!ok) {
+                        message(player, ChatColor.RED + "✖ Failed to download " + target.getDisplayName() + ".");
+                        failure = true;
+                        break;
+                    }
+
+                    latestTags.put(target.getId(), info.getTag());
+                    state.set(target.getId(), InstallState.Method.RELEASE, info.getTag(), true);
+                    staged.add(target.getDisplayName() + " " + info.getTag());
                 }
-
-                boolean loaded = loadedIds.contains(target.getId());
-                File dir = InstallTargets.targetDir(loaded);
-                // Fresh installs get a versioned file name (e.g. Networks-v1.0.2.jar); an update must reuse
-                // the loaded jar's own file name so Bukkit's (filename-matched) update folder swaps it in.
-                String fileName = loaded
-                    ? loadedJarNames.getOrDefault(target.getId(), target.getRepo() + ".jar")
-                    : target.getRepo() + "-" + info.getTag() + ".jar";
-                boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName);
-
-                if (!ok) {
-                    message(player, ChatColor.RED + "✖ Failed to download " + target.getDisplayName() + ".");
-                    failure = true;
-                    break;
-                }
-
-                latestTags.put(target.getId(), info.getTag());
-                state.set(target.getId(), InstallState.Method.RELEASE, info.getTag(), true);
-                staged.add(target.getDisplayName() + " " + info.getTag());
+            } catch (AddonReleaseService.RateLimitException e) {
+                failure = true;
+                message(player, ChatColor.RED + "✖ GitHub rate limit reached (60 requests/hour without a token).");
+                message(player, ChatColor.GRAY + "Set " + ChatColor.YELLOW + "installer.github-token" + ChatColor.GRAY + " in config.yml (raises it to 5000/hour), or wait ~an hour.");
             }
 
             release(targets);
@@ -407,14 +415,18 @@ public final class AddonInstaller {
         }
 
         runAsync(() -> {
-            AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(entry);
+            try {
+                AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(entry);
 
-            if (info != null) {
-                latestTags.put(entry.getId(), info.getTag());
+                if (info != null) {
+                    latestTags.put(entry.getId(), info.getTag());
 
-                if (onDone != null) {
-                    Slimefun.runSync(onDone);
+                    if (onDone != null) {
+                        Slimefun.runSync(onDone);
+                    }
                 }
+            } catch (AddonReleaseService.RateLimitException ignored) {
+                // Rate limited — just don't show the version upfront; the install button still works.
             }
         });
     }
@@ -428,7 +440,8 @@ public final class AddonInstaller {
         List<AddonCatalog.Entry> missingDeps = new ArrayList<>();
 
         for (AddonCatalog.Entry dep : AddonCatalog.resolveDependencies(entry)) {
-            if (!isLoaded(dep)) {
+            // Libraries are shaded into their dependents — never install/build them standalone.
+            if (!dep.isLibrary() && !isLoaded(dep)) {
                 missingDeps.add(dep);
             }
         }
