@@ -468,7 +468,11 @@ guide:
       - '&7⇨ &cClick to delete'
     branches:
       none: '&cNo branches found'
-      none-lore: "&7Couldn't reach GitHub or the repo has no branches."
+      none-lore: '&7This repository has no branches.'
+      rate-limited: '&cGitHub rate limit reached'
+      rate-limited-lore: '&7Set installer.github-token in config.yml, or wait ~an hour.'
+      unreachable: '&cCould not reach GitHub'
+      unreachable-lore: "&7Check the server's internet connection and try again."
       click: '&7⇨ &eClick to build this branch'
 
 actionbar:

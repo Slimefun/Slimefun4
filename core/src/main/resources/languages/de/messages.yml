@@ -331,7 +331,11 @@ guide:
       - '&7⇨ &cZum Löschen klicken'
     branches:
       none: '&cKeine Branches gefunden'
-      none-lore: "&7GitHub konnte nicht erreicht werden oder das Repo hat keine Branches."
+      none-lore: '&7Dieses Repository hat keine Branches.'
+      rate-limited: '&cGitHub-Ratenlimit erreicht'
+      rate-limited-lore: '&7Setze installer.github-token in der config.yml, oder warte ~1 Stunde.'
+      unreachable: '&cGitHub nicht erreichbar'
+      unreachable-lore: '&7Prüfe die Internetverbindung des Servers und versuche es erneut.'
       click: '&7⇨ &eKlicke, um diesen Branch zu bauen'
 
   locked: 'GESPERRT'

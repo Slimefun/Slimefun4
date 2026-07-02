@@ -76,15 +76,15 @@ public final class AddonInstaller {
      * Must run after all plugins have enabled (e.g. once the server has finished loading).
      */
     public void reconcileRestartFlags() {
+        // This runs once per startup — i.e. AFTER a (re)start. Any "restart to apply" flag was set in a
+        // PREVIOUS session, so the restart it was waiting for has now happened: clear it unconditionally.
+        // If the addon loaded, its badge becomes "Installed"; if it didn't (failed/removed jar), it becomes
+        // "Not installed" — either way "restart to apply" is stale and must not nag on a fresh boot.
         for (String id : state.getTrackedIds()) {
             InstallState.Record record = state.get(id);
 
             if (record != null && record.isRestartPending()) {
-                AddonCatalog.Entry entry = AddonCatalog.getById(id);
-
-                if (entry != null && isLoaded(entry)) {
-                    state.clearRestartPending(id);
-                }
+                state.clearRestartPending(id);
             }
         }
     }
