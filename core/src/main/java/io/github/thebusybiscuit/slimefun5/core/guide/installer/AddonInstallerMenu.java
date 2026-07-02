@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.installer;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -10,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.core.balance.AddonBalanceSummary;
+import io.github.thebusybiscuit.slimefun5.core.balance.BalanceService;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -87,6 +92,50 @@ public final class AddonInstallerMenu {
                 return false;
             });
             slot++;
+        }
+
+        // Custom/third-party addons: any loaded addon that registered items but isn't in the catalog.
+        // Managers only - it's an admin diagnostic. Reuses the same free-floating grid slots.
+        if (canManage) {
+            Set<String> catalogNames = new HashSet<>();
+            catalogNames.add("Slimefun");
+
+            for (AddonCatalog.Entry e : entries) {
+                catalogNames.add(e.getPluginName());
+            }
+
+            for (String addonName : BalanceService.instance().detectedAddonNames(catalogNames)) {
+                if (slot >= 45) {
+                    break;
+                }
+
+                AddonBalanceSummary summary = BalanceService.instance().summarize(addonName);
+                List<String> lore = new ArrayList<>();
+                lore.add("");
+                lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.detected-lore"));
+
+                if (!summary.isEmpty()) {
+                    lore.add("");
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.average")
+                        .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + summary.getAverageTier().name().toLowerCase(Locale.ROOT)))
+                        .replace("%score%", String.valueOf(summary.getAverage())));
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.op-count")
+                        .replace("%count%", String.valueOf(summary.getOpCount())));
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.view-items"));
+                }
+
+                int detectedSlot = slot;
+                String detectedName = addonName;
+                menu.addItem(slot, CustomItemStack.create(MaterialCompat.stack(XMaterial.COMMAND_BLOCK),
+                    Slimefun.getLocalization().getMessage(p, "guide.balance.detected") + " &f" + addonName, lore.toArray(new String[0])));
+                menu.addMenuClickHandler(detectedSlot, (pl, sl, item, action) -> {
+                    if (!summary.isEmpty()) {
+                        AddonBalanceMenu.open(pl, guide, detectedName, detectedName, () -> open(pl, guide));
+                    }
+                    return false;
+                });
+                slot++;
+            }
         }
 
         // Fill the version cache in the background (persisted); versions show on the next open.
