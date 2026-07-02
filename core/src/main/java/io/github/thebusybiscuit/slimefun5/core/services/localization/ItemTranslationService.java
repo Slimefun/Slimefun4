@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -166,37 +167,93 @@ public class ItemTranslationService {
         return map != null ? map.get(itemId) : null;
     }
 
+    /** Renders raw lore lines with '&' colour codes translated. */
+    private static List<String> render(@Nonnull List<String> raw) {
+        List<String> out = new ArrayList<>(raw.size());
+
+        for (String line : raw) {
+            out.add(ChatColor.translateAlternateColorCodes('&', line));
+        }
+
+        return out;
+    }
+
+    /** Raw (untranslated-colour) description lines for a language + item, or empty. */
+    @Nonnull
+    private List<String> descriptionFor(@Nullable String language, @Nonnull String itemId) {
+        ItemTranslation translation = lookup(language, itemId);
+        return translation != null ? translation.description : Collections.<String>emptyList();
+    }
+
+    /** The description a player should see: their language, else the server default, else empty. */
+    @Nonnull
+    private List<String> resolveDescription(@Nonnull Player p, @Nonnull SlimefunItem item) {
+        List<String> description = descriptionFor(languageOf(p), item.getId());
+
+        if (!description.isEmpty()) {
+            return description;
+        }
+
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+
+        if (defaultLanguage != null) {
+            return descriptionFor(defaultLanguage.getId(), item.getId());
+        }
+
+        return Collections.<String>emptyList();
+    }
+
+    /** base lore + a blank separator + description, when a description is present. */
+    @Nonnull
+    private static List<String> compose(@Nonnull List<String> base, @Nonnull List<String> description) {
+        if (description.isEmpty()) {
+            return base;
+        }
+
+        List<String> out = new ArrayList<>(base);
+
+        if (!out.isEmpty()) {
+            out.add("");
+        }
+
+        out.addAll(description);
+        return out;
+    }
+
     /**
      * Returns a display copy of the item with its name and lore translated into the player's language.
      * Falls back to the item's built-in (English) name/lore where no translation exists.
      */
     @Nonnull
     public ItemStack getDisplayItem(@Nonnull Player p, @Nonnull SlimefunItem item) {
-        ItemStack display = item.getItem();
         ItemTranslation translation = lookup(languageOf(p), item.getId());
 
+        // Base display: the player's translated template if available, else the English baseline
+        // (when the physical template was baked to the server default), else the item template.
+        ItemStack display;
+
         if (translation == null) {
-            // No translation for the player's language: show the English baseline if the physical
-            // template was baked to the server default, otherwise the (English) template as-is.
             ItemStack baseline = englishBaseline.get(item.getId());
-            return baseline != null ? baseline.clone() : display;
+            display = baseline != null ? baseline.clone() : item.getItem();
+        } else {
+            display = item.getItem();
         }
 
         ItemMeta meta = display.getItemMeta();
 
         if (meta != null) {
-            if (translation.name != null) {
+            if (translation != null && translation.name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', translation.name));
             }
 
-            if (!translation.lore.isEmpty()) {
-                List<String> lore = new ArrayList<>();
+            List<String> base = (translation != null && !translation.lore.isEmpty())
+                ? render(translation.lore)
+                : (meta.getLore() != null ? meta.getLore() : new ArrayList<String>());
 
-                for (String line : translation.lore) {
-                    lore.add(ChatColor.translateAlternateColorCodes('&', line));
-                }
+            List<String> composed = compose(base, render(resolveDescription(p, item)));
 
-                meta.setLore(lore);
+            if (!composed.isEmpty()) {
+                meta.setLore(composed);
             }
 
             display.setItemMeta(meta);
