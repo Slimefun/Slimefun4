@@ -247,14 +247,17 @@ public class ItemTranslationService {
             changed = true;
         }
 
-        // Only translate lore for an unmodified item (no dynamic lines added), to avoid clobbering
-        // charge/soulbound/backpack lore.
+        // Only translate lore that is still a pristine template. Game logic mutates the lore of some
+        // items in place (spawner "<Type>", backpack "<ID>", tome owner, charge/uses counters) without
+        // changing the line count, so a line-count check alone would clobber that per-item state and
+        // permanently break the item. We translate only when the current lore still matches the English
+        // baseline or one of the shipped language templates (i.e. it has NOT been modified at runtime).
         List<String> englishLore = englishMeta.getLore();
         List<String> currentLore = meta.getLore();
         int englishCount = englishLore != null ? englishLore.size() : 0;
         int currentCount = currentLore != null ? currentLore.size() : 0;
 
-        if (englishCount == currentCount) {
+        if (englishCount == currentCount && isPristineLore(item, currentLore, englishLore)) {
             List<String> targetLore = englishLore;
 
             if (translation != null && !translation.lore.isEmpty()) {
@@ -276,6 +279,38 @@ public class ItemTranslationService {
         }
 
         return changed;
+    }
+
+    /**
+     * Returns whether {@code currentLore} is still a pristine template for this item — i.e. it equals the
+     * English baseline lore, or any shipped language's rendered translation of this item. If it matches
+     * none of those, game logic has modified the lore at runtime (spawner type, backpack id, tome owner,
+     * charge/uses counters, ...) and we must NOT re-translate it, or that per-item state is clobbered.
+     */
+    private boolean isPristineLore(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
+        if (currentLore == null || currentLore.equals(englishLore)) {
+            return true;
+        }
+
+        for (Map<String, ItemTranslation> perItem : byLanguage.values()) {
+            ItemTranslation translation = perItem.get(item.getId());
+
+            if (translation == null || translation.lore.isEmpty()) {
+                continue;
+            }
+
+            List<String> rendered = new ArrayList<>(translation.lore.size());
+
+            for (String line : translation.lore) {
+                rendered.add(ChatColor.translateAlternateColorCodes('&', line));
+            }
+
+            if (rendered.equals(currentLore)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
