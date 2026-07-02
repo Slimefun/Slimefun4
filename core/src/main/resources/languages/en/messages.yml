@@ -477,6 +477,14 @@ guide:
       unreachable-lore: "&7Check the server's internet connection and try again."
       click: '&7⇨ &eClick to build this branch'
 
+  item-descriptions:
+    enabled: '&bItem descriptions: &aEnabled'
+    disabled: '&bItem descriptions: &cDisabled'
+    lore1: '&7Whether items in your inventory show'
+    lore2: '&7a detailed description in their lore.'
+    click-disable: '&7⇨ &eClick to disable'
+    click-enable: '&7⇨ &eClick to enable'
+
   balance:
     header: '&6&lBalance rating &7(admin)'
     tile: '&7Balance: %tier% &8(%score%)'

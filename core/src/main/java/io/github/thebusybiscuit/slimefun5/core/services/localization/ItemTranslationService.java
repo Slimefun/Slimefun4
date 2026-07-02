@@ -449,6 +449,22 @@ public class ItemTranslationService {
     }
 
     /**
+     * Re-applies per-holder translation to every stack in the player's inventory. Called by the item
+     * description toggle so a change takes effect immediately rather than on the next periodic sweep.
+     */
+    public void retranslateInventory(@Nonnull Player p) {
+        org.bukkit.inventory.ItemStack[] contents = p.getInventory().getContents();
+
+        for (int slot = 0; slot < contents.length; slot++) {
+            org.bukkit.inventory.ItemStack stack = contents[slot];
+
+            if (applyHolderTranslation(p, stack) | applyGuideTranslation(p, stack)) {
+                p.getInventory().setItem(slot, stack);
+            }
+        }
+    }
+
+    /**
      * Development helper: writes, per language, every enabled item id that has no translation, grouped
      * by addon - the exact remaining gap to fill. Used to audit localization coverage across all loaded
      * addons in one pass.

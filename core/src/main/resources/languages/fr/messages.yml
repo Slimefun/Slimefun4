@@ -181,6 +181,14 @@ guide:
       none-lore: "&7Impossible de joindre GitHub ou le dépôt n'a aucune branche."
       click: '&7⇨ &eCliquez pour compiler cette branche'
 
+  item-descriptions:
+    enabled: '&bDescriptions d''objets : &aActivées'
+    disabled: '&bDescriptions d''objets : &cDésactivées'
+    lore1: '&7Si les objets de votre inventaire affichent'
+    lore2: '&7une description détaillée dans leur texte.'
+    click-disable: '&7⇨ &eCliquez pour désactiver'
+    click-enable: '&7⇨ &eCliquez pour activer'
+
   balance:
     header: '&6&lÉvaluation d''équilibre &7(admin)'
     tile: '&7Équilibre : %tier% &8(%score%)'

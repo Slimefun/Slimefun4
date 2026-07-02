@@ -340,6 +340,14 @@ guide:
       unreachable-lore: '&7Prüfe die Internetverbindung des Servers und versuche es erneut.'
       click: '&7⇨ &eKlicke, um diesen Branch zu bauen'
 
+  item-descriptions:
+    enabled: '&bItembeschreibungen: &aAktiviert'
+    disabled: '&bItembeschreibungen: &cDeaktiviert'
+    lore1: '&7Ob Items in deinem Inventar eine'
+    lore2: '&7ausführliche Beschreibung anzeigen.'
+    click-disable: '&7⇨ &eKlicke zum Deaktivieren'
+    click-enable: '&7⇨ &eKlicke zum Aktivieren'
+
   balance:
     header: '&6&lBalance-Bewertung &7(Admin)'
     tile: '&7Balance: %tier% &8(%score%)'

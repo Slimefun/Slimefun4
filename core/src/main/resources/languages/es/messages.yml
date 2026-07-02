@@ -181,6 +181,14 @@ guide:
       none-lore: "&7No se pudo conectar con GitHub o el repositorio no tiene ramas."
       click: '&7⇨ &eHaz clic para compilar esta rama'
 
+  item-descriptions:
+    enabled: '&bDescripciones de objetos: &aActivadas'
+    disabled: '&bDescripciones de objetos: &cDesactivadas'
+    lore1: '&7Si los objetos de tu inventario muestran'
+    lore2: '&7una descripción detallada en su lore.'
+    click-disable: '&7⇨ &eHaz clic para desactivar'
+    click-enable: '&7⇨ &eHaz clic para activar'
+
   balance:
     header: '&6&lValoración de equilibrio &7(admin)'
     tile: '&7Equilibrio: %tier% &8(%score%)'

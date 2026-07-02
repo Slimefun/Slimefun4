@@ -58,6 +58,7 @@ public final class SlimefunGuideSettings {
         options.add(new FireworksOption());
         options.add(new LearningAnimationOption());
         options.add(new MachineMessagesOption());
+        options.add(new ItemDescriptionsOption());
         options.add(new PlayerLanguageOption());
     }
 
