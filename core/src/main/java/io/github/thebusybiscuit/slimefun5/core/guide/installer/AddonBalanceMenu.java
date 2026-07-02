@@ -34,7 +34,7 @@ public final class AddonBalanceMenu {
     private AddonBalanceMenu() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String addonName, @Nonnull String displayName, @Nonnull Runnable back) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer") + " - " + displayName);
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         ChestMenuUtils.drawBackground(menu, BORDER);

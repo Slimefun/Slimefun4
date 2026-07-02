@@ -110,9 +110,9 @@ public final class AddonDetailMenu {
         // Balance rating (admin-only). Computed live from the loaded addon's registered items; a
         // not-yet-installed addon has no items to score, so this only appears once the addon is loaded.
         AddonBalanceSummary balance = AddonBalanceSummary.EMPTY;
+        final String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
 
         if (canManage && inst.isLoaded(entry)) {
-            String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
             balance = BalanceService.instance().summarize(addonName);
 
             if (!balance.isEmpty()) {
@@ -133,7 +133,6 @@ public final class AddonDetailMenu {
         menu.addItem(13, CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), headerLore.toArray(new String[0])));
 
         if (canManage && !balance.isEmpty()) {
-            String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
             menu.addMenuClickHandler(13, (pl, slot, item, action) -> {
                 AddonBalanceMenu.open(pl, guide, addonName, entry.getDisplayName(), () -> open(pl, guide, entry));
                 return false;

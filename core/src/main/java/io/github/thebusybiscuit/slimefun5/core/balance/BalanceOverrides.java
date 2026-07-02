@@ -72,7 +72,9 @@ public final class BalanceOverrides {
 
             if (section != null) {
                 for (String key : section.getKeys(false)) {
-                    scores.put(key, section.getInt(key));
+                    if (section.isInt(key)) {
+                        scores.put(key, section.getInt(key));
+                    }
                 }
             }
 
