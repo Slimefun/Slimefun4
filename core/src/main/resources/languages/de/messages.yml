@@ -292,6 +292,7 @@ guide:
     will-install: '&7Wird außerdem installieren: &f%deps%'
     version:
       release: '&7Version: &f%version%'
+      latest: '&7Neueste: &f%version%'
       branch: '&7Branch: &f%branch% &8(%commit%)'
       custom: '&7Eigener Build: &f%version%'
     update:

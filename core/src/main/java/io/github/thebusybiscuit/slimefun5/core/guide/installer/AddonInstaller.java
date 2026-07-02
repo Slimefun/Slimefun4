@@ -59,6 +59,7 @@ public final class AddonInstaller {
 
     public AddonInstaller(@Nonnull InstallState state) {
         this.state = state;
+        loadVersionCache();
     }
 
     @Nonnull
@@ -360,11 +361,12 @@ public final class AddonInstaller {
 
                     boolean loaded = loadedIds.contains(target.getId());
                     File dir = InstallTargets.targetDir(loaded);
-                    // Fresh installs get a versioned file name (e.g. Networks-v1.0.2.jar); an update must reuse
-                    // the loaded jar's own file name so Bukkit's (filename-matched) update folder swaps it in.
+                    // One naming scheme everywhere: "<Repo>-<version>.jar" with NO v/gh- prefix, matching the
+                    // release asset "Slimefun-5.2.4.3.jar". A fresh install uses that; an update must reuse the
+                    // loaded jar's own file name so Bukkit's (filename-matched) update folder swaps it in.
                     String fileName = loaded
                         ? loadedJarNames.getOrDefault(target.getId(), target.getRepo() + ".jar")
-                        : target.getRepo() + "-" + info.getTag() + ".jar";
+                        : target.getRepo() + "-" + stripVersionPrefix(info.getTag()) + ".jar";
                     boolean ok = releaseService.downloadJar(info.getJarUrl(), dir, fileName);
 
                     if (!ok) {
@@ -384,6 +386,7 @@ public final class AddonInstaller {
             }
 
             release(targets);
+            saveVersionCache(); // persist any tags learned during this install
             boolean success = !failure;
 
             if (success) {
@@ -399,10 +402,123 @@ public final class AddonInstaller {
     /** Latest release tag per entry, cached from update-checks and installs, for showing "Install v…" upfront. */
     private final java.util.Map<String, String> latestTags = new ConcurrentHashMap<>();
 
+    /** Persisted so versions survive restarts (no re-fetching every boot). Refreshed at most per TTL. */
+    private static final long WARM_TTL_MS = 6L * 60 * 60 * 1000;
+    private volatile long lastWarm = 0L;
+
     /** The cached latest release tag for an entry, or "" if not yet fetched. */
     @Nonnull
     public String getCachedLatestTag(@Nonnull String id) {
         return latestTags.getOrDefault(id, "");
+    }
+
+    /** The version cache file (plugins/Slimefun/installer-versions.yml). */
+    @Nonnull
+    private File versionCacheFile() {
+        return new File(Slimefun.instance().getDataFolder(), "installer-versions.yml");
+    }
+
+    /** Loads persisted latest-tags + the last-warm time. Called once on construction. */
+    private void loadVersionCache() {
+        File file = versionCacheFile();
+
+        if (!file.exists()) {
+            return;
+        }
+
+        org.bukkit.configuration.file.YamlConfiguration yaml = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(file);
+        lastWarm = yaml.getLong("checked", 0L);
+        org.bukkit.configuration.ConfigurationSection section = yaml.getConfigurationSection("versions");
+
+        if (section != null) {
+            for (String id : section.getKeys(false)) {
+                String tag = section.getString(id);
+
+                if (tag != null && !tag.isEmpty()) {
+                    latestTags.put(id, tag);
+                }
+            }
+        }
+    }
+
+    private synchronized void saveVersionCache() {
+        org.bukkit.configuration.file.YamlConfiguration yaml = new org.bukkit.configuration.file.YamlConfiguration();
+        yaml.set("checked", lastWarm);
+
+        for (java.util.Map.Entry<String, String> entry : latestTags.entrySet()) {
+            yaml.set("versions." + entry.getKey(), entry.getValue());
+        }
+
+        try {
+            yaml.save(versionCacheFile());
+        } catch (java.io.IOException ignored) {
+            // A failed cache write is non-fatal — we just re-fetch next time.
+        }
+    }
+
+    /**
+     * Fills in any missing latest-tags (and refreshes everything once per {@link #WARM_TTL_MS}) so the grid
+     * can show versions. Fetches sequentially with a small gap and STOPS immediately on a rate-limit, using
+     * whatever it already had. Persists the result. Runs {@code onDone} on the main thread if anything
+     * changed. A no-op (no network) when the cache is fresh and complete.
+     */
+    public void warmLatestTagsAsync(@Nonnull List<AddonCatalog.Entry> entries, @javax.annotation.Nullable Runnable onDone) {
+        boolean stale = System.currentTimeMillis() - lastWarm > WARM_TTL_MS;
+        List<AddonCatalog.Entry> todo = new ArrayList<>();
+
+        for (AddonCatalog.Entry entry : entries) {
+            if (entry.isLibrary() || entry.isCore()) {
+                continue; // libraries ship no release; core self-updates via its own path
+            }
+
+            if (stale || !latestTags.containsKey(entry.getId())) {
+                todo.add(entry);
+            }
+        }
+
+        if (todo.isEmpty()) {
+            return;
+        }
+
+        runAsync(() -> {
+            boolean changed = false;
+
+            try {
+                for (AddonCatalog.Entry entry : todo) {
+                    AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(entry);
+
+                    if (info != null && !info.getTag().equals(latestTags.get(entry.getId()))) {
+                        latestTags.put(entry.getId(), info.getTag());
+                        changed = true;
+                    }
+
+                    try {
+                        Thread.sleep(150L); // gentle pacing so we don't spike the rate limit
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                        break;
+                    }
+                }
+
+                lastWarm = System.currentTimeMillis();
+            } catch (AddonReleaseService.RateLimitException e) {
+                // Stop here and keep whatever we managed to fetch; the grid still shows those.
+            }
+
+            if (changed) {
+                saveVersionCache();
+            }
+
+            if (onDone != null) {
+                Slimefun.runSync(onDone);
+            }
+        });
+    }
+
+    /** Strips a leading gh-/v so a release tag becomes a bare version (v1.0.2 → 1.0.2), matching jar names. */
+    @Nonnull
+    static String stripVersionPrefix(@Nonnull String tag) {
+        return tag.trim().replaceFirst("^gh-", "").replaceFirst("^v", "");
     }
 
     /**

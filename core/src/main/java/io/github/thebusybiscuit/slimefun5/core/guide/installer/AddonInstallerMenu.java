@@ -84,6 +84,14 @@ public final class AddonInstallerMenu {
             slot++;
         }
 
+        // Fill in latest versions for not-installed addons (persistent cache, throttled, stops on
+        // rate-limit); re-render once when they arrive, only if the player is still in an installer menu.
+        inst.warmLatestTagsAsync(entries, () -> {
+            if (p.getOpenInventory().getType() == org.bukkit.event.inventory.InventoryType.CHEST) {
+                open(p, guide);
+            }
+        });
+
         menu.open(p);
     }
 
@@ -101,6 +109,13 @@ public final class AddonInstallerMenu {
 
             if (authors != null && !authors.isEmpty()) {
                 lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.info.authors").replace("%authors%", String.join(", ", authors)));
+            }
+        } else {
+            // Not installed: show the latest version it would install (from the persistent cache, no live call).
+            String tag = inst.getCachedLatestTag(entry.getId());
+
+            if (!tag.isEmpty()) {
+                lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.version.latest").replace("%version%", tag));
             }
         }
 
