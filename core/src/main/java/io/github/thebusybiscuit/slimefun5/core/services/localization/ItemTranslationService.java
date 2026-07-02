@@ -176,79 +176,42 @@ public class ItemTranslationService {
         return map != null ? map.get(itemId) : null;
     }
 
-    /** Renders raw lore lines with '&' colour codes translated. */
-    private static List<String> render(@Nonnull List<String> raw) {
-        List<String> out = new ArrayList<>(raw.size());
-
-        for (String line : raw) {
-            out.add(ChatColor.translateAlternateColorCodes('&', line));
-        }
-
-        return out;
-    }
-
-    /** Raw (untranslated-colour) description lines for a language + item, or empty. */
-    @Nonnull
-    private List<String> descriptionFor(@Nullable String language, @Nonnull String itemId) {
-        ItemTranslation translation = lookup(language, itemId);
-        return translation != null ? translation.description : Collections.<String>emptyList();
-    }
-
-    /** The description a player should see: their language, else the server default, else empty. */
-    @Nonnull
-    private List<String> resolveDescription(@Nonnull Player p, @Nonnull SlimefunItem item) {
-        List<String> description = descriptionFor(languageOf(p), item.getId());
-
-        if (!description.isEmpty()) {
-            return description;
-        }
-
-        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-
-        if (defaultLanguage != null) {
-            return descriptionFor(defaultLanguage.getId(), item.getId());
-        }
-
-        return Collections.<String>emptyList();
-    }
-
-    /** base lore + a blank separator + description, when a description is present. */
-    @Nonnull
-    private static List<String> compose(@Nonnull List<String> base, @Nonnull List<String> description) {
-        if (description.isEmpty()) {
-            return base;
-        }
-
-        List<String> out = new ArrayList<>(base);
-
-        if (!out.isEmpty()) {
-            out.add("");
-        }
-
-        out.addAll(description);
-        return out;
-    }
-
     private interface BlockSelector { List<String> select(ItemTranslation t); }
 
-    /** Resolve a block (player language, else server default, else empty). */
+    private static final BlockSelector SEL_TYPE = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.type; } };
+    private static final BlockSelector SEL_DESCRIPTION = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } };
+    private static final BlockSelector SEL_STATS = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } };
+    private static final BlockSelector SEL_USAGE = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } };
+
+    /** Resolve a block for a specific primary language: that language's block, else the server default's, else empty. */
     @Nonnull
-    private List<String> blockFor(@Nonnull Player p, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
-        ItemTranslation player = lookup(languageOf(p), item.getId());
-        if (player != null) {
-            List<String> block = selector.select(player);
+    private List<String> blockForLanguage(@Nullable String language, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
+        ItemTranslation primary = lookup(language, item.getId());
+        if (primary != null) {
+            List<String> block = selector.select(primary);
             if (!block.isEmpty()) {
                 return block;
             }
         }
         Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-        if (defaultLanguage != null) {
+        if (defaultLanguage != null && !defaultLanguage.getId().equals(language)) {
             ItemTranslation def = lookup(defaultLanguage.getId(), item.getId());
             if (def != null) {
                 return selector.select(def);
             }
         }
         return Collections.<String>emptyList();
+    }
+
+    /** [type, description, stats, usage] for a primary language, each with per-block default fallback. */
+    @Nonnull
+    private List<List<String>> resolveBlocks(@Nullable String language, @Nonnull SlimefunItem item) {
+        List<List<String>> blocks = new ArrayList<>(4);
+        blocks.add(blockForLanguage(language, item, SEL_TYPE));
+        blocks.add(blockForLanguage(language, item, SEL_DESCRIPTION));
+        blocks.add(blockForLanguage(language, item, SEL_STATS));
+        blocks.add(blockForLanguage(language, item, SEL_USAGE));
+        return blocks;
     }
 
     /**
@@ -285,12 +248,14 @@ public class ItemTranslationService {
                 ? translation.lore
                 : (meta.getLore() != null ? meta.getLore() : new ArrayList<String>());
 
+            List<List<String>> blocks = resolveBlocks(languageOf(p), item);
+
             List<String> composed = LoreComposer.compose(
                 item,
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.type; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } }),
+                blocks.get(0),
+                blocks.get(1),
+                blocks.get(2),
+                blocks.get(3),
                 fallbackBase,
                 true);
 
@@ -362,16 +327,18 @@ public class ItemTranslationService {
         // A lore list is pristine when it matches the English baseline, or the base lore of any shipped
         // language rendering with or without its appended description block (see isPristineOrComposed).
         // Runtime-mutated lore matches none of these variants and is correctly skipped.
-        if (isPristineOrComposed(p, item, currentLore, englishLore)) {
+        if (isPristineOrComposed(item, currentLore, englishLore)) {
             List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
                 : (englishLore != null ? englishLore : new ArrayList<String>());
 
+            List<List<String>> blocks = resolveBlocks(languageOf(p), item);
+
             List<String> targetLore = LoreComposer.compose(
                 item,
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.type; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } }),
-                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } }),
+                blocks.get(0),
+                blocks.get(1),
+                blocks.get(2),
+                blocks.get(3),
                 fallbackBase,
                 ItemDescriptionsOption.isEnabledFor(p));
 
@@ -394,7 +361,7 @@ public class ItemTranslationService {
      * block either shown or hidden. Runtime-mutated lore (charge/uses counters, backpack id, spawner type,
      * tome owner) matches none of these and is left untouched.
      */
-    private boolean isPristineOrComposed(@Nonnull Player p, @Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
+    private boolean isPristineOrComposed(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
         if (currentLore == null || currentLore.isEmpty()) {
             return true;
         }
@@ -403,20 +370,19 @@ public class ItemTranslationService {
             return true;
         }
 
+        List<String> englishBase = englishLore != null ? englishLore : Collections.<String>emptyList();
+
         for (String language : byLanguage.keySet()) {
+            List<List<String>> blocks = resolveBlocks(language, item);
             ItemTranslation t = lookup(language, item.getId());
+            List<String> langBase = (t != null && !t.lore.isEmpty()) ? t.lore : englishBase;
 
-            List<String> type = t != null ? t.type : Collections.<String>emptyList();
-            List<String> description = t != null ? t.description : Collections.<String>emptyList();
-            List<String> stats = t != null ? t.stats : Collections.<String>emptyList();
-            List<String> usage = t != null ? t.usage : Collections.<String>emptyList();
-            List<String> fallbackBase = (t != null && !t.lore.isEmpty()) ? t.lore
-                : (englishLore != null ? englishLore : Collections.<String>emptyList());
-
-            for (int i = 0; i < 2; i++) {
-                boolean includeDescription = i == 0;
-                if (currentLore.equals(LoreComposer.compose(item, type, description, stats, usage, fallbackBase, includeDescription))) {
-                    return true;
+            for (List<String> fallbackBase : java.util.Arrays.asList(langBase, englishBase)) {
+                for (int i = 0; i < 2; i++) {
+                    boolean includeDescription = i == 0;
+                    if (currentLore.equals(LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription))) {
+                        return true;
+                    }
                 }
             }
         }
