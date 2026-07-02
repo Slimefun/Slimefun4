@@ -44,11 +44,18 @@ public class ItemTranslationService {
         private final String name;
         private final List<String> lore;
         private final List<String> description;
+        private final List<String> type;
+        private final List<String> stats;
+        private final List<String> usage;
 
-        ItemTranslation(@Nullable String name, @Nonnull List<String> lore, @Nonnull List<String> description) {
+        ItemTranslation(@Nullable String name, @Nonnull List<String> lore, @Nonnull List<String> description,
+                        @Nonnull List<String> type, @Nonnull List<String> stats, @Nonnull List<String> usage) {
             this.name = name;
             this.lore = lore;
             this.description = description;
+            this.type = type;
+            this.stats = stats;
+            this.usage = usage;
         }
     }
 
@@ -96,12 +103,10 @@ public class ItemTranslationService {
             // would only see the section before the first dot, so those items never resolve.
             Set<String> ids = new HashSet<>();
             for (String path : config.getKeys(true)) {
-                if (path.endsWith(".name")) {
-                    ids.add(path.substring(0, path.length() - ".name".length()));
-                } else if (path.endsWith(".lore")) {
-                    ids.add(path.substring(0, path.length() - ".lore".length()));
-                } else if (path.endsWith(".description")) {
-                    ids.add(path.substring(0, path.length() - ".description".length()));
+                for (String leaf : new String[] { ".name", ".lore", ".description", ".type", ".stats", ".usage" }) {
+                    if (path.endsWith(leaf)) {
+                        ids.add(path.substring(0, path.length() - leaf.length()));
+                    }
                 }
             }
 
@@ -109,9 +114,12 @@ public class ItemTranslationService {
                 String name = config.getString(id + ".name");
                 List<String> lore = config.getStringList(id + ".lore");
                 List<String> description = config.getStringList(id + ".description");
+                List<String> type = config.getStringList(id + ".type");
+                List<String> stats = config.getStringList(id + ".stats");
+                List<String> usage = config.getStringList(id + ".usage");
 
-                if (name != null || !lore.isEmpty() || !description.isEmpty()) {
-                    map.put(id, new ItemTranslation(name, lore, description));
+                if (name != null || !lore.isEmpty() || !description.isEmpty() || !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty()) {
+                    map.put(id, new ItemTranslation(name, lore, description, type, stats, usage));
                 }
             }
         } catch (RuntimeException e) {
@@ -585,7 +593,7 @@ public class ItemTranslationService {
                 String name = englishName(item);
 
                 if (name != null && !ChatColor.stripColor(name).trim().isEmpty()) {
-                    map.put(item.getId(), new ItemTranslation(name, new ArrayList<>(), new ArrayList<>()));
+                    map.put(item.getId(), new ItemTranslation(name, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()));
                 }
             } catch (Exception | LinkageError ignored) {
                 // A broken item must not break the English baseline.
