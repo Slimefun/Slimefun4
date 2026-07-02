@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
@@ -41,6 +42,12 @@ final class GrapplingHookEntity {
     }
 
     public void remove() {
+        // Detach the leash before removing either entity: removing a leashed mob (or its leash holder)
+        // makes vanilla break the leash and drop a LEAD item at that spot. Unleashing first suppresses it.
+        if (leashTarget instanceof LivingEntity && ((LivingEntity) leashTarget).isLeashed()) {
+            ((LivingEntity) leashTarget).setLeashHolder(null);
+        }
+
         if (arrow.isValid()) {
             arrow.remove();
         }
