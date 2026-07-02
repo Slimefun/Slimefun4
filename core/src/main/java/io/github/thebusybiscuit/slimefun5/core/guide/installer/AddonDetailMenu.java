@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun5.core.guide.installer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.Nonnull;
 
@@ -10,6 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.core.balance.AddonBalanceSummary;
+import io.github.thebusybiscuit.slimefun5.core.balance.BalanceService;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
@@ -104,8 +107,40 @@ public final class AddonDetailMenu {
             }
         }
 
+        // Balance rating (admin-only). Computed live from the loaded addon's registered items; a
+        // not-yet-installed addon has no items to score, so this only appears once the addon is loaded.
+        AddonBalanceSummary balance = AddonBalanceSummary.EMPTY;
+
+        if (canManage && inst.isLoaded(entry)) {
+            String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
+            balance = BalanceService.instance().summarize(addonName);
+
+            if (!balance.isEmpty()) {
+                headerLore.add("");
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.header"));
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.average")
+                    .replace("%tier%", tierName(p, balance.getAverageTier()))
+                    .replace("%score%", String.valueOf(balance.getAverage())));
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.peak")
+                    .replace("%tier%", tierName(p, balance.getPeakTier()))
+                    .replace("%score%", String.valueOf(balance.getPeak())));
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.op-count")
+                    .replace("%count%", String.valueOf(balance.getOpCount())));
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.view-items"));
+            }
+        }
+
         menu.addItem(13, CustomItemStack.create(MaterialCompat.stack(entry.getIcon()), "&f" + entry.getDisplayName(), headerLore.toArray(new String[0])));
-        menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
+
+        if (canManage && !balance.isEmpty()) {
+            String addonName = entry.isCore() ? "Slimefun" : entry.getPluginName();
+            menu.addMenuClickHandler(13, (pl, slot, item, action) -> {
+                AddonBalanceMenu.open(pl, guide, addonName, entry.getDisplayName(), () -> open(pl, guide, entry));
+                return false;
+            });
+        } else {
+            menu.addMenuClickHandler(13, ChestMenuUtils.getEmptyClickHandler());
+        }
 
         boolean showInstall = canManage;
         boolean showDelete = canManage && !entry.isCore() && !entry.isLibrary() && inst.isLoaded(entry);
@@ -246,5 +281,10 @@ public final class AddonDetailMenu {
         // Loaded but not staged by the installer: a custom/local build. Show its plugin version.
         return Slimefun.getLocalization().getMessage(p, "guide.installer.version.custom")
             .replace("%version%", pluginVersion);
+    }
+
+    @Nonnull
+    private static String tierName(@Nonnull Player p, @Nonnull io.github.thebusybiscuit.slimefun5.core.balance.BalanceTier tier) {
+        return Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + tier.name().toLowerCase(Locale.ROOT));
     }
 }
