@@ -25,6 +25,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.core.guide.options.ItemDescriptionsOption;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
@@ -316,21 +317,22 @@ public class ItemTranslationService {
         // baseline or one of the shipped language templates (i.e. it has NOT been modified at runtime).
         List<String> englishLore = englishMeta.getLore();
         List<String> currentLore = meta.getLore();
-        int englishCount = englishLore != null ? englishLore.size() : 0;
-        int currentCount = currentLore != null ? currentLore.size() : 0;
 
-        if (englishCount == currentCount && isPristineLore(item, currentLore, englishLore)) {
-            List<String> targetLore = englishLore;
+        // Only rewrite lore that is still a pristine template (any language's base lore, with or without
+        // the description block). Runtime-mutated lore (charge/uses counters, backpack id, spawner type,
+        // tome owner) matches none of these and is left untouched, or its per-item state is clobbered.
+        if (isPristineOrComposed(item, currentLore, englishLore)) {
+            List<String> base = (translation != null && !translation.lore.isEmpty())
+                ? render(translation.lore)
+                : (englishLore != null ? englishLore : new ArrayList<String>());
 
-            if (translation != null && !translation.lore.isEmpty()) {
-                targetLore = new ArrayList<>();
+            List<String> description = ItemDescriptionsOption.isEnabledFor(p)
+                ? render(resolveDescription(p, item))
+                : Collections.<String>emptyList();
 
-                for (String line : translation.lore) {
-                    targetLore.add(ChatColor.translateAlternateColorCodes('&', line));
-                }
-            }
+            List<String> targetLore = compose(base, description);
 
-            if (targetLore != null && !targetLore.equals(currentLore)) {
+            if (!targetLore.isEmpty() && !targetLore.equals(currentLore)) {
                 meta.setLore(targetLore);
                 changed = true;
             }
@@ -344,31 +346,53 @@ public class ItemTranslationService {
     }
 
     /**
-     * Returns whether {@code currentLore} is still a pristine template for this item — i.e. it equals the
-     * English baseline lore, or any shipped language's rendered translation of this item. If it matches
-     * none of those, game logic has modified the lore at runtime (spawner type, backpack id, tome owner,
-     * charge/uses counters, ...) and we must NOT re-translate it, or that per-item state is clobbered.
+     * Whether {@code currentLore} is still a pristine template for this item: null/empty, the English
+     * baseline lore, or any combination of a shipped language's base lore with any shipped language's
+     * description (or no description). If it matches none of those, game logic has modified the lore at
+     * runtime and it must NOT be re-translated. Bounded by the number of languages this item is actually
+     * translated into (small in practice — descriptions roll out incrementally).
      */
-    private boolean isPristineLore(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
-        if (currentLore == null || currentLore.equals(englishLore)) {
+    private boolean isPristineOrComposed(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
+        if (currentLore == null || currentLore.isEmpty()) {
             return true;
         }
 
-        for (Map<String, ItemTranslation> perItem : byLanguage.values()) {
-            ItemTranslation translation = perItem.get(item.getId());
+        if (currentLore.equals(englishLore)) {
+            return true;
+        }
 
-            if (translation == null || translation.lore.isEmpty()) {
+        // Candidate base lores: the English baseline plus each language's rendered base lore.
+        List<List<String>> bases = new ArrayList<>();
+
+        if (englishLore != null) {
+            bases.add(englishLore);
+        }
+
+        // Candidate descriptions: none, plus each language's rendered description.
+        List<List<String>> descriptions = new ArrayList<>();
+        descriptions.add(Collections.<String>emptyList());
+
+        for (Map<String, ItemTranslation> perLanguage : byLanguage.values()) {
+            ItemTranslation translation = perLanguage.get(item.getId());
+
+            if (translation == null) {
                 continue;
             }
 
-            List<String> rendered = new ArrayList<>(translation.lore.size());
-
-            for (String line : translation.lore) {
-                rendered.add(ChatColor.translateAlternateColorCodes('&', line));
+            if (!translation.lore.isEmpty()) {
+                bases.add(render(translation.lore));
             }
 
-            if (rendered.equals(currentLore)) {
-                return true;
+            if (!translation.description.isEmpty()) {
+                descriptions.add(render(translation.description));
+            }
+        }
+
+        for (List<String> base : bases) {
+            for (List<String> description : descriptions) {
+                if (currentLore.equals(compose(base, description))) {
+                    return true;
+                }
             }
         }
 
