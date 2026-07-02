@@ -362,16 +362,18 @@ public class ItemTranslationService {
         // A lore list is pristine when it matches the English baseline, or the base lore of any shipped
         // language rendering with or without its appended description block (see isPristineOrComposed).
         // Runtime-mutated lore matches none of these variants and is correctly skipped.
-        if (isPristineOrComposed(item, currentLore, englishLore)) {
-            List<String> base = (translation != null && !translation.lore.isEmpty())
-                ? render(translation.lore)
+        if (isPristineOrComposed(p, item, currentLore, englishLore)) {
+            List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
                 : (englishLore != null ? englishLore : new ArrayList<String>());
 
-            List<String> description = ItemDescriptionsOption.isEnabledFor(p)
-                ? render(resolveDescription(p, item))
-                : Collections.<String>emptyList();
-
-            List<String> targetLore = compose(base, description);
+            List<String> targetLore = LoreComposer.compose(
+                item,
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.type; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } }),
+                fallbackBase,
+                ItemDescriptionsOption.isEnabledFor(p));
 
             if (!targetLore.isEmpty() && !targetLore.equals(currentLore)) {
                 meta.setLore(targetLore);
@@ -387,13 +389,12 @@ public class ItemTranslationService {
     }
 
     /**
-     * Whether {@code currentLore} is still a pristine template for this item: null/empty, the English
-     * baseline lore, or any combination of a shipped language's base lore with any shipped language's
-     * description (or no description). If it matches none of those, game logic has modified the lore at
-     * runtime and it must NOT be re-translated. Bounded by the number of languages this item is actually
-     * translated into (small in practice — descriptions roll out incrementally).
+     * Whether {@code currentLore} is a pristine (not runtime-mutated) rendering for this item: null/empty,
+     * the English baseline lore, or the LoreComposer output for ANY shipped language with the description
+     * block either shown or hidden. Runtime-mutated lore (charge/uses counters, backpack id, spawner type,
+     * tome owner) matches none of these and is left untouched.
      */
-    private boolean isPristineOrComposed(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
+    private boolean isPristineOrComposed(@Nonnull Player p, @Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
         if (currentLore == null || currentLore.isEmpty()) {
             return true;
         }
@@ -402,36 +403,19 @@ public class ItemTranslationService {
             return true;
         }
 
-        // Candidate base lores: the English baseline plus each language's rendered base lore.
-        List<List<String>> bases = new ArrayList<>();
+        for (String language : byLanguage.keySet()) {
+            ItemTranslation t = lookup(language, item.getId());
 
-        if (englishLore != null) {
-            bases.add(englishLore);
-        }
+            List<String> type = t != null ? t.type : Collections.<String>emptyList();
+            List<String> description = t != null ? t.description : Collections.<String>emptyList();
+            List<String> stats = t != null ? t.stats : Collections.<String>emptyList();
+            List<String> usage = t != null ? t.usage : Collections.<String>emptyList();
+            List<String> fallbackBase = (t != null && !t.lore.isEmpty()) ? t.lore
+                : (englishLore != null ? englishLore : Collections.<String>emptyList());
 
-        // Candidate descriptions: none, plus each language's rendered description.
-        List<List<String>> descriptions = new ArrayList<>();
-        descriptions.add(Collections.<String>emptyList());
-
-        for (Map<String, ItemTranslation> perLanguage : byLanguage.values()) {
-            ItemTranslation translation = perLanguage.get(item.getId());
-
-            if (translation == null) {
-                continue;
-            }
-
-            if (!translation.lore.isEmpty()) {
-                bases.add(render(translation.lore));
-            }
-
-            if (!translation.description.isEmpty()) {
-                descriptions.add(render(translation.description));
-            }
-        }
-
-        for (List<String> base : bases) {
-            for (List<String> description : descriptions) {
-                if (currentLore.equals(compose(base, description))) {
+            for (int i = 0; i < 2; i++) {
+                boolean includeDescription = i == 0;
+                if (currentLore.equals(LoreComposer.compose(item, type, description, stats, usage, fallbackBase, includeDescription))) {
                     return true;
                 }
             }
