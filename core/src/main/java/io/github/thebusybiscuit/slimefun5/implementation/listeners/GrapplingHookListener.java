@@ -189,7 +189,11 @@ public class GrapplingHookListener implements Listener {
                 player.setVelocity(velocity);
 
                 hook.remove();
-                Slimefun.runSync(() -> activeHooks.remove(player.getUniqueId()), 20L);
+                Slimefun.runSync(() -> {
+                    if (activeHooks.get(player.getUniqueId()) == hook) {
+                        activeHooks.remove(player.getUniqueId());
+                    }
+                }, 20L);
             }
         }
     }
@@ -203,18 +207,26 @@ public class GrapplingHookListener implements Listener {
         GrapplingHookEntity hook = new GrapplingHookEntity(p, arrow, bat, dropItem, wasConsumed);
         UUID uuid = p.getUniqueId();
 
-        activeHooks.put(uuid, hook);
+        // Clean up any previous hook for this player first, so re-hooking never orphans the old bat/arrow
+        // (an orphaned leashed bat eventually breaks its leash and drops a lead; its arrow becomes an item).
+        GrapplingHookEntity previous = activeHooks.put(uuid, hook);
+
+        if (previous != null) {
+            previous.remove();
+        }
 
         // To fix issue #253
         Slimefun.runSync(() -> {
-            GrapplingHookEntity entity = activeHooks.get(uuid);
+            hook.remove();
 
-            if (entity != null) {
+            if (activeHooks.get(uuid) == hook) {
                 Slimefun.getBowListener().getProjectileData().remove(uuid);
-                entity.remove();
 
                 Slimefun.runSync(() -> {
-                    activeHooks.remove(uuid);
+                    if (activeHooks.get(uuid) == hook) {
+                        activeHooks.remove(uuid);
+                    }
+
                     invulnerability.remove(uuid);
                 }, 20L);
             }

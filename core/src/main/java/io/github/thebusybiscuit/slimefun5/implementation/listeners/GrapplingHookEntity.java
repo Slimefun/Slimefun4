@@ -19,6 +19,7 @@ final class GrapplingHookEntity {
     private final boolean wasConsumed;
     private final Arrow arrow;
     private final Entity leashTarget;
+    private boolean removed = false;
 
     @ParametersAreNonnullByDefault
     GrapplingHookEntity(Player p, Arrow arrow, Entity leashTarget, boolean dropItem, boolean wasConsumed) {
@@ -42,19 +43,22 @@ final class GrapplingHookEntity {
     }
 
     public void remove() {
-        // Detach the leash before removing either entity: removing a leashed mob (or its leash holder)
-        // makes vanilla break the leash and drop a LEAD item at that spot. Unleashing first suppresses it.
+        // Idempotent: this is scheduled from both the landing path and the despawn timer, and a second
+        // run must not touch the entities again (re-unleashing/re-removing is what leaves stray leads).
+        if (removed) {
+            return;
+        }
+
+        removed = true;
+
+        // Detach the leash first, then remove both entities unconditionally, so no path leaves behind a
+        // leashed bat (whose leash later breaks and drops a lead) or a pickuppable arrow.
         if (leashTarget instanceof LivingEntity && ((LivingEntity) leashTarget).isLeashed()) {
             ((LivingEntity) leashTarget).setLeashHolder(null);
         }
 
-        if (arrow.isValid()) {
-            arrow.remove();
-        }
-
-        if (leashTarget.isValid()) {
-            leashTarget.remove();
-        }
+        arrow.remove();
+        leashTarget.remove();
     }
 
 }
