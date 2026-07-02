@@ -98,7 +98,13 @@ public class NestedItemGroup extends FlexItemGroup {
 
         menu.addItem(1, ChestMenuUtils.getBackButton(p, "", ChatColor.GRAY + Slimefun.getLocalization().getMessage(p, "guide.back.guide")));
         menu.addMenuClickHandler(1, (pl, s, is, action) -> {
-            SlimefunGuide.openMainMenu(profile, mode, history.getMainMenuPage());
+            // Defer to the history stack so "back" moves exactly one step (to the parent theme/group),
+            // instead of always jumping straight to the main menu and skipping intermediate screens.
+            if (mode == SlimefunGuideMode.SURVIVAL_MODE && history.size() > 1) {
+                history.goBack(guide);
+            } else {
+                SlimefunGuide.openMainMenu(profile, mode, history.getMainMenuPage());
+            }
             return false;
         });
 
