@@ -12,6 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import org.bukkit.ChatColor;
+import org.bukkit.event.Event.Result;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -82,16 +83,20 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             Player p = e.getPlayer();
             ItemStack item = e.getItem();
             ItemMeta meta = item.getItemMeta();
-            e.cancel();
 
             int index = PdcCompat.getInt(meta, key, 0);
             SlimefunItem sfItem = modes.get(index).getItem();
 
             if (!p.isSneaking()) {
+                // Deny only the block interaction, not the whole event: the mimicked tool's handler
+                // inspects the event and would treat a fully-cancelled event as consumed and do nothing.
+                e.setUseBlock(Result.DENY);
+
                 if (sfItem != null && removeItemCharge(item, COST)) {
                     sfItem.callItemHandler(ItemUseHandler.class, handler -> handler.onRightClick(e));
                 }
             } else {
+                e.cancel();
                 index = nextIndex(index);
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
@@ -114,7 +119,9 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
                 }
 
                 if (!regexMatchFound) {
-                    lore.add(2, LORE_PREFIX + ChatColor.stripColor(itemName));
+                    // Clamp the index: a translated/short lore may have fewer than 3 lines, and an
+                    // out-of-bounds add throws (silently swallowed by callItemHandler) → mode switch dies.
+                    lore.add(Math.min(2, lore.size()), LORE_PREFIX + ChatColor.stripColor(itemName));
                 }
 
                 meta.setLore(lore);
