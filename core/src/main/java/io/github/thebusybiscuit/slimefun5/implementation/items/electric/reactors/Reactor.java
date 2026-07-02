@@ -137,6 +137,9 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
                 processor.endOperation(b);
                 removeHologram(b);
+                // Release any queued explosion for this location, or a reactor later placed at the same
+                // coordinates would inherit it and explode on its first tick.
+                explosionsQueue.remove(b.getLocation());
             }
         };
     }
