@@ -28,6 +28,7 @@ import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.ItemStack;
@@ -87,6 +88,19 @@ public class AncientAltarListener implements Listener {
 
     public @Nonnull List<Block> getAltars() {
         return altars;
+    }
+
+    /**
+     * Releases any altar state bound to a broken block's location so the spot can be reused. Without this,
+     * an interrupted ritual (logout, chunk unload, or the altar broken mid-animation) leaves the location
+     * stuck in {@link #altarsInUse}/{@link #altars} forever, and re-placing at the same coordinates never
+     * works again (only a different location, or a server restart, would).
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockBreak(BlockBreakEvent e) {
+        Block b = e.getBlock();
+        altarsInUse.remove(b.getLocation());
+        altars.remove(b);
     }
 
     @EventHandler
