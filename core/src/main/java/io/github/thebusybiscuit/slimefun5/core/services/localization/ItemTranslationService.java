@@ -229,6 +229,28 @@ public class ItemTranslationService {
         return out;
     }
 
+    private interface BlockSelector { List<String> select(ItemTranslation t); }
+
+    /** Resolve a block (player language, else server default, else empty). */
+    @Nonnull
+    private List<String> blockFor(@Nonnull Player p, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
+        ItemTranslation player = lookup(languageOf(p), item.getId());
+        if (player != null) {
+            List<String> block = selector.select(player);
+            if (!block.isEmpty()) {
+                return block;
+            }
+        }
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        if (defaultLanguage != null) {
+            ItemTranslation def = lookup(defaultLanguage.getId(), item.getId());
+            if (def != null) {
+                return selector.select(def);
+            }
+        }
+        return Collections.<String>emptyList();
+    }
+
     /**
      * Returns a display copy of the item with its name and lore translated into the player's language.
      * Falls back to the item's built-in (English) name/lore where no translation exists.
@@ -259,11 +281,18 @@ public class ItemTranslationService {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', translation.name));
             }
 
-            List<String> base = (translation != null && !translation.lore.isEmpty())
-                ? render(translation.lore)
+            List<String> fallbackBase = (translation != null && !translation.lore.isEmpty())
+                ? translation.lore
                 : (meta.getLore() != null ? meta.getLore() : new ArrayList<String>());
 
-            List<String> composed = compose(base, render(resolveDescription(p, item)));
+            List<String> composed = LoreComposer.compose(
+                item,
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.type; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } }),
+                blockFor(p, item, new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } }),
+                fallbackBase,
+                true);
 
             if (!composed.isEmpty()) {
                 meta.setLore(composed);
