@@ -457,7 +457,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             if (!slimefunItem.isHidden()
                 && !AddonVisibility.isHidden(p, slimefunItem.getItemGroup().getKey().getNamespace())
                 && isItemGroupAccessible(p, slimefunItem)
-                && isSearchFilterApplicable(slimefunItem, searchTerm)) {
+                && isSearchFilterApplicable(p, slimefunItem, searchTerm)) {
                 ItemStack itemstack = CustomItemStack.create(Slimefun.getItemTranslationService().getDisplayItem(p, slimefunItem), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     GuideTheme theme = GuideTheme.byId(itemGroup.getThemeId());
@@ -497,9 +497,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     @ParametersAreNonnullByDefault
-    private boolean isSearchFilterApplicable(SlimefunItem slimefunItem, String searchTerm) {
-        String itemName = ChatColor.stripColor(slimefunItem.getItemName()).toLowerCase(Locale.ROOT);
-        return !itemName.isEmpty() && (itemName.equals(searchTerm) || itemName.contains(searchTerm));
+    private boolean isSearchFilterApplicable(Player p, SlimefunItem slimefunItem, String searchTerm) {
+        String englishName = ChatColor.stripColor(slimefunItem.getItemName()).toLowerCase(Locale.ROOT);
+
+        if (!englishName.isEmpty() && englishName.contains(searchTerm)) {
+            return true;
+        }
+
+        // Also match the item's name in the player's language, so search works for translated names.
+        String translatedName = ChatColor.stripColor(Slimefun.getItemTranslationService().getName(p, slimefunItem)).toLowerCase(Locale.ROOT);
+        return !translatedName.isEmpty() && translatedName.contains(searchTerm);
     }
 
     @Override
