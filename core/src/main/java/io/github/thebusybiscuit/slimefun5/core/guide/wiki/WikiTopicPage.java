@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -48,6 +49,7 @@ public final class WikiTopicPage {
 
         String title = Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-title").replace("%topic%", displayName) + (pages > 1 ? " (" + current + "/" + pages + ")" : "");
         ChestMenu menu = new ChestMenu(title);
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
 
         // Frame only the top and bottom rows; the item area stays clean (no panes in item slots).

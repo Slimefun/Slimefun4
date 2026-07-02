@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -72,6 +73,7 @@ public final class WikiIndex {
         List<WikiTopic> topics = Slimefun.getWikiText().getTopics();
 
         ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
@@ -122,6 +124,7 @@ public final class WikiIndex {
         List<ItemGroup> groups = getVisibleGroups(p);
 
         ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
@@ -154,6 +157,7 @@ public final class WikiIndex {
         List<SlimefunItem> items = new ArrayList<>(itemGroup.getItems());
 
         ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
@@ -201,6 +205,7 @@ public final class WikiIndex {
         }
 
         ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 

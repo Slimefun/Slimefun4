@@ -15,6 +15,7 @@ import com.cryptomorin.xseries.XMaterial;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
+import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -33,6 +34,7 @@ public final class AddonVisibilityMenu {
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.addon-visibility"));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 

@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.attributes.EnergyNetComponent;
+import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
@@ -63,6 +64,7 @@ public final class WikiPage {
     /** Opens the item's wiki page; Back runs the given action (returns to wherever you came from). */
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item, @Nonnull Runnable onBack) {
         ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.wiki.item-title").replace("%item%", item.getItemName()));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
 
