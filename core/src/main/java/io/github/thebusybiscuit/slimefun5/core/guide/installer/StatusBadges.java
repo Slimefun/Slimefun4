@@ -63,6 +63,12 @@ final class StatusBadges {
      */
     @Nonnull
     static String sourceLine(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+        // Ground truth first: a loaded jar with a -UNOFFICIAL/-EXPERIMENTAL build suffix is an unofficial
+        // build, even if a stale InstallState.Record left over from an earlier install still claims RELEASE.
+        if (inst.isUnofficialBuild(entry)) {
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.source.unofficial");
+        }
+
         InstallState.Record record = inst.getState().get(entry.getId());
 
         if (record != null && record.getMethod() == InstallState.Method.BRANCH) {

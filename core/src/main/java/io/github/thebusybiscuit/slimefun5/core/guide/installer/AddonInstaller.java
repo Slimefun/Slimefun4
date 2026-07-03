@@ -146,6 +146,23 @@ public final class AddonInstaller {
         return null;
     }
 
+    /**
+     * Whether the currently-loaded jar for this entry is an unofficial (from-source / orchestrator)
+     * build rather than a published release, judged from the jar's own version suffix (ground truth).
+     * A stale {@link InstallState.Record} can wrongly claim RELEASE after the orchestrator overwrote a
+     * once-installed jar with a source build, so the loaded version wins over the record.
+     */
+    public boolean isUnofficialBuild(@Nonnull AddonCatalog.Entry entry) {
+        Plugin plugin = getLoadedPlugin(entry);
+
+        if (plugin == null) {
+            return false;
+        }
+
+        String version = plugin.getDescription().getVersion();
+        return version.contains("-UNOFFICIAL") || version.contains("-EXPERIMENTAL");
+    }
+
     /** True when the last update-check found a newer release/branch head for this entry. */
     public boolean isUpdateAvailable(@Nonnull String id) {
         return updateLabels.containsKey(id);
@@ -179,8 +196,11 @@ public final class AddonInstaller {
 
             // Only the installer can judge updates for what IT installed. A custom/local build (e.g.
             // core, or any orchestrator-deployed addon) has no record and no known upstream ref, so
-            // comparing it to release tags gives false positives — skip those entirely.
-            if (record == null) {
+            // comparing it to release tags gives false positives — skip those entirely. Also skip when
+            // the LOADED jar is an unofficial/source build (its version carries a -UNOFFICIAL suffix):
+            // a stale record may still claim RELEASE, but a from-source build must never nag about a
+            // release that it is already newer than.
+            if (record == null || isUnofficialBuild(entry)) {
                 continue;
             }
 
