@@ -342,8 +342,9 @@ public class ItemTranslationService {
                 fallbackBase,
                 ItemDescriptionsOption.isEnabledFor(p));
 
-            if (!targetLore.isEmpty() && !targetLore.equals(currentLore)) {
-                meta.setLore(targetLore);
+            List<String> currentForCompare = currentLore != null ? currentLore : Collections.<String>emptyList();
+            if (!targetLore.equals(currentForCompare)) {
+                meta.setLore(targetLore.isEmpty() ? null : targetLore);
                 changed = true;
             }
         }

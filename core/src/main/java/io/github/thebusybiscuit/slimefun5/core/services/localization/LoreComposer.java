@@ -42,7 +42,9 @@ public final class LoreComposer {
             return joinBlocks(item, Arrays.asList(fallbackBase, desc));
         }
 
-        return renderBlock(item, fallbackBase);
+        // No authored blocks: the item's own lore IS its description, so the toggle hides it on physical
+        // items (the guide passes includeDescription=true, so the guide still shows it).
+        return includeDescription ? renderBlock(item, fallbackBase) : new ArrayList<String>();
     }
 
     /** Concatenates non-empty blocks with one blank line between them. */
