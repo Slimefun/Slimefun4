@@ -39,6 +39,18 @@ public final class AddonBalanceMenu {
         open(p, guide, addonName, displayName, back, 0);
     }
 
+    /** Builds a chest title that never exceeds Bukkit's 32-char limit: keeps the suffix, truncates the name. */
+    @Nonnull
+    private static String fitTitle(@Nonnull String name, @Nonnull String suffix) {
+        int room = 32 - suffix.length();
+
+        if (name.length() > room) {
+            name = room > 1 ? name.substring(0, room - 1) + "…" : name.substring(0, Math.max(0, room));
+        }
+
+        return name + suffix;
+    }
+
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String addonName, @Nonnull String displayName, @Nonnull Runnable back, int page) {
         List<SlimefunItem> all = BalanceService.instance().topItems(addonName, Integer.MAX_VALUE);
 
@@ -47,14 +59,15 @@ public final class AddonBalanceMenu {
         int start = clamped * PER_PAGE;
         List<SlimefunItem> items = all.subList(start, Math.min(start + PER_PAGE, all.size()));
 
-        String title = Slimefun.getLocalization().getMessage(p, "guide.title.installer") + " - " + displayName;
-        if (pages > 1) {
-            title += " " + Slimefun.getLocalization().getMessage(p, "guide.config.page")
+        // Chest titles must not exceed 32 chars (legacy servers throw above that). Keep the page
+        // indicator and truncate the addon name to fit.
+        String pageSuffix = pages > 1
+            ? " " + Slimefun.getLocalization().getMessage(p, "guide.config.page")
                 .replace("%page%", String.valueOf(clamped + 1))
-                .replace("%pages%", String.valueOf(pages));
-        }
+                .replace("%pages%", String.valueOf(pages))
+            : "";
 
-        ChestMenu menu = new ChestMenu(title);
+        ChestMenu menu = new ChestMenu(fitTitle(displayName, pageSuffix));
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         ChestMenuUtils.drawBackground(menu, BORDER);
