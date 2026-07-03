@@ -481,6 +481,73 @@ public class ItemTranslationService {
     }
 
     /**
+     * Whether the item has been migrated to the block lore system: any shipped language has a non-empty
+     * type/description/stats/usage block for it. An item with only plain/hardcoded lore is NOT migrated.
+     */
+    private boolean hasAnyBlock(@Nonnull String itemId) {
+        for (Map<String, ItemTranslation> perLanguage : byLanguage.values()) {
+            ItemTranslation t = perLanguage.get(itemId);
+
+            if (t != null && (!t.type.isEmpty() || !t.description.isEmpty() || !t.stats.isEmpty() || !t.usage.isEmpty())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Boot audit: warns about every enabled item still using hardcoded/plain lore instead of the
+     * en/items.yml block system (Type/Description/Stats/Usage), and writes the full per-addon list to
+     * {@code out}. Runs each launch so the migration to the unified lore system stays visible.
+     */
+    public void auditUnmigratedLore(@Nonnull java.io.File out) {
+        Map<String, List<String>> byAddon = new java.util.TreeMap<>();
+        int total = 0;
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            try {
+                if (hasAnyBlock(item.getId())) {
+                    continue;
+                }
+
+                ItemStack template = item.getItem();
+                List<String> lore = (template != null && template.hasItemMeta()) ? template.getItemMeta().getLore() : null;
+
+                if (lore != null && !lore.isEmpty()) {
+                    byAddon.computeIfAbsent(item.getAddon().getName(), k -> new ArrayList<>()).add(item.getId());
+                    total++;
+                }
+            } catch (Exception | LinkageError ignored) {
+                // A single broken item must not abort the audit.
+            }
+        }
+
+        if (total == 0) {
+            return;
+        }
+
+        Slimefun.logger().log(Level.WARNING, "[lore] {0} item(s) still use hardcoded lore instead of the block system - migrate them to en/items.yml (type/description/stats/usage). Full list: {1}", new Object[] { total, out.getName() });
+
+        for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
+            Slimefun.logger().log(Level.WARNING, "[lore]   {0}: {1} unmigrated item(s)", new Object[] { entry.getKey(), entry.getValue().size() });
+        }
+
+        org.bukkit.configuration.file.YamlConfiguration config = new org.bukkit.configuration.file.YamlConfiguration();
+        config.options().pathSeparator('');
+
+        for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
+            config.set(entry.getKey(), entry.getValue());
+        }
+
+        try {
+            config.save(out);
+        } catch (java.io.IOException e) {
+            Slimefun.logger().log(Level.WARNING, "Failed to write hardcoded-lore audit: {0}", e.getMessage());
+        }
+    }
+
+    /**
      * Development helper: writes, per language, every enabled item id that has no translation, grouped
      * by addon - the exact remaining gap to fill. Used to audit localization coverage across all loaded
      * addons in one pass.

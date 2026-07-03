@@ -367,6 +367,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         itemTranslationService.applyServerDefaults();
         menuTranslationService.loadBundled();
 
+        // Boot audit (delayed so addons have registered their items): warn about items still using
+        // hardcoded/plain lore instead of the en/items.yml block system, and dump the full list so the
+        // migration to the unified lore system is trackable.
+        getServer().getScheduler().runTaskLater(this, () ->
+            itemTranslationService.auditUnmigratedLore(new java.io.File(getDataFolder(), "hardcoded-lore-audit.yml")), 200L);
+
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
 
