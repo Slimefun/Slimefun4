@@ -57,6 +57,25 @@ public final class AddonInstallerMenu {
 
         AddonInstaller inst = installer();
         boolean canManage = p.hasPermission(AddonCatalog.PERMISSION);
+
+        List<String> checkUpdatesLore = new ArrayList<>();
+        checkUpdatesLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.check-updates.name"));
+        checkUpdatesLore.add("");
+        checkUpdatesLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.check-updates.lore"));
+        menu.addItem(48, CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK), checkUpdatesLore));
+        menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
+            SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
+            List<AddonCatalog.Entry> allEntries = AddonCatalog.getEntries();
+            // A forced re-check: both calls hit the network (throttle permitting); the menu reopens
+            // once the version cache is refreshed so badges/versions reflect what was just fetched.
+            inst.refreshUpdateStatusAsync(allEntries);
+            inst.warmLatestTagsAsync(allEntries, () -> {
+                SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND.playFor(pl);
+                open(pl, guide);
+            });
+            return false;
+        });
+
         List<AddonCatalog.Entry> entries = AddonCatalog.getEntries();
 
         int slot = 9;
@@ -155,6 +174,7 @@ public final class AddonInstallerMenu {
         Plugin plugin = inst.getLoadedPlugin(entry);
 
         if (plugin != null) {
+            lore.add(StatusBadges.sourceLine(p, inst, entry));
             lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.version.release").replace("%version%", plugin.getDescription().getVersion()));
             List<String> authors = plugin.getDescription().getAuthors();
 

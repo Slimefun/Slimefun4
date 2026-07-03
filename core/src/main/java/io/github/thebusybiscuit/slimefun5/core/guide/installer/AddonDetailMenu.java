@@ -75,6 +75,7 @@ public final class AddonDetailMenu {
         String versionLine = versionLine(p, inst, entry);
 
         if (versionLine != null) {
+            headerLore.add(StatusBadges.sourceLine(p, inst, entry));
             headerLore.add(versionLine);
         }
 

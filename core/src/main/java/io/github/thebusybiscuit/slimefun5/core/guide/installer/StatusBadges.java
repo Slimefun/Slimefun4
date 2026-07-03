@@ -56,4 +56,23 @@ final class StatusBadges {
 
         return Slimefun.getLocalization().getMessage(p, "guide.installer.badge.not-installed");
     }
+
+    /**
+     * The one-line install-source badge for a loaded entry: a published release, a from-source
+     * branch build, or an unofficial/local jar the installer never staged (no {@link InstallState.Record}).
+     */
+    @Nonnull
+    static String sourceLine(@Nonnull Player p, @Nonnull AddonInstaller inst, @Nonnull AddonCatalog.Entry entry) {
+        InstallState.Record record = inst.getState().get(entry.getId());
+
+        if (record != null && record.getMethod() == InstallState.Method.BRANCH) {
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.source.branch").replace("%branch%", record.getVersion());
+        }
+
+        if (record != null && record.getMethod() == InstallState.Method.RELEASE) {
+            return Slimefun.getLocalization().getMessage(p, "guide.installer.source.release");
+        }
+
+        return Slimefun.getLocalization().getMessage(p, "guide.installer.source.unofficial");
+    }
 }

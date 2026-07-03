@@ -290,6 +290,17 @@ guide:
     click-details: '&7⇨ &eLinksklick für Details'
     quick-install: '&7⇨ &eRechtsklick zum Installieren / Aktualisieren'
     will-install: '&7Wird außerdem installieren: &f%deps%'
+    check-updates:
+      name: '&bAuf Updates prüfen'
+      lore:
+      - '&7Erzwingt eine erneute Prüfung bei GitHub'
+      - '&7für jedes installierte Addon.'
+      - ''
+      - '&7⇨ &eKlicke'
+    source:
+      release: '&7Quelle: &aRelease'
+      branch: '&7Quelle: &bBranch %branch%'
+      unofficial: '&7Quelle: &eInoffizieller Build'
     version:
       release: '&7Version: &f%version%'
       latest: '&7Neueste: &f%version%'

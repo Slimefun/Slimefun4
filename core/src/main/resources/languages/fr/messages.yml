@@ -161,6 +161,17 @@ guide:
     back: '&e⇦ Retour'
     click-details: '&7⇨ &eCliquez pour les détails'
     will-install: '&7Installera également : &f%deps%'
+    check-updates:
+      name: '&bVérifier les mises à jour'
+      lore:
+      - '&7Force une nouvelle vérification sur GitHub'
+      - '&7pour chaque addon installé.'
+      - ''
+      - '&7⇨ &eCliquez'
+    source:
+      release: '&7Source : &aRelease'
+      branch: '&7Source : &bBranche %branch%'
+      unofficial: '&7Source : &eBuild non officiel'
     install:
       install: '&aInstaller la dernière version'
       update: '&aMettre à jour vers la dernière version'
