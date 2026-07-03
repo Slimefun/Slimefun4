@@ -15,6 +15,9 @@ SMALL_CAPACITOR:
     - "&7Place it on your energy network."
 
 ELECTRIC_MOTOR:
+  name: "&cElectric Motor"
+  type:
+    - "&7&oComponent"
   description:
     - "&7A crafting component used to"
     - "&7build many electric machines."
@@ -23,3 +26,38 @@ ANDROID_INTERFACE_FUEL:
   description:
     - "&7Feeds stored fuel into an android when"
     - "&7its script requests it."
+
+GOLD_PAN:
+  name: "&6Gold Pan"
+  type:
+    - "&7&oTool"
+  usage:
+    - "&eRight Click&7 to collect resources"
+    - "&7from Gravel"
+
+SOLAR_GENERATOR:
+  name: "&bSolar Generator"
+  type:
+    - "&7&oGenerator"
+  stats:
+    - "&8⇨ &e⚡ &70 J Buffer"
+    - "&8⇨ &e⚡ &74 J/s"
+
+MINER_TALISMAN:
+  name: "&aTalisman of the Miner"
+  type:
+    - "&7&oTalisman"
+  description:
+    - "&fWhile you have this Talisman"
+    - "&fin your Inventory it has"
+    - "&fa 20% chance of doubling"
+    - "&fall Ores you mine"
+
+ENHANCED_FURNACE:
+  name: "&7Enhanced Furnace - &eI"
+  type:
+    - "&7&oMachine"
+  stats:
+    - "&7Processing Speed: &e1x"
+    - "&7Fuel Efficiency: &e1x"
+    - "&7Luck Multiplier: &e1x"
