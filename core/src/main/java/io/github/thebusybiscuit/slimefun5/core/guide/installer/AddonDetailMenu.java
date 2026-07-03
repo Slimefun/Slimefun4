@@ -119,14 +119,20 @@ public final class AddonDetailMenu {
             if (!balance.isEmpty()) {
                 headerLore.add("");
                 headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.header"));
-                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.average")
-                    .replace("%tier%", tierName(p, balance.getAverageTier()))
-                    .replace("%score%", String.valueOf(balance.getAverage())));
+                // Peak is the headline (the strongest item), then the overpowered count if any, with the
+                // average demoted to a secondary line - a few game-breakers must not hide behind the mean.
                 headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.peak")
                     .replace("%tier%", tierName(p, balance.getPeakTier()))
                     .replace("%score%", String.valueOf(balance.getPeak())));
-                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.op-count")
-                    .replace("%count%", String.valueOf(balance.getOpCount())));
+
+                if (balance.getOpCount() > 0) {
+                    headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.op-count")
+                        .replace("%count%", String.valueOf(balance.getOpCount())));
+                }
+
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.average")
+                    .replace("%tier%", tierName(p, balance.getAverageTier()))
+                    .replace("%score%", String.valueOf(balance.getAverage())));
                 headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.view-items"));
             }
         }

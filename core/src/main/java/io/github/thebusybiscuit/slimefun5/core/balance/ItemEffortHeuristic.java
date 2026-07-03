@@ -24,7 +24,7 @@ import io.github.thebusybiscuit.slimefun5.api.researches.Research;
  */
 public final class ItemEffortHeuristic {
 
-    private static final int MAX_DEPTH = 6;
+    private static final int MAX_DEPTH = 8;
 
     /** Rare/expensive vanilla materials that meaningfully raise the cost of any recipe using them. */
     private static final Set<Material> RARE = new HashSet<>();
@@ -54,30 +54,38 @@ public final class ItemEffortHeuristic {
 
     /** Effort score in 0..100 for the given item. */
     public int estimate(@Nonnull SlimefunItem item) {
-        int effort = walk(item, new HashSet<String>(), 0);
+        // The DEPTH of the deepest chain of intermediate Slimefun ingredients is the dominant signal of
+        // how deep in the tech tree an item sits, and it is naturally bounded (0..MAX_DEPTH). Keeping it
+        // dominant (rather than SUMMING every ingredient's whole sub-tree, which compounded past 100 for
+        // most items) spreads effort across the range so that only the genuinely deepest, gated items
+        // approach 100. Machine tier, rare ingredients and a research gate are modest add-ons on top.
+        int depth = deepestChain(item, new HashSet<String>(), 0);
+        int effort = depth * 11;
 
-        // A research/unlock gate makes an item harder to reach than one you can craft immediately.
+        effort += machineCost(item.getRecipeType());
+        effort += rareIngredientBonus(item);
+
         Research research = item.getResearch();
 
         if (research != null) {
-            effort += 10 + Math.min(20, research.getCost());
+            effort += 6 + Math.min(14, research.getCost() / 2);
         }
 
         return Math.max(0, Math.min(100, effort));
     }
 
     /**
-     * Recursively scores the crafting sub-tree: the crafting machine's tier is a base cost, each rare
-     * vanilla ingredient adds cost, and every intermediate Slimefun ingredient is a crafting step of its
-     * own (a flat cost plus a halved share of its own sub-tree, so deeper layers matter progressively
-     * less). The visited set (by id) guards against recipe cycles; {@link #MAX_DEPTH} caps recursion.
+     * The longest chain of intermediate Slimefun ingredients beneath this item (0 = crafted only from
+     * vanilla materials, 1 = one Slimefun ingredient, ...). {@code path} is a per-branch visited set
+     * (added on entry, removed on exit) so it detects recipe cycles without under-counting an item reused
+     * across sibling branches; {@link #MAX_DEPTH} caps runaway recursion.
      */
-    private int walk(@Nonnull SlimefunItem item, @Nonnull Set<String> visited, int depth) {
-        if (depth >= MAX_DEPTH || !visited.add(item.getId())) {
+    private int deepestChain(@Nonnull SlimefunItem item, @Nonnull Set<String> path, int depth) {
+        if (depth >= MAX_DEPTH || !path.add(item.getId())) {
             return 0;
         }
 
-        int effort = machineCost(item.getRecipeType());
+        int max = 0;
         ItemStack[] recipe = item.getRecipe();
 
         if (recipe != null) {
@@ -86,19 +94,32 @@ public final class ItemEffortHeuristic {
                     continue;
                 }
 
-                if (RARE.contains(ingredient.getType())) {
-                    effort += 12;
-                }
-
                 SlimefunItem sub = safeResolve(ingredient);
 
                 if (sub != null && !sub.getId().equals(item.getId())) {
-                    effort += 6 + walk(sub, visited, depth + 1) / 2;
+                    max = Math.max(max, 1 + deepestChain(sub, path, depth + 1));
                 }
             }
         }
 
-        return effort;
+        path.remove(item.getId());
+        return max;
+    }
+
+    /** Count of rare vanilla ingredients in the item's OWN recipe (bounded); each is a meaningful cost. */
+    private int rareIngredientBonus(@Nonnull SlimefunItem item) {
+        int rare = 0;
+        ItemStack[] recipe = item.getRecipe();
+
+        if (recipe != null) {
+            for (ItemStack ingredient : recipe) {
+                if (ingredient != null && RARE.contains(ingredient.getType())) {
+                    rare++;
+                }
+            }
+        }
+
+        return Math.min(16, rare * 8);
     }
 
     @Nullable
