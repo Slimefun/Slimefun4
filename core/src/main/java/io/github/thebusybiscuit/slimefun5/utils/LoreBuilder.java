@@ -13,14 +13,20 @@ import io.github.thebusybiscuit.slimefun5.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 
 /**
- * This utility class provides a few handy methods and constants to build the lore of any
- * {@link SlimefunItemStack}. It is mostly used directly inside the class {@link SlimefunItems}.
- * 
+ * This utility class builds hardcoded English lore strings in code.
+ *
+ * @deprecated Building lore in code is exactly what the unified lore system replaces. Stat/usage lines
+ *             (energy, speed, material, hunger, range, radioactivity, the RIGHT/CROUCH hints) belong in
+ *             {@code languages/en/items.yml} as {@code stats}/{@code usage} block entries, where they are
+ *             localizable and follow the fixed Type/Description/Stats/Usage structure. Do not add new
+ *             {@code LoreBuilder} calls; migrate existing ones into the item's {@code en/items.yml} entry.
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunItems
  *
  */
+@Deprecated
 public final class LoreBuilder {
 
     public static final String HAZMAT_SUIT_REQUIRED = "&8\u21E8 &4Hazmat Suit required!";

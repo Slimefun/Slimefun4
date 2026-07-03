@@ -158,7 +158,22 @@ public class ItemTranslationService {
 
                 if (translation != null) {
                     englishBaseline.put(item.getId(), item.getItem());
-                    item.bakeTranslatedDisplay(translation.name, translation.lore);
+
+                    // Bake the fully COMPOSED block lore (Type/Description/Stats/Usage), not just the legacy
+                    // flat `lore` list. This makes the physical template match the guide/per-holder display,
+                    // AND lets id-only items (no hardcoded name/lore in code) get their entire display from
+                    // en/items.yml. Legacy flat `lore` still serves as the fallback base for un-blocked items.
+                    List<List<String>> blocks = resolveBlocks(defaultLanguage.getId(), item);
+
+                    ItemMeta templateMeta = item.getItem().getItemMeta();
+                    List<String> currentLore = (templateMeta != null && templateMeta.getLore() != null)
+                        ? templateMeta.getLore() : new ArrayList<String>();
+                    List<String> fallbackBase = !translation.lore.isEmpty() ? translation.lore : currentLore;
+
+                    List<String> composed = LoreComposer.compose(
+                        item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
+
+                    item.bakeTranslatedDisplay(translation.name, composed);
                 }
             } catch (Exception | LinkageError ignored) {
                 // A single broken item must not abort the whole baking pass.

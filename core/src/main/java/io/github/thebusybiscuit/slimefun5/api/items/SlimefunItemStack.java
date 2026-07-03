@@ -105,6 +105,18 @@ public class SlimefunItemStack {
     }
 
     /**
+     * The preferred, resource-driven constructor: the item carries only its id and {@link Material}.
+     * Its display name and lore come from {@code languages/en/items.yml} (name + block lore:
+     * type/description/stats/usage), applied by the {@code ItemTranslationService} English baseline pass
+     * after items load. This keeps ALL English text out of the code and in the resources, where it can be
+     * translated and follow the unified block-lore structure. New items should use this constructor and
+     * author their entry in {@code en/items.yml} rather than passing a hardcoded {@code name}/{@code lore}.
+     */
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type) {
+        this(id, safeStack(type));
+    }
+
+    /**
      * Builds an {@link ItemStack} from the given {@link Material}, falling back to
      * {@link #LEGACY_FALLBACK_MATERIAL} when the material is {@code null} (i.e. it does not exist
      * on the running legacy server). This keeps the universal jar from crashing on items whose
@@ -115,6 +127,8 @@ public class SlimefunItemStack {
         return new ItemStack(type != null ? type : LEGACY_FALLBACK_MATERIAL);
     }
 
+    /** @deprecated Hardcoded English {@code name}; author it in {@code languages/en/items.yml} and drop the name arg. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         this(id, type, meta -> {
             if (name != null) {
@@ -125,6 +139,13 @@ public class SlimefunItemStack {
         });
     }
 
+    /**
+     * @deprecated Do not hardcode English {@code name}/{@code lore} in code. Author them in
+     *             {@code languages/en/items.yml} (name + block lore: type/description/stats/usage) and use
+     *             {@link #SlimefunItemStack(String, Material)}. Items built with a name/lore constructor
+     *             are reported as unmigrated by the boot lore audit.
+     */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nullable String name, String... lore) {
         this(id, item, im -> {
             if (name != null) {
@@ -142,10 +163,18 @@ public class SlimefunItemStack {
         });
     }
 
+    /**
+     * @deprecated Do not hardcode English {@code name}/{@code lore} in code. Author them in
+     *             {@code languages/en/items.yml} (name + block lore) and use
+     *             {@link #SlimefunItemStack(String, Material)}. Reported as unmigrated by the boot lore audit.
+     */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, String... lore) {
         this(id, safeStack(type), name, lore);
     }
 
+    /** @deprecated Hardcoded English {@code name}/{@code lore}; author them in {@code languages/en/items.yml}. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
         this(id, type, im -> {
             if (name != null) {
@@ -173,6 +202,8 @@ public class SlimefunItemStack {
         });
     }
 
+    /** @deprecated Hardcoded English {@code name}/{@code lore}; author them in {@code languages/en/items.yml}. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull Color color, @Nonnull PotionEffect effect, @Nullable String name, String... lore) {
         this(id, Material.POTION, im -> {
             if (name != null) {
@@ -206,15 +237,32 @@ public class SlimefunItemStack {
         setAmount(amount);
     }
 
+    /** @deprecated Hardcoded English {@code name}/{@code lore}; author them in {@code languages/en/items.yml} and use {@link #SlimefunItemStack(String, String)} / a head-texture id-only path. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, String... lore) {
         this(id, getSkull(id, texture), name, lore);
         this.texture = getTexture(id, texture);
     }
 
+    /** The resource-driven head-texture constructor: name/lore come from {@code languages/en/items.yml}. */
+    public SlimefunItemStack(@Nonnull String id, @Nonnull HeadTexture head) {
+        this(id, head.getTexture());
+    }
+
+    /** The resource-driven skull-texture constructor: name/lore come from {@code languages/en/items.yml}. */
+    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture) {
+        this(id, getSkull(id, texture));
+        this.texture = getTexture(id, texture);
+    }
+
+    /** @deprecated Hardcoded English {@code name}/{@code lore}; author them in {@code languages/en/items.yml}. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull HeadTexture head, @Nullable String name, String... lore) {
         this(id, head.getTexture(), name, lore);
     }
 
+    /** @deprecated Hardcoded English {@code name}; author it in {@code languages/en/items.yml} and drop the name arg. */
+    @Deprecated
     public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         this(id, getSkull(id, texture), meta -> {
             if (name != null) {
