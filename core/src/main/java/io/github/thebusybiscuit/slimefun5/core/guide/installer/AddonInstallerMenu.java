@@ -135,6 +135,9 @@ public final class AddonInstallerMenu {
 
                 if (!summary.isEmpty()) {
                     lore.add("");
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.peak")
+                        .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + summary.getPeakTier().name().toLowerCase(Locale.ROOT)))
+                        .replace("%score%", String.valueOf(summary.getPeak())));
                     lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.average")
                         .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + summary.getAverageTier().name().toLowerCase(Locale.ROOT)))
                         .replace("%score%", String.valueOf(summary.getAverage())));
@@ -189,9 +192,16 @@ public final class AddonInstallerMenu {
                 AddonBalanceSummary balance = BalanceService.instance().summarize(addonName);
 
                 if (!balance.isEmpty()) {
+                    // Headline the PEAK (the strongest item) + overpowered count, not the average - a few
+                    // game-breakers must not be hidden by a pile of low-power filler items dragging the mean down.
                     lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.tile")
-                        .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + balance.getAverageTier().name().toLowerCase(Locale.ROOT)))
-                        .replace("%score%", String.valueOf(balance.getAverage())));
+                        .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + balance.getPeakTier().name().toLowerCase(Locale.ROOT)))
+                        .replace("%score%", String.valueOf(balance.getPeak())));
+
+                    if (balance.getOpCount() > 0) {
+                        lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.op-count")
+                            .replace("%count%", String.valueOf(balance.getOpCount())));
+                    }
                 }
             }
         } else {

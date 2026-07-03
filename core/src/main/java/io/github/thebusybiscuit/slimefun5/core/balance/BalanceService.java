@@ -24,6 +24,7 @@ public final class BalanceService {
     private static final BalanceService INSTANCE = new BalanceService();
 
     private final ItemBalanceHeuristic heuristic = new ItemBalanceHeuristic();
+    private final ItemEffortHeuristic effortHeuristic = new ItemEffortHeuristic();
     private final Map<String, BalanceOverrides> overridesByAddon = new HashMap<>();
 
     private BalanceService() {}
@@ -60,25 +61,43 @@ public final class BalanceService {
         return heuristic.isTrivial(item);
     }
 
-    /** Final score for a non-trivial item: override wins, else heuristic. */
+    /** Final POWER score for a non-trivial item: override wins, else heuristic. */
     @Nonnull
     public BalanceScore scoreOf(@Nonnull SlimefunItem item) {
         Integer override = overridesFor(item.getAddon()).getScore(item.getId());
         return BalanceScore.of(override != null ? override.intValue() : heuristic.estimate(item));
     }
 
+    /** Auto-computed EFFORT (0-100): how hard the item is to obtain, from its recipe tree/gates. */
+    public int effortOf(@Nonnull SlimefunItem item) {
+        return effortHeuristic.estimate(item);
+    }
+
+    /** The balance verdict combining the item's power score with its effort to obtain. */
+    @Nonnull
+    public BalanceVerdict verdictOf(@Nonnull SlimefunItem item) {
+        return BalanceVerdict.from(scoreOf(item).getScore(), effortOf(item));
+    }
+
     /** Live summary for one addon by its {@link SlimefunAddon#getName()}. */
     @Nonnull
     public AddonBalanceSummary summarize(@Nonnull String addonName) {
         List<Integer> scores = new ArrayList<>();
+        int overpowered = 0;
 
         for (SlimefunItem item : Slimefun.getRegistry().getAllSlimefunItems()) {
             if (item.getAddon().getName().equals(addonName) && !isTrivial(item)) {
                 scores.add(scoreOf(item).getScore());
+
+                // OP count is verdict-based (strong AND cheap), not merely power >= 70, so a hard-earned
+                // endgame item no longer inflates the "overpowered" tally.
+                if (verdictOf(item) == BalanceVerdict.OVERPOWERED) {
+                    overpowered++;
+                }
             }
         }
 
-        return AddonBalanceSummary.of(scores);
+        return AddonBalanceSummary.of(scores, overpowered);
     }
 
     /** The strongest non-trivial items of an addon, highest score first (for the drill-down menu). */

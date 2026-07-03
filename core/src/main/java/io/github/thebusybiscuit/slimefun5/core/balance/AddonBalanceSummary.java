@@ -80,4 +80,28 @@ public final class AddonBalanceSummary {
 
         return new AddonBalanceSummary(Math.round((float) total / scores.size()), peak, op, scores.size());
     }
+
+    /**
+     * Same as {@link #of(Collection)} but with an externally-computed overpowered count - used when OP is
+     * a {@link BalanceVerdict#OVERPOWERED} tally (power AND low effort) rather than a raw power threshold.
+     */
+    @Nonnull
+    public static AddonBalanceSummary of(@Nonnull Collection<Integer> scores, int opCount) {
+        if (scores.isEmpty()) {
+            return EMPTY;
+        }
+
+        int total = 0;
+        int peak = 0;
+
+        for (int s : scores) {
+            total += s;
+
+            if (s > peak) {
+                peak = s;
+            }
+        }
+
+        return new AddonBalanceSummary(Math.round((float) total / scores.size()), peak, opCount, scores.size());
+    }
 }

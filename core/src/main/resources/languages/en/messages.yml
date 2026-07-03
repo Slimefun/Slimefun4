@@ -503,7 +503,9 @@ guide:
     peak: '&7Peak: %tier% &8(&7%score%&8/100)'
     op-count: '&7Overpowered items: &c%count%'
     view-items: '&eClick to view the strongest items'
-    item-line: '%tier% &8(&7%score%&8/100)'
+    item-line: '&7Power: %tier% &8(&7%score%&8/100)'
+    item-effort-line: '&7Effort: &b%effort%&8/100'
+    item-verdict-line: '&7Verdict: %verdict%'
     detected: '&d&lDetected addon'
     detected-lore: '&7A custom addon not in the catalog'
     tier:
@@ -512,6 +514,11 @@ guide:
       advanced: '&2Advanced'
       powerful: '&6Powerful'
       overpowered: '&cOverpowered'
+    verdict:
+      overpowered: '&cOverpowered &7(strong & cheap)'
+      endgame: '&6Endgame &7(strong, but earned)'
+      balanced: '&aBalanced'
+      filler: '&8Filler'
 
 actionbar:
   radiation: '&6Radiation Exposure Level: &c%level%&7/&e100'

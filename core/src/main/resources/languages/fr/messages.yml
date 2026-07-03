@@ -207,7 +207,9 @@ guide:
     peak: '&7Maximum : %tier% &8(&7%score%&8/100)'
     op-count: '&7Objets surpuissants : &c%count%'
     view-items: '&eCliquez pour voir les objets les plus puissants'
-    item-line: '%tier% &8(&7%score%&8/100)'
+    item-line: '&7Puissance : %tier% &8(&7%score%&8/100)'
+    item-effort-line: '&7Effort : &b%effort%&8/100'
+    item-verdict-line: '&7Verdict : %verdict%'
     detected: '&d&lAddon détecté'
     detected-lore: '&7Un addon personnalisé absent du catalogue'
     tier:
@@ -216,6 +218,11 @@ guide:
       advanced: '&2Avancé'
       powerful: '&6Puissant'
       overpowered: '&cSurpuissant'
+    verdict:
+      overpowered: '&cSurpuissant &7(fort & bon marché)'
+      endgame: '&6Fin de jeu &7(fort, mais mérité)'
+      balanced: '&aÉquilibré'
+      filler: '&8Basique'
 
   locked: 'VERROUILLÉ'
   work-in-progress: 'Cette fonctionnalité n''est pas encore complètement terminée !'

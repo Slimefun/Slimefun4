@@ -13,6 +13,7 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.balance.BalanceScore;
 import io.github.thebusybiscuit.slimefun5.core.balance.BalanceService;
+import io.github.thebusybiscuit.slimefun5.core.balance.BalanceVerdict;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
@@ -82,14 +83,25 @@ public final class AddonBalanceMenu {
 
         for (SlimefunItem sfItem : items) {
             BalanceScore score = BalanceService.instance().scoreOf(sfItem);
+            int effort = BalanceService.instance().effortOf(sfItem);
+            BalanceVerdict verdict = BalanceService.instance().verdictOf(sfItem);
+
             String tierName = Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + score.getTier().name().toLowerCase(Locale.ROOT));
-            String line = Slimefun.getLocalization().getMessage(p, "guide.balance.item-line")
+            String verdictName = Slimefun.getLocalization().getMessage(p, "guide.balance.verdict." + verdict.name().toLowerCase(Locale.ROOT));
+
+            String powerLine = Slimefun.getLocalization().getMessage(p, "guide.balance.item-line")
                 .replace("%tier%", tierName)
                 .replace("%score%", String.valueOf(score.getScore()));
+            String effortLine = Slimefun.getLocalization().getMessage(p, "guide.balance.item-effort-line")
+                .replace("%effort%", String.valueOf(effort));
+            String verdictLine = Slimefun.getLocalization().getMessage(p, "guide.balance.item-verdict-line")
+                .replace("%verdict%", verdictName);
 
             List<String> lore = new ArrayList<>();
             lore.add("");
-            lore.add(line);
+            lore.add(powerLine);
+            lore.add(effortLine);
+            lore.add(verdictLine);
 
             ItemStack icon = sfItem.getItem().clone();
             menu.addItem(slot, CustomItemStack.create(icon, "&f" + sfItem.getItemName(), lore.toArray(new String[0])));

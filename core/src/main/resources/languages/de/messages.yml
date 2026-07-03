@@ -366,7 +366,9 @@ guide:
     peak: '&7Höchstwert: %tier% &8(&7%score%&8/100)'
     op-count: '&7Übermächtige Items: &c%count%'
     view-items: '&eKlicke, um die stärksten Items zu sehen'
-    item-line: '%tier% &8(&7%score%&8/100)'
+    item-line: '&7Stärke: %tier% &8(&7%score%&8/100)'
+    item-effort-line: '&7Aufwand: &b%effort%&8/100'
+    item-verdict-line: '&7Urteil: %verdict%'
     detected: '&d&lErkanntes Addon'
     detected-lore: '&7Ein eigenes Addon, das nicht im Katalog ist'
     tier:
@@ -375,6 +377,11 @@ guide:
       advanced: '&2Fortgeschritten'
       powerful: '&6Mächtig'
       overpowered: '&cÜbermächtig'
+    verdict:
+      overpowered: '&cÜbermächtig &7(stark & billig)'
+      endgame: '&6Endgame &7(stark, aber erarbeitet)'
+      balanced: '&aAusgewogen'
+      filler: '&8Füllmaterial'
 
   locked: 'GESPERRT'
   work-in-progress: 'Dieses Feature befindet sich noch in der Testphase!'
