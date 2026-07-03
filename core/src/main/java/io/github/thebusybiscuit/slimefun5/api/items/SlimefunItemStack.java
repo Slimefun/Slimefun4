@@ -116,6 +116,18 @@ public class SlimefunItemStack {
         this(id, safeStack(type));
     }
 
+    /** Resource-driven coloured (leather armor) constructor: name/lore come from languages/en/items.yml. */
+    @SuppressWarnings("deprecation")
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color) {
+        this(id, type, color, (String) null);
+    }
+
+    /** Resource-driven potion constructor: name/lore come from languages/en/items.yml. */
+    @SuppressWarnings("deprecation")
+    public SlimefunItemStack(@Nonnull String id, @Nonnull Color color, @Nonnull PotionEffect effect) {
+        this(id, color, effect, (String) null);
+    }
+
     /**
      * Builds an {@link ItemStack} from the given {@link Material}, falling back to
      * {@link #LEGACY_FALLBACK_MATERIAL} when the material is {@code null} (i.e. it does not exist
