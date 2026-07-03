@@ -542,10 +542,10 @@ public class ItemTranslationService {
             return;
         }
 
-        Slimefun.logger().log(Level.WARNING, "[lore] {0} item(s) still use hardcoded lore instead of the block system - migrate them to en/items.yml (type/description/stats/usage). Full list: {1}", new Object[] { total, out.getName() });
+        Slimefun.logger().log(Level.WARNING, "[lore] {0} item(s) still use the DEPRECATED hardcoded name/lore constructors instead of the block system - move them to en/items.yml (type/description/stats/usage). Full list: {1}", new Object[] { total, out.getName() });
 
         for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
-            Slimefun.logger().log(Level.WARNING, "[lore]   {0}: {1} unmigrated item(s)", new Object[] { entry.getKey(), entry.getValue().size() });
+            Slimefun.logger().log(Level.WARNING, "[lore]   {0}: {1} deprecated item(s)", new Object[] { entry.getKey(), entry.getValue().size() });
         }
 
         org.bukkit.configuration.file.YamlConfiguration config = new org.bukkit.configuration.file.YamlConfiguration();
