@@ -640,19 +640,19 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SOULBOUND_BOOTS = new SlimefunItemStack("SOULBOUND_BOOTS", Material.DIAMOND_BOOTS);
 
     /* Runes */
-    public static final SlimefunItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", ColoredFireworkStar.create(Color.BLACK, "&8Blank Rune"));
+    public static final SlimefunItemStack BLANK_RUNE = new SlimefunItemStack("BLANK_RUNE", ColoredFireworkStar.create(Color.BLACK));
 
-    public static final SlimefunItemStack AIR_RUNE = new SlimefunItemStack("ANCIENT_RUNE_AIR", ColoredFireworkStar.create(Color.AQUA, "&7Ancient Rune &8&l[&b&lAir&8&l]"));
-    public static final SlimefunItemStack WATER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_WATER", ColoredFireworkStar.create(Color.BLUE, "&7Ancient Rune &8&l[&1&lWater&8&l]"));
-    public static final SlimefunItemStack FIRE_RUNE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", ColoredFireworkStar.create(Color.RED, "&7Ancient Rune &8&l[&4&lFire&8&l]"));
-    public static final SlimefunItemStack EARTH_RUNE = new SlimefunItemStack("ANCIENT_RUNE_EARTH", ColoredFireworkStar.create(Color.fromRGB(112, 47, 7), "&7Ancient Rune &8&l[&c&lEarth&8&l]"));
-    public static final SlimefunItemStack ENDER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENDER", ColoredFireworkStar.create(Color.PURPLE, "&7Ancient Rune &8&l[&5&lEnder&8&l]"));
+    public static final SlimefunItemStack AIR_RUNE = new SlimefunItemStack("ANCIENT_RUNE_AIR", ColoredFireworkStar.create(Color.AQUA));
+    public static final SlimefunItemStack WATER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_WATER", ColoredFireworkStar.create(Color.BLUE));
+    public static final SlimefunItemStack FIRE_RUNE = new SlimefunItemStack("ANCIENT_RUNE_FIRE", ColoredFireworkStar.create(Color.RED));
+    public static final SlimefunItemStack EARTH_RUNE = new SlimefunItemStack("ANCIENT_RUNE_EARTH", ColoredFireworkStar.create(Color.fromRGB(112, 47, 7)));
+    public static final SlimefunItemStack ENDER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENDER", ColoredFireworkStar.create(Color.PURPLE));
 
-    public static final SlimefunItemStack RAINBOW_RUNE = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", ColoredFireworkStar.create(Color.FUCHSIA, "&7Ancient Rune &8&l[&d&lRainbow&8&l]"));
-    public static final SlimefunItemStack LIGHTNING_RUNE = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", ColoredFireworkStar.create(Color.fromRGB(255, 255, 95), "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
-    public static final SlimefunItemStack SOULBOUND_RUNE = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", ColoredFireworkStar.create(Color.fromRGB(47, 0, 117), "&7Ancient Rune &8&l[&5&lSoulbound&8&l]", "&ePlace this rune and an item in a", "&5Rune Anvil &eto bind that item to your soul.", " ", "&eIt is advised that you only use this rune", "&eon &6important &eitems.", " ", "&eItems bound to your soul won't drop on death."));
-    public static final SlimefunItemStack ENCHANTMENT_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENCHANTMENT", ColoredFireworkStar.create(Color.fromRGB(255, 217, 25), "&7Ancient Rune &8&l[&6&lEnchantment&8&l]", "&ePlace this rune and an item in a", "&5Rune Anvil &eto &6enchant &ethat item", "&ewith a random enchantment."));
-    public static final SlimefunItemStack VILLAGER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_VILLAGERS", ColoredFireworkStar.create(Color.fromRGB(160, 20, 5), "&7Ancient Rune &8&l[&4&lVillagers&8&l]", "&eRight click a villager to clear", "&etheir current job and trades.", "&eThe villager will start looking", "&efor a job again after some", "&etime has passed."));
+    public static final SlimefunItemStack RAINBOW_RUNE = new SlimefunItemStack("ANCIENT_RUNE_RAINBOW", ColoredFireworkStar.create(Color.FUCHSIA));
+    public static final SlimefunItemStack LIGHTNING_RUNE = new SlimefunItemStack("ANCIENT_RUNE_LIGHTNING", ColoredFireworkStar.create(Color.fromRGB(255, 255, 95)));
+    public static final SlimefunItemStack SOULBOUND_RUNE = new SlimefunItemStack("ANCIENT_RUNE_SOULBOUND", ColoredFireworkStar.create(Color.fromRGB(47, 0, 117)));
+    public static final SlimefunItemStack ENCHANTMENT_RUNE = new SlimefunItemStack("ANCIENT_RUNE_ENCHANTMENT", ColoredFireworkStar.create(Color.fromRGB(255, 217, 25)));
+    public static final SlimefunItemStack VILLAGER_RUNE = new SlimefunItemStack("ANCIENT_RUNE_VILLAGERS", ColoredFireworkStar.create(Color.fromRGB(160, 20, 5)));
     public static final SlimefunItemStack RUNE_ANVIL = new SlimefunItemStack("RUNE_ANVIL", XMaterial.ANVIL.parseMaterial());
 
     /* Electricity */
