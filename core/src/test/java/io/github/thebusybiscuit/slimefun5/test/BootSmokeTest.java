@@ -4,11 +4,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,6 +21,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
 
+import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.VanillaItem;
@@ -151,5 +158,84 @@ class BootSmokeTest {
 
         Assertions.assertTrue(nameless.isEmpty(),
             nameless.size() + " item(s) will render with their raw material name (no code name, no en/items.yml name): " + nameless);
+    }
+
+    @Test
+    @DisplayName("Every addon with items owns an item group (so it appears in the wiki's Browse-by-Addon)")
+    void testEveryAddonIsWikiReachable() {
+        // The wiki's addon browser lists addons by the item groups they register (ItemGroup.getAddon()).
+        // An addon that registers items but no group of its own would have no page there - this pins that
+        // every addon shipping custom items is reachable.
+        Set<String> addonsOwningAGroup = new HashSet<>();
+
+        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            SlimefunAddon addon = group.getAddon();
+            if (addon != null) {
+                addonsOwningAGroup.add(addon.getName());
+            }
+        }
+
+        List<String> uncovered = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            if (item instanceof VanillaItem) {
+                continue;
+            }
+
+            SlimefunAddon addon = item.getAddon();
+            if (addon != null && !addonsOwningAGroup.contains(addon.getName()) && !uncovered.contains(addon.getName())) {
+                uncovered.add(addon.getName());
+            }
+        }
+
+        Assertions.assertTrue(uncovered.isEmpty(),
+            uncovered.size() + " addon(s) have items but no browsable item group (unreachable in Browse-by-Addon): " + uncovered);
+    }
+
+    /**
+     * The canonical, upstream-compatible way to stamp identity: raw Bukkit PDC under the shared
+     * {@code slimefun:slimefun_item} key. Written independently of the fork's own PdcCompat writer on
+     * purpose - this proves getByItem reads a tag written by any Slimefun 4/5 version or foreign plugin,
+     * which is what "items transfer from an old server" depends on.
+     */
+    private static ItemStack upstreamStack(Material material, String id) {
+        ItemStack stack = new ItemStack(material);
+        ItemMeta meta = stack.getItemMeta();
+        meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "slimefun_item"), PersistentDataType.STRING, id);
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    @Test
+    @DisplayName("Migration: upstream-tagged stacks (raw Bukkit PDC) resolve back to the correct item")
+    void testUpstreamTaggedItemsResolve() {
+        List<String> offenders = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            if (item instanceof VanillaItem) {
+                continue;
+            }
+
+            try {
+                SlimefunItem resolved = SlimefunItem.getByItem(upstreamStack(item.getItem().getType(), item.getId()));
+
+                if (resolved == null || !resolved.getId().equals(item.getId())) {
+                    offenders.add(item.getId() + " -> " + (resolved == null ? "null" : resolved.getId()));
+                }
+            } catch (Exception | LinkageError e) {
+                offenders.add(item.getId() + " (" + e.getClass().getSimpleName() + ")");
+            }
+        }
+
+        Assertions.assertTrue(offenders.isEmpty(),
+            offenders.size() + " item(s) from an old server would NOT resolve on this fork: "
+                + offenders.subList(0, Math.min(15, offenders.size())));
+    }
+
+    @Test
+    @DisplayName("Migration: an unknown/foreign id resolves to null rather than a wrong item")
+    void testUnknownIdIsNullNotError() {
+        Assertions.assertNull(SlimefunItem.getByItem(upstreamStack(Material.PAPER, "SOME_UNINSTALLED_ADDON_ITEM")),
+            "An id from an uninstalled addon must resolve to null (the migrationcheck signal), not a wrong item");
     }
 }

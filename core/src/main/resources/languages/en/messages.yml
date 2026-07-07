@@ -8,6 +8,7 @@ commands:
   search: Searches your Guide for the given term
   open_guide: Opens Slimefun's guide without using the book
   stats: Shows some Stats about a Player
+  migrationcheck: Checks your inventory for unresolved Slimefun items
 
   research:
     description: Unlock/Reset researches for a player
@@ -389,6 +390,14 @@ guide:
       - '&7and look up individual items.'
       - ''
       - '&7⇨ &eClick'
+    addon:
+      name: '&aBrowse by addon'
+      lore:
+      - '&7Filter items by the addon'
+      - '&7that adds them.'
+      - ''
+      - '&7⇨ &eClick'
+    addon-categories: '&7%count% categories'
     topic-click: '&7⇨ &eClick to read'
     results-title: '&aSearch results for &e"%query%&e"'
     results-found: '&7Found &b%count% &7item(s).'
@@ -543,6 +552,12 @@ messages:
   unknown-player: '&4Unknown Player: &c%player%'
   no-permission: '&4You do not have the required permission to do this'
   usage: '&4Usage: &c%usage%'
+  migration:
+    scanning: '&7Scanning your inventory for Slimefun items...'
+    summary: '&7Resolved: &a%resolved%&7, unresolved: &c%unresolved%'
+    all-good: '&aEvery Slimefun item in your inventory resolves correctly.'
+    unresolved-header: '&cThese ids no longer match a registered item (missing addon or renamed item):'
+    unresolved-entry: '&c- &7%id% &8x%amount%'
   not-online: '&4%player% &cis not online!'
   invalid-item: '&4%item% &cis not a valid Item!'
   invalid-amount: '&4%amount% &cis not a valid amount : it must be higher than 0!'

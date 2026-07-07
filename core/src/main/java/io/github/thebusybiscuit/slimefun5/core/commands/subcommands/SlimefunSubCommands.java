@@ -43,6 +43,7 @@ public final class SlimefunSubCommands {
         commands.add(new ChargeCommand(plugin, cmd));
         commands.add(new DebugCommand(plugin, cmd));
         commands.add(new ConfigCommand(plugin, cmd));
+        commands.add(new MigrationCheckCommand(plugin, cmd));
 
         return commands;
     }

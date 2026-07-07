@@ -9,6 +9,7 @@ commands:
   search: Durchsucht dein Slimefun-Handbuch nach einem Begriff
   open_guide: Öffnet das Slimefun-Handbuch
   stats: Zeigt einige Statistiken über einen Spieler
+  migrationcheck: Prüft dein Inventar auf nicht aufgelöste Slimefun-Items
   research:
     description: Verändert den Erfahrungsgrad eines Spielers
     reset: '&cDu hast soeben %player%''s Erfahrungsgrad zurückgesetzt'
@@ -252,6 +253,14 @@ guide:
       - '&7und schlage einzelne Items nach.'
       - ''
       - '&7⇨ &eKlicke'
+    addon:
+      name: '&aNach Addon durchsuchen'
+      lore:
+      - '&7Filtere Items nach dem Addon,'
+      - '&7das sie hinzufügt.'
+      - ''
+      - '&7⇨ &eKlicken'
+    addon-categories: '&7%count% Kategorien'
     topic-click: '&7⇨ &eKlicke zum Lesen'
     results-title: '&aSuchergebnisse für &e"%query%&e"'
     results-found: '&7&b%count% &7Item(s) gefunden.'
@@ -514,6 +523,12 @@ messages:
   unknown-player: '&4Unbekannter Spieler: &c%player%'
   no-permission: '&4Du hast nicht die benötigten Rechte hierfür'
   usage: '&4Korrekte Schreibweise: &c%usage%'
+  migration:
+    scanning: '&7Durchsuche dein Inventar nach Slimefun-Items...'
+    summary: '&7Aufgelöst: &a%resolved%&7, nicht aufgelöst: &c%unresolved%'
+    all-good: '&aAlle Slimefun-Items in deinem Inventar werden korrekt aufgelöst.'
+    unresolved-header: '&cDiese IDs passen zu keinem registrierten Item mehr (fehlendes Addon oder umbenanntes Item):'
+    unresolved-entry: '&c- &7%id% &8x%amount%'
   not-online: '&4%player% &cist derzeit nicht online!'
   invalid-item: '&4%item% &cist kein gültiges Item!'
   invalid-amount: '&4%amount% &cist keine gültige Anzahl! Sie muss höher als 0 sein!'

@@ -9,6 +9,7 @@ commands:
   search: Busca en la guía el término dado.
   open_guide: Abre la guía de Slimefun sin usar el libro.
   stats: Muestra algunos Stats de un Jugador.
+  migrationcheck: Comprueba tu inventario en busca de objetos de Slimefun no resueltos
   research:
     description: Desbloquea/Reinicia el conocimiento para un jugador.
     reset: '&cHas reiniciado el conocimiento de %player%.'
@@ -125,6 +126,14 @@ guide:
       - '&7y busca objetos individuales.'
       - ''
       - '&7⇨ &eHaz clic'
+    addon:
+      name: '&aExplorar por addon'
+      lore:
+      - '&7Filtra los objetos por el addon'
+      - '&7que los añade.'
+      - ''
+      - '&7⇨ &eClic'
+    addon-categories: '&7%count% categorías'
     topic-click: '&7⇨ &eHaz clic para leer'
     results-title: '&aResultados de búsqueda para &e"%query%&e"'
     results-found: '&7Se encontraron &b%count% &7objeto(s).'
@@ -333,6 +342,12 @@ messages:
   unknown-player: '&4Jugador desconocido: &c%player%'
   no-permission: '&4No tienes el permiso requerido para hacer esto.'
   usage: '&4Uso: &c%usage%'
+  migration:
+    scanning: '&7Analizando tu inventario en busca de objetos de Slimefun...'
+    summary: '&7Resueltos: &a%resolved%&7, no resueltos: &c%unresolved%'
+    all-good: '&aTodos los objetos de Slimefun de tu inventario se resuelven correctamente.'
+    unresolved-header: '&cEstos identificadores ya no coinciden con un objeto registrado (addon ausente u objeto renombrado):'
+    unresolved-entry: '&c- &7%id% &8x%amount%'
   not-online: '&c¡&4%player% &cno está conectado!'
   invalid-item: '&c¡&4%item% &cno es un objeto válido!'
   invalid-amount: '&c¡&4%amount% &cno es un valor válido: tiene que ser mayor a 0!'

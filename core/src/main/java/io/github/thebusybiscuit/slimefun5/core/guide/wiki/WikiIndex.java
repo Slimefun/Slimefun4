@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun5.core.guide.wiki;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nonnull;
 
@@ -12,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
@@ -49,6 +52,7 @@ public final class WikiIndex {
 
     // Wiki HOME header slots (topic tiles fill the same CONTENT_START..CONTENT_END grid as the browser).
     private static final int WELCOME_SLOT = 4;
+    private static final int ADDON_SLOT = 6;
     private static final int SEARCH_SLOT = 7;
     private static final int BROWSE_SLOT = 8;
 
@@ -100,6 +104,12 @@ public final class WikiIndex {
             return false;
         });
 
+        menu.addItem(ADDON_SLOT, tile(p, XMaterial.CHEST_MINECART, "guide.wiki.addon.name", "guide.wiki.addon.lore"));
+        menu.addMenuClickHandler(ADDON_SLOT, (pl, slot, clicked, action) -> {
+            openAddonList(pl, guide, 1);
+            return false;
+        });
+
         int pages = pageCount(topics.size());
         int offset = (page - 1) * PAGE_SIZE;
 
@@ -143,7 +153,7 @@ public final class WikiIndex {
 
             menu.addItem(slot, group.getItem(p));
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                openItemList(pl, guide, group, 1);
+                openItemList(pl, guide, group, 1, () -> openGroupList(pl, guide, 1));
                 return false;
             });
         }
@@ -152,8 +162,8 @@ public final class WikiIndex {
         menu.open(p);
     }
 
-    /** Lists the items of a single group; clicking one opens its wiki page. Back returns to the group list. */
-    private static void openItemList(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull ItemGroup itemGroup, int page) {
+    /** Lists the items of a single group; clicking one opens its wiki page. {@code back} defines where the back button returns to (the category or addon list, depending on entry point). */
+    private static void openItemList(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull ItemGroup itemGroup, int page, @Nonnull Runnable back) {
         List<SlimefunItem> items = new ArrayList<>(itemGroup.getItems());
 
         ChestMenu menu = new ChestMenu(title(p));
@@ -163,7 +173,7 @@ public final class WikiIndex {
 
         menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.title")));
         menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
-            openGroupList(pl, guide, 1);
+            back.run();
             return false;
         });
 
@@ -176,13 +186,128 @@ public final class WikiIndex {
 
             menu.addItem(slot, item.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
-                WikiPage.open(pl, guide, item, () -> openItemList(pl, guide, itemGroup, page));
+                WikiPage.open(pl, guide, item, () -> openItemList(pl, guide, itemGroup, page, back));
                 return false;
             });
         }
 
-        addPagination(menu, p, page, pages, (pl, target) -> openItemList(pl, guide, itemGroup, target));
+        addPagination(menu, p, page, pages, (pl, target) -> openItemList(pl, guide, itemGroup, target, back));
         menu.open(p);
+    }
+
+    /** Lists every addon that owns at least one visible item group; clicking one opens that addon's categories. */
+    private static void openAddonList(@Nonnull Player p, @Nonnull ItemStack guide, int page) {
+        List<String> addons = getAddonsWithGroups(p);
+
+        ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, BORDER);
+
+        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.title")));
+        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
+            openHome(pl, guide);
+            return false;
+        });
+
+        int pages = pageCount(addons.size());
+        int offset = (page - 1) * PAGE_SIZE;
+
+        for (int i = 0; i < PAGE_SIZE && offset + i < addons.size(); i++) {
+            String addon = addons.get(offset + i);
+            int slot = CONTENT_START + i;
+            List<ItemGroup> groups = getAddonGroups(p, addon);
+
+            menu.addItem(slot, CustomItemStack.create(addonIcon(p, groups), "&b" + addon, "",
+                Slimefun.getLocalization().getMessage(p, "guide.wiki.addon-categories").replace("%count%", String.valueOf(groups.size())),
+                "", Slimefun.getLocalization().getMessage(p, "guide.wiki.topic-click")));
+            menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                openAddonGroups(pl, guide, addon, 1);
+                return false;
+            });
+        }
+
+        addPagination(menu, p, page, pages, (pl, target) -> openAddonList(pl, guide, target));
+        menu.open(p);
+    }
+
+    /** Lists a single addon's visible item groups; clicking one lists that group's items. Back returns to the addon list. */
+    private static void openAddonGroups(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull String addon, int page) {
+        List<ItemGroup> groups = getAddonGroups(p, addon);
+
+        ChestMenu menu = new ChestMenu(title(p));
+        menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, BORDER);
+
+        menu.addItem(BACK_SLOT, ChestMenuUtils.getBackButton(p, "", "&7" + Slimefun.getLocalization().getMessage(p, "guide.back.title")));
+        menu.addMenuClickHandler(BACK_SLOT, (pl, slot, clicked, action) -> {
+            openAddonList(pl, guide, 1);
+            return false;
+        });
+
+        int pages = pageCount(groups.size());
+        int offset = (page - 1) * PAGE_SIZE;
+
+        for (int i = 0; i < PAGE_SIZE && offset + i < groups.size(); i++) {
+            ItemGroup group = groups.get(offset + i);
+            int slot = CONTENT_START + i;
+
+            menu.addItem(slot, group.getItem(p));
+            menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
+                openItemList(pl, guide, group, 1, () -> openAddonGroups(pl, guide, addon, page));
+                return false;
+            });
+        }
+
+        addPagination(menu, p, page, pages, (pl, target) -> openAddonGroups(pl, guide, addon, target));
+        menu.open(p);
+    }
+
+    /** Distinct addons that own at least one visible item group, core first, then alphabetical. */
+    @Nonnull
+    private static List<String> getAddonsWithGroups(@Nonnull Player p) {
+        Set<String> names = new TreeSet<>();
+
+        for (ItemGroup group : getVisibleGroups(p)) {
+            SlimefunAddon addon = group.getAddon();
+            if (addon != null) {
+                names.add(addon.getName());
+            }
+        }
+
+        List<String> sorted = new ArrayList<>(names);
+        String core = Slimefun.instance().getName();
+        if (sorted.remove(core)) {
+            sorted.add(0, core);
+        }
+
+        return sorted;
+    }
+
+    /** The visible item groups registered by the addon with the given name. */
+    @Nonnull
+    private static List<ItemGroup> getAddonGroups(@Nonnull Player p, @Nonnull String addon) {
+        List<ItemGroup> groups = new ArrayList<>();
+
+        for (ItemGroup group : getVisibleGroups(p)) {
+            SlimefunAddon a = group.getAddon();
+            if (a != null && a.getName().equals(addon)) {
+                groups.add(group);
+            }
+        }
+
+        return groups;
+    }
+
+    /** Represents an addon by its first category's icon material (fresh, so the group's own name/lore is dropped); falls back to a book. */
+    @Nonnull
+    private static ItemStack addonIcon(@Nonnull Player p, @Nonnull List<ItemGroup> groups) {
+        if (!groups.isEmpty()) {
+            return new ItemStack(groups.get(0).getItem(p).getType());
+        }
+
+        return MaterialCompat.stack(XMaterial.BOOK);
     }
 
     /** Lists every enabled item whose (translated) name matches the search term; clicking one opens its wiki page. */
