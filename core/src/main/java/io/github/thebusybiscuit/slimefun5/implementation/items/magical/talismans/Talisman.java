@@ -83,8 +83,12 @@ public class Talisman extends SlimefunItem {
             lore.add("&7&oEnder Infused");
             lore.add("");
 
-            for (String line : getItem().getItemMeta().getLore()) {
-                lore.add(line);
+            // id-only items carry no lore in code (their display is resolved from en/items.yml after setup),
+            // so getLore() is null here - guard it instead of NPEing.
+            List<String> baseLore = getItem().getItemMeta().getLore();
+
+            if (baseLore != null) {
+                lore.addAll(baseLore);
             }
 
             enderTalisman = new SlimefunItemStack("ENDER_" + getId(), getItem().getType(), name, lore.toArray(new String[0]));
