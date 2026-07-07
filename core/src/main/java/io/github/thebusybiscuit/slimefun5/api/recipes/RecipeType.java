@@ -50,9 +50,11 @@ public class RecipeType implements Keyed {
     public static final RecipeType JUICER = new RecipeType(new NamespacedKey(Slimefun.instance(), "juicer"), SlimefunItems.JUICER, "", "&a&oUsed for Juice Creation");
 
     public static final RecipeType ANCIENT_ALTAR = new RecipeType(new NamespacedKey(Slimefun.instance(), "ancient_altar"), SlimefunItems.ANCIENT_ALTAR.item(), (recipe, output) -> {
-        AltarRecipe altarRecipe = new AltarRecipe(Arrays.asList(recipe), output);
-        AncientAltar altar = ((AncientAltar) SlimefunItems.ANCIENT_ALTAR.getItem());
-        altar.getRecipes().add(altarRecipe);
+        AncientAltar altar = SlimefunItems.ANCIENT_ALTAR.getItem(AncientAltar.class);
+
+        if (altar != null) {
+            altar.getRecipes().add(new AltarRecipe(Arrays.asList(recipe), output));
+        }
     });
 
     public static final RecipeType MOB_DROP = new RecipeType(new NamespacedKey(Slimefun.instance(), "mob_drop"), CustomItemStack.create(Material.IRON_SWORD, "&bMob Drop"), RecipeType::registerMobDrop, "", "&rKill the specified Mob to obtain this Item");
