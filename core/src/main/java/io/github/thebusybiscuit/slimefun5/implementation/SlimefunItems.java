@@ -251,33 +251,14 @@ public final class SlimefunItems {
     public static final SlimefunItemStack REINFORCED_ALLOY_LEGGINGS = new SlimefunItemStack("REINFORCED_ALLOY_LEGGINGS", Material.IRON_LEGGINGS);
     public static final SlimefunItemStack REINFORCED_ALLOY_BOOTS = new SlimefunItemStack("REINFORCED_ALLOY_BOOTS", Material.IRON_BOOTS);
 
-    private static final List<String> hazmatLore = new ArrayList<>();
-
-    static {
-        hazmatLore.add("");
-        hazmatLore.add(ChatColor.GOLD + "Full set effects:");
-        hazmatLore.add(ChatColor.YELLOW + "- Radiation immunity");
-        hazmatLore.add(ChatColor.YELLOW + "- Bee Sting protection");
-    }
-
+    // Hazmat set: name/lore (incl. the "Full set effects" lines) live in languages/en/items.yml now.
+    // The old static blocks that appended a hardcoded "Full set effects" lore to the helmet/chestplate
+    // were removed: on id-only items getItemMeta().getLore() is null (NPE), and the resolver's bake from
+    // en/items.yml overwrites any such appended lore anyway.
     public static final SlimefunItemStack SCUBA_HELMET = new SlimefunItemStack("SCUBA_HELMET", Material.LEATHER_HELMET, Color.ORANGE);
     public static final SlimefunItemStack HAZMAT_CHESTPLATE = new SlimefunItemStack("HAZMAT_CHESTPLATE", Material.LEATHER_CHESTPLATE, Color.ORANGE);
     public static final SlimefunItemStack HAZMAT_LEGGINGS = new SlimefunItemStack("HAZMAT_LEGGINGS", Material.LEATHER_LEGGINGS, Color.ORANGE);
     public static final SlimefunItemStack HAZMAT_BOOTS = new SlimefunItemStack("RUBBER_BOOTS", Material.LEATHER_BOOTS, Color.BLACK);
-
-    static {
-        ItemMeta helmetMeta = SCUBA_HELMET.getItemMeta();
-        List<String> helmetLore = helmetMeta.getLore();
-        helmetLore.addAll(hazmatLore);
-        helmetMeta.setLore(helmetLore);
-        SCUBA_HELMET.setItemMeta(helmetMeta);
-
-        ItemMeta chestplateMeta = HAZMAT_CHESTPLATE.getItemMeta();
-        List<String> chestplateLore = chestplateMeta.getLore();
-        chestplateLore.addAll(hazmatLore);
-        chestplateMeta.setLore(chestplateLore);
-        HAZMAT_CHESTPLATE.setItemMeta(chestplateMeta);
-    }
 
     public static final SlimefunItemStack GILDED_IRON_HELMET = new SlimefunItemStack("GILDED_IRON_HELMET", XMaterial.GOLDEN_HELMET.parseMaterial());
     public static final SlimefunItemStack GILDED_IRON_CHESTPLATE = new SlimefunItemStack("GILDED_IRON_CHESTPLATE", XMaterial.GOLDEN_CHESTPLATE.parseMaterial());
