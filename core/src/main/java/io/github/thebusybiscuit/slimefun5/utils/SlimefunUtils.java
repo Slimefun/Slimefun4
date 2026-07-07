@@ -376,7 +376,11 @@ public final class SlimefunUtils {
              * in which case we want to use the method provided to compare
              */
             if (checkDistinction && sf_sfitem instanceof DistinctiveItem && sf_item instanceof DistinctiveItem) {
-                DistinctiveItem distinctive = (DistinctiveItem) sf_sfitem;                return distinctive.canStack(sf_sfitem.getItem().getItemMeta(), sf_item.getItem().getItemMeta());
+                DistinctiveItem distinctive = (DistinctiveItem) sf_sfitem;
+                // Compare the ACTUAL stacks, not the shared item templates - passing templates makes every
+                // two items of the same id look identical (e.g. two different backpacks), which lets
+                // distinct items wrongly stack and duplicate. (Matches upstream Slimefun behaviour.)
+                return distinctive.canStack(sfitem.getItemMeta(), item.getItemMeta());
             }
             return true;
         } else if (item.hasItemMeta()) {

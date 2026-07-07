@@ -150,14 +150,10 @@ public class BackpackListener implements Listener {
 
     @ParametersAreNonnullByDefault
     private void openBackpack(Player p, ItemStack item, PlayerProfile profile, int size) {
-        List<String> lore = item.getItemMeta().getLore();
-
-        for (int line = 0; line < lore.size(); line++) {
-            if (lore.get(line).equals(ChatColor.GRAY + "ID: <ID>")) {
-                setBackpackId(p, item, line, profile.createBackpack(size).getId());
-                break;
-            }
-        }
+        // Give the backpack a persistent identity if it has none yet: migrate a legacy lore id to
+        // persistent data, or assign a fresh one (the supplier - which creates a new backpack - only
+        // runs when the backpack is genuinely new).
+        PlayerBackpack.ensureIdentity(item, p.getUniqueId(), () -> profile.createBackpack(size).getId());
 
         /*
          * If the current Player is already viewing a backpack (for whatever reason),

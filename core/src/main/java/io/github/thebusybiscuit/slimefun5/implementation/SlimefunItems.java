@@ -394,7 +394,9 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SLOT_LOCK = new SlimefunItemStack("SLOT_LOCK", XMaterial.IRON_BARS.parseMaterial());
     public static final SlimefunItemStack CARGO_MOTOR = new SlimefunItemStack("CARGO_MOTOR", HeadTexture.CARGO_MOTOR);
     public static final SlimefunItemStack SCROLL_OF_DIMENSIONAL_TELEPOSITION = new SlimefunItemStack("SCROLL_OF_DIMENSIONAL_TELEPOSITION", Material.PAPER);
-    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.ENCHANTED_BOOK, "&6Tome of Knowledge Sharing", "&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself", "", "", "&eRight Click&7 to obtain all Researches by", "&7the previously assigned Owner");
+    // Lore lines 0 (owner name) and 1 (owner uuid slot) are managed by KnowledgeTome; the rest is display.
+    // One "Right Click" action line only, and no double blank line (see the unified lore rules).
+    public static final SlimefunItemStack TOME_OF_KNOWLEDGE_SHARING = new SlimefunItemStack("TOME_OF_KNOWLEDGE_SHARING", Material.ENCHANTED_BOOK, "&6Tome of Knowledge Sharing", "&7Owner: &bNone", "", "&eRight Click&7 to bind this Tome to yourself.", "&7A bound Tome grants its owner's Researches", "&7to whoever else uses it.");
     public static final SlimefunItemStack HARDENED_GLASS = new SlimefunItemStack("HARDENED_GLASS", XMaterial.LIGHT_GRAY_STAINED_GLASS.parseMaterial());
     public static final SlimefunItemStack WITHER_PROOF_OBSIDIAN = new SlimefunItemStack("WITHER_PROOF_OBSIDIAN", Material.OBSIDIAN);
     public static final SlimefunItemStack WITHER_PROOF_GLASS = new SlimefunItemStack("WITHER_PROOF_GLASS", XMaterial.PURPLE_STAINED_GLASS.parseMaterial());

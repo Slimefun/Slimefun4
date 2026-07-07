@@ -4,22 +4,30 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.IntSupplier;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BackpackListener;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to
@@ -135,6 +143,100 @@ public class PlayerBackpack {
      */
     public int getSize() {
         return size;
+    }
+
+    // ---- Backpack identity ("<owner-uuid>#<id>") --------------------------------------------------
+    // Historically the identity lived in a visible "§7ID: <uuid>#<n>" lore line, which is ugly and
+    // fragile (the id-only display rebuild kept dropping/re-skinning it). We now store it in the item's
+    // persistent data instead - invisible, and immune to lore rewriting - while still reading the legacy
+    // lore line so backpacks created by older Slimefun 4/5 versions keep working (they migrate on open).
+
+    private static NamespacedKey identityKey;
+    private static final String LEGACY_ID_PREFIX = ChatColor.GRAY + "ID: ";
+
+    @Nonnull
+    private static NamespacedKey identityKey() {
+        if (identityKey == null) {
+            identityKey = new NamespacedKey(Slimefun.instance(), "backpack_identity");
+        }
+
+        return identityKey;
+    }
+
+    /** The legacy visible "§7ID: <uuid>#<n>" identity, if this meta still carries one. */
+    @Nonnull
+    private static Optional<String> readLegacyIdentity(@Nullable ItemMeta meta) {
+        if (meta == null || meta.getLore() == null) {
+            return Optional.empty();
+        }
+
+        for (String line : meta.getLore()) {
+            if (line.startsWith(LEGACY_ID_PREFIX) && line.indexOf('#') != -1 && !line.contains("<ID>")) {
+                return Optional.of(line.substring(LEGACY_ID_PREFIX.length()));
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    /** The "<uuid>#<n>" identity of a backpack item: from persistent data, else a legacy lore line. */
+    @Nonnull
+    public static Optional<String> readIdentity(@Nullable ItemMeta meta) {
+        if (meta == null) {
+            return Optional.empty();
+        }
+
+        String stored = PdcCompat.getString(meta, identityKey());
+
+        if (stored != null && stored.indexOf('#') != -1) {
+            return Optional.of(stored);
+        }
+
+        return readLegacyIdentity(meta);
+    }
+
+    @Nonnull
+    public static Optional<String> readIdentity(@Nullable ItemStack item) {
+        return item == null ? Optional.empty() : readIdentity(item.getItemMeta());
+    }
+
+    /**
+     * Stores the given "<uuid>#<n>" identity in the item's persistent data and removes any visible legacy
+     * ID lore line, so the identity is hidden from the tooltip going forward.
+     */
+    public static void writeIdentity(@Nonnull ItemStack item, @Nonnull String identity) {
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta == null) {
+            return;
+        }
+
+        PdcCompat.setString(meta, identityKey(), identity);
+
+        List<String> lore = meta.getLore();
+
+        if (lore != null) {
+            lore.removeIf(line -> line.startsWith(LEGACY_ID_PREFIX));
+            meta.setLore(lore.isEmpty() ? null : lore);
+        }
+
+        item.setItemMeta(meta);
+    }
+
+    /**
+     * Ensures the backpack item carries a persistent identity: migrates a legacy lore id to persistent
+     * data, or - if it has none at all - assigns a fresh one from {@code newIdSupplier} (only invoked in
+     * that case, since creating a backpack has a side effect). No-op if it already has a stored identity.
+     */
+    public static void ensureIdentity(@Nonnull ItemStack item, @Nonnull UUID owner, @Nonnull IntSupplier newIdSupplier) {
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta == null || PdcCompat.has(meta, identityKey(), "STRING")) {
+            return;
+        }
+
+        String identity = readLegacyIdentity(meta).orElseGet(() -> owner + "#" + newIdSupplier.getAsInt());
+        writeIdentity(item, identity);
     }
 
     /**

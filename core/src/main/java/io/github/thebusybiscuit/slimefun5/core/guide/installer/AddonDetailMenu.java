@@ -119,8 +119,10 @@ public final class AddonDetailMenu {
             if (!balance.isEmpty()) {
                 headerLore.add("");
                 headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.header"));
-                // Peak is the headline (the strongest item), then the overpowered count if any, with the
-                // average demoted to a secondary line - a few game-breakers must not hide behind the mean.
+                // Overall verdict is effort-aware: an addon whose strong items are all grind-gated reads
+                // ENDGAME (earned), not OVERPOWERED. Peak/average power follow as supporting detail.
+                headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.overall")
+                    .replace("%verdict%", Slimefun.getLocalization().getMessage(p, "guide.balance.verdict." + balance.getVerdict().name().toLowerCase(Locale.ROOT))));
                 headerLore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.peak")
                     .replace("%tier%", tierName(p, balance.getPeakTier()))
                     .replace("%score%", String.valueOf(balance.getPeak())));
@@ -151,18 +153,30 @@ public final class AddonDetailMenu {
         boolean showInstall = canManage;
         boolean showDelete = canManage && !entry.isCore() && !entry.isLibrary() && inst.isLoaded(entry);
         boolean showBuild = canManage && EnvironmentDetector.canBuildFromSource();
+        // Version picker: pick/downgrade to any past release (not just the latest). Only for release-managed
+        // entries an admin can install.
+        boolean showVersions = canManage && !inst.isInProgress(entry.getId());
 
         boolean showGithub = io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks();
-        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + (showGithub ? 1 : 0));
+        int[] slots = centeredActionSlots((showInstall ? 1 : 0) + (showVersions ? 1 : 0) + (showDelete ? 1 : 0) + (showBuild ? 1 : 0) + (showGithub ? 1 : 0));
         int idx = 0;
 
         if (showInstall) {
             int s = slots[idx++];
 
+            boolean upToDate = inst.isLoaded(entry) && !inst.isUpdateAvailable(entry.getId());
+
             if (inst.isInProgress(entry.getId())) {
                 // Installing: a clear in-GUI "working" state with a live progress bar, so the chat
                 // line isn't the only signal.
                 menu.addItem(s, workingButton(p, inst, entry));
+                menu.addMenuClickHandler(s, ChestMenuUtils.getEmptyClickHandler());
+            } else if (upToDate) {
+                // Already on the latest release - no update to offer, so show a disabled "up to date"
+                // button rather than an "Update" button that would just reinstall the same version.
+                List<String> lore = new ArrayList<>();
+                lore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.install.up-to-date"));
+                menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.GRAY_DYE), lore));
                 menu.addMenuClickHandler(s, ChestMenuUtils.getEmptyClickHandler());
             } else {
                 String tag = inst.getCachedLatestTag(entry.getId());
@@ -188,6 +202,19 @@ public final class AddonDetailMenu {
                     return false;
                 });
             }
+        }
+
+        if (showVersions) {
+            int s = slots[idx++];
+            List<String> versionsLore = new ArrayList<>();
+            versionsLore.add(Slimefun.getLocalization().getMessage(p, "guide.installer.versions.name"));
+            versionsLore.add("");
+            versionsLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.installer.versions.lore"));
+            menu.addItem(s, CustomItemStack.create(MaterialCompat.stack(XMaterial.PAPER), versionsLore));
+            menu.addMenuClickHandler(s, (pl, slot, item, action) -> {
+                VersionSelectMenu.open(pl, guide, entry, 0);
+                return false;
+            });
         }
 
         if (showDelete) {

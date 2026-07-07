@@ -109,6 +109,9 @@ ANDROID_INTERFACE_FUEL:
   description:
   - '&7Feeds stored fuel into an android when'
   - '&7its script requests it.'
+  name: '&7Android Interface &9(Fuel)'
+  type:
+  - '&7&oGadget'
 ANDROID_INTERFACE_ITEMS:
   description:
   - '&fItems stored in an Android''s Inventory'

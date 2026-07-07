@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun5.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.BackpackListener;
-import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun5.utils.tags.SlimefunTag;
 
 /**
@@ -44,7 +43,7 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     /**
      * This returns the size of this {@link SlimefunBackpack}.
-     * 
+     *
      * @return The size of this backpack
      */
     public int getSize() {
@@ -87,13 +86,10 @@ public class SlimefunBackpack extends SimpleSlimefunItem<ItemUseHandler> impleme
 
     @Override
     public boolean canStack(@Nonnull ItemMeta itemMetaOne, @Nonnull ItemMeta itemMetaTwo) {
-        boolean hasLoreItem = itemMetaTwo.hasLore();
-        boolean hasLoreSfItem = itemMetaOne.hasLore();
-
-        if (hasLoreItem && hasLoreSfItem && SlimefunUtils.equalsLore(itemMetaTwo.getLore(), itemMetaOne.getLore())) {
-            return true;
-        }
-        return !hasLoreItem && !hasLoreSfItem;
+        // Backpacks may only stack when they share the same identity: both unassigned (a blank, freshly
+        // crafted backpack), or the exact same stored id. Two different backpacks must never stack -
+        // otherwise moving or merging them duplicates their contents.
+        return PlayerBackpack.readIdentity(itemMetaOne).equals(PlayerBackpack.readIdentity(itemMetaTwo));
     }
 }
 

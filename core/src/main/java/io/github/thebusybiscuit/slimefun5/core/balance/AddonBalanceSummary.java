@@ -55,6 +55,29 @@ public final class AddonBalanceSummary {
         return BalanceTier.fromScore(peak);
     }
 
+    /**
+     * The addon's overall verdict, effort-aware. An addon is only {@link BalanceVerdict#OVERPOWERED} when
+     * it actually contains cheap-yet-strong items ({@code opCount > 0}); an addon whose strongest items are
+     * all gated behind a heavy grind reads as {@link BalanceVerdict#ENDGAME} (earned power, still balanced)
+     * even though its peak power is high. This is what keeps a grind-heavy addon from being mislabelled OP.
+     */
+    @Nonnull
+    public BalanceVerdict getVerdict() {
+        if (opCount > 0) {
+            return BalanceVerdict.OVERPOWERED;
+        }
+
+        if (peak >= BalanceTier.OVERPOWERED.getMin()) {
+            return BalanceVerdict.ENDGAME;
+        }
+
+        if (peak >= BalanceTier.POWERFUL.getMin()) {
+            return BalanceVerdict.BALANCED;
+        }
+
+        return BalanceVerdict.FILLER;
+    }
+
     /** Aggregates per-item scores (already filtered to non-trivial). Empty input => EMPTY. */
     @Nonnull
     public static AddonBalanceSummary of(@Nonnull Collection<Integer> scores) {

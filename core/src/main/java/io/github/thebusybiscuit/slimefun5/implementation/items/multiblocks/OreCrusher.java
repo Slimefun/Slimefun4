@@ -137,16 +137,18 @@ public class OreCrusher extends MultiBlockMachine {
         displayRecipes.add(MaterialCompat.stack(XMaterial.GILDED_BLACKSTONE));
         displayRecipes.add(doubleOres.getGoldNuggets());
 
-        // Raw metal ores (1.17+)
+        // Raw metal ores (1.17+). Since newer Minecraft drops raw ore (not the ore block) without Silk
+        // Touch, crushing raw ore yields the SAME doubled output as crushing the ore block would - so
+        // players are not forced into Silk Touch just to benefit from ore doubling.
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_17)) {
             displayRecipes.add(MaterialCompat.stack(XMaterial.RAW_IRON));
-            displayRecipes.add(SlimefunItems.IRON_DUST.item());
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.IRON_DUST, isOreDoublingEnabled() ? 2 : 1).item());
 
             displayRecipes.add(MaterialCompat.stack(XMaterial.RAW_COPPER));
-            displayRecipes.add(SlimefunItems.COPPER_DUST.item());
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.COPPER_DUST, isOreDoublingEnabled() ? 2 : 1).item());
 
             displayRecipes.add(MaterialCompat.stack(XMaterial.RAW_GOLD));
-            displayRecipes.add(SlimefunItems.GOLD_DUST.item());
+            displayRecipes.add(new SlimefunItemStack(SlimefunItems.GOLD_DUST, isOreDoublingEnabled() ? 2 : 1).item());
         }
 
         // Deepslate Ores (1.17+)

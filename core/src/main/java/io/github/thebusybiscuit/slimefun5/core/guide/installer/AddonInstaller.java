@@ -355,6 +355,15 @@ public final class AddonInstaller {
      * for an indeterminate stage), so a menu can render a live progress bar for the clicked entry.
      */
     public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable java.util.function.Consumer<Boolean> onComplete, @javax.annotation.Nullable Runnable onProgress) {
+        installRelease(player, entry, onComplete, onProgress, null);
+    }
+
+    /**
+     * As {@link #installRelease(Player, AddonCatalog.Entry, java.util.function.Consumer, Runnable)}, but
+     * installs a specific release {@code primaryOverride} for {@code entry} (rather than the latest),
+     * powering the version picker / downgrade. Dependencies still resolve to their latest release.
+     */
+    public void installRelease(@Nonnull Player player, @Nonnull AddonCatalog.Entry entry, @javax.annotation.Nullable java.util.function.Consumer<Boolean> onComplete, @javax.annotation.Nullable Runnable onProgress, @javax.annotation.Nullable AddonReleaseService.ReleaseInfo primaryOverride) {
         // Resolve everything that touches the Bukkit API (isLoaded -> getPlugins, jar file names) on the
         // calling (main) thread, then reserve all ids before going async.
         List<AddonCatalog.Entry> targets = new ArrayList<>();
@@ -383,6 +392,21 @@ public final class AddonInstaller {
             }
         }
 
+        // In-game updates rely on Bukkit's update folder, which only swaps a jar that lives in /plugins.
+        // Some dev/launcher layouts (e.g. paperweight's runServer) load a plugin from elsewhere; staging an
+        // update into /plugins/update would then never be applied - and the user would see "restart to
+        // apply" followed by nothing. Detect that up front and say so plainly.
+        if (isLoaded(entry)) {
+            File loadedJar = locateJar(entry);
+
+            if (loadedJar != null && !isInPluginsDir(loadedJar)) {
+                message(player, ChatColor.RED + "✖ " + entry.getDisplayName() + " is loaded from outside /plugins"
+                    + " (" + loadedJar.getParent() + "), so it can't be updated from in-game on this setup.");
+                message(player, ChatColor.GRAY + "Update it through your build/launcher instead. (Real servers with the jar in /plugins update normally.)");
+                return;
+            }
+        }
+
         if (!reserve(targets)) {
             // A dependency (or this entry) is already being installed. Say so instead of no-op'ing —
             // a silent return here is what made a grid right-click look like it did nothing.
@@ -400,7 +424,11 @@ public final class AddonInstaller {
 
             try {
                 for (AddonCatalog.Entry target : targets) {
-                    AddonReleaseService.ReleaseInfo info = releaseService.fetchLatest(target);
+                    // The clicked entry may pin a specific release (version picker / downgrade); deps
+                    // always resolve to their latest.
+                    AddonReleaseService.ReleaseInfo info = (primaryOverride != null && target.getId().equals(entry.getId()))
+                        ? primaryOverride
+                        : releaseService.fetchLatest(target);
 
                     if (info == null) {
                         message(player, ChatColor.RED + "✖ " + target.getDisplayName() + " has no published release yet.");
@@ -734,6 +762,21 @@ public final class AddonInstaller {
             message(player, ChatColor.GREEN + "✔ Deleted " + entry.getDisplayName() + ChatColor.GRAY + " — restart the server to unload it.");
         } else {
             message(player, ChatColor.RED + "✖ Failed to delete " + entry.getDisplayName() + "'s jar (is the file locked?).");
+        }
+    }
+
+    /** Whether the jar sits directly in the /plugins directory (where the update folder can swap it). */
+    private static boolean isInPluginsDir(@Nonnull File jar) {
+        File parent = jar.getParentFile();
+
+        if (parent == null) {
+            return false;
+        }
+
+        try {
+            return parent.getCanonicalFile().equals(InstallTargets.pluginsDir().getCanonicalFile());
+        } catch (java.io.IOException e) {
+            return parent.getAbsoluteFile().equals(InstallTargets.pluginsDir().getAbsoluteFile());
         }
     }
 

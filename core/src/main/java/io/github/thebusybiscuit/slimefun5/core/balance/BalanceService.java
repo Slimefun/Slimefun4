@@ -25,12 +25,14 @@ public final class BalanceService {
 
     private final ItemBalanceHeuristic heuristic = new ItemBalanceHeuristic();
     private final ItemEffortHeuristic effortHeuristic = new ItemEffortHeuristic();
-    private final Map<String, BalanceOverrides> overridesByAddon = new HashMap<>();
+    // Concurrent because the caches are pre-warmed on an async thread at boot (see Slimefun#onPluginStart)
+    // while the main thread may also read them (installer open); ConcurrentHashMap makes that race-free.
+    private final Map<String, BalanceOverrides> overridesByAddon = new java.util.concurrent.ConcurrentHashMap<>();
     // Effort walks the recipe tree (expensive) and per-addon summaries scan the whole registry; both are
     // static once items/recipes are registered, so memoize them. Without this, opening the installer
     // recomputed every item's recipe-tree effort on the main thread and froze the server for seconds.
-    private final Map<String, Integer> effortCache = new HashMap<>();
-    private final Map<String, AddonBalanceSummary> summaryCache = new HashMap<>();
+    private final Map<String, Integer> effortCache = new java.util.concurrent.ConcurrentHashMap<>();
+    private final Map<String, AddonBalanceSummary> summaryCache = new java.util.concurrent.ConcurrentHashMap<>();
 
     private BalanceService() {}
 

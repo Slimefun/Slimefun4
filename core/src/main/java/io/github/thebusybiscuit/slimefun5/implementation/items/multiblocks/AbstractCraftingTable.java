@@ -243,54 +243,35 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         Optional<String> id = retrieveID(input, size);
 
         if (id.isPresent()) {
-            for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
-                if (output.getItemMeta().getLore().get(line).equals(ChatColors.color("&7ID: <ID>"))) {
-                    ItemMeta im = output.getItemMeta();
-                    List<String> lore = im.getLore();
-                    lore.set(line, lore.get(line).replace("<ID>", id.get()));
-                    im.setLore(lore);
-                    output.setItemMeta(im);
-                    break;
-                }
-            }
+            // Carry the existing backpack's identity onto the upgraded output.
+            PlayerBackpack.writeIdentity(output, id.get());
         } else {
-            for (int line = 0; line < output.getItemMeta().getLore().size(); line++) {
-                if (output.getItemMeta().getLore().get(line).equals(ChatColors.color("&7ID: <ID>"))) {
-                    int target = line;
-
-                    PlayerProfile.get(p, profile -> {
-                        int backpackId = profile.createBackpack(size).getId();
-                        Slimefun.getBackpackListener().setBackpackId(p, output, target, backpackId);
-                    });
-
-                    break;
-                }
-            }
+            PlayerProfile.get(p, profile -> {
+                int backpackId = profile.createBackpack(size).getId();
+                PlayerBackpack.writeIdentity(output, p.getUniqueId() + "#" + backpackId);
+            });
         }
     }
 
     private @Nonnull Optional<String> retrieveID(@Nullable ItemStack backpack, int size) {
-        if (backpack != null) {
-            for (String line : backpack.getItemMeta().getLore()) {
-                if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {
-                    String id = line.replace(ChatColors.color("&7ID: "), "");
-                    String[] idSplit = CommonPatterns.HASH.split(id);
+        Optional<String> identity = PlayerBackpack.readIdentity(backpack);
 
-                    PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
-                        Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));
-                        optional.ifPresent(playerBackpack -> {
-                            // Safety feature for Issue #3664
-                            CompletableFuture<Void> future = playerBackpack.closeForAll();
-                            future.thenRun(() -> playerBackpack.setSize(size));
-                        });
+        if (identity.isPresent()) {
+            String[] idSplit = CommonPatterns.HASH.split(identity.get());
+
+            if (idSplit.length == 2) {
+                PlayerProfile.fromUUID(UUID.fromString(idSplit[0]), profile -> {
+                    Optional<PlayerBackpack> optional = profile.getBackpack(Integer.parseInt(idSplit[1]));
+                    optional.ifPresent(playerBackpack -> {
+                        // Safety feature for Issue #3664
+                        CompletableFuture<Void> future = playerBackpack.closeForAll();
+                        future.thenRun(() -> playerBackpack.setSize(size));
                     });
-
-                    return Optional.of(id);
-                }
+                });
             }
         }
 
-        return Optional.empty();
+        return identity;
     }
 
 }

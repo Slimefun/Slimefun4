@@ -135,6 +135,8 @@ public final class AddonInstallerMenu {
 
                 if (!summary.isEmpty()) {
                     lore.add("");
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.overall")
+                        .replace("%verdict%", Slimefun.getLocalization().getMessage(p, "guide.balance.verdict." + summary.getVerdict().name().toLowerCase(Locale.ROOT))));
                     lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.peak")
                         .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + summary.getPeakTier().name().toLowerCase(Locale.ROOT)))
                         .replace("%score%", String.valueOf(summary.getPeak())));
@@ -194,6 +196,8 @@ public final class AddonInstallerMenu {
                 if (!balance.isEmpty()) {
                     // Headline the PEAK (the strongest item) + overpowered count, not the average - a few
                     // game-breakers must not be hidden by a pile of low-power filler items dragging the mean down.
+                    lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.overall")
+                        .replace("%verdict%", Slimefun.getLocalization().getMessage(p, "guide.balance.verdict." + balance.getVerdict().name().toLowerCase(Locale.ROOT))));
                     lore.add(Slimefun.getLocalization().getMessage(p, "guide.balance.tile")
                         .replace("%tier%", Slimefun.getLocalization().getMessage(p, "guide.balance.tier." + balance.getPeakTier().name().toLowerCase(Locale.ROOT)))
                         .replace("%score%", String.valueOf(balance.getPeak())));

@@ -42,16 +42,49 @@ public final class LoreComposer {
         if (hasStructuralBlocks) {
             // Enchantments are their own block after Type, so joinBlocks puts a blank line between the
             // category and its enchantments.
-            return joinBlocks(item, Arrays.asList(type, enchantLines, desc, stats, usage));
+            return normalizeBlankLines(joinBlocks(item, Arrays.asList(type, enchantLines, desc, stats, usage)));
         }
 
         if (!description.isEmpty()) {
-            return joinBlocks(item, Arrays.asList(fallbackBase, desc));
+            return normalizeBlankLines(joinBlocks(item, Arrays.asList(fallbackBase, desc)));
         }
 
         // No authored blocks: the item's own lore IS its description, so the toggle hides it on physical
         // items (the guide passes includeDescription=true, so the guide still shows it).
-        return includeDescription ? renderBlock(item, fallbackBase) : new ArrayList<String>();
+        return includeDescription ? normalizeBlankLines(renderBlock(item, fallbackBase)) : new ArrayList<String>();
+    }
+
+    /**
+     * Enforces the lore spacing rules on any composed lore: no leading or trailing blank lines, and never
+     * two blank lines in a row (a blank being a line that is empty once colour codes/whitespace are stripped,
+     * so an authored "&7" spacer counts too). Applied to every compose() result so no item can render with
+     * doubled gaps.
+     */
+    @Nonnull
+    private static List<String> normalizeBlankLines(@Nonnull List<String> lore) {
+        List<String> out = new ArrayList<>(lore.size());
+
+        for (String line : lore) {
+            boolean blank = line == null || ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', line)).trim().isEmpty();
+
+            if (blank) {
+                // Drop leading blanks and any blank that follows another blank.
+                if (out.isEmpty() || out.get(out.size() - 1).isEmpty()) {
+                    continue;
+                }
+
+                out.add("");
+            } else {
+                out.add(line);
+            }
+        }
+
+        // Drop a trailing blank.
+        while (!out.isEmpty() && out.get(out.size() - 1).isEmpty()) {
+            out.remove(out.size() - 1);
+        }
+
+        return out;
     }
 
     /** Concatenates non-empty blocks with one blank line between them. */

@@ -297,6 +297,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             StartupWarnings.oldJavaVersion(logger, RECOMMENDED_JAVA_VERSION);
         }
 
+        // Legacy Minecraft versions (1.8 - 1.15) are supported by this fork but only lightly tested, so
+        // warn the admin they are on experimental ground.
+        if (minecraftVersion.isBefore(MinecraftVersion.MINECRAFT_1_16)) {
+            StartupWarnings.experimentalVersion(logger, minecraftVersion.getName());
+        }
+
         // If the server has no "data-storage" folder, it's _probably_ a new install. So mark it for metrics.
         isNewlyInstalled = !new File("data-storage/Slimefun").exists();
 
@@ -374,9 +380,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             itemTranslationService.auditUnmigratedLore(new java.io.File(getDataFolder(), "hardcoded-lore-audit.yml")), 200L);
 
         // Pre-warm the balance caches (heavy per-item recipe-tree effort walks) once, after all addons have
-        // registered their items, so opening the admin addon installer never does that work on the main
-        // thread (which froze the server for seconds on each open).
-        getServer().getScheduler().runTaskLater(this,
+        // registered their items. Runs ASYNC (off the main thread): doing it on the main thread froze the
+        // server for a couple of seconds ~10s after boot - which is exactly when an admin first opens the
+        // guide. The caches are ConcurrentHashMaps so a concurrent installer-open read is safe.
+        getServer().getScheduler().runTaskLaterAsynchronously(this,
             () -> io.github.thebusybiscuit.slimefun5.core.balance.BalanceService.instance().warmCache(), 210L);
 
         logger.log(Level.INFO, "Registering listeners...");

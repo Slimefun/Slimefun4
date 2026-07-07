@@ -321,6 +321,7 @@ guide:
     install:
       install: '&aNeuestes Release installieren'
       update: '&aAuf neuestes Release aktualisieren'
+      up-to-date: '&7✔ Aktuell &8(neuestes Release)'
       working: '&e⏳ Installiere… &7(zum Anwenden neu starten)'
       progress: '&e⏳ %bar%'
       lore:
@@ -342,6 +343,16 @@ guide:
       - '&7Wird nach dem nächsten Neustart wirksam.'
       - ''
       - '&7⇨ &cZum Löschen klicken'
+    versions:
+      name: '&bVersion wählen'
+      lore:
+      - '&7Installiere oder wechsle zu einer'
+      - '&7beliebigen früheren Version dieses Addons.'
+      - ''
+      - '&7⇨ &eKlicke'
+      click: '&7⇨ &eKlicke, um diese Version zu installieren'
+      none: '&cKeine Releases gefunden'
+      none-lore: '&7Dieses Addon hat keine veröffentlichten Releases mit einer JAR-Datei.'
     branches:
       none: '&cKeine Branches gefunden'
       none-lore: '&7Dieses Repository hat keine Branches.'
@@ -361,6 +372,7 @@ guide:
 
   balance:
     header: '&6&lBalance-Bewertung &7(Admin)'
+    overall: '&7Bewertung: %verdict%'
     tile: '&7Balance: %tier% &8(%score%)'
     average: '&7Durchschnitt: %tier% &8(&7%score%&8/100)'
     peak: '&7Höchstwert: %tier% &8(&7%score%&8/100)'

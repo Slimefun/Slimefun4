@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.thebusybiscuit.slimefun5.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun5.core.commands.SubCommand;
@@ -70,7 +71,7 @@ class BackpackCommand extends SubCommand {
 
                     Slimefun.runSync(() -> {
                         ItemStack item = SlimefunItems.RESTORED_BACKPACK.item();
-                        Slimefun.getBackpackListener().setBackpackId(backpackOwner, item, 2, id);
+                        PlayerBackpack.writeIdentity(item, backpackOwner.getUniqueId() + "#" + id);
                         player.getInventory().addItem(item);
                         Slimefun.getLocalization().sendMessage(sender, "commands.backpack.restored-backpack-given");
                     });

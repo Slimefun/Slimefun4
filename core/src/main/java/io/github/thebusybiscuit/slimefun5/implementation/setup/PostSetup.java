@@ -93,6 +93,32 @@ public final class PostSetup {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Successfully loaded " + total + " Items and " + Slimefun.getRegistry().getResearches().size() + " Researches");
         sender.sendMessage(ChatColor.GREEN + "( " + slimefunOnly + " Items from Slimefun, " + (total - slimefunOnly) + " Items from " + Slimefun.getInstalledAddons().size() + " Addons )");
+
+        // Uniform per-addon breakdown: every installed addon is reported here in ONE consistent format
+        // (name, version, item count), rather than each addon printing its own differently-styled banner.
+        // Item counts are keyed by addon name because getInstalledAddons() yields Plugins, while an item's
+        // owning addon is a SlimefunAddon - they line up by name.
+        java.util.Map<String, Integer> addonItemCounts = new java.util.HashMap<>();
+
+        for (io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem sfItem : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            io.github.thebusybiscuit.slimefun5.api.SlimefunAddon owningAddon = sfItem.getAddon();
+
+            if (owningAddon != null) {
+                addonItemCounts.merge(owningAddon.getName(), 1, Integer::sum);
+            }
+        }
+
+        java.util.List<org.bukkit.plugin.Plugin> installedAddons = new java.util.ArrayList<>(Slimefun.getInstalledAddons());
+        installedAddons.sort(java.util.Comparator.comparing(org.bukkit.plugin.Plugin::getName, String.CASE_INSENSITIVE_ORDER));
+
+        if (!installedAddons.isEmpty()) {
+            sender.sendMessage("");
+
+            for (org.bukkit.plugin.Plugin addon : installedAddons) {
+                sender.sendMessage(ChatColor.GREEN + "  - " + addon.getName() + " v" + addon.getDescription().getVersion() + ChatColor.GRAY + " (" + addonItemCounts.getOrDefault(addon.getName(), 0) + " items)");
+            }
+        }
+
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "Slimefun is an Open-Source project that is kept alive by a large community.");
         sender.sendMessage(ChatColor.GREEN + "Consider helping us maintain this project by contributing on GitHub!");

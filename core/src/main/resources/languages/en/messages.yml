@@ -458,6 +458,7 @@ guide:
     install:
       install: '&aInstall latest release'
       update: '&aUpdate to latest release'
+      up-to-date: '&7✔ Up to date &8(latest release)'
       working: '&e⏳ Installing… &7(restart to apply)'
       progress: '&e⏳ %bar%'
       lore:
@@ -479,6 +480,16 @@ guide:
       - '&7Takes effect after the next restart.'
       - ''
       - '&7⇨ &cClick to delete'
+    versions:
+      name: '&bChoose version'
+      lore:
+      - '&7Install or downgrade to any past'
+      - '&7release of this addon.'
+      - ''
+      - '&7⇨ &eClick'
+      click: '&7⇨ &eClick to install this version'
+      none: '&cNo releases found'
+      none-lore: '&7This addon has no published releases with a downloadable jar.'
     branches:
       none: '&cNo branches found'
       none-lore: '&7This repository has no branches.'
@@ -498,6 +509,7 @@ guide:
 
   balance:
     header: '&6&lBalance rating &7(admin)'
+    overall: '&7Rating: %verdict%'
     tile: '&7Balance: %tier% &8(%score%)'
     average: '&7Average: %tier% &8(&7%score%&8/100)'
     peak: '&7Peak: %tier% &8(&7%score%&8/100)'

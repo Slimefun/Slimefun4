@@ -46,6 +46,18 @@ final class StartupWarnings {
     }
 
     @ParametersAreNonnullByDefault
+    static void experimentalVersion(Logger logger, String versionName) {
+        logger.log(Level.WARNING, BORDER);
+        logger.log(Level.WARNING, PREFIX + "You are running Slimefun on Minecraft {0}.", versionName);
+        logger.log(Level.WARNING, PREFIX);
+        logger.log(Level.WARNING, PREFIX + "This is an EXPERIMENTAL, poorly-tested version for");
+        logger.log(Level.WARNING, PREFIX + "this fork. Legacy versions (1.8 - 1.15) receive far");
+        logger.log(Level.WARNING, PREFIX + "less testing than 1.16+ - expect rough edges and");
+        logger.log(Level.WARNING, PREFIX + "please report anything broken.");
+        logger.log(Level.WARNING, BORDER);
+    }
+
+    @ParametersAreNonnullByDefault
     static void invalidServerSoftware(Logger logger) {
         logger.log(Level.SEVERE, BORDER);
         logger.log(Level.SEVERE, PREFIX + "Slimefun was not installed correctly!");

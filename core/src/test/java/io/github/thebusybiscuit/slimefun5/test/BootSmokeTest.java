@@ -1,8 +1,12 @@
 package io.github.thebusybiscuit.slimefun5.test;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +18,7 @@ import org.mockbukkit.mockbukkit.MockBukkit;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.SlimefunItemSetup;
 
 /**
@@ -80,5 +85,71 @@ class BootSmokeTest {
 
         Assertions.assertTrue(offenders.isEmpty(),
             offenders.size() + " item(s) have a broken template: " + offenders.subList(0, Math.min(15, offenders.size())));
+    }
+
+    @Test
+    @DisplayName("Every item identifies itself: getByItem(item.getItem()) round-trips to the same item")
+    void testItemsRoundTrip() {
+        // If our id/PDC/distinctive changes broke an item's self-identification, its own template no longer
+        // resolves back to it - which is a whole class of "the item doesn't work anymore" migration breakage.
+        List<String> offenders = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            // VanillaItem entries are real vanilla items shown in the guide for their recipe - they carry
+            // no Slimefun PDC id (you get the actual vanilla item), so not identifying is correct.
+            if (item instanceof VanillaItem) {
+                continue;
+            }
+
+            try {
+                SlimefunItem resolved = SlimefunItem.getByItem(item.getItem());
+
+                if (resolved == null || !resolved.getId().equals(item.getId())) {
+                    offenders.add(item.getId() + " -> " + (resolved == null ? "null" : resolved.getId()));
+                }
+            } catch (Exception | LinkageError e) {
+                offenders.add(item.getId() + " (" + e.getClass().getSimpleName() + ")");
+            }
+        }
+
+        Assertions.assertTrue(offenders.isEmpty(),
+            offenders.size() + " item(s) do not identify themselves: " + offenders.subList(0, Math.min(15, offenders.size())));
+    }
+
+    @Test
+    @DisplayName("Every item has a resolvable display name (baked in code OR a name in en/items.yml)")
+    void testEveryItemHasAName() {
+        // The unit-test boot doesn't run the runtime resolver, so an id-only item (no name in code) shows
+        // its raw material name at runtime UNLESS en/items.yml carries a name for its id. Items that have
+        // neither are exactly the "blank / material-name" reports (e.g. the nameless Networks pane).
+        YamlConfiguration en = new YamlConfiguration();
+
+        try (InputStream in = getClass().getResourceAsStream("/languages/en/items.yml")) {
+            Assertions.assertNotNull(in, "en/items.yml not found on the classpath");
+            en.load(new InputStreamReader(in, StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            Assertions.fail("Could not read en/items.yml: " + e);
+        }
+
+        List<String> nameless = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            // VanillaItem entries intentionally show the vanilla client name (no custom name), so skip them.
+            if (item instanceof VanillaItem) {
+                continue;
+            }
+
+            ItemMeta meta = item.getItem().getItemMeta();
+            boolean bakedName = meta != null && meta.hasDisplayName();
+            String resourceName = en.getString(item.getId() + ".name");
+            boolean resourceHasName = resourceName != null && !resourceName.trim().isEmpty();
+
+            if (!bakedName && !resourceHasName) {
+                nameless.add(item.getId());
+            }
+        }
+
+        Assertions.assertTrue(nameless.isEmpty(),
+            nameless.size() + " item(s) will render with their raw material name (no code name, no en/items.yml name): " + nameless);
     }
 }

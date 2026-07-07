@@ -263,7 +263,23 @@ public class SlimefunItem implements Placeable {
             io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantDisplay.hide(meta);
         }
 
+        // Last chance for items that store runtime data in their lore (e.g. a backpack's "ID: <ID>" line)
+        // to re-attach it: the id-only display rebuild sources lore from resources, which drops such lines.
+        decorateBakedTemplate(meta);
+
         itemStackTemplate.setItemMeta(meta);
+    }
+
+    /**
+     * Hook invoked at the end of {@link #bakeTranslatedDisplay} with the template's (already display-baked)
+     * {@link ItemMeta}, letting subclasses re-attach lore lines that carry runtime data rather than
+     * localizable display text. The default implementation does nothing.
+     *
+     * @param meta
+     *            The template meta about to be applied
+     */
+    protected void decorateBakedTemplate(@Nonnull ItemMeta meta) {
+        // no-op by default
     }
 
     /**

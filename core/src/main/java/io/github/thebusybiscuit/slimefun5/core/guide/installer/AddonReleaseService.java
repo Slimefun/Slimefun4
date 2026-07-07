@@ -112,6 +112,43 @@ public final class AddonReleaseService {
     }
 
     /**
+     * Fetches all published releases for an entry (newest first, as GitHub returns them), each that has a
+     * downloadable jar asset. Used by the version picker so a player can install (or downgrade to) any past
+     * release, not just the latest.
+     *
+     * @return the releases with a jar asset; empty if none or the request failed.
+     */
+    @Nonnull
+    public java.util.List<ReleaseInfo> fetchReleases(@Nonnull AddonCatalog.Entry entry) {
+        java.util.List<ReleaseInfo> result = new java.util.ArrayList<>();
+        JsonElement response = get(API_URL + "repos/" + entry.getSlug() + "/releases");
+
+        if (response == null || !response.isJsonArray()) {
+            return result;
+        }
+
+        for (JsonElement element : response.getAsJsonArray()) {
+            if (!element.isJsonObject()) {
+                continue;
+            }
+
+            JsonObject obj = element.getAsJsonObject();
+
+            if (!obj.has("tag_name") || !obj.has("assets")) {
+                continue;
+            }
+
+            String jarUrl = findJarAsset(obj.getAsJsonArray("assets"));
+
+            if (jarUrl != null) {
+                result.add(new ReleaseInfo(obj.get("tag_name").getAsString(), jarUrl));
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * Fetches the short commit SHA at the head of a branch (for update-checking branch installs).
      * Blocking — call off the main thread.
      *

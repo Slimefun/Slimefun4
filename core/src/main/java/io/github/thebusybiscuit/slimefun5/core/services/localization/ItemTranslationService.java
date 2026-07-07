@@ -61,6 +61,35 @@ public class ItemTranslationService {
 
     private final Map<String, Map<String, ItemTranslation>> byLanguage = new HashMap<>();
 
+    /**
+     * A dynamic item family: an item id that matches {@link #pattern} (compiled from a key that used the
+     * capture token {@code %MOB%}, e.g. {@code "%MOB%_SOUL_JAR"}) resolves to {@link #template} with the
+     * {@code %mob%} placeholder replaced by the humanized captured segment. This lets an addon localize a
+     * whole family of runtime-generated items (per entity type, etc.) from a single template entry.
+     */
+    private static final class Family {
+
+        private final java.util.regex.Pattern pattern;
+        private final ItemTranslation template;
+        // Count of literal (non-capture) characters; families are tried most-specific-first so that e.g.
+        // FILLED_%MOB%_SOUL_JAR wins over %MOB%_SOUL_JAR for "FILLED_ZOMBIE_SOUL_JAR".
+        private final int specificity;
+
+        Family(java.util.regex.Pattern pattern, ItemTranslation template, int specificity) {
+            this.pattern = pattern;
+            this.template = template;
+            this.specificity = specificity;
+        }
+    }
+
+    /** The id-capture token used in a family key ("%MOB%_SOUL_JAR") and the value placeholder ("%mob%"). */
+    private static final String FAMILY_ID_TOKEN = "%MOB%";
+    private static final String FAMILY_VALUE_PLACEHOLDER = "%mob%";
+
+    private final Map<String, List<Family>> familiesByLanguage = new HashMap<>();
+    // Memoizes family resolution per (language, id); a null value means "checked, no family matches".
+    private final Map<String, ItemTranslation> familyResolveCache = new HashMap<>();
+
     // Pre-bake (English) copies of items whose physical template was re-skinned to the server default.
     // Lets the Guide still show English to a player whose language has no translation.
     private final Map<String, ItemStack> englishBaseline = new HashMap<>();
@@ -119,7 +148,20 @@ public class ItemTranslationService {
                 List<String> usage = config.getStringList(id + ".usage");
 
                 if (name != null || !lore.isEmpty() || !description.isEmpty() || !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty()) {
-                    map.put(id, new ItemTranslation(name, lore, description, type, stats, usage));
+                    ItemTranslation translation = new ItemTranslation(name, lore, description, type, stats, usage);
+
+                    if (id.contains(FAMILY_ID_TOKEN)) {
+                        // A family template: turn "%MOB%_SOUL_JAR" into a regex "(.+)_SOUL_JAR" and store it
+                        // so any concrete id (ZOMBIE_SOUL_JAR) resolves through it (see resolveFamily).
+                        String regex = java.util.regex.Pattern.quote(id).replace(FAMILY_ID_TOKEN, "\\E(.+)\\Q");
+                        int specificity = id.replace(FAMILY_ID_TOKEN, "").length();
+                        List<Family> list = familiesByLanguage.computeIfAbsent(language, k -> new ArrayList<>());
+                        list.add(new Family(java.util.regex.Pattern.compile("^" + regex + "$"), translation, specificity));
+                        list.sort((a, b) -> Integer.compare(b.specificity, a.specificity));
+                        familyResolveCache.clear();
+                    } else {
+                        map.put(id, translation);
+                    }
                 }
             }
         } catch (RuntimeException e) {
@@ -154,7 +196,8 @@ public class ItemTranslationService {
                     continue;
                 }
 
-                ItemTranslation translation = map.get(item.getId());
+                // Resolve through lookup() so item families (e.g. per-mob jars) bake too, not just exact ids.
+                ItemTranslation translation = lookup(defaultLanguage.getId(), item.getId());
 
                 if (translation != null) {
                     englishBaseline.put(item.getId(), item.getItem());
@@ -181,6 +224,17 @@ public class ItemTranslationService {
         }
     }
 
+    // Package-private seams for headless tests of the item-family resolver.
+    void loadTranslationsForTest(@Nonnull String language, @Nonnull InputStream stream) {
+        load(language, stream);
+    }
+
+    @Nullable
+    String resolveNameForTest(@Nonnull String language, @Nonnull String itemId) {
+        ItemTranslation translation = lookup(language, itemId);
+        return translation == null ? null : translation.name;
+    }
+
     @Nullable
     private ItemTranslation lookup(@Nullable String language, @Nonnull String itemId) {
         if (language == null) {
@@ -188,7 +242,95 @@ public class ItemTranslationService {
         }
 
         Map<String, ItemTranslation> map = byLanguage.get(language);
-        return map != null ? map.get(itemId) : null;
+
+        if (map != null) {
+            ItemTranslation exact = map.get(itemId);
+
+            if (exact != null) {
+                return exact;
+            }
+        }
+
+        return resolveFamily(language, itemId);
+    }
+
+    /**
+     * Resolves an id against the language's item families (see {@link Family}). On a match, the captured
+     * segment is humanized ({@code ZOMBIE_PIGMAN -> "Zombie Pigman"}) and substituted for every
+     * {@code %mob%} placeholder in the template. Memoized per (language, id), including negative results.
+     */
+    @Nullable
+    private ItemTranslation resolveFamily(@Nonnull String language, @Nonnull String itemId) {
+        List<Family> families = familiesByLanguage.get(language);
+
+        if (families == null || families.isEmpty()) {
+            return null;
+        }
+
+        String cacheKey = language + ' ' + itemId;
+
+        if (familyResolveCache.containsKey(cacheKey)) {
+            return familyResolveCache.get(cacheKey);
+        }
+
+        ItemTranslation resolved = null;
+
+        for (Family family : families) {
+            java.util.regex.Matcher matcher = family.pattern.matcher(itemId);
+
+            if (matcher.matches()) {
+                String mob = humanize(matcher.group(1));
+                ItemTranslation t = family.template;
+                resolved = new ItemTranslation(
+                    substitute(t.name, mob),
+                    substitute(t.lore, mob),
+                    substitute(t.description, mob),
+                    substitute(t.type, mob),
+                    substitute(t.stats, mob),
+                    substitute(t.usage, mob));
+                break;
+            }
+        }
+
+        familyResolveCache.put(cacheKey, resolved);
+        return resolved;
+    }
+
+    /** Title-cases an enum-style name: {@code ZOMBIE_PIGMAN -> "Zombie Pigman"}. */
+    @Nonnull
+    private static String humanize(@Nonnull String raw) {
+        String[] words = raw.toLowerCase(java.util.Locale.ROOT).split("_");
+        StringBuilder sb = new StringBuilder(raw.length());
+
+        for (String word : words) {
+            if (word.isEmpty()) {
+                continue;
+            }
+
+            if (sb.length() > 0) {
+                sb.append(' ');
+            }
+
+            sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+        }
+
+        return sb.toString();
+    }
+
+    @Nullable
+    private static String substitute(@Nullable String value, @Nonnull String mob) {
+        return value == null ? null : value.replace(FAMILY_VALUE_PLACEHOLDER, mob);
+    }
+
+    @Nonnull
+    private static List<String> substitute(@Nonnull List<String> lines, @Nonnull String mob) {
+        List<String> out = new ArrayList<>(lines.size());
+
+        for (String line : lines) {
+            out.add(line.replace(FAMILY_VALUE_PLACEHOLDER, mob));
+        }
+
+        return out;
     }
 
     private interface BlockSelector { List<String> select(ItemTranslation t); }

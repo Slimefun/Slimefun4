@@ -175,6 +175,7 @@ guide:
     install:
       install: '&aInstalar la última versión'
       update: '&aActualizar a la última versión'
+      up-to-date: '&7✔ Actualizado &8(última versión)'
       lore:
       - '&7Descarga la última versión de GitHub'
       - '&7y la prepara para el próximo reinicio.'
@@ -187,6 +188,16 @@ guide:
       - '&7(solo entornos de desarrollo).'
       - ''
       - '&7⇨ &eHaz clic para elegir una rama'
+    versions:
+      name: '&bElegir versión'
+      lore:
+      - '&7Instala o vuelve a cualquier versión'
+      - '&7anterior de este addon.'
+      - ''
+      - '&7⇨ &eHaz clic'
+      click: '&7⇨ &eHaz clic para instalar esta versión'
+      none: '&cNo se encontraron versiones'
+      none-lore: '&7Este addon no tiene versiones publicadas con un archivo jar.'
     branches:
       none: '&cNo se encontraron ramas'
       none-lore: "&7No se pudo conectar con GitHub o el repositorio no tiene ramas."
@@ -202,6 +213,7 @@ guide:
 
   balance:
     header: '&6&lValoración de equilibrio &7(admin)'
+    overall: '&7Valoración: %verdict%'
     tile: '&7Equilibrio: %tier% &8(%score%)'
     average: '&7Media: %tier% &8(&7%score%&8/100)'
     peak: '&7Máximo: %tier% &8(&7%score%&8/100)'

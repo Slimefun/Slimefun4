@@ -476,28 +476,20 @@ public class PlayerProfile {
     }
 
     public static void getBackpack(@Nullable ItemStack item, @Nonnull Consumer<PlayerBackpack> callback) {
-        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore()) {
+        // Identity is "<owner-uuid>#<id>", read from persistent data (with a legacy lore-line fallback for
+        // backpacks made by older Slimefun versions).
+        Optional<String> identity = PlayerBackpack.readIdentity(item);
+
+        if (!identity.isPresent()) {
             return;
         }
 
-        OptionalInt id = OptionalInt.empty();
-        String uuid = "";
+        String[] splitLine = CommonPatterns.HASH.split(identity.get());
 
-        for (String line : item.getItemMeta().getLore()) {
-            if (line.startsWith(ChatColors.color("&7ID: ")) && line.indexOf('#') != -1) {
-                String[] splitLine = CommonPatterns.HASH.split(line);
+        if (splitLine.length == 2 && CommonPatterns.NUMERIC.matcher(splitLine[1]).matches()) {
+            int number = Integer.parseInt(splitLine[1]);
 
-                if (CommonPatterns.NUMERIC.matcher(splitLine[1]).matches()) {
-                    id = OptionalInt.of(Integer.parseInt(splitLine[1]));
-                    uuid = splitLine[0].replace(ChatColors.color("&7ID: "), "");
-                }
-            }
-        }
-
-        if (id.isPresent()) {
-            int number = id.getAsInt();
-
-            fromUUID(UUID.fromString(uuid), profile -> {
+            fromUUID(UUID.fromString(splitLine[0]), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
                 backpack.ifPresent(callback);
             });
