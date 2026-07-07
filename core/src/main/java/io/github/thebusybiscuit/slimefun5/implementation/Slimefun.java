@@ -373,6 +373,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         getServer().getScheduler().runTaskLater(this, () ->
             itemTranslationService.auditUnmigratedLore(new java.io.File(getDataFolder(), "hardcoded-lore-audit.yml")), 200L);
 
+        // Pre-warm the balance caches (heavy per-item recipe-tree effort walks) once, after all addons have
+        // registered their items, so opening the admin addon installer never does that work on the main
+        // thread (which froze the server for seconds on each open).
+        getServer().getScheduler().runTaskLater(this,
+            () -> io.github.thebusybiscuit.slimefun5.core.balance.BalanceService.instance().warmCache(), 210L);
+
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
 

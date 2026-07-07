@@ -26,6 +26,11 @@ public final class BalanceService {
     private final ItemBalanceHeuristic heuristic = new ItemBalanceHeuristic();
     private final ItemEffortHeuristic effortHeuristic = new ItemEffortHeuristic();
     private final Map<String, BalanceOverrides> overridesByAddon = new HashMap<>();
+    // Effort walks the recipe tree (expensive) and per-addon summaries scan the whole registry; both are
+    // static once items/recipes are registered, so memoize them. Without this, opening the installer
+    // recomputed every item's recipe-tree effort on the main thread and froze the server for seconds.
+    private final Map<String, Integer> effortCache = new HashMap<>();
+    private final Map<String, AddonBalanceSummary> summaryCache = new HashMap<>();
 
     private BalanceService() {}
 
@@ -68,9 +73,17 @@ public final class BalanceService {
         return BalanceScore.of(override != null ? override.intValue() : heuristic.estimate(item));
     }
 
-    /** Auto-computed EFFORT (0-100): how hard the item is to obtain, from its recipe tree/gates. */
+    /** Auto-computed EFFORT (0-100): how hard the item is to obtain, from its recipe tree/gates. Memoized. */
     public int effortOf(@Nonnull SlimefunItem item) {
-        return effortHeuristic.estimate(item);
+        Integer cached = effortCache.get(item.getId());
+
+        if (cached != null) {
+            return cached.intValue();
+        }
+
+        int effort = effortHeuristic.estimate(item);
+        effortCache.put(item.getId(), effort);
+        return effort;
     }
 
     /** The balance verdict combining the item's power score with its effort to obtain. */
@@ -79,9 +92,32 @@ public final class BalanceService {
         return BalanceVerdict.from(scoreOf(item).getScore(), effortOf(item));
     }
 
+    /**
+     * Pre-computes the effort + per-addon summary caches once (the heavy recipe-tree walks), so the admin
+     * installer never has to do them on the main thread when a player opens it. Call from a delayed boot
+     * task after all items have registered; safe to call again (cached calls are cheap).
+     */
+    public void warmCache() {
+        Set<String> addons = new TreeSet<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getAllSlimefunItems()) {
+            addons.add(item.getAddon().getName());
+        }
+
+        for (String addon : addons) {
+            summarize(addon);
+        }
+    }
+
     /** Live summary for one addon by its {@link SlimefunAddon#getName()}. */
     @Nonnull
     public AddonBalanceSummary summarize(@Nonnull String addonName) {
+        AddonBalanceSummary cached = summaryCache.get(addonName);
+
+        if (cached != null) {
+            return cached;
+        }
+
         List<Integer> scores = new ArrayList<>();
         int overpowered = 0;
 
@@ -97,7 +133,9 @@ public final class BalanceService {
             }
         }
 
-        return AddonBalanceSummary.of(scores, overpowered);
+        AddonBalanceSummary summary = AddonBalanceSummary.of(scores, overpowered);
+        summaryCache.put(addonName, summary);
+        return summary;
     }
 
     /** The strongest non-trivial items of an addon, highest score first (for the drill-down menu). */
