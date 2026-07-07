@@ -345,6 +345,7 @@ messages:
   no-permission: '&4Vous n''avez pas les permissions requises pour faire ceci'
   usage: '&4Utilisation: &c%usage%'
   migration:
+    target: '&7Vérification de l''inventaire de &e%player%'
     scanning: '&7Analyse de votre inventaire à la recherche d''objets Slimefun...'
     summary: '&7Résolus : &a%resolved%&7, non résolus : &c%unresolved%'
     all-good: '&aTous les objets Slimefun de votre inventaire sont résolus correctement.'

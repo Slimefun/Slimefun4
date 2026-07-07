@@ -343,6 +343,7 @@ messages:
   no-permission: '&4No tienes el permiso requerido para hacer esto.'
   usage: '&4Uso: &c%usage%'
   migration:
+    target: '&7Comprobando el inventario de &e%player%'
     scanning: '&7Analizando tu inventario en busca de objetos de Slimefun...'
     summary: '&7Resueltos: &a%resolved%&7, no resueltos: &c%unresolved%'
     all-good: '&aTodos los objetos de Slimefun de tu inventario se resuelven correctamente.'

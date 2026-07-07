@@ -524,6 +524,7 @@ messages:
   no-permission: '&4Du hast nicht die benötigten Rechte hierfür'
   usage: '&4Korrekte Schreibweise: &c%usage%'
   migration:
+    target: '&7Prüfe das Inventar von &e%player%'
     scanning: '&7Durchsuche dein Inventar nach Slimefun-Items...'
     summary: '&7Aufgelöst: &a%resolved%&7, nicht aufgelöst: &c%unresolved%'
     all-good: '&aAlle Slimefun-Items in deinem Inventar werden korrekt aufgelöst.'

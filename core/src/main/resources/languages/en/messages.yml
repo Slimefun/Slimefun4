@@ -553,6 +553,7 @@ messages:
   no-permission: '&4You do not have the required permission to do this'
   usage: '&4Usage: &c%usage%'
   migration:
+    target: '&7Checking &e%player%&7''s inventory'
     scanning: '&7Scanning your inventory for Slimefun items...'
     summary: '&7Resolved: &a%resolved%&7, unresolved: &c%unresolved%'
     all-good: '&aEvery Slimefun item in your inventory resolves correctly.'

@@ -139,7 +139,7 @@ public class MetricsService {
             Slimefun.runSync(() -> {
                 try {
                     start.invoke(null);
-                    plugin.getLogger().info("Metrics build #" + version + " started.");
+                    plugin.getLogger().info(version == null ? "Metrics started." : "Metrics build #" + version + " started.");
                 } catch (InvocationTargetException e) {
                     plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting the metrics module", e.getCause());
                 } catch (Exception | LinkageError e) {
