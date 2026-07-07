@@ -278,6 +278,9 @@ public class ItemTranslationService {
                 meta.setLore(composed);
             }
 
+            // Enchantments are re-rendered as lore under the Type block, so hide the vanilla tooltip.
+            EnchantDisplay.hide(meta);
+
             display.setItemMeta(meta);
         }
 
@@ -360,6 +363,13 @@ public class ItemTranslationService {
             List<String> currentForCompare = currentLore != null ? currentLore : Collections.<String>emptyList();
             if (!targetLore.equals(currentForCompare)) {
                 meta.setLore(targetLore.isEmpty() ? null : targetLore);
+                changed = true;
+            }
+
+            // The item's enchantments are re-rendered as lore under the Type block (only reached here for a
+            // pristine template, so we aren't hiding a player's own anvil enchants); hide the vanilla tooltip.
+            if (!english.getEnchantments().isEmpty()) {
+                EnchantDisplay.hide(meta);
                 changed = true;
             }
         }

@@ -257,6 +257,12 @@ public class SlimefunItem implements Placeable {
             meta.setLore(translatedLore);
         }
 
+        // Enchanted items re-render their enchantments as lore lines under the Type block (see LoreComposer),
+        // so hide the vanilla enchantment tooltip that would otherwise show above the lore.
+        if (!itemStackTemplate.getEnchantments().isEmpty()) {
+            io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantDisplay.hide(meta);
+        }
+
         itemStackTemplate.setItemMeta(meta);
     }
 

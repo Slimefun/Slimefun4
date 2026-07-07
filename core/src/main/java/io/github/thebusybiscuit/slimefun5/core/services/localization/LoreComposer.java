@@ -32,10 +32,22 @@ public final class LoreComposer {
                                        boolean includeDescription) {
         List<String> desc = includeDescription ? description : new ArrayList<String>();
 
-        boolean hasStructuralBlocks = !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty();
+        // Enchantment lines render directly under the Type category (not vanilla's default spot above the
+        // lore). EnchantDisplay returns empty unless the item is enchanted AND the vanilla tooltip can be
+        // hidden on this version, so this never double-renders.
+        List<String> enchantLines = EnchantDisplay.lines(item);
+
+        boolean hasStructuralBlocks = !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty() || !enchantLines.isEmpty();
 
         if (hasStructuralBlocks) {
-            return joinBlocks(item, Arrays.asList(type, desc, stats, usage));
+            List<String> typeBlock = type;
+
+            if (!enchantLines.isEmpty()) {
+                typeBlock = new ArrayList<>(type);
+                typeBlock.addAll(enchantLines);
+            }
+
+            return joinBlocks(item, Arrays.asList(typeBlock, desc, stats, usage));
         }
 
         if (!description.isEmpty()) {
