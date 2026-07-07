@@ -40,14 +40,9 @@ public final class LoreComposer {
         boolean hasStructuralBlocks = !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty() || !enchantLines.isEmpty();
 
         if (hasStructuralBlocks) {
-            List<String> typeBlock = type;
-
-            if (!enchantLines.isEmpty()) {
-                typeBlock = new ArrayList<>(type);
-                typeBlock.addAll(enchantLines);
-            }
-
-            return joinBlocks(item, Arrays.asList(typeBlock, desc, stats, usage));
+            // Enchantments are their own block after Type, so joinBlocks puts a blank line between the
+            // category and its enchantments.
+            return joinBlocks(item, Arrays.asList(type, enchantLines, desc, stats, usage));
         }
 
         if (!description.isEmpty()) {

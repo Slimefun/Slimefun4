@@ -89,6 +89,14 @@ public class SlimefunItemStack {
         Slimefun.getItemDataService().setItemData(meta, id);
         Slimefun.getItemTextureService().setTexture(meta, id);
 
+        // Guarantee a non-null lore list. Resource-driven (id-only) items set no lore in code — their
+        // display comes from en/items.yml at bake time — but a lot of item constructors and addons read
+        // or append to getItemMeta().getLore() (e.g. Talisman copying its base lore, MissileWarfare
+        // building lore), which NPEs on a null list. An empty list is display-identical and safe to append to.
+        if (meta != null && meta.getLore() == null) {
+            meta.setLore(new ArrayList<>());
+        }
+
         setItemMeta(meta);
     }
 
