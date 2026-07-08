@@ -170,6 +170,29 @@ public final class AddonInstallerMenu {
         menu.open(p);
     }
 
+    /**
+     * Opens an instant "loading" frame (border + back-to-detail button + a spinner tile) so a fetch-backed
+     * submenu (versions, branches) appears immediately; the caller fetches async and re-renders on top once
+     * the data arrives. Shared by {@link VersionSelectMenu} and {@link BranchSelectMenu}.
+     */
+    static void openLoadingFrame(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull AddonCatalog.Entry entry) {
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.installer"));
+        menu.setEmptySlotsClickable(false);
+        ChestMenuUtils.drawBackground(menu, 0, 2, 3, 4, 5, 6, 7, 8, 45, 47, 48, 49, 50, 51, 53);
+
+        menu.addItem(1, CustomItemStack.create(MaterialCompat.stack(XMaterial.ENCHANTED_BOOK), Slimefun.getLocalization().getMessage(p, "guide.installer.back")));
+        menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+            AddonDetailMenu.open(pl, guide, entry);
+            return false;
+        });
+
+        menu.addItem(22, CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK),
+            Slimefun.getLocalization().getMessage(p, "guide.installer.loading"), "",
+            Slimefun.getLocalization().getMessage(p, "guide.installer.loading-lore")));
+        menu.addMenuClickHandler(22, ChestMenuUtils.getEmptyClickHandler());
+        menu.open(p);
+    }
+
     @Nonnull
     private static ItemStack icon(Player p, AddonInstaller inst, AddonCatalog.Entry entry, boolean canManage) {
         List<String> lore = new ArrayList<>();

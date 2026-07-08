@@ -26,7 +26,8 @@ public final class BranchSelectMenu {
     private BranchSelectMenu() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull AddonCatalog.Entry entry, int page) {
-        // Fetch branches off the main thread, then render.
+        // Show a loading frame instantly, then fetch branches off-thread and render on top once they arrive.
+        AddonInstallerMenu.openLoadingFrame(p, guide, entry);
         Slimefun.instance().getServer().getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
             BranchService.Result result = new BranchService().fetchBranches(entry);
             Slimefun.instance().getServer().getScheduler().runTask(Slimefun.instance(), () -> render(p, guide, entry, result, page));

@@ -433,6 +433,8 @@ guide:
       not-installed: '&7＋ Not installed'
     back-settings: '&e⇦ Back to Settings'
     back: '&e⇦ Back'
+    loading: '&eLoading...'
+    loading-lore: '&7Fetching data from GitHub - this menu will update shortly.'
     click-details: '&7⇨ &eLeft-click for details'
     quick-install: '&7⇨ &eRight-click to install / update'
     will-install: '&7Will also install: &f%deps%'

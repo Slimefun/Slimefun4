@@ -27,6 +27,8 @@ public final class VersionSelectMenu {
     private VersionSelectMenu() {}
 
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull AddonCatalog.Entry entry, int page) {
+        // Show a loading frame instantly, then fetch releases off-thread and render on top once they arrive.
+        AddonInstallerMenu.openLoadingFrame(p, guide, entry);
         Slimefun.instance().getServer().getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
             List<AddonReleaseService.ReleaseInfo> releases = new AddonReleaseService().fetchReleases(entry);
             Slimefun.instance().getServer().getScheduler().runTask(Slimefun.instance(), () -> render(p, guide, entry, releases, page));

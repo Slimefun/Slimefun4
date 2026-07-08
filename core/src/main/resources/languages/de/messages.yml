@@ -296,6 +296,8 @@ guide:
       not-installed: '&7＋ Nicht installiert'
     back-settings: '&e⇦ Zurück zu den Einstellungen'
     back: '&e⇦ Zurück'
+    loading: '&eLädt...'
+    loading-lore: '&7Daten werden von GitHub geladen - dieses Menü aktualisiert sich gleich.'
     click-details: '&7⇨ &eLinksklick für Details'
     quick-install: '&7⇨ &eRechtsklick zum Installieren / Aktualisieren'
     will-install: '&7Wird außerdem installieren: &f%deps%'

@@ -168,6 +168,8 @@ guide:
       not-installed: '&7＋ No instalado'
     back-settings: '&e⇦ Volver a Ajustes'
     back: '&e⇦ Atrás'
+    loading: '&eCargando...'
+    loading-lore: '&7Obteniendo datos de GitHub - este menú se actualizará en breve.'
     click-details: '&7⇨ &eHaz clic para ver detalles'
     will-install: '&7También instalará: &f%deps%'
     check-updates:
