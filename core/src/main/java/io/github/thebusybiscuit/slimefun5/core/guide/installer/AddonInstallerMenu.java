@@ -66,12 +66,39 @@ public final class AddonInstallerMenu {
         menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
             SoundEffect.ADDON_INSTALLER_WORKING_SOUND.playFor(pl);
             List<AddonCatalog.Entry> allEntries = AddonCatalog.getEntries();
-            // A forced re-check: both calls hit the network (throttle permitting); the menu reopens
-            // once the version cache is refreshed so badges/versions reflect what was just fetched.
-            inst.refreshUpdateStatusAsync(allEntries);
-            inst.warmLatestTagsAsync(allEntries, () -> {
+
+            // Immediate visual feedback: flip the button to a spinning "checking" state so the click
+            // clearly registers, and announce it in chat (the badge update alone was too subtle).
+            menu.replaceExistingItem(48, CustomItemStack.create(MaterialCompat.stack(XMaterial.CLOCK),
+                Slimefun.getLocalization().getMessage(pl, "guide.installer.check-updates.checking-item"),
+                "", Slimefun.getLocalization().getMessage(pl, "guide.installer.loading")));
+            menu.addMenuClickHandler(48, ChestMenuUtils.getEmptyClickHandler());
+            Slimefun.getLocalization().sendMessage(pl, "guide.installer.check-updates.checking", true,
+                msg -> msg.replace("%count%", String.valueOf(allEntries.size())));
+
+            // Refresh update status first, then report a concrete summary before reopening the grid.
+            inst.refreshUpdateStatusAsync(allEntries, () -> {
+                List<AddonCatalog.Entry> withUpdates = new ArrayList<>();
+                for (AddonCatalog.Entry e : allEntries) {
+                    if (inst.isUpdateAvailable(e.getId())) {
+                        withUpdates.add(e);
+                    }
+                }
+
                 SoundEffect.ADDON_INSTALLER_SUCCESS_SOUND.playFor(pl);
-                open(pl, guide);
+                if (withUpdates.isEmpty()) {
+                    Slimefun.getLocalization().sendMessage(pl, "guide.installer.check-updates.up-to-date", true);
+                } else {
+                    Slimefun.getLocalization().sendMessage(pl, "guide.installer.check-updates.found", true,
+                        msg -> msg.replace("%count%", String.valueOf(withUpdates.size())));
+                    for (AddonCatalog.Entry e : withUpdates) {
+                        Slimefun.getLocalization().sendMessage(pl, "guide.installer.check-updates.entry", true,
+                            msg -> msg.replace("%addon%", e.getDisplayName()).replace("%version%", inst.getLatestVersionLabel(e.getId())));
+                    }
+                }
+
+                // Warm the version labels, then reopen so the grid badges reflect what was just found.
+                inst.warmLatestTagsAsync(allEntries, () -> open(pl, guide));
             });
             return false;
         });

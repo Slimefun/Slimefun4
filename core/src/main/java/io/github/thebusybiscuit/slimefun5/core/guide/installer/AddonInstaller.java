@@ -183,7 +183,7 @@ public final class AddonInstaller {
         refreshUpdateStatusAsync(entries, null);
     }
 
-    private void refreshUpdateStatusAsync(@Nonnull List<AddonCatalog.Entry> entries, @javax.annotation.Nullable Runnable onComplete) {
+    public void refreshUpdateStatusAsync(@Nonnull List<AddonCatalog.Entry> entries, @javax.annotation.Nullable Runnable onComplete) {
         long now = System.currentTimeMillis();
         List<UpdateProbe> probes = new ArrayList<>();
 
@@ -765,19 +765,34 @@ public final class AddonInstaller {
         }
     }
 
-    /** Whether the jar sits directly in the /plugins directory (where the update folder can swap it). */
+    /**
+     * Whether the jar is managed out of /plugins, so Bukkit's (filename-matched) update folder can swap it.
+     * True when /plugins is the jar's directory OR any ancestor of it — the latter accepts Paper's remapped
+     * layout ({@code plugins/.paper-remapped/<jar>}): the real jar still lives in /plugins and updates
+     * normally, only the loaded copy is remapped. A jar loaded from a wholly separate location (e.g. a dev
+     * launcher's build dir) has no /plugins ancestor and is correctly rejected.
+     */
     private static boolean isInPluginsDir(@Nonnull File jar) {
-        File parent = jar.getParentFile();
-
-        if (parent == null) {
-            return false;
-        }
+        File pluginsDir;
+        File dir;
 
         try {
-            return parent.getCanonicalFile().equals(InstallTargets.pluginsDir().getCanonicalFile());
+            pluginsDir = InstallTargets.pluginsDir().getCanonicalFile();
+            dir = jar.getCanonicalFile().getParentFile();
         } catch (java.io.IOException e) {
-            return parent.getAbsoluteFile().equals(InstallTargets.pluginsDir().getAbsoluteFile());
+            pluginsDir = InstallTargets.pluginsDir().getAbsoluteFile();
+            dir = jar.getAbsoluteFile().getParentFile();
         }
+
+        while (dir != null) {
+            if (dir.equals(pluginsDir)) {
+                return true;
+            }
+
+            dir = dir.getParentFile();
+        }
+
+        return false;
     }
 
     /** Best-effort location of an entry's jar: the loaded plugin's own file, else a staged repo.jar. */

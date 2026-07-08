@@ -179,6 +179,11 @@ guide:
       - '&7pour chaque addon installé.'
       - ''
       - '&7⇨ &eCliquez'
+      checking-item: '&e⏳ Recherche de mises à jour...'
+      checking: '&e⏳ Vérification de &6%count% &eaddons...'
+      found: '&a✔ Mises à jour disponibles pour &6%count% &aaddon(s) :'
+      entry: '&7 • &f%addon% &8→ &a%version%'
+      up-to-date: '&a✔ Tout est à jour.'
     source:
       release: '&7Source : &aRelease'
       branch: '&7Source : &bBranche %branch%'

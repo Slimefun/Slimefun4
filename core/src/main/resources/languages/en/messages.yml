@@ -445,6 +445,11 @@ guide:
       - '&7for every installed addon.'
       - ''
       - '&7⇨ &eClick'
+      checking-item: '&e⏳ Checking for updates...'
+      checking: '&e⏳ Checking &6%count% &eaddons for updates...'
+      found: '&a✔ Updates available for &6%count% &aaddon(s):'
+      entry: '&7 • &f%addon% &8→ &a%version%'
+      up-to-date: '&a✔ Everything is up to date.'
     source:
       release: '&7Source: &aRelease'
       branch: '&7Source: &bBranch %branch%'

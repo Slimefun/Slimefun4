@@ -308,6 +308,11 @@ guide:
       - '&7für jedes installierte Addon.'
       - ''
       - '&7⇨ &eKlicke'
+      checking-item: '&e⏳ Suche nach Updates...'
+      checking: '&e⏳ Prüfe &6%count% &eAddons auf Updates...'
+      found: '&a✔ Updates verfügbar für &6%count% &aAddon(s):'
+      entry: '&7 • &f%addon% &8→ &a%version%'
+      up-to-date: '&a✔ Alles ist auf dem neuesten Stand.'
     source:
       release: '&7Quelle: &aRelease'
       branch: '&7Quelle: &bBranch %branch%'
