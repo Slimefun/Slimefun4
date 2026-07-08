@@ -18,44 +18,25 @@ plugins {
 }
 
 group = "com.github.slimefun"
-// Version resolution — the standard for every Slimefun5 plugin:
-//   1. an explicit -Partifact_version=<tag> (release builds, e.g. v5.2.3) wins;
-//   2. otherwise derive it from the latest git tag in this repo (gh-v / v prefixes stripped);
-//   3. otherwise fall back to 5.0.0.
 // The "-UNOFFICIAL" suffix is appended downstream (plugin.yml + jar name), so this is the bare number.
 // Uses providers.exec (not ProcessBuilder) so reading git at configuration time stays compatible
 // with Gradle's configuration cache.
-fun latestGitTagVersion(): String? = try {
-    val execOutput = providers.exec {
-        workingDir = rootDir
-        commandLine("git", "describe", "--tags", "--abbrev=0")
-        isIgnoreExitValue = true
-    }
-    val output = execOutput.standardOutput.asText.get().trim()
-    if (execOutput.result.get().exitValue == 0) output.removePrefix("gh-").removePrefix("v").takeIf { it.isNotBlank() } else null
-} catch (e: Exception) {
-    null
-}
-
-version = (project.findProperty("artifact_version") as String?)?.removePrefix("v")?.takeIf { it.isNotBlank() }
-    ?: latestGitTagVersion()
-    ?: "5.0.0"
-
-// Build-context suffix appended to the reported version (plugin.yml + jar name). The standard for
-// every Slimefun5 plugin:
-//   - a release build (a publish workflow passed -Partifact_version) -> NO suffix (official build);
-//   - any other CI build (the Slimefun5/builds page or branch CI) -> "-EXPERIMENTAL";
-//   - a local build -> "-UNOFFICIAL".
-val versionSuffix: String = when {
-    !(project.findProperty("artifact_version") as String?).isNullOrBlank() -> ""
-    System.getenv("GITHUB_ACTIONS") == "true" -> "-EXPERIMENTAL"
-    else -> "-UNOFFICIAL"
-}
-val displayVersion = "${project.version}$versionSuffix"
+// Version + displayVersion come from the shared Slimefun5/gradle snippet (the git-tag resolver + build
+// suffix), reused by every addon so the logic lives in one place. Core's default fallback differs from
+// the addons' (5.0.0 vs 1.0.0) - set it before applying.
+extra["sfDefaultVersion"] = "5.0.0"
+apply(from = "https://raw.githubusercontent.com/Slimefun5/gradle/stable/version.gradle")
+val displayVersion = project.extra["displayVersion"].toString()
 description = "Slimefun is a Paper plugin that simulates a modpack-like atmosphere by adding over 500 new items and recipes to your Minecraft Server."
 
 github {
-    accessToken = System.getenv("GITHUB_TOKEN") ?: ""
+    auth {
+        token = System.getenv("GITHUB_TOKEN") ?: ""
+    }
+    cli {
+        isEnabled = true
+        isFallback = true
+    }
     publish {
         tag = System.getenv("GITHUB_REF_NAME")
     }
@@ -99,13 +80,26 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito:mockito-core:5.15.2")
     testImplementation("org.slf4j:slf4j-simple:2.0.16")
+    // Headless boot tests: MockBukkit mocks MC 26.1.2 (a runtime target), so MockBukkit.load(Slimefun.class)
+    // enables the plugin + registers every item without a real server - catching registration/lore NPEs at
+    // build time. Runs on its own Java-25 toolchain (below); the main jar stays Java-8 bytecode. Tests
+    // compile against MockBukkit's real 26.1.2 API (NOT the 1.8.8 compileOnly + stubs used for main).
+    // Mock MC 1.21 (not the fork's 26.x runtime): the bundled XSeries 9.10.0 is only version-patched in the
+    // shadowJar, so against the raw test classpath it can't parse "26.x" — but 1.21 parses fine. The boot
+    // check is version-agnostic for the registration/lore regressions we're guarding against.
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v1.21:4.110.0") {
+        exclude(group = "org.jetbrains", module = "annotations")
+    }
+    testImplementation("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+    testCompileOnly("com.google.code.findbugs:jsr305:3.0.2")
 }
 
-configurations {
-    testImplementation {
-        extendsFrom(configurations.compileOnly.get())
-    }
-}
+// Tests deliberately do NOT extend compileOnly: main compiles against spigot-api 1.8.8 + the stubs, but
+// the tests run on MockBukkit's real Paper 26.1.2 API, so pulling 1.8.8 + stubs onto the test classpath
+// would collide with MockBukkit's org.bukkit classes.
+
+val testJavaCompiler = javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of(25)) }
+val testJavaLauncher = javaToolchains.launcherFor { languageVersion.set(JavaLanguageVersion.of(25)) }
 
 tasks {
     compileJava {
@@ -121,9 +115,26 @@ tasks {
         )
     }
 
-    // Tests need MockBukkit (Java 25+), incompatible with the Java 8 toolchain.
-    compileTestJava { enabled = false }
-    test { enabled = false }
+    // Tests run on their own Java-25 toolchain (MockBukkit needs it); the main jar stays Java-8 bytecode,
+    // which runs fine under the newer test JVM. foojay auto-provisions the JDK.
+    compileTestJava {
+        enabled = true
+        options.encoding = "UTF-8"
+        javaCompiler.set(testJavaCompiler)
+        // Only the headless fork tests for now; the 109 upstream tests predate the Java-8 port and
+        // don't all compile against the fork yet. Widen this include as they're brought back.
+        include("**/BootSmokeTest.java")
+        include("**/BackpackIdentityTest.java")
+        include("**/ItemFamilyTest.java")
+    }
+    test {
+        enabled = true
+        useJUnitPlatform()
+        javaLauncher.set(testJavaLauncher)
+        include("**/BootSmokeTest*")
+        include("**/BackpackIdentityTest*")
+        include("**/ItemFamilyTest*")
+    }
 
     processResources {
         // Declare the version as an input so changing -Partifact_version (or the build context) re-expands
@@ -309,7 +320,7 @@ val cloneAndBuildAddons by tasks.registering {
             println("WARNING: Core jar not found at ${coreJarFile.absolutePath} - addon compiles will fail until :core:shadowJar produces it.")
         }
         // Bump to force a one-time rebuild when the patching below changes.
-        val addonBuildRecipe = "5"
+        val addonBuildRecipe = "6"
         val coreJarRefRegex = Regex("""files\((["'])\.\./\.\./core/Slimefun5/core/build/libs/[^"']*\.jar\1\)""")
         fun patchCoreJarReference(repoDir: File) {
             for (name in listOf("build.gradle.kts", "build.gradle")) {
@@ -407,41 +418,21 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
-        // Equal-length byte swap of slimefun4 -> slimefun5 in a jar's .class entries (idempotent). Catches
-        // shaded deps (e.g. a metrics module) compiled against the upstream slimefun4 package, which the
-        // source-level patchSlimefun4Refs can't reach.
-        fun relocateSlimefun4InJar(jar: File) {
-            val from = "slimefun4".toByteArray(Charsets.UTF_8)
-            val to = "slimefun5".toByteArray(Charsets.UTF_8)
-            val temp = File(jar.parentFile, jar.name + ".tmp")
-            var changed = false
-            ZipInputStream(jar.inputStream()).use { zin ->
-                ZipOutputStream(temp.outputStream()).use { zout ->
-                    var entry = zin.nextEntry
-                    while (entry != null) {
-                        val data = zin.readBytes()
-                        if (entry.name.endsWith(".class")) {
-                            var i = 0
-                            while (i <= data.size - from.size) {
-                                var match = true
-                                for (j in from.indices) if (data[i + j] != from[j]) { match = false; break }
-                                if (match) { System.arraycopy(to, 0, data, i, to.size); changed = true }
-                                i++
-                            }
-                        }
-                        zout.putNextEntry(ZipEntry(entry.name))
-                        zout.write(data)
-                        zout.closeEntry()
-                        entry = zin.nextEntry
+        // The `version:` string embedded in a jar's plugin.yml (what the in-game installer displays),
+        // or null if absent/unreadable. Used to detect a stale cached jar whose version has fallen behind
+        // the addon's latest tag, so the skip-build optimization rebuilds instead of reusing it.
+        fun jarPluginYmlVersion(jar: File): String? {
+            return try {
+                ZipFile(jar).use { zf ->
+                    val entry = zf.getEntry("plugin.yml") ?: return null
+                    zf.getInputStream(entry).bufferedReader().use { reader ->
+                        reader.lineSequence()
+                            .firstOrNull { it.trimStart().startsWith("version:") }
+                            ?.substringAfter("version:")?.trim()?.trim('"', '\'')
                     }
                 }
-            }
-            if (changed) {
-                jar.delete()
-                temp.renameTo(jar)
-                println("Relocated slimefun4 -> slimefun5 in ${jar.name}")
-            } else {
-                temp.delete()
+            } catch (e: Exception) {
+                null
             }
         }
 
@@ -469,11 +460,35 @@ val cloneAndBuildAddons by tasks.registering {
             names
         }
 
+        // Core bundles module jars as root-level resources (e.g. SlimefunMetrics.jar). github-gradle's
+        // dependency metadata is scope-less, so `githubImplementation(InfinityLib)` drags the whole core
+        // release jar into a consumer transitively - these nested jars ride along. They are NOT under
+        // slimefun5/**, so the class strip (and the shadowJar exclude) miss them, and an OLD core's
+        // SlimefunMetrics.jar still carries upstream slimefun4 refs. Core is runtime-provided, so an addon
+        // must never ship them: strip any nested jar the core jar also provides.
+        val coreNestedJarEntries: Set<String> = run {
+            val names = HashSet<String>()
+            if (coreJarFile.exists()) {
+                try {
+                    ZipFile(coreJarFile).use { zf ->
+                        val en = zf.entries()
+                        while (en.hasMoreElements()) {
+                            val n = en.nextElement().name
+                            if (n.endsWith(".jar")) names.add(n)
+                        }
+                    }
+                } catch (e: Exception) {
+                    println("WARNING: could not read core jar nested jars for strip: ${e.message}")
+                }
+            }
+            names
+        }
+
         // Strips from an addon jar every .class the core jar also provides (core's own classes + its
         // relocated libraries like keys/dough), while keeping addon-only classes and libs core does not
         // ship (e.g. the addon's relocated xseries). Never touches plugin.yml or other resources.
         fun stripBundledCoreClasses(jar: File) {
-            if (coreClassEntries.isEmpty()) {
+            if (coreClassEntries.isEmpty() && coreNestedJarEntries.isEmpty()) {
                 return
             }
             val temp = File(jar.parentFile, jar.name + ".strip.tmp")
@@ -484,7 +499,9 @@ val cloneAndBuildAddons by tasks.registering {
                     while (entry != null) {
                         val data = zin.readBytes()
                         val name = entry.name
-                        if (name.endsWith(".class") && coreClassEntries.contains(name)) {
+                        val isBundledCoreClass = name.endsWith(".class") && coreClassEntries.contains(name)
+                        val isBundledCoreNestedJar = name.endsWith(".jar") && coreNestedJarEntries.contains(name)
+                        if (isBundledCoreClass || isBundledCoreNestedJar) {
                             removed++
                         } else {
                             zout.putNextEntry(ZipEntry(name))
@@ -498,7 +515,7 @@ val cloneAndBuildAddons by tasks.registering {
             if (removed > 0) {
                 jar.delete()
                 temp.renameTo(jar)
-                println("Stripped $removed bundled core class(es) from ${jar.name}")
+                println("Stripped $removed bundled core artifact(s) from ${jar.name}")
             } else {
                 temp.delete()
             }
@@ -529,7 +546,6 @@ val cloneAndBuildAddons by tasks.registering {
                 if (!dest.exists()) throw e
                 return
             }
-            relocateSlimefun4InJar(dest)
             stripBundledCoreClasses(dest)
         }
 
@@ -591,17 +607,17 @@ val cloneAndBuildAddons by tasks.registering {
         // Derive each addon's version from its own git tags (latest version-like tag + "-UNOFFICIAL"),
         // mirroring the core standard. Addons hardcode placeholder versions ("1.0.0"), which made the
         // in-game installer show meaningless versions; this rewrites them at build time. No-op without tags.
-        fun patchAddonVersion(repoDir: File) {
+        fun patchAddonVersion(repoDir: File): String? {
             val rawTag = try {
                 val proc = ProcessBuilder("git", "-c", "safe.directory=*", "tag", "--sort=-v:refname")
                     .directory(repoDir).redirectErrorStream(true).start()
                 proc.waitFor()
                 proc.inputStream.bufferedReader().readText().trim().lines()
                     .firstOrNull { line -> line.isNotBlank() && line.any { it.isDigit() } }
-            } catch (e: Exception) { null } ?: return
+            } catch (e: Exception) { null } ?: return null
 
             var derivedVersion = rawTag.removePrefix("gh-").removePrefix("v").trim()
-            if (derivedVersion.isBlank()) return
+            if (derivedVersion.isBlank()) return null
             if (!derivedVersion.endsWith("-UNOFFICIAL")) derivedVersion = "$derivedVersion-UNOFFICIAL"
 
             for (name in listOf("build.gradle.kts", "build.gradle")) {
@@ -610,13 +626,30 @@ val cloneAndBuildAddons by tasks.registering {
                 val original = buildFile.readText()
                 var patched = Regex("""(?m)^version\s*=\s*"[^"]*"""").replace(original) { "version = \"$derivedVersion\"" }
                 // Keep the hardcoded jar filename's version segment in sync (cosmetic, but avoids a mismatch).
+                // Leave interpolated names ("Name-$displayVersion.jar") alone: pinning them to a literal
+                // could diverge the jar filename from the addon's own plugin.yml version.
                 patched = Regex("""archiveFileName\.set\("([A-Za-z0-9_]+)-[^"]*\.jar"\)""")
-                    .replace(patched) { m -> "archiveFileName.set(\"${m.groupValues[1]}-$derivedVersion.jar\")" }
+                    .replace(patched) { m ->
+                        if (m.value.contains("$")) m.value
+                        else "archiveFileName.set(\"${m.groupValues[1]}-$derivedVersion.jar\")"
+                    }
                 if (patched != original) {
                     buildFile.writeText(patched)
                     println("Set ${repoDir.name} version -> $derivedVersion (from tag $rawTag)")
                 }
             }
+
+            // processResources does not declare the version as an input, so a plugin.yml expanded in a
+            // previous run (with an older version) stays up-to-date-cached in build/ - which git reset
+            // --hard doesn't touch - and ships a stale version. The jar filename then updates but the
+            // embedded plugin.yml doesn't, so the installer reads a false "update available". Delete the
+            // cached output so this build re-expands plugin.yml from the current version.
+            val stalePluginYml = File(repoDir, "build/resources/main/plugin.yml")
+            if (stalePluginYml.exists() && stalePluginYml.delete()) {
+                println("Cleared stale plugin.yml for ${repoDir.name} (forces version re-expansion)")
+            }
+            File(repoDir, "build/tmp/processResources").deleteRecursively()
+            return derivedVersion
         }
 
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
@@ -638,7 +671,6 @@ val cloneAndBuildAddons by tasks.registering {
                 continue
             }
             val repo = parts[1]
-            val upstreamRef = if (branch.isNotBlank()) "origin/$branch" else "origin/HEAD"
             val label = if (branch.isNotBlank()) "$ownerRepo ($branch)" else ownerRepo
 
             val repoDir = File(addonsSrcDir, repo)
@@ -652,27 +684,36 @@ val cloneAndBuildAddons by tasks.registering {
                 println("Pulling latest for $label...")
                 runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "fetch", "--all").directory(repoDir), 2)
                 runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
-                if (branch.isNotBlank()) {
-                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "checkout", branch).directory(repoDir), 1)
+                // Fork policy: all addon work (balance.yml, en/items.yml, ports) lives on `experimental`.
+                // When run.ps1 doesn't pin a branch, default to experimental - NOT origin/HEAD, which is
+                // `stable` and predates our commits (a stale clone stuck on stable is why pushed balance/lore
+                // never reached the built jars). Fall back to origin/HEAD only for repos with no experimental.
+                val effectiveBranch = when {
+                    branch.isNotBlank() -> branch
+                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "--verify", "--quiet", "origin/experimental").directory(repoDir), 1) == 0 -> "experimental"
+                    else -> ""
+                }
+                val ref = if (effectiveBranch.isNotBlank()) "origin/$effectiveBranch" else "origin/HEAD"
+                if (effectiveBranch.isNotBlank()) {
+                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "checkout", "-B", effectiveBranch, ref).directory(repoDir), 1)
                 }
                 // addons-src is a throwaway clone; always force it to match origin exactly.
-                runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "reset", "--hard", upstreamRef).directory(repoDir), 1)
+                runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "reset", "--hard", ref).directory(repoDir), 1)
             } else {
                 println("Cloning $label...")
-                val cloneCmd = mutableListOf("git", "-c", "safe.directory=*", "clone")
-                if (branch.isNotBlank()) { cloneCmd.add("-b"); cloneCmd.add(branch) }
-                cloneCmd.add("https://github.com/$ownerRepo.git")
-                runProcess(ProcessBuilder(cloneCmd).directory(addonsSrcDir), 5)
+                val cloneBranch = if (branch.isNotBlank()) branch else "experimental"
+                // Prefer the experimental branch; fall back to the repo default if it has no such branch.
+                val cloned = runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "clone", "-b", cloneBranch, "https://github.com/$ownerRepo.git").directory(addonsSrcDir), 5)
+                if (cloned != 0) {
+                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "clone", "https://github.com/$ownerRepo.git").directory(addonsSrcDir), 5)
+                }
             }
 
-            // Re-point the (just-checked-out) core jar reference at the real built jar.
             patchCoreJarReference(repoDir)
-            // Ensure bStats is relocated so SlimefunMetrics-using addons can enable.
             patchBstatsRelocation(repoDir)
-            // Shade relocated InfinityLib + fix stray slimefun4 package references (both fail on every MC version).
             patchInfinityLibShading(repoDir)
             patchSlimefun4Refs(repoDir)
-            patchAddonVersion(repoDir)
+            val resolvedVersion = patchAddonVersion(repoDir)
 
             val newHash = getGitHash(repoDir)
             val libsDir = File(repoDir, "build/libs")
@@ -686,7 +727,12 @@ val cloneAndBuildAddons by tasks.registering {
             val existingJarVersion = existingJar?.let { pluginMainClassVersion(it) }
             val recipeMarker = File(libsDir, ".addon-recipe")
             val recipeMatches = recipeMarker.exists() && recipeMarker.readText().trim() == addonBuildRecipe
-            if (!localAddons && oldHash == newHash && oldHash.isNotBlank() && existingJar != null && existingJarVersion != null && existingJarVersion <= 52 && recipeMatches) {
+            // A new tag can appear without any new commit reachable from the built branch (git hash
+            // unchanged), so the git-hash check alone would keep reusing a cached jar whose embedded
+            // version has fallen behind the latest tag. Only skip when the cached jar's plugin.yml version
+            // already equals the version we just resolved; otherwise rebuild so the version updates.
+            val versionUpToDate = resolvedVersion == null || (existingJar != null && jarPluginYmlVersion(existingJar) == resolvedVersion)
+            if (!localAddons && oldHash == newHash && oldHash.isNotBlank() && existingJar != null && existingJarVersion != null && existingJarVersion <= 52 && recipeMatches && versionUpToDate) {
                 println("No updates found for $addon. Skipping build.")
                 copyAddonJar(existingJar)
                 continue
@@ -701,10 +747,15 @@ val cloneAndBuildAddons by tasks.registering {
             val wrapperName = if (isWindows) "gradlew.bat" else "gradlew"
             val wrapperFile = File(repoDir, wrapperName)
             val gradlewCmd = if (wrapperFile.exists()) wrapperFile.absolutePath else if (isWindows) "gradlew.bat" else "./gradlew"
+            // Stamp every addon with the same tag-derived "<version>-UNOFFICIAL" format so the boot log is
+            // uniform (the shared snippet + MissileWarfare honor -Partifact_version; others ignore it harmlessly).
+            val versionArg = resolvedVersion?.let { "-Partifact_version=$it" }
             val buildPb = if (isWindows) {
-                ProcessBuilder("cmd", "/c", gradlewCmd, "shadowJar")
+                if (versionArg != null) ProcessBuilder("cmd", "/c", gradlewCmd, "shadowJar", versionArg)
+                else ProcessBuilder("cmd", "/c", gradlewCmd, "shadowJar")
             } else {
-                ProcessBuilder("sh", "-c", "\"$gradlewCmd\" shadowJar")
+                if (versionArg != null) ProcessBuilder("sh", "-c", "\"$gradlewCmd\" shadowJar $versionArg")
+                else ProcessBuilder("sh", "-c", "\"$gradlewCmd\" shadowJar")
             }
             buildPb.directory(repoDir)
             val exitCode = runProcess(buildPb, buildTimeoutMinutes)
