@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.implementation.guide;
 
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
 
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
 import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -51,6 +51,7 @@ import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.tasks.AsyncRecipeChoiceTask;
@@ -793,8 +794,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return item;
             }
 
+            ItemTranslationService translations = Slimefun.getItemTranslationService();
+
+            if (slimefunItem.canUse(p, false)) {
+                return translations.getDisplayItem(p, slimefunItem);
+            }
+
             String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
-            return slimefunItem.canUse(p, false) ? item : CustomItemStack.create(Material.BARRIER, ItemUtils.getItemName(item), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
+            return CustomItemStack.create(Material.BARRIER, translations.getName(p, slimefunItem), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;
         }
