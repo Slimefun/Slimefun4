@@ -118,13 +118,17 @@ public final class PacketItemDescriptor {
     @Nullable
     private static String legacyNmsPackage() {
         // Spigot: org.bukkit.craftbukkit.v1_8_R3 -> net.minecraft.server.v1_8_R3
-        String cb = org.bukkit.Bukkit.getServer().getClass().getPackage().getName();
-        int i = cb.lastIndexOf('.');
-        if (i < 0) {
+        try {
+            String cb = org.bukkit.Bukkit.getServer().getClass().getPackage().getName();
+            int i = cb.lastIndexOf('.');
+            if (i < 0) {
+                return null;
+            }
+            String ver = cb.substring(i + 1);
+            return ver.startsWith("v") ? "net.minecraft.server." + ver : null;
+        } catch (Throwable t) {
             return null;
         }
-        String ver = cb.substring(i + 1);
-        return ver.startsWith("v") ? "net.minecraft.server." + ver : null;
     }
 
     @Nullable
