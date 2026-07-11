@@ -59,7 +59,14 @@ public class ItemTranslationService {
         }
     }
 
-    private final Map<String, Map<String, ItemTranslation>> byLanguage = new HashMap<>();
+    // renderForPacket() runs on the Netty thread and reads this map + its per-language submaps
+    // concurrently with ensureEnglishBaseline() (called from getCoverage()/dumpUntranslated() on the
+    // main thread post-boot), which structurally mutates both the outer map (computeIfAbsent("en", ...))
+    // and the "en" submap (map.put). The outer map must therefore be a ConcurrentHashMap (it holds no
+    // null values - keys are language ids, values are submaps), and every submap must itself be a
+    // synchronized wrapper (see the two computeIfAbsent creation sites below), so both the read side and
+    // the write side go through thread-safe collections.
+    private final Map<String, Map<String, ItemTranslation>> byLanguage = new java.util.concurrent.ConcurrentHashMap<>();
 
     /**
      * A dynamic item family: an item id that matches {@link #pattern} (compiled from a key that used the
@@ -130,7 +137,9 @@ public class ItemTranslationService {
     private void load(@Nonnull String language, @Nonnull InputStream stream) {
         try {
             YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
-            Map<String, ItemTranslation> map = byLanguage.computeIfAbsent(language, k -> new HashMap<>());
+            // Synchronized (not plain HashMap): renderForPacket() on the Netty thread reads this same
+            // submap concurrently with this load() call (addon registerTranslations() can run post-boot).
+            Map<String, ItemTranslation> map = byLanguage.computeIfAbsent(language, k -> Collections.synchronizedMap(new HashMap<>()));
 
             // Derive item ids from the leaf ".name"/".lore" paths. Item ids may contain dots (e.g. a
             // SlimeTinker trait ending in "."), which YAML treats as path separators - getKeys(false)
@@ -915,7 +924,10 @@ public class ItemTranslationService {
      * resolvable English name is genuinely counted as untranslated, rather than English being assumed 100%.
      */
     private void ensureEnglishBaseline() {
-        Map<String, ItemTranslation> map = byLanguage.computeIfAbsent("en", k -> new HashMap<>());
+        // Synchronized (not plain HashMap): this runs post-boot on the main thread (from getCoverage()/
+        // dumpUntranslated()) while renderForPacket() may concurrently read this same "en" submap on the
+        // Netty thread.
+        Map<String, ItemTranslation> map = byLanguage.computeIfAbsent("en", k -> Collections.synchronizedMap(new HashMap<>()));
 
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
