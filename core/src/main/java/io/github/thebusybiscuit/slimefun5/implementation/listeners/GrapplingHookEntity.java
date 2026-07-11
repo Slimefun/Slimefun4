@@ -20,6 +20,7 @@ final class GrapplingHookEntity {
     private final Arrow arrow;
     private final Entity leashTarget;
     private boolean removed = false;
+    private boolean dropped = false;
 
     @ParametersAreNonnullByDefault
     GrapplingHookEntity(Player p, Arrow arrow, Entity leashTarget, boolean dropItem, boolean wasConsumed) {
@@ -35,6 +36,14 @@ final class GrapplingHookEntity {
     }
 
     public void drop(@Nonnull Location l) {
+        // Several events route into the same hook (hit, land, despawn); only ever recover ONE item,
+        // even if a second invocation slips past the arrow.isValid() gate.
+        if (dropped) {
+            return;
+        }
+
+        dropped = true;
+
         // If a grappling hook was consumed, drop one grappling hook on the floor
         if (dropItem && wasConsumed) {
             Item item = l.getWorld().dropItem(l, SlimefunItems.GRAPPLING_HOOK.item());
