@@ -213,11 +213,16 @@ public class PlayerBackpack {
 
         PdcCompat.setString(meta, identityKey(), identity);
 
-        List<String> lore = meta.getLore();
+        // Only hide the visible legacy line once the invisible copy reads back - if persistence
+        // failed on this server, stripping the lore would destroy the only copy of the identity
+        // (= backpack resets + identity-less backpacks become stackable).
+        if (identity.equals(PdcCompat.getString(meta, identityKey()))) {
+            List<String> lore = meta.getLore();
 
-        if (lore != null) {
-            lore.removeIf(line -> line.startsWith(LEGACY_ID_PREFIX));
-            meta.setLore(lore.isEmpty() ? null : lore);
+            if (lore != null) {
+                lore.removeIf(line -> line.startsWith(LEGACY_ID_PREFIX));
+                meta.setLore(lore.isEmpty() ? null : lore);
+            }
         }
 
         item.setItemMeta(meta);

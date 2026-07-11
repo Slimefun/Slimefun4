@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.annotation.Nullable;
 
+import org.bukkit.inventory.meta.ItemMeta;
+
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 /**
@@ -13,9 +15,10 @@ import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
  * {@code PersistentDataHolder} (1.14+ types) in core bytecode, every operation here is reflective and
  * keyed by Slimefun's own {@link NamespacedKey} (converted to the real {@code org.bukkit.NamespacedKey}
  * via {@link BukkitKeys} only at the call into the server). On servers without PDC (1.8&ndash;1.13) the
- * container/type/key resolve to {@code null} and all operations degrade to no-ops / defaults, so callers
- * are inherently version-safe. {@code typeName} is a {@code PersistentDataType} field name such as
- * {@code "STRING"}, {@code "BYTE"}, {@code "INTEGER"}, {@code "LONG"} or {@code "FLOAT"}.
+ * container/type/key resolve to {@code null} and operations fall back per holder: item metas persist
+ * through real item NBT ({@link NbtItemCompat}), holders with a stable id (players/entities) through a
+ * YAML store, so callers are inherently version-safe. {@code typeName} is a {@code PersistentDataType}
+ * field name such as {@code "STRING"}, {@code "BYTE"}, {@code "INTEGER"}, {@code "LONG"} or {@code "FLOAT"}.
  */
 public final class PdcCompat {
 
@@ -41,9 +44,10 @@ public final class PdcCompat {
 
     // --- Legacy (pre-1.14) fallback ---
     // The PersistentDataContainer API doesn't exist before 1.14, so the reflective calls below resolve
-    // to null and do nothing. For holders with a stable id (players/entities) we instead persist data
-    // in a YAML keyed by UUID, so e.g. the player's chosen guide language actually sticks on 1.8.
-    // Item holders have no id here and keep the no-op (their data flows through item-NBT paths).
+    // to null. For holders with a stable id (players/entities) we instead persist data in a YAML keyed
+    // by UUID, so e.g. the player's chosen guide language actually sticks on 1.8. Item metas have no id,
+    // so their data goes into real item NBT via NbtItemCompat (string-encoded, decoded by typeName) -
+    // a silent no-op here loses item state (backpack identity, charge, soulbound, limited uses).
     private static org.bukkit.configuration.file.YamlConfiguration legacyStore;
     private static java.io.File legacyFile;
 
@@ -85,6 +89,32 @@ public final class PdcCompat {
         }
     }
 
+    @Nullable
+    private static Object decodeNbt(@Nullable String raw, String typeName) {
+        if (raw == null) {
+            return null;
+        }
+
+        try {
+            switch (typeName) {
+                case "BYTE":
+                    return Byte.valueOf(raw);
+                case "INTEGER":
+                    return Integer.valueOf(raw);
+                case "LONG":
+                    return Long.valueOf(raw);
+                case "FLOAT":
+                    return Float.valueOf(raw);
+                case "DOUBLE":
+                    return Double.valueOf(raw);
+                default:
+                    return raw;
+            }
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     public static void set(Object holder, NamespacedKey key, String typeName, Object value) {
         Object c = container(holder);
         Object t = dataType(typeName);
@@ -92,6 +122,11 @@ public final class PdcCompat {
 
         if (c != null && t != null && k != null) {
             ReflectionCompat.invoke(c, "set", k, t, value);
+            return;
+        }
+
+        if (holder instanceof ItemMeta) {
+            NbtItemCompat.setString((ItemMeta) holder, key.toString(), String.valueOf(value));
             return;
         }
 
@@ -112,6 +147,10 @@ public final class PdcCompat {
             return ReflectionCompat.invoke(c, "get", k, t);
         }
 
+        if (holder instanceof ItemMeta) {
+            return decodeNbt(NbtItemCompat.getString((ItemMeta) holder, key.toString()), typeName);
+        }
+
         String path = legacyPath(holder, key);
         return path != null ? legacy().get(path) : null;
     }
@@ -128,6 +167,10 @@ public final class PdcCompat {
 
         if (c != null && t != null && k != null) {
             return Boolean.TRUE.equals(ReflectionCompat.invoke(c, "has", k, t));
+        }
+
+        if (holder instanceof ItemMeta) {
+            return decodeNbt(NbtItemCompat.getString((ItemMeta) holder, key.toString()), typeName) != null;
         }
 
         String path = legacyPath(holder, key);
@@ -155,6 +198,11 @@ public final class PdcCompat {
 
         if (c != null && k != null) {
             ReflectionCompat.invoke(c, "remove", k);
+            return;
+        }
+
+        if (holder instanceof ItemMeta) {
+            NbtItemCompat.remove((ItemMeta) holder, key.toString());
             return;
         }
 

@@ -48,6 +48,19 @@ public final class NbtItemCompat {
         }
     }
 
+    public static boolean remove(@Nullable ItemMeta meta, String key) {
+        if (meta == null) {
+            return false;
+        }
+
+        try {
+            Map<String, Object> tags = unhandledTags(meta);
+            return tags != null && tags.remove(key) != null;
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
     @Nullable
     public static String getString(@Nullable ItemMeta meta, String key) {
         if (meta == null) {
