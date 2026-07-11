@@ -129,17 +129,25 @@ tasks {
         include("**/TestMenuListenerCollectGuard.java")
         include("**/TestViewedInventoryGuard.java")
         include("**/TranslationConfigTest.java")
+        include("**/PacketRenderTest.java")
+        include("**/PacketRenderTest*")
     }
     test {
         enabled = true
         useJUnitPlatform()
         javaLauncher.set(testJavaLauncher)
+        // Isolate each test class in its own JVM: SlimefunItemSetup.setup() guards itself with a
+        // JVM-static "registered once" flag, so any two test classes that both boot the full item
+        // catalogue (e.g. BootSmokeTest and PacketRenderTest) would collide if Gradle reused one JVM
+        // across the whole task.
+        forkEvery = 1
         include("**/BootSmokeTest*")
         include("**/BackpackIdentityTest*")
         include("**/ItemFamilyTest*")
         include("**/TestMenuListenerCollectGuard*")
         include("**/TestViewedInventoryGuard*")
         include("**/TranslationConfigTest*")
+        include("**/PacketRenderTest*")
     }
 
     processResources {

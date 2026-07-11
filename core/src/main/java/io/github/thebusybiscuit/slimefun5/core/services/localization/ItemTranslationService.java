@@ -612,6 +612,73 @@ public class ItemTranslationService {
         return language != null ? language.getId() : null;
     }
 
+    /** A rendered per-viewer display: translated name + composed block lore. */
+    public static final class RenderedDisplay {
+        public final String name;
+        public final List<String> lore;
+
+        RenderedDisplay(String name, List<String> lore) {
+            this.name = name;
+            this.lore = lore;
+        }
+    }
+
+    private final Map<String, RenderedDisplay> renderCache = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** Empties the per-(id,language,fallback) render cache (call on reload). */
+    public void clearRenderCache() {
+        renderCache.clear();
+    }
+
+    /**
+     * Renders an item's per-viewer display (name + composed lore) for the given language. Pure and
+     * thread-safe: reads only the loaded translation data, so it is safe to call from the Netty thread.
+     * Returns null if the id is not a registered Slimefun item.
+     *
+     * @param id         the Slimefun item id
+     * @param languageId the viewer's language id (may be null -> server default resolution inside lookup)
+     * @param fallback   what a missing label becomes (ENGLISH or ID)
+     */
+    public RenderedDisplay renderForPacket(@Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback) {
+        SlimefunItem item = SlimefunItem.getById(id);
+        if (item == null) {
+            return null;
+        }
+
+        String cacheKey = id + '|' + languageId + '|' + fallback;
+        RenderedDisplay cached = renderCache.get(cacheKey);
+        if (cached != null) {
+            return cached;
+        }
+
+        ItemTranslation translation = lookup(languageId, id);
+
+        // Name: language label -> (missing) fallback english baseline or raw id.
+        String name;
+        if (translation != null && translation.name != null) {
+            name = ChatColor.translateAlternateColorCodes('&', translation.name);
+        } else if (fallback == TranslationConfig.FallbackMode.ID) {
+            name = id;
+        } else {
+            ItemStack english = englishBaseline.get(id);
+            ItemMeta em = english != null ? english.getItemMeta() : item.getItem().getItemMeta();
+            name = (em != null && em.hasDisplayName()) ? em.getDisplayName() : id;
+        }
+
+        // Lore: composed blocks in the viewer's language, English base as the fallback body.
+        List<List<String>> blocks = resolveBlocks(languageId, item);
+        List<String> englishLore;
+        ItemStack english = englishBaseline.get(id);
+        ItemMeta em = english != null ? english.getItemMeta() : null;
+        englishLore = (em != null && em.getLore() != null) ? em.getLore() : new ArrayList<String>();
+        List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore : englishLore;
+        List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
+
+        RenderedDisplay result = new RenderedDisplay(name, lore);
+        renderCache.put(cacheKey, result);
+        return result;
+    }
+
     /**
      * Coverage of a language per plugin: pluginName -> [translatedItems, totalItems], over all enabled
      * items grouped by their addon. Powers the translation-percentage UI.
