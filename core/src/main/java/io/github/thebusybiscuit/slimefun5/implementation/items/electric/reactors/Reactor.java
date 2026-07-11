@@ -286,24 +286,31 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     public int getGeneratedOutput(Location l, Config data) {
         BlockMenu inv = BlockStorage.getInventory(l);
         BlockMenu accessPort = getAccessPort(l);
+        // The access port sits 3 blocks above the reactor (see getAccessPort). We only need its location
+        // to ask whether a player is currently viewing it, so the reactor's fuel/coolant/byproduct moves
+        // into it run on the main thread while watched (closing the async-tick-vs-click dupe).
+        Location portLocation = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
         FuelOperation operation = processor.getOperation(l);
 
         if (operation != null) {
             extraTick(l);
 
             if (!operation.isFinished()) {
-                return generateEnergy(l, data, inv, accessPort, operation);
+                return generateEnergy(l, data, inv, accessPort, operation, portLocation);
             } else {
-                createByproduct(l, inv, accessPort, operation);
+                // Returns 0 regardless, so it is safe to defer the whole byproduct move when watched.
+                BlockStorage.mutateInventorySafely(() -> createByproduct(l, inv, accessPort, operation), l, portLocation);
                 return 0;
             }
         } else {
-            burnNextFuel(l, inv, accessPort);
+            // Returns 0 regardless; deferring the whole fuel scan+consume keeps its reads and writes on
+            // one thread when watched.
+            BlockStorage.mutateInventorySafely(() -> burnNextFuel(l, inv, accessPort), l, portLocation);
             return 0;
         }
     }
 
-    private int generateEnergy(@Nonnull Location l, @Nonnull Config data, @Nonnull BlockMenu inv, @Nullable BlockMenu accessPort, @Nonnull FuelOperation operation) {
+    private int generateEnergy(@Nonnull Location l, @Nonnull Config data, @Nonnull BlockMenu inv, @Nullable BlockMenu accessPort, @Nonnull FuelOperation operation, @Nonnull Location portLocation) {
         int produced = getEnergyProduction();
         String energyData = data.getString("energy-charge");
         int charge = 0;
@@ -319,9 +326,21 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
             checkForWaterBlocks(l);
             processor.updateProgressBar(inv, 22, operation);
 
-            if (needsCooling() && !hasEnoughCoolant(l, inv, accessPort, operation)) {
-                explosionsQueue.add(l);
-                return 0;
+            if (needsCooling()) {
+                if (!Bukkit.isPrimaryThread() && BlockStorage.isAnyInventoryViewed(l, portLocation)) {
+                    // A player is watching the reactor or its port. Run the coolant move + consume on the
+                    // main thread so it can't race their clicks; don't gate this tick's energy on the
+                    // deferred result (at worst the reactor runs one extra tick before exploding - the
+                    // coolant is still consumed correctly, so this is never a duplication).
+                    Slimefun.runSync(() -> {
+                        if (!hasEnoughCoolant(l, inv, accessPort, operation)) {
+                            explosionsQueue.add(l);
+                        }
+                    });
+                } else if (!hasEnoughCoolant(l, inv, accessPort, operation)) {
+                    explosionsQueue.add(l);
+                    return 0;
+                }
             }
         }
 

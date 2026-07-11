@@ -907,6 +907,48 @@ public class BlockStorage {
         return !viewedInventories.isEmpty() && viewedInventories.contains(l);
     }
 
+    /**
+     * Whether any of the given block inventories is currently being viewed by a player.
+     *
+     * @param locations
+     *            The block {@link Location Locations} to check (nulls are ignored)
+     *
+     * @return Whether at least one is being viewed
+     */
+    public static boolean isAnyInventoryViewed(@Nonnull Location... locations) {
+        if (viewedInventories.isEmpty()) {
+            return false;
+        }
+
+        for (Location l : locations) {
+            if (l != null && viewedInventories.contains(l)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Runs an inventory-mutating action so it can never race a player. When the action runs off the main
+     * thread and any of the involved block inventories is currently being viewed, it is dispatched to the
+     * main thread (serializing it with the viewer's clicks); otherwise it runs inline - the async fast
+     * path taken by the ~all machines nobody is watching. The action MUST perform its own reads inside, so
+     * a deferred run sees the current inventory state rather than a stale async snapshot.
+     *
+     * @param action
+     *            The inventory read-modify-write to run safely
+     * @param involved
+     *            Every block {@link Location} whose inventory the action reads or writes
+     */
+    public static void mutateInventorySafely(@Nonnull Runnable action, @Nonnull Location... involved) {
+        if (!Bukkit.isPrimaryThread() && isAnyInventoryViewed(involved)) {
+            Slimefun.runSync(action);
+        } else {
+            action.run();
+        }
+    }
+
     public static BlockMenu getInventory(Location l) {
         BlockStorage storage = getStorage(l.getWorld());
 
