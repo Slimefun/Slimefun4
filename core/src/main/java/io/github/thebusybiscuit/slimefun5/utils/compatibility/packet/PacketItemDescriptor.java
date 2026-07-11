@@ -75,17 +75,17 @@ public final class PacketItemDescriptor {
                             }
                         }
                     }
-                    return packet;
                 }
             }
-            // Single-item payload (SetSlot / ContainerSetSlot): set the field if writable.
+            // Single-item payload (SetSlot / ContainerSetSlot, or the carried/cursor item
+            // alongside the list on ClientboundContainerSetContentPacket): set the field if writable.
             Field itemField = PacketReflect.firstFieldOfType(packet, nmsItemClass);
             if (itemField != null) {
                 Object current = itemField.get(packet);
                 if (nmsItemClass.isInstance(current)) {
                     Object rewritten = itemRewriter.apply(current);
-                    if (rewritten != null && rewritten != current && trySet(itemField, packet, rewritten)) {
-                        return packet;
+                    if (rewritten != null && rewritten != current) {
+                        trySet(itemField, packet, rewritten);
                     }
                 }
             }
