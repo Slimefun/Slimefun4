@@ -35,18 +35,22 @@ public final class PacketReflect {
     // or org.bukkit.craftbukkit.inventory.CraftItemStack (unversioned on modern Paper). Try both.
     @Nullable
     private static Method resolveCraftItemMethod(String name) {
-        String pkg = Bukkit.getServer().getClass().getPackage().getName(); // org.bukkit.craftbukkit[.<ver>]
-        for (String cls : new String[] { pkg + ".inventory.CraftItemStack", "org.bukkit.craftbukkit.inventory.CraftItemStack" }) {
-            Class<?> c = forName(cls);
-            if (c != null) {
-                for (Method m : c.getMethods()) {
-                    if (m.getName().equals(name) && m.getParameterCount() == 1) {
-                        return m;
+        try {
+            String pkg = Bukkit.getServer().getClass().getPackage().getName(); // org.bukkit.craftbukkit[.<ver>]
+            for (String cls : new String[] { pkg + ".inventory.CraftItemStack", "org.bukkit.craftbukkit.inventory.CraftItemStack" }) {
+                Class<?> c = forName(cls);
+                if (c != null) {
+                    for (Method m : c.getMethods()) {
+                        if (m.getName().equals(name) && m.getParameterCount() == 1) {
+                            return m;
+                        }
                     }
                 }
             }
+            return null;
+        } catch (Throwable t) {
+            return null;
         }
-        return null;
     }
 
     @Nullable
@@ -110,13 +114,17 @@ public final class PacketReflect {
         if (owner == null || type == null) {
             return null;
         }
-        for (Field f : allFields(owner.getClass())) {
-            if (type.isAssignableFrom(f.getType())) {
-                f.setAccessible(true);
-                return f;
+        try {
+            for (Field f : allFields(owner.getClass())) {
+                if (type.isAssignableFrom(f.getType())) {
+                    f.setAccessible(true);
+                    return f;
+                }
             }
+            return null;
+        } catch (Throwable t) {
+            return null;
         }
-        return null;
     }
 
     @Nullable
