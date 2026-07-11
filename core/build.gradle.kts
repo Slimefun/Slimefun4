@@ -128,6 +128,7 @@ tasks {
         include("**/ItemFamilyTest.java")
         include("**/TestMenuListenerCollectGuard.java")
         include("**/TestViewedInventoryGuard.java")
+        include("**/TranslationConfigTest.java")
     }
     test {
         enabled = true
@@ -138,6 +139,7 @@ tasks {
         include("**/ItemFamilyTest*")
         include("**/TestMenuListenerCollectGuard*")
         include("**/TestViewedInventoryGuard*")
+        include("**/TranslationConfigTest*")
     }
 
     processResources {

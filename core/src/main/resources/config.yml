@@ -115,6 +115,12 @@ metrics:
   auto-update: true
   analytics: true
 
+translation:
+  # Rewrite item name/lore per viewer via packets so each player sees their own language.
+  packets: true
+  # What a missing translation label falls back to: 'english' or 'id' (the raw Slimefun id).
+  fallback: english
+
 research-ranks:
 - Chicken
 - Cow
