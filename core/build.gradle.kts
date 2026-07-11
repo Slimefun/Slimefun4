@@ -74,6 +74,10 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     // Compile-only stubs of post-1.8 org.bukkit types; not shaded, real classes used at runtime.
     compileOnly(project(":stubs"))
+    // Netty for the packet-translation ChannelDuplexHandler. compileOnly (the server ships Netty at
+    // runtime, so nothing is bundled — no new runtime dependency). Pinned to 4.0.23 (the version MC 1.8
+    // ships) so the compiler rejects any 4.1-only API and the bytecode resolves on every 1.8→26.x server.
+    compileOnly("io.netty:netty-all:4.0.23.Final")
 
     testImplementation(platform("org.junit:junit-bom:5.11.4"))
     testImplementation("org.junit.jupiter:junit-jupiter")
