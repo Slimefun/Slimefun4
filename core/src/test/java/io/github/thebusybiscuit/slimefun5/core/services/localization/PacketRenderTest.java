@@ -89,6 +89,39 @@ class PacketRenderTest {
     }
 
     @Test
+    void nameAndLoreFallBackToTheSameLanguage() {
+        ItemTranslationService svc = Slimefun.getItemTranslationService();
+        // Only "en" carries a name + type block for this probe; "zz" is unshipped. Before the I-1 fix,
+        // the name fell back to English (via an explicit "en" lookup) while the lore blocks fell back to
+        // the SERVER DEFAULT language instead - which in this MockBukkit harness is null (see
+        // Slimefun#onUnitTestStart(), which constructs LocalizationService with no default language), so
+        // the old code's blockForLanguage() had nothing to fall back to and produced an EMPTY type block.
+        // The fix makes the lore blocks fall back through the exact same chain as the name (English), so
+        // the type block must render here too, built from the "en" content, not be empty.
+        String yaml = "ELECTRIC_MOTOR:\n"
+            + "  name: '&aConsistent Fallback Motor'\n"
+            + "  type:\n"
+            + "  - '&7Type: Consistent Fallback Motor'\n";
+        svc.loadTranslationsForTest("en",
+            new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        svc.clearRenderCache();
+
+        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH);
+
+        Assertions.assertNotNull(d);
+        Assertions.assertEquals("Consistent Fallback Motor", ChatColor.stripColor(d.name));
+
+        boolean hasTypeLine = false;
+        for (String line : d.lore) {
+            if ("Type: Consistent Fallback Motor".equals(ChatColor.stripColor(line))) {
+                hasTypeLine = true;
+                break;
+            }
+        }
+        Assertions.assertTrue(hasTypeLine, "lore must fall back to the SAME (english) block as the name, not be empty: " + d.lore);
+    }
+
+    @Test
     void differentCacheKeysDoNotCollide() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
         ItemTranslationService.RenderedDisplay byLanguage = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);

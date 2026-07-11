@@ -39,6 +39,11 @@ public class PacketTranslationService implements Listener {
 
     private final List<PacketItemDescriptor> descriptors;
 
+    // Snapshotted once at construction (like descriptors above) rather than re-read per packet: reading
+    // TranslationConfig.fallback() on the Netty thread would race an admin config reload (Slimefun.getCfg()
+    // is not synchronized for concurrent reads) and re-parse the enum on every single packet.
+    private final TranslationConfig.FallbackMode fallback;
+
     /**
      * Effective language id per player, refreshed on the main thread (join / language change) and read
      * verbatim by the Netty write handler. This is the ONLY thing the Netty thread may touch - it must
@@ -50,6 +55,7 @@ public class PacketTranslationService implements Listener {
 
     public PacketTranslationService(@Nonnull Slimefun plugin) {
         this.descriptors = PacketItemDescriptor.resolveAll();
+        this.fallback = TranslationConfig.fallback();
 
         if (!TranslationConfig.packetsEnabled() || descriptors.isEmpty()) {
             Slimefun.logger().info("Packet item translation disabled or unsupported on this version; "
@@ -149,7 +155,6 @@ public class PacketTranslationService implements Listener {
                     // Pure cache read - no getLanguage()/entity PDC access on the Netty thread.
                     String cached = languageCache.get(player.getUniqueId());
                     final String language = NO_LANGUAGE.equals(cached) ? null : cached;
-                    TranslationConfig.FallbackMode fallback = TranslationConfig.fallback();
                     return descriptor.rewrite(msg, nmsItem -> rewriteItem(nmsItem, language, fallback));
                 }
             }

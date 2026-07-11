@@ -94,7 +94,11 @@ public class ItemTranslationService {
     private static final String FAMILY_ID_TOKEN = "%MOB%";
     private static final String FAMILY_VALUE_PLACEHOLDER = "%mob%";
 
-    private final Map<String, List<Family>> familiesByLanguage = new HashMap<>();
+    // renderForPacket() reads this on the Netty thread (via resolveFamily) concurrently with load()
+    // (addon registerTranslations() can run post-boot on the main thread), so this must be a
+    // ConcurrentHashMap, and each per-language List<Family> must be published as an immutable,
+    // fully-built copy (see load()) rather than mutated in place.
+    private final Map<String, List<Family>> familiesByLanguage = new java.util.concurrent.ConcurrentHashMap<>();
     // Memoizes family resolution per (language, id); a null value means "checked, no family matches".
     // renderForPacket() runs on the Netty thread and can call this concurrently with other viewers, so
     // this must be thread-safe. Wrapped (not a ConcurrentHashMap) because it stores null values to
@@ -169,11 +173,16 @@ public class ItemTranslationService {
                     if (id.contains(FAMILY_ID_TOKEN)) {
                         // A family template: turn "%MOB%_SOUL_JAR" into a regex "(.+)_SOUL_JAR" and store it
                         // so any concrete id (ZOMBIE_SOUL_JAR) resolves through it (see resolveFamily).
+                        // Copy-on-write: build a new list (old contents + the new Family), sort it, then
+                        // publish it as a single immutable replacement - the Netty thread (resolveFamily)
+                        // only ever sees a fully-built, stable list, never one being mutated in place.
                         String regex = java.util.regex.Pattern.quote(id).replace(FAMILY_ID_TOKEN, "\\E(.+)\\Q");
                         int specificity = id.replace(FAMILY_ID_TOKEN, "").length();
-                        List<Family> list = familiesByLanguage.computeIfAbsent(language, k -> new ArrayList<>());
-                        list.add(new Family(java.util.regex.Pattern.compile("^" + regex + "$"), translation, specificity));
-                        list.sort((a, b) -> Integer.compare(b.specificity, a.specificity));
+                        List<Family> existing = familiesByLanguage.get(language);
+                        List<Family> updated = new ArrayList<>(existing != null ? existing : Collections.<Family>emptyList());
+                        updated.add(new Family(java.util.regex.Pattern.compile("^" + regex + "$"), translation, specificity));
+                        updated.sort((a, b) -> Integer.compare(b.specificity, a.specificity));
+                        familiesByLanguage.put(language, Collections.unmodifiableList(updated));
                         familyResolveCache.clear();
                     } else {
                         map.put(id, translation);
@@ -327,9 +336,13 @@ public class ItemTranslationService {
     private static final BlockSelector SEL_STATS = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } };
     private static final BlockSelector SEL_USAGE = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } };
 
-    /** Resolve a block for a specific primary language: that language's block, else the server default's, else empty. */
+    /**
+     * Resolve a block for a specific primary language: that language's block, else {@code fallbackLanguage}'s,
+     * else empty. The holder path passes the server default language as the fallback; the packet path passes
+     * english, so its lore falls back through the same chain as its name (see renderForPacket).
+     */
     @Nonnull
-    private List<String> blockForLanguage(@Nullable String language, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
+    private List<String> blockForLanguage(@Nullable String language, @Nullable String fallbackLanguage, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
         ItemTranslation primary = lookup(language, item.getId());
         if (primary != null) {
             List<String> block = selector.select(primary);
@@ -337,9 +350,8 @@ public class ItemTranslationService {
                 return block;
             }
         }
-        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-        if (defaultLanguage != null && !defaultLanguage.getId().equals(language)) {
-            ItemTranslation def = lookup(defaultLanguage.getId(), item.getId());
+        if (fallbackLanguage != null && !fallbackLanguage.equals(language)) {
+            ItemTranslation def = lookup(fallbackLanguage, item.getId());
             if (def != null) {
                 return selector.select(def);
             }
@@ -347,15 +359,29 @@ public class ItemTranslationService {
         return Collections.<String>emptyList();
     }
 
-    /** [type, description, stats, usage] for a primary language, each with per-block default fallback. */
+    /** Thin delegate: fallback language is the server default (unchanged behavior for the holder path). */
+    @Nonnull
+    private List<String> blockForLanguage(@Nullable String language, @Nonnull SlimefunItem item, @Nonnull BlockSelector selector) {
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        return blockForLanguage(language, defaultLanguage != null ? defaultLanguage.getId() : null, item, selector);
+    }
+
+    /** [type, description, stats, usage] for a primary language, each falling back to {@code fallbackLanguage}. */
+    @Nonnull
+    private List<List<String>> resolveBlocks(@Nullable String language, @Nullable String fallbackLanguage, @Nonnull SlimefunItem item) {
+        List<List<String>> blocks = new ArrayList<>(4);
+        blocks.add(blockForLanguage(language, fallbackLanguage, item, SEL_TYPE));
+        blocks.add(blockForLanguage(language, fallbackLanguage, item, SEL_DESCRIPTION));
+        blocks.add(blockForLanguage(language, fallbackLanguage, item, SEL_STATS));
+        blocks.add(blockForLanguage(language, fallbackLanguage, item, SEL_USAGE));
+        return blocks;
+    }
+
+    /** Thin delegate: fallback language is the server default (unchanged behavior for the holder path). */
     @Nonnull
     private List<List<String>> resolveBlocks(@Nullable String language, @Nonnull SlimefunItem item) {
-        List<List<String>> blocks = new ArrayList<>(4);
-        blocks.add(blockForLanguage(language, item, SEL_TYPE));
-        blocks.add(blockForLanguage(language, item, SEL_DESCRIPTION));
-        blocks.add(blockForLanguage(language, item, SEL_STATS));
-        blocks.add(blockForLanguage(language, item, SEL_USAGE));
-        return blocks;
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        return resolveBlocks(language, defaultLanguage != null ? defaultLanguage.getId() : null, item);
     }
 
     /**
@@ -655,8 +681,9 @@ public class ItemTranslationService {
             }
         }
 
-        // Lore: composed blocks in the SAME effective language, English base as the fallback body.
-        List<List<String>> blocks = resolveBlocks(effectiveLanguage, item);
+        // Lore: composed blocks in the SAME effective language, falling back to ENGLISH - never the
+        // server default - so a missing label can't show an english name with server-default lore.
+        List<List<String>> blocks = resolveBlocks(effectiveLanguage, "en", item);
         ItemMeta englishMeta = english != null ? english.getItemMeta() : null;
         List<String> englishLore = (englishMeta != null && englishMeta.getLore() != null) ? englishMeta.getLore() : new ArrayList<String>();
         ItemTranslation englishTranslation = (translation == null) ? lookup("en", id) : null;
