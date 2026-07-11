@@ -56,6 +56,12 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Build core jar
+        # The github-gradle plugin resolves dependency releases (e.g. Slimefun5/dough) via the gh CLI,
+        # which needs a token - without it the configure phase fails with "set the GH_TOKEN env variable"
+        # / HTTP 500. Mirrors the reusable ci.yaml (PAT if present, else the default job token).
+        env:
+          GH_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT || secrets.GITHUB_TOKEN }}
         run: |
           chmod +x ./gradlew
           ./gradlew :core:shadowJar -Partifact_version="${{ steps.ver.outputs.version }}" --no-daemon
