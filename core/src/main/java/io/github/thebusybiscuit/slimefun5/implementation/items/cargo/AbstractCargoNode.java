@@ -44,7 +44,10 @@ abstract class AbstractCargoNode extends SimpleSlimefunItem<BlockPlaceHandler> i
     AbstractCargoNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
-        new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMeta().getDisplayName())) {
+        // id-only items have no display name at construction (the resolver bakes it later), and on
+        // 1.8-1.12 getDisplayName() is null then - an unguarded read here NPEd and aborted the whole
+        // item registration from the cargo nodes onward.
+        new BlockMenuPreset(getId(), ChatUtils.removeColorCodes(item.getItemMetaSnapshot().getDisplayName().orElse("Cargo Node"))) {
 
             @Override
             public void init() {
