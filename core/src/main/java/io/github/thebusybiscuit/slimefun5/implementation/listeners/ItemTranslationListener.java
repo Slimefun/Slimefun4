@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
@@ -33,6 +35,9 @@ public class ItemTranslationListener implements Listener {
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             for (Player p : plugin.getServer().getOnlinePlayers()) {
                 translateInventory(p);
+                // Also catch a container a player is currently viewing (e.g. a multiblock dispenser that
+                // produced an output while open) - onInventoryOpen only fires on open, not on new contents.
+                translateOpenTopInventory(p);
             }
         }, 100L, 60L);
     }
@@ -46,6 +51,31 @@ public class ItemTranslationListener implements Listener {
             if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)
                 | Slimefun.getItemTranslationService().applyGuideTranslation(p, stack)) {
                 e.getItem().setItemStack(stack);
+            }
+        }
+    }
+
+    /**
+     * Re-skins the Slimefun items inside any container a player opens (a multiblock's vanilla dispenser,
+     * a chest, a barrel, ...) into that player's language. Multiblock machines output through
+     * {@code SlimefunItemStack.item()}, which is a pre-bake clone with no display name, so those items sit
+     * in the container showing only their bare material name until this runs. Identity is unchanged, so it
+     * is idempotent and does not affect recipe matching.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onInventoryOpen(InventoryOpenEvent e) {
+        if (!(e.getPlayer() instanceof Player)) {
+            return;
+        }
+
+        Player p = (Player) e.getPlayer();
+        Inventory top = e.getInventory();
+
+        for (int slot = 0; slot < top.getSize(); slot++) {
+            ItemStack stack = top.getItem(slot);
+
+            if (stack != null && Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)) {
+                top.setItem(slot, stack);
             }
         }
     }
@@ -67,6 +97,30 @@ public class ItemTranslationListener implements Listener {
             if (Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)
                 | Slimefun.getItemTranslationService().applyGuideTranslation(p, stack)) {
                 p.getInventory().setItem(slot, stack);
+            }
+        }
+    }
+
+    private void translateOpenTopInventory(@Nonnull Player p) {
+        Inventory top;
+
+        try {
+            top = p.getOpenInventory().getTopInventory();
+        } catch (Exception e) {
+            return;
+        }
+
+        // The bottom (player) inventory is handled by translateInventory; only the top container matters
+        // here. A crafting/creative view has no persistent Slimefun contents, so re-skinning it is a no-op.
+        if (top == null || top.equals(p.getInventory())) {
+            return;
+        }
+
+        for (int slot = 0; slot < top.getSize(); slot++) {
+            ItemStack stack = top.getItem(slot);
+
+            if (stack != null && Slimefun.getItemTranslationService().applyHolderTranslation(p, stack)) {
+                top.setItem(slot, stack);
             }
         }
     }
