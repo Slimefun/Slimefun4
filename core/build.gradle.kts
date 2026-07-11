@@ -126,6 +126,7 @@ tasks {
         include("**/BootSmokeTest.java")
         include("**/BackpackIdentityTest.java")
         include("**/ItemFamilyTest.java")
+        include("**/TestMenuListenerCollectGuard.java")
     }
     test {
         enabled = true
@@ -134,6 +135,7 @@ tasks {
         include("**/BootSmokeTest*")
         include("**/BackpackIdentityTest*")
         include("**/ItemFamilyTest*")
+        include("**/TestMenuListenerCollectGuard*")
     }
 
     processResources {
