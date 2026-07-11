@@ -124,6 +124,39 @@ class BootSmokeTest {
     }
 
     @Test
+    @DisplayName("Regression: every item still identifies AFTER the display bake/compose pass")
+    void testItemsRoundTripAfterBake() {
+        // The boot-time bake (applyServerDefaults -> LoreComposer -> bakeTranslatedDisplay) rewrites the
+        // name/lore of every physical template. It must never drop the identity tag - if it does, every
+        // affected item "reverts to vanilla" (getByItem == null) after one boot. The unit-test boot has
+        // no languages loaded, so we invoke the mutation primitive itself on every item.
+        List<String> offenders = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            if (item instanceof VanillaItem) {
+                continue;
+            }
+
+            try {
+                item.bakeTranslatedDisplay("&aBaked " + item.getId(),
+                    java.util.Arrays.asList("&8⇨ &7Baked Type", "", "&fBaked description line"));
+
+                SlimefunItem resolved = SlimefunItem.getByItem(item.getItem());
+
+                if (resolved == null || !resolved.getId().equals(item.getId())) {
+                    offenders.add(item.getId() + " -> " + (resolved == null ? "null" : resolved.getId()));
+                }
+            } catch (Exception | LinkageError e) {
+                offenders.add(item.getId() + " (" + e.getClass().getSimpleName() + ")");
+            }
+        }
+
+        Assertions.assertTrue(offenders.isEmpty(),
+            offenders.size() + " item(s) lost their identity in the bake/compose pass: "
+                + offenders.subList(0, Math.min(15, offenders.size())));
+    }
+
+    @Test
     @DisplayName("Every item has a resolvable display name (baked in code OR a name in en/items.yml)")
     void testEveryItemHasAName() {
         // The unit-test boot doesn't run the runtime resolver, so an id-only item (no name in code) shows
