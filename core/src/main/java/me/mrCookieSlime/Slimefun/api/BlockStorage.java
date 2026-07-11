@@ -55,6 +55,15 @@ public class BlockStorage {
 
     private static final EmptyBlockData emptyBlockData = new EmptyBlockData();
 
+    /**
+     * Locations whose {@link BlockMenu} currently has at least one viewer. This is written only on the
+     * main thread (menu open/close) and read by the async ticker so it can run a viewed machine's tick
+     * on the main thread instead - serializing the machine's inventory writes with the player's clicks
+     * to close the async-tick-vs-player duplication race. A stale-late removal is harmless (that machine
+     * just ticks synchronously for one extra cycle); a missed add would not be, so adds are eager.
+     */
+    private static final java.util.Set<Location> viewedInventories = ConcurrentHashMap.newKeySet();
+
     private final World world;
     private final Map<Location, Config> storage = new ConcurrentHashMap<>();
     private final Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
@@ -829,6 +838,7 @@ public class BlockStorage {
 
             inventories.get(l).delete(l);
             inventories.remove(l);
+            viewedInventories.remove(l);
         }
     }
 
@@ -865,6 +875,36 @@ public class BlockStorage {
         } else {
             return storage.hasInventory(b.getLocation());
         }
+    }
+
+    /**
+     * Marks (or unmarks) a {@link Location}'s inventory as currently being viewed by a player. Call only
+     * from the main thread. See {@link #isInventoryViewed(Location)}.
+     *
+     * @param l
+     *            The block {@link Location}
+     * @param viewed
+     *            Whether a player is now viewing this block's menu
+     */
+    public static void setInventoryViewed(@Nonnull Location l, boolean viewed) {
+        if (viewed) {
+            viewedInventories.add(l);
+        } else {
+            viewedInventories.remove(l);
+        }
+    }
+
+    /**
+     * Whether a player is currently viewing this block's {@link BlockMenu}. Cheap and side-effect free
+     * (a plain set lookup - never loads an inventory), so the async ticker can consult it every tick.
+     *
+     * @param l
+     *            The block {@link Location}
+     *
+     * @return Whether the block's menu currently has a viewer
+     */
+    public static boolean isInventoryViewed(@Nonnull Location l) {
+        return !viewedInventories.isEmpty() && viewedInventories.contains(l);
     }
 
     public static BlockMenu getInventory(Location l) {

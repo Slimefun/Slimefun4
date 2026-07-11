@@ -153,9 +153,18 @@ public class TickerTask implements Runnable {
 
         if (item != null && item.getBlockTicker() != null) {
             try {
-                if (item.getBlockTicker().isSynchronized()) {
+                BlockTicker ticker = item.getBlockTicker();
+
+                // A synchronized ticker always runs on the main thread. An async ticker normally runs off
+                // it for performance - but if a player is currently viewing this block's menu, running the
+                // tick (which mutates that menu's inventory) off-thread races the player's clicks on the
+                // same slots: the classic machine duplication. Route just those onto the main thread.
+                // Almost no machine is being viewed at any instant, so the async fast path is preserved
+                // for everything else, and running an async ticker on the main thread is always safe
+                // (async is only a performance choice, never a correctness requirement).
+                if (ticker.isSynchronized() || BlockStorage.isInventoryViewed(l)) {
                     Slimefun.getProfiler().scheduleEntries(1);
-                    item.getBlockTicker().update();
+                    ticker.update();
 
                     /**
                      * We are inserting a new timestamp because synchronized actions
@@ -167,12 +176,12 @@ public class TickerTask implements Runnable {
                     });
                 } else {
                     long timestamp = Slimefun.getProfiler().newEntry();
-                    item.getBlockTicker().update();
+                    ticker.update();
                     Block b = l.getBlock();
                     tickBlock(l, b, item, data, timestamp);
                 }
 
-                tickers.add(item.getBlockTicker());
+                tickers.add(ticker);
             } catch (Exception x) {
                 reportErrors(l, item, x);
             }

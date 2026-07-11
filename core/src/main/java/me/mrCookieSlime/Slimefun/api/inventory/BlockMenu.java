@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
 
@@ -94,6 +96,10 @@ public class BlockMenu extends DirtyChestMenu {
                 // Translation is cosmetic - never block the menu from opening.
             }
         }
+
+        // Mark this block as viewed so the (async) ticker runs its mutations on the main thread while a
+        // player is looking - closing the async-tick-vs-click dupe. Unmarked on close (BlockMenuListener).
+        BlockStorage.setInventoryViewed(location, true);
 
         super.open(players);
     }

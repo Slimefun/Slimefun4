@@ -127,6 +127,7 @@ tasks {
         include("**/BackpackIdentityTest.java")
         include("**/ItemFamilyTest.java")
         include("**/TestMenuListenerCollectGuard.java")
+        include("**/TestViewedInventoryGuard.java")
     }
     test {
         enabled = true
@@ -136,6 +137,7 @@ tasks {
         include("**/BackpackIdentityTest*")
         include("**/ItemFamilyTest*")
         include("**/TestMenuListenerCollectGuard*")
+        include("**/TestViewedInventoryGuard*")
     }
 
     processResources {

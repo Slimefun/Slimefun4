@@ -16,8 +16,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 /**
  * An old {@link Listener} for CS-CoreLib
@@ -38,6 +42,14 @@ public class MenuListener implements Listener {
 
         if (menu != null) {
             menu.getMenuCloseHandler().onClose((Player) e.getPlayer());
+
+            // If this was a Slimefun block menu, re-check on the main thread (once the close has settled)
+            // whether any viewer remains; if none, let its ticker return to the async fast path. Only ever
+            // unmark when truly unviewed, so the async-tick-vs-click dupe guard is never dropped early.
+            if (menu instanceof BlockMenu) {
+                BlockMenu blockMenu = (BlockMenu) menu;
+                Slimefun.runSync(() -> BlockStorage.setInventoryViewed(blockMenu.getLocation(), blockMenu.hasViewer()));
+            }
         }
     }
 
