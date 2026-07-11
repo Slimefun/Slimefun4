@@ -657,9 +657,13 @@ val cloneAndBuildAddons by tasks.registering {
         }
 
         // Clear stale addon jars (mismatched names cause Bukkit "Ambiguous plugin name"); keep the core jar.
-        // Optional: -PkeepPlugins keeps whatever is already in the plugins folder AND skips building addons
-        // entirely - you're deliberately reusing the existing jars, so there's nothing to rebuild or copy.
-        if (project.hasProperty("keepPlugins")) {
+        // Optional: -PkeepPlugins (or =true/on) keeps whatever is already in the plugins folder AND skips
+        // building addons entirely - you're deliberately reusing the existing jars, nothing to rebuild.
+        // Read the VALUE, not just presence: Gradle's hasProperty() is true even for -PkeepPlugins=false,
+        // which used to silently keep the jars when the user meant to turn it off.
+        val keepPluginsValue = (project.findProperty("keepPlugins") as String?)?.trim()?.lowercase()
+        val keepPlugins = keepPluginsValue != null && keepPluginsValue !in listOf("false", "off", "no", "0")
+        if (keepPlugins) {
             println("[keepPlugins] keeping existing plugin jars; skipping addon clone/build/copy")
             return@doLast
         }
