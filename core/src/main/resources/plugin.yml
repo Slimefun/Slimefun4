@@ -74,6 +74,9 @@ permissions:
   slimefun.command.migrationcheck:
     description: Allows you to do /sf migrationcheck
     default: op
+  slimefun.command.debugpackets:
+    description: Allows you to do /sf debugpackets
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op
