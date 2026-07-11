@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.core.services.localization;
 
+import org.bukkit.ChatColor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -68,6 +69,23 @@ class PacketRenderTest {
         ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ID);
         Assertions.assertNotNull(d);
         Assertions.assertEquals("ELECTRIC_MOTOR", d.name);
+    }
+
+    @Test
+    void englishFallbackRendersRealEnglishNotRawId() {
+        ItemTranslationService svc = Slimefun.getItemTranslationService();
+        // Load an "en" name for a probe id but never load "zz" (not a shipped language) - the "zz"
+        // viewer must fall back to the real English name (via the "en" map), not degrade to the raw id.
+        String yaml = "ELECTRIC_MOTOR:\n  name: '&aTest Electric Motor'\n";
+        Slimefun.getItemTranslationService().loadTranslationsForTest("en",
+            new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        svc.clearRenderCache();
+
+        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH);
+
+        Assertions.assertNotNull(d);
+        Assertions.assertEquals("Test Electric Motor", ChatColor.stripColor(d.name));
+        Assertions.assertNotEquals("ELECTRIC_MOTOR", d.name);
     }
 
     @Test

@@ -27,6 +27,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.ItemDescriptionsOption;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 /**
@@ -103,8 +104,9 @@ public class ItemTranslationService {
     private final Map<String, ItemTranslation> familyResolveCache = Collections.synchronizedMap(new HashMap<>());
 
     // Pre-bake (English) copies of items whose physical template was re-skinned to the server default.
-    // Lets the Guide still show English to a player whose language has no translation.
-    private final Map<String, ItemStack> englishBaseline = new HashMap<>();
+    // Lets the Guide still show English to a player whose language has no translation. Read by
+    // renderForPacket() on the Netty thread, so this must be thread-safe.
+    private final Map<String, ItemStack> englishBaseline = new java.util.concurrent.ConcurrentHashMap<>();
 
     /** Loads the bundled core translations for every supported language. */
     public void loadBundled() {
@@ -190,11 +192,22 @@ public class ItemTranslationService {
      */
     public void canonicalizeToId() {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            if (item instanceof VanillaItem) {
+                continue; // deliberately no custom name/lore so the vanilla client localizes it
+            }
+
             try {
+                englishBaseline.putIfAbsent(item.getId(), item.getItem().clone());
                 item.bakeTranslatedDisplay(item.getId(), new ArrayList<String>());
             } catch (Exception | LinkageError ignored) {
                 // a single broken item must not abort the pass
             }
+        }
+
+        try {
+            ensureEnglishBaseline();
+        } catch (Exception | LinkageError ignored) {
+            // must not abort boot
         }
     }
 
@@ -633,15 +646,23 @@ public class ItemTranslationService {
         } else if (fallback == TranslationConfig.FallbackMode.ID) {
             name = id;
         } else {
-            ItemMeta englishNameMeta = english != null ? english.getItemMeta() : item.getItem().getItemMeta();
-            name = (englishNameMeta != null && englishNameMeta.hasDisplayName()) ? englishNameMeta.getDisplayName() : id;
+            ItemTranslation en = lookup("en", id);
+            if (en != null && en.name != null) {
+                name = ChatColor.translateAlternateColorCodes('&', en.name);
+            } else {
+                ItemMeta englishNameMeta = english != null ? english.getItemMeta() : item.getItem().getItemMeta();
+                name = (englishNameMeta != null && englishNameMeta.hasDisplayName()) ? englishNameMeta.getDisplayName() : id;
+            }
         }
 
         // Lore: composed blocks in the SAME effective language, English base as the fallback body.
         List<List<String>> blocks = resolveBlocks(effectiveLanguage, item);
         ItemMeta englishMeta = english != null ? english.getItemMeta() : null;
         List<String> englishLore = (englishMeta != null && englishMeta.getLore() != null) ? englishMeta.getLore() : new ArrayList<String>();
-        List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore : englishLore;
+        ItemTranslation englishTranslation = (translation == null) ? lookup("en", id) : null;
+        List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
+            : (englishTranslation != null && !englishTranslation.lore.isEmpty()) ? englishTranslation.lore
+            : englishLore;
         List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
 
         RenderedDisplay result = new RenderedDisplay(name, lore);
