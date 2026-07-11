@@ -440,6 +440,28 @@ public class ItemTranslationService {
      * untouched. Returns whether the stack was changed.
      */
     public boolean applyHolderTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
+        return applyTranslation(languageOf(p), ItemDescriptionsOption.isEnabledFor(p), stack);
+    }
+
+    /**
+     * Re-skins a stack to the server's <em>default</em> language, for items that live in a block menu
+     * rather than a player's inventory (a machine output slot has no single owner). Machine recipe
+     * outputs are cloned from the recipe before the display is baked onto item templates, so they arrive
+     * with no name/lore; this brings them to the same display the baked template shows, so they render
+     * correctly in the machine's own slot. A player taking the item re-skins it to their own language on
+     * pickup. Runtime-mutated lore is left untouched (see {@link #isPristineOrComposed}).
+     *
+     * @param stack
+     *            The {@link ItemStack} to re-skin (mutated in place)
+     *
+     * @return Whether the stack was changed
+     */
+    public boolean applyServerDefaultTranslation(@Nullable ItemStack stack) {
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        return applyTranslation(defaultLanguage != null ? defaultLanguage.getId() : null, true, stack);
+    }
+
+    private boolean applyTranslation(@Nullable String languageId, boolean includeDescription, @Nullable ItemStack stack) {
         if (stack == null || stack.getType() == Material.AIR) {
             return false;
         }
@@ -465,7 +487,7 @@ public class ItemTranslationService {
             return false;
         }
 
-        ItemTranslation translation = lookup(languageOf(p), item.getId());
+        ItemTranslation translation = lookup(languageId, item.getId());
 
         String targetName = (translation != null && translation.name != null)
             ? ChatColor.translateAlternateColorCodes('&', translation.name)
@@ -491,7 +513,7 @@ public class ItemTranslationService {
             List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
                 : (englishLore != null ? englishLore : new ArrayList<String>());
 
-            List<List<String>> blocks = resolveBlocks(languageOf(p), item);
+            List<List<String>> blocks = resolveBlocks(languageId, item);
 
             List<String> targetLore = LoreComposer.compose(
                 item,
@@ -500,7 +522,7 @@ public class ItemTranslationService {
                 blocks.get(2),
                 blocks.get(3),
                 fallbackBase,
-                ItemDescriptionsOption.isEnabledFor(p));
+                includeDescription);
 
             List<String> currentForCompare = currentLore != null ? currentLore : Collections.<String>emptyList();
             if (!targetLore.equals(currentForCompare)) {
