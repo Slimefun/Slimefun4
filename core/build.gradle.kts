@@ -667,7 +667,13 @@ val cloneAndBuildAddons by tasks.registering {
             println("[keepPlugins] keeping existing plugin jars; skipping addon clone/build/copy")
             return@doLast
         }
-        pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach { it.delete() }
+        pluginsDir.listFiles { f: File -> f.name.endsWith(".jar") && !f.name.contains("_RunServer_") }?.forEach {
+            // A silent delete() failure here is why "old jars won't go away": the file is still locked by
+            // an orphaned server JVM from a previous run. Surface it so it's actionable (stop the server).
+            if (!it.delete() && it.exists()) {
+                println("[plugins] WARNING: could not delete stale jar ${it.name} - is a previous server still running? Stop it and re-run.")
+            }
+        }
 
         for (addon in addons) {
             // Each entry is Owner/Repo or Owner/Repo@branch (run.ps1 appends the chosen branch).
