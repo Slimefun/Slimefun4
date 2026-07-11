@@ -120,7 +120,7 @@ public class ItemTranslationService {
     /**
      * Lets an addon contribute its own {@code languages/<lang>/items.yml} translations. Call this from
      * the addon's {@code onEnable} after its items are registered. The addon's items are then also
-     * baked to the server default language (where a translation exists).
+     * canonicalized to their id-name (the packet layer renders the per-viewer translated display).
      */
     public void registerTranslations(@Nonnull JavaPlugin addon) {
         for (Language language : Slimefun.getLocalization().getLanguages()) {
@@ -131,7 +131,7 @@ public class ItemTranslationService {
             }
         }
 
-        applyServerDefaults();
+        canonicalizeToId();
     }
 
     private void load(@Nonnull String language, @Nonnull InputStream stream) {
@@ -184,56 +184,16 @@ public class ItemTranslationService {
     }
 
     /**
-     * Bakes the server's default-language translation into every enabled item's physical template, so
-     * world/inventory items render in the server language. Items without a translation are left as-is
-     * (so an English server, which has no language file, is completely unaffected). Call once after
-     * {@link #loadBundled()} and after all items have registered.
+     * Canonicalizes every registered item's template to its raw id as the display name with no composed
+     * lore. This is the language-neutral stored form; the packet layer renders per-viewer at send time,
+     * and this id-name is what shows if the packet layer never runs (an unmistakable fallback signal).
      */
-    public void applyServerDefaults() {
-        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-
-        if (defaultLanguage == null) {
-            return;
-        }
-
-        Map<String, ItemTranslation> map = byLanguage.get(defaultLanguage.getId());
-
-        if (map == null || map.isEmpty()) {
-            return;
-        }
-
+    public void canonicalizeToId() {
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
-                // Skip items already baked, so this stays idempotent (addons may trigger it again) and
-                // never captures an already-translated template as the English baseline.
-                if (englishBaseline.containsKey(item.getId())) {
-                    continue;
-                }
-
-                // Resolve through lookup() so item families (e.g. per-mob jars) bake too, not just exact ids.
-                ItemTranslation translation = lookup(defaultLanguage.getId(), item.getId());
-
-                if (translation != null) {
-                    englishBaseline.put(item.getId(), item.getItem());
-
-                    // Bake the fully COMPOSED block lore (Type/Description/Stats/Usage), not just the legacy
-                    // flat `lore` list. This makes the physical template match the guide/per-holder display,
-                    // AND lets id-only items (no hardcoded name/lore in code) get their entire display from
-                    // en/items.yml. Legacy flat `lore` still serves as the fallback base for un-blocked items.
-                    List<List<String>> blocks = resolveBlocks(defaultLanguage.getId(), item);
-
-                    ItemMeta templateMeta = item.getItem().getItemMeta();
-                    List<String> currentLore = (templateMeta != null && templateMeta.getLore() != null)
-                        ? templateMeta.getLore() : new ArrayList<String>();
-                    List<String> fallbackBase = !translation.lore.isEmpty() ? translation.lore : currentLore;
-
-                    List<String> composed = LoreComposer.compose(
-                        item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
-
-                    item.bakeTranslatedDisplay(translation.name, composed);
-                }
+                item.bakeTranslatedDisplay(item.getId(), new ArrayList<String>());
             } catch (Exception | LinkageError ignored) {
-                // A single broken item must not abort the whole baking pass.
+                // a single broken item must not abort the pass
             }
         }
     }
@@ -455,24 +415,6 @@ public class ItemTranslationService {
      */
     public boolean applyHolderTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
         return applyTranslation(languageOf(p), ItemDescriptionsOption.isEnabledFor(p), stack);
-    }
-
-    /**
-     * Re-skins a stack to the server's <em>default</em> language, for items that live in a block menu
-     * rather than a player's inventory (a machine output slot has no single owner). Machine recipe
-     * outputs are cloned from the recipe before the display is baked onto item templates, so they arrive
-     * with no name/lore; this brings them to the same display the baked template shows, so they render
-     * correctly in the machine's own slot. A player taking the item re-skins it to their own language on
-     * pickup. Runtime-mutated lore is left untouched (see {@link #isPristineOrComposed}).
-     *
-     * @param stack
-     *            The {@link ItemStack} to re-skin (mutated in place)
-     *
-     * @return Whether the stack was changed
-     */
-    public boolean applyServerDefaultTranslation(@Nullable ItemStack stack) {
-        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-        return applyTranslation(defaultLanguage != null ? defaultLanguage.getId() : null, true, stack);
     }
 
     private boolean applyTranslation(@Nullable String languageId, boolean includeDescription, @Nullable ItemStack stack) {

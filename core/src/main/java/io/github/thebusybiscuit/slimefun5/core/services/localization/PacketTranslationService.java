@@ -82,8 +82,8 @@ public class PacketTranslationService implements Listener {
 
     @EventHandler
     public void onLanguageChange(PlayerLanguageChangeEvent e) {
-        // Mirrors ItemTranslationListener: the new language is only applied to the player after this
-        // event resolves, so re-resolve one tick later - still on the main thread.
+        // The new language is only applied to the player after this event resolves, so re-resolve one
+        // tick later - still on the main thread.
         Player p = e.getPlayer();
         Slimefun.runSync(() -> refreshLanguage(p), 1L);
     }

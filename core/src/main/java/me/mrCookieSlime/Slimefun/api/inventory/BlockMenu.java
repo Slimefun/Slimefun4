@@ -97,45 +97,11 @@ public class BlockMenu extends DirtyChestMenu {
             }
         }
 
-        // Machine outputs are cloned from the recipe before the display is baked onto item templates, so
-        // they can sit in a slot showing only their bare material name; re-skin the menu's items to the
-        // server default now so they render correctly here (a player taking one re-skins it to their own
-        // language on pickup).
-        translateContents();
-
         // Mark this block as viewed so the (async) ticker runs its mutations on the main thread while a
         // player is looking - closing the async-tick-vs-click dupe. Unmarked on close (BlockMenuListener).
         BlockStorage.setInventoryViewed(location, true);
 
         super.open(players);
-    }
-
-    private void translateContents() {
-        org.bukkit.inventory.Inventory inv = toInventory();
-
-        if (inv == null) {
-            return;
-        }
-
-        for (int slot = 0; slot < inv.getSize(); slot++) {
-            ItemStack stack = inv.getItem(slot);
-
-            if (stack != null && Slimefun.getItemTranslationService().applyServerDefaultTranslation(stack)) {
-                inv.setItem(slot, stack);
-            }
-        }
-    }
-
-    @Override
-    public ItemStack pushItem(ItemStack item, int... slots) {
-        // Bring a freshly-produced output to its proper display the moment it lands, but only while a
-        // player is watching this machine - so the common (unwatched) path, incl. cargo inserts, pays
-        // nothing beyond the viewed-set check.
-        if (item != null && BlockStorage.isInventoryViewed(location)) {
-            Slimefun.getItemTranslationService().applyServerDefaultTranslation(item);
-        }
-
-        return super.pushItem(item, slots);
     }
 
     public Block getBlock() {

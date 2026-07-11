@@ -126,7 +126,7 @@ class BootSmokeTest {
     @Test
     @DisplayName("Regression: every item still identifies AFTER the display bake/compose pass")
     void testItemsRoundTripAfterBake() {
-        // The boot-time bake (applyServerDefaults -> LoreComposer -> bakeTranslatedDisplay) rewrites the
+        // The boot-time bake (canonicalizeToId -> bakeTranslatedDisplay) rewrites the
         // name/lore of every physical template. It must never drop the identity tag - if it does, every
         // affected item "reverts to vanilla" (getByItem == null) after one boot. The unit-test boot has
         // no languages loaded, so we invoke the mutation primitive itself on every item.

@@ -51,6 +51,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.PacketTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.MetricsService;
 import io.github.thebusybiscuit.slimefun5.core.services.MinecraftRecipeService;
 import io.github.thebusybiscuit.slimefun5.core.services.PerWorldSettingsService;
@@ -92,7 +93,6 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.ItemPickupLis
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.JoinListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiddleClickListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MiningAndroidListener;
-import io.github.thebusybiscuit.slimefun5.implementation.listeners.ItemTranslationListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.MultiBlockRedstoneListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.NetworkListener;
@@ -199,6 +199,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
     private final MenuTranslationService menuTranslationService = new MenuTranslationService();
+    private PacketTranslationService packetTranslationService;
 
     // Some other things we need
     private final IntegrationsManager integrations = new IntegrationsManager(this);
@@ -370,7 +371,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         logger.log(Level.INFO, "Loading item translations...");
         itemTranslationService.loadBundled();
-        itemTranslationService.applyServerDefaults();
+        itemTranslationService.canonicalizeToId();
         menuTranslationService.loadBundled();
 
         // Boot audit (delayed so addons have registered their items): warn about items still using
@@ -388,6 +389,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
+        packetTranslationService = new PacketTranslationService(this);
 
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
@@ -701,7 +703,6 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         register(() -> new CargoNodeListener(this));
         register(() -> new MultiBlockListener(this));
         register(() -> new MultiBlockRedstoneListener(this));
-        register(() -> new ItemTranslationListener(this));
         register(() -> new io.github.thebusybiscuit.slimefun5.core.guide.installer.AddonUpdateJoinListener(this));
         register(() -> new GadgetsListener(this));
         register(() -> new DispenserListener(this));
