@@ -88,7 +88,12 @@ public class ItemTranslationService {
 
     private final Map<String, List<Family>> familiesByLanguage = new HashMap<>();
     // Memoizes family resolution per (language, id); a null value means "checked, no family matches".
-    private final Map<String, ItemTranslation> familyResolveCache = new HashMap<>();
+    // renderForPacket() runs on the Netty thread and can call this concurrently with other viewers, so
+    // this must be thread-safe. Wrapped (not a ConcurrentHashMap) because it stores null values to
+    // memoize negative results, which ConcurrentHashMap forbids; synchronizedMap makes every individual
+    // get/put/containsKey atomic, and the resulting check-then-act race (two threads both miss the cache
+    // and both recompute) is benign since resolveFamily() is a pure, deterministic function of its input.
+    private final Map<String, ItemTranslation> familyResolveCache = Collections.synchronizedMap(new HashMap<>());
 
     // Pre-bake (English) copies of items whose physical template was re-skinned to the server default.
     // Lets the Guide still show English to a player whose language has no translation.
@@ -619,7 +624,10 @@ public class ItemTranslationService {
 
         RenderedDisplay(String name, List<String> lore) {
             this.name = name;
-            this.lore = lore;
+            // Defensive unmodifiable copy: this instance is cached and handed out to every caller that
+            // hits the cache, so a downstream mutation of a plain mutable list would corrupt the shared
+            // copy for every other viewer.
+            this.lore = Collections.unmodifiableList(new ArrayList<>(lore));
         }
     }
 
@@ -632,11 +640,19 @@ public class ItemTranslationService {
 
     /**
      * Renders an item's per-viewer display (name + composed lore) for the given language. Pure and
-     * thread-safe: reads only the loaded translation data, so it is safe to call from the Netty thread.
-     * Returns null if the id is not a registered Slimefun item.
+     * thread-safe: reads only the loaded translation data (populated once at boot, read-only afterward)
+     * plus the thread-safe render cache, so it is safe to call from the Netty thread. Returns null if
+     * the id is not a registered Slimefun item.
+     *
+     * <p>The viewer's language is resolved ONCE, up front, into a single effective language: the given
+     * {@code languageId} if non-null, otherwise the server's default language id (or null if there is
+     * no default language). That single effective language is then used for BOTH the name lookup and
+     * the lore blocks, so the two can never resolve against different languages. Only once that lookup
+     * comes back empty does the {@code fallback} mode decide the missing label (the raw id, or the
+     * English baseline name/lore).
      *
      * @param id         the Slimefun item id
-     * @param languageId the viewer's language id (may be null -> server default resolution inside lookup)
+     * @param languageId the viewer's language id, or null to use the server's default language
      * @param fallback   what a missing label becomes (ENGLISH or ID)
      */
     public RenderedDisplay renderForPacket(@Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback) {
@@ -651,7 +667,13 @@ public class ItemTranslationService {
             return cached;
         }
 
-        ItemTranslation translation = lookup(languageId, id);
+        // Resolve once so the name and the lore blocks below can never disagree about which language
+        // they rendered (previously: a null languageId made the name skip straight to the ENGLISH/ID
+        // fallback while the lore, via resolveBlocks -> blockForLanguage, still fell back to the server
+        // default language - an inconsistent pair of displays for the exact same render call).
+        String effectiveLanguage = resolveEffectiveLanguage(languageId);
+        ItemTranslation translation = lookup(effectiveLanguage, id);
+        ItemStack english = englishBaseline.get(id);
 
         // Name: language label -> (missing) fallback english baseline or raw id.
         String name;
@@ -660,23 +682,31 @@ public class ItemTranslationService {
         } else if (fallback == TranslationConfig.FallbackMode.ID) {
             name = id;
         } else {
-            ItemStack english = englishBaseline.get(id);
-            ItemMeta em = english != null ? english.getItemMeta() : item.getItem().getItemMeta();
-            name = (em != null && em.hasDisplayName()) ? em.getDisplayName() : id;
+            ItemMeta englishNameMeta = english != null ? english.getItemMeta() : item.getItem().getItemMeta();
+            name = (englishNameMeta != null && englishNameMeta.hasDisplayName()) ? englishNameMeta.getDisplayName() : id;
         }
 
-        // Lore: composed blocks in the viewer's language, English base as the fallback body.
-        List<List<String>> blocks = resolveBlocks(languageId, item);
-        List<String> englishLore;
-        ItemStack english = englishBaseline.get(id);
-        ItemMeta em = english != null ? english.getItemMeta() : null;
-        englishLore = (em != null && em.getLore() != null) ? em.getLore() : new ArrayList<String>();
+        // Lore: composed blocks in the SAME effective language, English base as the fallback body.
+        List<List<String>> blocks = resolveBlocks(effectiveLanguage, item);
+        ItemMeta englishMeta = english != null ? english.getItemMeta() : null;
+        List<String> englishLore = (englishMeta != null && englishMeta.getLore() != null) ? englishMeta.getLore() : new ArrayList<String>();
         List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore : englishLore;
         List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
 
         RenderedDisplay result = new RenderedDisplay(name, lore);
         renderCache.put(cacheKey, result);
         return result;
+    }
+
+    /** The given language id, or - when null - the server default language's id (or null if there is none). */
+    @Nullable
+    private String resolveEffectiveLanguage(@Nullable String languageId) {
+        if (languageId != null) {
+            return languageId;
+        }
+
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        return defaultLanguage != null ? defaultLanguage.getId() : null;
     }
 
     /**
