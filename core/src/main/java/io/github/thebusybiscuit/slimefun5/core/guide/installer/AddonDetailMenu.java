@@ -306,14 +306,39 @@ public final class AddonDetailMenu {
                 .replace("%commit%", commit);
         }
 
-        if (record != null && record.getMethod() == InstallState.Method.RELEASE) {
-            return Slimefun.getLocalization().getMessage(p, "guide.installer.version.release")
-                .replace("%version%", record.getVersion());
+        // Ground truth over the record for every other case: a stale RELEASE record can survive an
+        // orchestrator overwrite with an unofficial jar (see AddonInstaller.isUnofficialBuild), so always
+        // read the live plugin version rather than record.getVersion().
+        String display = formatVersion(pluginVersion, inst.isUnofficialBuild(entry));
+        return Slimefun.getLocalization().getMessage(p, "guide.installer.version.release")
+            .replace("%version%", display);
+    }
+
+    /**
+     * Formats a plugin version for display: a release version is shown unchanged; an unofficial/
+     * experimental build (stamped "&lt;base&gt;-UNOFFICIAL[-&lt;sha&gt;]" or "&lt;base&gt;-EXPERIMENTAL[-&lt;sha&gt;]"
+     * by the orchestrator) is shown as its clean base version, plus the short commit sha in parens when present.
+     */
+    @Nonnull
+    static String formatVersion(@javax.annotation.Nullable String version, boolean unofficial) {
+        if (version == null) {
+            return "";
         }
 
-        // Loaded but not staged by the installer: a custom/local build. Show its plugin version.
-        return Slimefun.getLocalization().getMessage(p, "guide.installer.version.custom")
-            .replace("%version%", pluginVersion);
+        if (!unofficial) {
+            return version;
+        }
+
+        java.util.regex.Matcher m = java.util.regex.Pattern
+            .compile("^(.*?)-(?:UNOFFICIAL|EXPERIMENTAL)(?:-([0-9a-fA-F]{7,40}))?.*$").matcher(version);
+
+        if (!m.matches()) {
+            return version;
+        }
+
+        String base = m.group(1);
+        String sha = m.group(2);
+        return (sha != null && !sha.isEmpty()) ? base + " (" + sha.substring(0, Math.min(7, sha.length())) + ")" : base;
     }
 
     @Nonnull

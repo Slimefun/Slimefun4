@@ -146,6 +146,8 @@ tasks {
         include("**/CoverageTest*")
         include("**/PacketReflectTest.java")
         include("**/PacketReflectTest*")
+        include("**/AddonVersionFormatTest.java")
+        include("**/AddonVersionFormatTest*")
     }
     test {
         enabled = true
@@ -169,6 +171,7 @@ tasks {
         include("**/WikiTextLanguageTest*")
         include("**/CoverageTest*")
         include("**/PacketReflectTest*")
+        include("**/AddonVersionFormatTest*")
     }
 
     processResources {
@@ -654,6 +657,12 @@ val cloneAndBuildAddons by tasks.registering {
             var derivedVersion = rawTag.removePrefix("gh-").removePrefix("v").trim()
             if (derivedVersion.isBlank()) return null
             if (!derivedVersion.endsWith("-UNOFFICIAL")) derivedVersion = "$derivedVersion-UNOFFICIAL"
+
+            // Stamp the short commit sha so the guide's addon-detail tile can show it (see
+            // AddonDetailMenu.formatVersion). Falls back to the plain "-UNOFFICIAL" suffix if git is
+            // unavailable - isUnofficialBuild()'s ".contains("-UNOFFICIAL")" check still matches either way.
+            val sha = getGitHash(repoDir)
+            if (sha.isNotBlank()) derivedVersion = "$derivedVersion-${sha.take(7)}"
 
             for (name in listOf("build.gradle.kts", "build.gradle")) {
                 val buildFile = File(repoDir, name)
