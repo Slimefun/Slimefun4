@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -178,29 +179,18 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
+        // Upsert-only: deletions are no longer inferred from the (delta-only) Config here, they
+        // come exclusively via deleteBlocks(). An empty Config means nothing to do.
         synchronized (lock) {
             try {
                 connection.setAutoCommit(false);
 
                 try (PreparedStatement upsert = connection.prepareStatement(
-                        "MERGE INTO block_data(world,x,y,z,sf_id,data) KEY(world,x,y,z) VALUES(?,?,?,?,?,?)");
-                        PreparedStatement deleteForId = connection.prepareStatement(
-                                "DELETE FROM block_data WHERE world = ? AND sf_id = ?");
-                        PreparedStatement deleteLocation = connection.prepareStatement(
-                                "DELETE FROM block_data WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                        "MERGE INTO block_data(world,x,y,z,sf_id,data) KEY(world,x,y,z) VALUES(?,?,?,?,?,?)")) {
 
                     for (Map.Entry<String, Config> entry : blocksCache.entrySet()) {
                         String sfId = entry.getKey();
                         Config cfg = entry.getValue();
-
-                        if (cfg.getKeys().isEmpty()) {
-                            // Mirrors LegacyFileBackend deleting the whole "<sf_id>.sfb" file: no
-                            // locations remain queued for this id, so no rows for it remain either.
-                            deleteForId.setString(1, world.getName());
-                            deleteForId.setString(2, sfId);
-                            deleteForId.executeUpdate();
-                            continue;
-                        }
 
                         for (String locationKey : cfg.getKeys()) {
                             String[] parts = CommonPatterns.SEMICOLON.split(locationKey);
@@ -209,26 +199,22 @@ public class JdbcBackend implements BlockStorageBackend {
                                 continue;
                             }
 
-                            int x = Integer.parseInt(parts[1]);
-                            int y = Integer.parseInt(parts[2]);
-                            int z = Integer.parseInt(parts[3]);
                             String json = cfg.getString(locationKey);
 
                             if (json == null) {
-                                deleteLocation.setString(1, world.getName());
-                                deleteLocation.setInt(2, x);
-                                deleteLocation.setInt(3, y);
-                                deleteLocation.setInt(4, z);
-                                deleteLocation.executeUpdate();
-                            } else {
-                                upsert.setString(1, world.getName());
-                                upsert.setInt(2, x);
-                                upsert.setInt(3, y);
-                                upsert.setInt(4, z);
-                                upsert.setString(5, sfId);
-                                upsert.setString(6, json);
-                                upsert.executeUpdate();
+                                // Setting a value to null removes the key from the underlying
+                                // Config entirely, so this should not be reachable in practice.
+                                // Skip defensively rather than upsert a null payload.
+                                continue;
                             }
+
+                            upsert.setString(1, world.getName());
+                            upsert.setInt(2, Integer.parseInt(parts[1]));
+                            upsert.setInt(3, Integer.parseInt(parts[2]));
+                            upsert.setInt(4, Integer.parseInt(parts[3]));
+                            upsert.setString(5, sfId);
+                            upsert.setString(6, json);
+                            upsert.executeUpdate();
                         }
                     }
                 }
@@ -242,6 +228,47 @@ public class JdbcBackend implements BlockStorageBackend {
                 }
 
                 Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to H2 storage for world \"" + world.getName() + '"');
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void deleteBlocks(@Nonnull World world, @Nonnull Collection<Location> locations) {
+        if (locations.isEmpty()) {
+            return;
+        }
+
+        synchronized (lock) {
+            try {
+                connection.setAutoCommit(false);
+
+                try (PreparedStatement delete = connection.prepareStatement(
+                        "DELETE FROM block_data WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+
+                    for (Location location : locations) {
+                        delete.setString(1, world.getName());
+                        delete.setInt(2, location.getBlockX());
+                        delete.setInt(3, location.getBlockY());
+                        delete.setInt(4, location.getBlockZ());
+                        delete.executeUpdate();
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block deletion");
+                }
+
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from H2 storage for world \"" + world.getName() + '"');
             } finally {
                 try {
                     connection.setAutoCommit(true);

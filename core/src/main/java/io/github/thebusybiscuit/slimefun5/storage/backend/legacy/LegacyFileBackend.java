@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -266,6 +267,13 @@ public class LegacyFileBackend implements BlockStorageBackend {
         }
 
         cfg.save(new File(BlockStorage.PATH_CHUNKS + "chunks.sfc"));
+    }
+
+    @Override
+    public void deleteBlocks(@Nonnull World world, @Nonnull Collection<Location> locations) {
+        // No-op: legacy deletions are encoded implicitly by flushBlocks() rewriting the full
+        // ".sfb" file (or deleting it if empty) from the file-loaded Config, which the removed
+        // location is already absent from - there is nothing left to delete separately here.
     }
 
     @Override

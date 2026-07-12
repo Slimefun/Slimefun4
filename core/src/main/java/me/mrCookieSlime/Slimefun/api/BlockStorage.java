@@ -64,6 +64,14 @@ public class BlockStorage {
     private final Map<Location, Config> storage = new ConcurrentHashMap<>();
     private final Map<Location, BlockMenu> inventories = new ConcurrentHashMap<>();
     private final Map<String, Config> blocksCache = new ConcurrentHashMap<>();
+    /**
+     * Locations removed since the last flush. The dirty {@link Config} in {@link #blocksCache}
+     * only tracks locations that were written or explicitly deleted; deleting simply drops the
+     * location's key from that delta {@link Config}, which is indistinguishable from "not
+     * touched" for a backend that doesn't load full per-id state (e.g. {@code JdbcBackend}). This
+     * set is the explicit signal passed to {@link BlockStorageBackend#deleteBlocks(World, java.util.Collection)}.
+     */
+    private final java.util.Set<Location> deletedBlocks = ConcurrentHashMap.newKeySet();
 
     private static int chunkChanges = 0;
     private static boolean universalInventoriesLoaded = false;
@@ -207,6 +215,15 @@ public class BlockStorage {
         }
 
         BlockStorageBackend backend = Slimefun.getBlockStorageBackend();
+
+        if (!deletedBlocks.isEmpty()) {
+            // Delete BEFORE upserting: a break-then-replace of the same spot within one flush
+            // window must keep the new block, so the delete must not run after its upsert.
+            java.util.List<Location> deleted = new ArrayList<>(deletedBlocks);
+            deletedBlocks.clear();
+            backend.deleteBlocks(world, deleted);
+        }
+
         backend.flushBlocks(world, cache);
 
         Map<Location, BlockMenu> unsavedInventories = new HashMap<>(inventories);
@@ -516,6 +533,7 @@ public class BlockStorage {
         if (hasBlockInfo(l)) {
             refreshCache(storage, l, getLocationInfo(l).getString("id"), null, destroy);
             storage.storage.remove(l);
+            storage.deletedBlocks.add(l);
         }
 
         if (destroy) {
@@ -567,6 +585,7 @@ public class BlockStorage {
 
         refreshCache(storage, from, previousData.getString("id"), null, true);
         storage.storage.remove(from);
+        storage.deletedBlocks.add(from);
 
         Slimefun.getTickerTask().disableTicker(from);
     }

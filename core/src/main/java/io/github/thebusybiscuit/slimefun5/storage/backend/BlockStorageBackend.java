@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.storage.backend;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -42,6 +43,20 @@ public interface BlockStorageBackend {
     BlockMenu loadInventoryIfPresent(@Nonnull Location l, @Nonnull BlockMenuPreset preset);
 
     void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache);
+
+    /**
+     * Explicitly deletes the block rows at the given {@link Location}s. The dirty per-id
+     * {@link Config} objects passed to {@link #flushBlocks(World, Map)} are delta-only (they
+     * don't carry the "full known state" the legacy {@code .sfb} file did), so a removed location
+     * is simply absent from them - indistinguishable from "not touched". This method is the
+     * explicit signal backends need to actually delete a row.
+     *
+     * @param world
+     *            The {@link World} the locations belong to.
+     * @param locations
+     *            The {@link Location}s to delete.
+     */
+    void deleteBlocks(@Nonnull World world, @Nonnull Collection<Location> locations);
 
     void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories);
 
