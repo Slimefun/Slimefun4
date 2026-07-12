@@ -77,10 +77,22 @@ guide:
     previous: 'Previous page'
     next: 'Next page'
 
+  research:
+    unlock: '&a> Click to unlock'
+    cost: '&7Cost: &b%levels% Level(s)'
+
+  recipe:
+    error: '&4We are somehow unable to show you this Recipe :/'
+    needs-unlock: '&fNeeds to be unlocked in %group%'
+    no-permission: '&fNo Permission'
+
   back:
     title: 'Back'
     guide: 'Go back to the Slimefun Guide'
     settings: 'Go back to the Settings Panel'
+    page:
+    - '&fLeft Click: &7Go back to previous Page'
+    - '&fShift + left Click: &7Go back to Main Menu'
 
   languages:
     updated: '&aYour language was successfully set to: &b%lang%'
@@ -138,6 +150,23 @@ guide:
           - '&7will see information about your pondering in chat'
           - '&7upon researching an item.'
         click: '&eClick to enable your learning animation'
+    machine-messages:
+      enabled:
+        text:
+        - '&bMachine Messages: &aEnabled'
+        - ''
+        - '&7Whether machines send chat feedback,'
+        - '&7such as the multiblock assembly tips.'
+        - ''
+        - '&7⇨ &eClick to disable'
+      disabled:
+        text:
+        - '&bMachine Messages: &cDisabled'
+        - ''
+        - '&7Whether machines send chat feedback,'
+        - '&7such as the multiblock assembly tips.'
+        - ''
+        - '&7⇨ &eClick to enable'
 
   title:
     main: 'Slimefun Guide'

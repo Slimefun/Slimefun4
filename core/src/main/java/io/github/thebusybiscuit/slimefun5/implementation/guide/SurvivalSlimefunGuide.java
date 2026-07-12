@@ -416,7 +416,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             menu.addItem(index, CustomItemStack.create(ChestMenuUtils.getNoPermissionItem(), Slimefun.getItemTranslationService().getName(p, sfitem), message.toArray(new String[0])));
             menu.addMenuClickHandler(index, ChestMenuUtils.getEmptyClickHandler());
         } else if (isSurvivalMode() && research != null && !profile.hasUnlocked(research)) {
-            menu.addItem(index, CustomItemStack.create(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ChatColor.stripColor(Slimefun.getItemTranslationService().getName(p, sfitem)), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", "&a> Click to unlock", "", "&7Cost: &b" + research.getCost() + " Level(s)"));
+            menu.addItem(index, CustomItemStack.create(ChestMenuUtils.getNotResearchedItem(), ChatColor.WHITE + ChatColor.stripColor(Slimefun.getItemTranslationService().getName(p, sfitem)), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", Slimefun.getLocalization().getMessage(p, "guide.research.unlock"), "", Slimefun.getLocalization().getMessage(p, "guide.research.cost").replace("%levels%", String.valueOf(research.getCost()))));
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 research.unlockFromGuide(this, p, profile, sfitem, itemGroup, page);
                 return false;
@@ -583,7 +583,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             recipeType = new RecipeType(optional.get());
             result = recipe.getResult();
         } else {
-            recipeItems = new ItemStack[] { null, null, null, null, CustomItemStack.create(Material.BARRIER, "&4We are somehow unable to show you this Recipe :/"), null, null, null, null };
+            recipeItems = new ItemStack[] { null, null, null, null, CustomItemStack.create(Material.BARRIER, Slimefun.getLocalization().getMessage(p, "guide.recipe.error")), null, null, null, null };
         }
 
         ChestMenu menu = create(p);
@@ -765,7 +765,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         GuideHistory history = profile.getGuideHistory();
 
         if (isSurvivalMode() && history.size() > 1) {
-            menu.addItem(slot, ChestMenuUtils.getBackButton(p, "", "&fLeft Click: &7Go back to previous Page", "&fShift + left Click: &7Go back to Main Menu"));
+            menu.addItem(slot, ChestMenuUtils.getBackButton(p, Slimefun.getLocalization().getMessages(p, "guide.back.page").toArray(new String[0])));
 
             menu.addMenuClickHandler(slot, (pl, s, is, action) -> {
                 if (action.isShiftClicked()) {
@@ -800,7 +800,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return translations.getDisplayItem(p, slimefunItem);
             }
 
-            String lore = hasPermission(p, slimefunItem) ? "&fNeeds to be unlocked in " + slimefunItem.getItemGroup().getDisplayName(p) : "&fNo Permission";
+            String lore = hasPermission(p, slimefunItem) ? Slimefun.getLocalization().getMessage(p, "guide.recipe.needs-unlock").replace("%group%", slimefunItem.getItemGroup().getDisplayName(p)) : Slimefun.getLocalization().getMessage(p, "guide.recipe.no-permission");
             return CustomItemStack.create(Material.BARRIER, translations.getName(p, slimefunItem), "&4&l" + Slimefun.getLocalization().getMessage(p, "guide.locked"), "", lore);
         } else {
             return item;

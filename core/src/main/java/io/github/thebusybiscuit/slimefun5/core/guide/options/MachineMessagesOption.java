@@ -1,6 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.options;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.entity.Player;
@@ -33,15 +33,11 @@ class MachineMessagesOption implements SlimefunGuideOption<Boolean> {
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
         boolean enabled = getSelectedOption(p, guide).orElse(true);
+        String state = enabled ? "enabled" : "disabled";
+        List<String> lines = Slimefun.getLocalization().getMessages(p, "guide.options.machine-messages." + state + ".text");
 
-        ItemStack item = CustomItemStack.create(XMaterial.OAK_SIGN.parseMaterial(),
-            "&bMachine Messages: " + (enabled ? "&aEnabled" : "&cDisabled"),
-            "",
-            "&7Whether machines send chat feedback,",
-            "&7such as the multiblock assembly tips.",
-            "",
-            "&7⇨ &eClick to " + (enabled ? "disable" : "enable"));
-
+        ItemStack item = CustomItemStack.create(XMaterial.OAK_SIGN.parseMaterial(), lines.get(0),
+            lines.subList(1, lines.size()).toArray(new String[0]));
         return Optional.of(item);
     }
 

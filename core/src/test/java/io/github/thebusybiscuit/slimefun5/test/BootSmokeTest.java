@@ -271,4 +271,31 @@ class BootSmokeTest {
         Assertions.assertNull(SlimefunItem.getByItem(upstreamStack(Material.PAPER, "SOME_UNINSTALLED_ADDON_ITEM")),
             "An id from an uninstalled addon must resolve to null (the migrationcheck signal), not a wrong item");
     }
+
+    @Test
+    @DisplayName("New guide UI message keys resolve to non-empty English strings")
+    void testNewGuideKeysResolve() {
+        // The unit-test boot never loads any Language (onUnitTestStart() passes a null
+        // serverDefaultLanguage), so Slimefun.getLocalization() has nothing to resolve against here.
+        // Read the bundled en/messages.yml straight off the classpath instead, same as testEveryItemHasAName.
+        YamlConfiguration en = new YamlConfiguration();
+
+        try (InputStream in = getClass().getResourceAsStream("/languages/en/messages.yml")) {
+            Assertions.assertNotNull(in, "en/messages.yml not found on the classpath");
+            en.load(new InputStreamReader(in, StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            Assertions.fail("Could not read en/messages.yml: " + e);
+        }
+
+        String[] keys = { "guide.research.unlock", "guide.research.cost", "guide.recipe.error",
+            "guide.recipe.needs-unlock", "guide.recipe.no-permission" };
+        for (String key : keys) {
+            String v = en.getString(key);
+            Assertions.assertTrue(v != null && !v.trim().isEmpty(), "missing/blank en message key: " + key);
+        }
+        Assertions.assertFalse(en.getStringList("guide.options.machine-messages.enabled.text").isEmpty(),
+            "machine-messages.enabled.text must be a non-empty list");
+        Assertions.assertFalse(en.getStringList("guide.back.page").isEmpty(),
+            "guide.back.page must be a non-empty list");
+    }
 }
