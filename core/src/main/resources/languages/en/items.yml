@@ -1386,10 +1386,197 @@ ENDER_LUMP_3:
   name: '&5Ender Lump &7- &eIII'
   type:
   - '&7&oResource'
+ENDER_ANGEL_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it has a'
+  - '&f75% chance to prevent you'
+  - '&ffrom taking Fall Damage'
+  name: '&5Ender Talisman of the Angel'
+  type:
+  - '&7&oTalisman'
+ENDER_ANVIL_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fEach Talisman can prevent'
+  - '&f1 Tool from breaking, but will then'
+  - '&fbe consumed'
+  - ''
+  - '&4&lWARNING:'
+  - '&4This Talisman does not work on'
+  - '&4Tools which are too powerful'
+  - '&4due to their complexity'
+  name: '&5Ender Talisman of the Anvil'
+  type:
+  - '&7&oTalisman'
+ENDER_CAVEMAN_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your inventory it gives'
+  - '&fyou a 50% chance for a decent'
+  - '&fHaste buff when you mine any ore'
+  name: '&5Ender Talisman of the Caveman'
+  type:
+  - '&7&oTalisman'
+ENDER_FARMER_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it has'
+  - '&fa 20% chance of doubling'
+  - '&fall crops you harvest'
+  name: '&5Ender Talisman of the Farmer'
+  type:
+  - '&7&oTalisman'
+ENDER_FIRE_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it will'
+  - '&fgive you Fire Resistance'
+  - '&fas soon as you start burning'
+  - '&fbut will then be consumed'
+  name: '&5Ender Talisman of the Firefighter'
+  type:
+  - '&7&oTalisman'
+ENDER_HUNTER_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it has'
+  - '&fa 20% chance of doubling'
+  - '&fall Drops from Mobs you kill'
+  name: '&5Ender Talisman of the Hunter'
+  type:
+  - '&7&oTalisman'
+ENDER_KNIGHT_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it gives'
+  - '&fyou a 30% Chance for 5 Seconds of Regeneration'
+  - '&fwhenever You get hit'
+  - '&fbut will then be consumed'
+  name: '&5Ender Talisman of the Knight'
+  type:
+  - '&7&oTalisman'
+ENDER_LAVA_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it will'
+  - '&fgive you Fire Resistance'
+  - '&fas soon as you touch Lava'
+  - '&fbut will then be consumed'
+  name: '&5Ender Talisman of the Lava Walker'
+  type:
+  - '&7&oTalisman'
+ENDER_MAGICIAN_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it gives'
+  - '&fyou a 80% Luck Bonus on Enchanting'
+  - '&fYou will sometimes get an Extra Enchantment'
+  name: '&5Ender Talisman of the Magician'
+  type:
+  - '&7&oTalisman'
+ENDER_MINER_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it has'
+  - '&fa 20% chance of doubling'
+  - '&fall Ores you mine'
+  name: '&5Ender Talisman of the Miner'
+  type:
+  - '&7&oTalisman'
 ENDER_TALISMAN:
   name: '&5Ender Talisman'
   type:
   - '&7&oComponent'
+ENDER_TRAVELLER_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it gives'
+  - '&fyou a 60% Chance for a decent'
+  - '&fSpeed Buff when you start sprinting'
+  name: '&5Ender Talisman of the Traveller'
+  type:
+  - '&7&oTalisman'
+ENDER_WARRIOR_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it gives'
+  - '&fyou Strength III whenever you get hit'
+  - '&fbut will then be consumed'
+  name: '&5Ender Talisman of the Warrior'
+  type:
+  - '&7&oTalisman'
+ENDER_WATER_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it will'
+  - '&fgive you the ability'
+  - '&fto breath underwater as'
+  - '&fsoon as you start drowning'
+  - '&fbut will then be consumed'
+  name: '&5Ender Talisman of the Water Breather'
+  type:
+  - '&7&oTalisman'
+ENDER_WHIRLWIND_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fHaving this Talisman'
+  - '&fin your Inventory will reflect'
+  - '&f60% of any projectiles fired at you.'
+  - '&e&oOnly a thrown Trident can pierce'
+  - '&e&othrough this layer of protection'
+  name: '&5Ender Talisman of the Whirlwind'
+  type:
+  - '&7&oTalisman'
+ENDER_WISE_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your inventory it gives'
+  - '&fyou a 20% chance of doubling'
+  - '&fany experience you obtain'
+  name: '&5Ender Talisman of the Wise'
+  type:
+  - '&7&oTalisman'
+ENDER_WIZARD_TALISMAN:
+  description:
+  - '&7&oEnder Infused'
+  - '&7Works from your Ender Chest, so its effect follows you across worlds.'
+  - '&fWhile you have this Talisman'
+  - '&fin your Inventory it allows you to'
+  - '&fobtain Fortune Level 4/5 however'
+  - '&fit also has a chance to lower the'
+  - '&fLevel of some Enchantments on your Item'
+  name: '&5Ender Talisman of the Wizard'
+  type:
+  - '&7&oTalisman'
 ENERGIZED_CAPACITOR:
   description:
   - '&7Stores energy inside an energy network'
@@ -3757,6 +3944,15 @@ TIN_INGOT:
   name: '&bTin Ingot'
   type:
   - '&7&oResource'
+TOME_OF_KNOWLEDGE_SHARING:
+  description:
+  - '&7A bound Tome grants its owner''s Researches'
+  - '&7to whoever else uses it.'
+  name: '&6Tome of Knowledge Sharing'
+  type:
+  - '&7&oMagical'
+  usage:
+  - '&eRight Click&7 to bind this Tome to yourself.'
 TRASH_CAN_BLOCK:
   description:
   - '&fWill destroy all Items put into it'

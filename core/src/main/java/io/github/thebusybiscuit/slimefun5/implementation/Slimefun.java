@@ -381,12 +381,6 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         enchantTranslationService.loadBundled();
         menuTranslationService.loadBundled();
 
-        // Boot audit (delayed so addons have registered their items): warn about items still using
-        // hardcoded/plain lore instead of the en/items.yml block system, and dump the full list so the
-        // migration to the unified lore system is trackable.
-        getServer().getScheduler().runTaskLater(this, () ->
-            itemTranslationService.auditUnmigratedLore(new java.io.File(getDataFolder(), "hardcoded-lore-audit.yml")), 200L);
-
         // Pre-warm the balance caches (heavy per-item recipe-tree effort walks) once, after all addons have
         // registered their items. Runs ASYNC (off the main thread): doing it on the main thread froze the
         // server for a couple of seconds ~10s after boot - which is exactly when an admin first opens the
