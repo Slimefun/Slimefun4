@@ -86,12 +86,14 @@ public final class SlimefunRegistry {
 
     private final Map<UUID, PlayerProfile> profiles = new ConcurrentHashMap<>();
     private final Map<String, BlockStorage> worlds = new ConcurrentHashMap<>();
-    private final Map<String, BlockInfoConfig> chunks = new HashMap<>();
+    // Written on the main thread (chunk ticks/events), read+iterated by the async autosave thread - must be concurrent.
+    private final Map<String, BlockInfoConfig> chunks = new ConcurrentHashMap<>();
     private final Map<SlimefunGuideMode, SlimefunGuideImplementation> guides = new EnumMap<>(SlimefunGuideMode.class);
     private final Map<EntityType, Set<ItemStack>> mobDrops = new HashMap<>();
 
     private final Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
-    private final Map<String, UniversalBlockMenu> universalInventories = new HashMap<>();
+    // Written on the main thread (block placement), read+iterated by the async autosave thread - must be concurrent.
+    private final Map<String, UniversalBlockMenu> universalInventories = new ConcurrentHashMap<>();
     private final Map<Class<? extends ItemHandler>, Set<ItemHandler>> globalItemHandlers = new HashMap<>();
 
     public void load(@Nonnull Slimefun plugin, @Nonnull Config cfg) {

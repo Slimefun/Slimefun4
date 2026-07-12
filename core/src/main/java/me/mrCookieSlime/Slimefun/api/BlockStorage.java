@@ -378,7 +378,8 @@ public class BlockStorage {
             File chunks = new File(PATH_CHUNKS + "chunks.sfc");
             Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
 
-            for (Map.Entry<String, BlockInfoConfig> entry : Slimefun.getRegistry().getChunks().entrySet()) {
+            Map<String, BlockInfoConfig> unsavedChunks = new HashMap<>(Slimefun.getRegistry().getChunks());
+            for (Map.Entry<String, BlockInfoConfig> entry : unsavedChunks.entrySet()) {
                 // Saving empty chunk data is pointless
                 if (!entry.getValue().getKeys().isEmpty()) {
                     cfg.setValue(entry.getKey(), entry.getValue().toJSON());
