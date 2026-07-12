@@ -254,6 +254,60 @@ public class LocalizationService extends SlimefunLocalization {
         return Math.min(NumberUtils.reparseDouble(100.0 * (matches / (double) defaultKeys.size())), 100.0);
     }
 
+    /**
+     * Message-unit coverage of a language: {@code {covered, total}} combining the message-file keys (the
+     * 5 {@link LanguageFile} categories, present-or-{@link io.github.thebusybiscuit.slimefun5.core.services.localization.FallbackSafe FallbackSafe}),
+     * the menu keys ({@link io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService#getKeyCoverage}),
+     * and the enchant keys ({@link io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantTranslationService}).
+     * English returns {@code {total, total}}.
+     */
+    @Nonnull
+    public int[] getMessageUnitCoverage(@Nonnull String languageId) {
+        // No "en" Language is loaded under the MockBukkit unit-test harness (see Slimefun#onUnitTestStart,
+        // which builds LocalizationService with no server default language), so this must not assume it
+        // exists the way calculateProgress() does.
+        Language en = languages.get("en");
+        Set<String> defaultKeys = en != null ? getTotalKeys(en) : java.util.Collections.<String>emptySet();
+        boolean isEnglish = "en".equalsIgnoreCase(languageId);
+
+        int total = defaultKeys.size();
+        int covered;
+
+        if (isEnglish) {
+            covered = total;
+        } else {
+            Language lang = languages.get(languageId);
+            Set<String> langKeys = lang != null ? getTotalKeys(lang) : java.util.Collections.<String>emptySet();
+            covered = 0;
+
+            for (String key : defaultKeys) {
+                if (langKeys.contains(key) || io.github.thebusybiscuit.slimefun5.core.services.localization.FallbackSafe.messageKeys().contains(key)) {
+                    covered++;
+                }
+            }
+        }
+
+        int[] menu = Slimefun.getMenuTranslationService().getKeyCoverage(languageId);
+        covered += menu[0];
+        total += menu[1];
+
+        io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantTranslationService enchants = Slimefun.getEnchantTranslationService();
+        Set<String> enchantKeys = enchants.englishKeys();
+        total += enchantKeys.size();
+
+        if (isEnglish) {
+            covered += enchantKeys.size();
+        } else {
+            for (String key : enchantKeys) {
+                if (enchants.covers(languageId, key)) {
+                    covered++;
+                }
+            }
+        }
+
+        return new int[] { covered, total };
+    }
+
     private @Nonnull FileConfiguration getConfigurationFromStream(@Nonnull String file, @Nullable FileConfiguration defaults) {
         InputStream inputStream = plugin.getClass().getResourceAsStream(file);
 

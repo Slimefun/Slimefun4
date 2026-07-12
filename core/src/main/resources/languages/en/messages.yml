@@ -272,8 +272,7 @@ guide:
       translator: '&9Translator'
 
   coverage:
-    messages: '&7Messages: &b%percent%%'
-    items: '&7Items: &b%percent%%'
+    overall: '&7Translation: %color%%percent%%'
     breakdown-hint: '&7⇨ &eRight Click: &7Item translation breakdown'
     title-suffix: 'Items'
     translated: '&7Translated: &b%translated%&7/&b%total%'

@@ -332,6 +332,7 @@ public class ItemTranslationService {
     private static final BlockSelector SEL_DESCRIPTION = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.description; } };
     private static final BlockSelector SEL_STATS = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.stats; } };
     private static final BlockSelector SEL_USAGE = new BlockSelector() { public List<String> select(ItemTranslation t) { return t.usage; } };
+    private static final BlockSelector[] COVERAGE_BLOCKS = { SEL_TYPE, SEL_DESCRIPTION, SEL_STATS, SEL_USAGE };
 
     /**
      * Resolve a block for a specific primary language: that language's block, else {@code fallbackLanguage}'s,
@@ -627,32 +628,76 @@ public class ItemTranslationService {
         }
     }
 
+    private static boolean nonEmpty(@Nullable String s) {
+        return s != null && !s.trim().isEmpty();
+    }
+
+    private static boolean nonEmpty(@Nonnull List<String> lines) {
+        return !lines.isEmpty();
+    }
+
     /**
-     * Coverage of a language per plugin: pluginName -> [translatedItems, totalItems], over all enabled
-     * items grouped by their addon. Powers the translation-percentage UI.
+     * Leaf-based coverage of a language per plugin: pluginName -> [coveredUnits, totalUnits], over all
+     * enabled items grouped by their addon. A unit is one of an item's translatable leaves: {@code name}
+     * (if English has one) plus each of {@code type}/{@code description}/{@code stats}/{@code usage} that
+     * English defines non-empty. This counts real block coverage (not mere entry presence), so a language
+     * with translated names but untranslated lore blocks scores well below 100%. An item id tagged in
+     * {@link FallbackSafe#itemIds()} counts every one of its English units as covered (deliberately
+     * English-everywhere). Items with zero English units contribute nothing (they can't inflate or
+     * deflate the percentage). Powers the translation-percentage UI.
      */
     @Nonnull
-    public Map<String, int[]> getCoverage(@Nonnull String language) {
-        if ("en".equalsIgnoreCase(language)) {
-            // English is the language items are authored in. Register each item's built-in English name
-            // as a real "en" translation entry so English is counted exactly like any other language -
-            // no hardcoded percentage. An en/items.yml, if shipped, is loaded by loadBundled() and wins.
-            ensureEnglishBaseline();
-        }
+    public Map<String, int[]> getItemUnitCoverage(@Nonnull String language) {
+        // English units are the yardstick for every language (including English itself), so the baseline
+        // must exist regardless of which language's coverage is being computed.
+        ensureEnglishBaseline();
 
-        Map<String, ItemTranslation> translated = byLanguage.getOrDefault(language, new HashMap<>());
+        boolean isEnglish = "en".equalsIgnoreCase(language);
+        Map<String, ItemTranslation> englishMap = byLanguage.getOrDefault("en", Collections.<String, ItemTranslation>emptyMap());
+        Map<String, ItemTranslation> langMap = isEnglish ? englishMap : byLanguage.getOrDefault(language, Collections.<String, ItemTranslation>emptyMap());
+        Set<String> fallbackSafe = FallbackSafe.itemIds();
         Map<String, int[]> coverage = new LinkedHashMap<>();
 
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
-                String plugin = item.getAddon().getName();
-                int[] counts = coverage.computeIfAbsent(plugin, k -> new int[2]);
-                counts[1]++;
+                String id = item.getId();
+                ItemTranslation english = englishMap.get(id);
 
-                // A real translation, or an item deliberately tagged as English-everywhere, counts.
-                if (translated.containsKey(item.getId()) || FallbackSafe.itemIds().contains(item.getId())) {
-                    counts[0]++;
+                if (english == null) {
+                    continue;
                 }
+
+                boolean safe = isEnglish || fallbackSafe.contains(id);
+                ItemTranslation lang = langMap.get(id);
+
+                int englishUnits = 0;
+                int coveredUnits = 0;
+
+                if (nonEmpty(english.name)) {
+                    englishUnits++;
+
+                    if (safe || (lang != null && nonEmpty(lang.name))) {
+                        coveredUnits++;
+                    }
+                }
+
+                for (BlockSelector selector : COVERAGE_BLOCKS) {
+                    if (nonEmpty(selector.select(english))) {
+                        englishUnits++;
+
+                        if (safe || (lang != null && nonEmpty(selector.select(lang)))) {
+                            coveredUnits++;
+                        }
+                    }
+                }
+
+                if (englishUnits == 0) {
+                    continue;
+                }
+
+                int[] counts = coverage.computeIfAbsent(item.getAddon().getName(), k -> new int[2]);
+                counts[0] += coveredUnits;
+                counts[1] += englishUnits;
             } catch (Exception | LinkageError ignored) {
                 // A broken item should not break the coverage report.
             }

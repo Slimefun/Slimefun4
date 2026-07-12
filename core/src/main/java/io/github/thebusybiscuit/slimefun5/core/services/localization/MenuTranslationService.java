@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -266,6 +267,35 @@ public class MenuTranslationService {
         } catch (java.io.IOException e) {
             Slimefun.logger().log(Level.WARNING, "Failed to dump menu baseline: {0}", e.getMessage());
         }
+    }
+
+    /**
+     * Key coverage of a language: {@code {covered, total}} where total is the number of English
+     * (presetId, slot) menu entries and covered is how many of those the given language also defines
+     * (an entry only ever exists non-empty - see {@link #load}). English returns {@code {total, total}}.
+     */
+    @Nonnull
+    public int[] getKeyCoverage(@Nonnull String languageId) {
+        Map<String, Map<Integer, MenuItemTranslation>> english = byLanguage.getOrDefault("en", Collections.<String, Map<Integer, MenuItemTranslation>>emptyMap());
+        boolean isEnglish = "en".equalsIgnoreCase(languageId);
+        Map<String, Map<Integer, MenuItemTranslation>> lang = isEnglish ? english : byLanguage.getOrDefault(languageId, Collections.<String, Map<Integer, MenuItemTranslation>>emptyMap());
+
+        int total = 0;
+        int covered = 0;
+
+        for (Map.Entry<String, Map<Integer, MenuItemTranslation>> presetEntry : english.entrySet()) {
+            Map<Integer, MenuItemTranslation> langSlots = lang.get(presetEntry.getKey());
+
+            for (Integer slot : presetEntry.getValue().keySet()) {
+                total++;
+
+                if (isEnglish || (langSlots != null && langSlots.containsKey(slot))) {
+                    covered++;
+                }
+            }
+        }
+
+        return new int[] { covered, total };
     }
 
     @Nullable

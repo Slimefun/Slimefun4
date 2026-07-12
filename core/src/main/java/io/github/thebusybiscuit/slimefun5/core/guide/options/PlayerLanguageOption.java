@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -108,9 +109,10 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         int slot = 10;
 
         for (Language language : Slimefun.getLocalization().getLanguages()) {
+            int pct = Slimefun.getTranslationCoverageService().getOverallPercent(language.getId());
+
             menu.addItem(slot, CustomItemStack.create(language.getItem(), ChatColor.GREEN + language.getName(p),
-                Slimefun.getLocalization().getMessage(p, "guide.coverage.messages").replace("%percent%", String.valueOf(language.getTranslationProgress())),
-                Slimefun.getLocalization().getMessage(p, "guide.coverage.items").replace("%percent%", String.valueOf(itemCoveragePercent(language.getId()))),
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.overall").replace("%color%", coverageColour(pct)).replace("%percent%", String.valueOf(pct)),
                 "",
                 "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select"),
                 Slimefun.getLocalization().getMessage(p, "guide.coverage.breakdown-hint")), (pl, i, item, action) -> {
@@ -150,19 +152,6 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         return reps;
     }
 
-    /** Overall item-translation percentage for a language across all installed plugins. */
-    private int itemCoveragePercent(String languageId) {
-        int translated = 0;
-        int total = 0;
-
-        for (int[] counts : Slimefun.getItemTranslationService().getCoverage(languageId).values()) {
-            translated += counts[0];
-            total += counts[1];
-        }
-
-        return total == 0 ? 0 : (translated * 100) / total;
-    }
-
     /** Lists Slimefun core and each addon with its item-translation coverage for the given language. */
     private void openItemCoverage(Player p, ItemStack guide, Language language) {
         ChestMenu menu = new ChestMenu(ChatColor.GREEN + language.getName(p) + ChatColor.DARK_GRAY + " - " + Slimefun.getLocalization().getMessage(p, "guide.coverage.title-suffix"));
@@ -176,12 +165,13 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
                     return false;
                 });
             } else if (i == 4) {
-                // Summary tile: overall message- and item-translation coverage for this language.
+                // Summary tile: the single overall translation-coverage percentage for this language.
+                int pct = Slimefun.getTranslationCoverageService().getOverallPercent(language.getId());
+
                 menu.addItem(4, CustomItemStack.create(language.getItem(),
                     ChatColor.GREEN + language.getName(p),
                     "",
-                    Slimefun.getLocalization().getMessage(p, "guide.coverage.messages").replace("%percent%", String.valueOf(language.getTranslationProgress())),
-                    Slimefun.getLocalization().getMessage(p, "guide.coverage.items").replace("%percent%", String.valueOf(itemCoveragePercent(language.getId())))),
+                    Slimefun.getLocalization().getMessage(p, "guide.coverage.overall").replace("%color%", coverageColour(pct)).replace("%percent%", String.valueOf(pct))),
                     ChestMenuUtils.getEmptyClickHandler());
             } else {
                 menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
@@ -191,7 +181,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         java.util.Map<String, SlimefunItem> icons = representativeItems();
         int slot = 9;
 
-        for (java.util.Map.Entry<String, int[]> entry : Slimefun.getItemTranslationService().getCoverage(language.getId()).entrySet()) {
+        for (java.util.Map.Entry<String, int[]> entry : Slimefun.getItemTranslationService().getItemUnitCoverage(language.getId()).entrySet()) {
             if (slot > 53) {
                 break;
             }
@@ -205,17 +195,37 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             SlimefunItem rep = icons.get(entry.getKey());
             ItemStack base = rep != null ? rep.getItem() : language.getItem();
 
-            menu.addItem(slot, CustomItemStack.create(base,
+            ItemStack icon = CustomItemStack.create(base,
                 "&a" + entry.getKey(),
                 "",
                 Slimefun.getLocalization().getMessage(p, "guide.coverage.translated").replace("%translated%", String.valueOf(translated)).replace("%total%", String.valueOf(total)),
-                Slimefun.getLocalization().getMessage(p, "guide.coverage.line").replace("%color%", coverageColour(percent)).replace("%percent%", String.valueOf(percent))),
-                ChestMenuUtils.getEmptyClickHandler());
+                Slimefun.getLocalization().getMessage(p, "guide.coverage.line").replace("%color%", coverageColour(percent)).replace("%percent%", String.valueOf(percent)));
+
+            // This is a Slimefun item stack (base may be a registered item's own template) with CUSTOM
+            // coverage lore, so the per-viewer packet-translation layer would otherwise clobber that lore
+            // for anything still carrying the Slimefun id. Strip it from this display copy only - base
+            // itself is untouched since CustomItemStack.create() already clones it (see WikiPage#addOutput
+            // for the same pattern).
+            stripSlimefunIdentity(icon);
+
+            menu.addItem(slot, icon, ChestMenuUtils.getEmptyClickHandler());
 
             slot++;
         }
 
         menu.open(p);
+    }
+
+    /** Strips the Slimefun item-id marker from this display copy so the packet layer skips it entirely. */
+    private void stripSlimefunIdentity(ItemStack display) {
+        ItemMeta meta = display.getItemMeta();
+
+        if (meta == null) {
+            return;
+        }
+
+        PdcCompat.remove(meta, Slimefun.getItemDataService().getKey());
+        display.setItemMeta(meta);
     }
 
     private String coverageColour(int percent) {
