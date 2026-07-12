@@ -1,10 +1,7 @@
 package me.mrCookieSlime.Slimefun.api;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -205,41 +202,18 @@ public class BlockStorage {
         Slimefun.logger().log(Level.INFO, "Saving block data for world \"{0}\" ({1} change(s) queued)", new Object[] { world.getName(), changes });
         Map<String, Config> cache = new HashMap<>(blocksCache);
 
-        for (Map.Entry<String, Config> entry : cache.entrySet()) {
-            blocksCache.remove(entry.getKey());
-            Config cfg = entry.getValue();
-
-            if (cfg.getKeys().isEmpty()) {
-                File file = cfg.getFile();
-
-                if (file.exists()) {
-                    try {
-                        Files.delete(file.toPath());
-                    } catch (IOException e) {
-                        Slimefun.logger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
-                    }
-                }
-            } else {
-                File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");
-                cfg.save(tmpFile);
-
-                try {
-                    Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
-                } catch (IOException x) {
-                    Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while copying a temporary File for Slimefun " + Slimefun.getVersion());
-                }
-            }
+        for (String key : cache.keySet()) {
+            blocksCache.remove(key);
         }
+
+        BlockStorageBackend backend = Slimefun.getBlockStorageBackend();
+        backend.flushBlocks(world, cache);
 
         Map<Location, BlockMenu> unsavedInventories = new HashMap<>(inventories);
-        for (Map.Entry<Location, BlockMenu> entry : unsavedInventories.entrySet()) {
-            entry.getValue().save(entry.getKey());
-        }
+        backend.flushInventories(unsavedInventories);
 
         Map<String, UniversalBlockMenu> unsavedUniversalInventories = new HashMap<>(Slimefun.getRegistry().getUniversalInventories());
-        for (Map.Entry<String, UniversalBlockMenu> entry : unsavedUniversalInventories.entrySet()) {
-            entry.getValue().save();
-        }
+        backend.flushUniversalInventories(unsavedUniversalInventories);
 
         changes = 0;
     }
@@ -256,18 +230,8 @@ public class BlockStorage {
 
     public static void saveChunks() {
         if (chunkChanges > 0) {
-            File chunks = new File(PATH_CHUNKS + "chunks.sfc");
-            Config cfg = new Config(PATH_CHUNKS + "chunks.temp");
-
             Map<String, BlockInfoConfig> unsavedChunks = new HashMap<>(Slimefun.getRegistry().getChunks());
-            for (Map.Entry<String, BlockInfoConfig> entry : unsavedChunks.entrySet()) {
-                // Saving empty chunk data is pointless
-                if (!entry.getValue().getKeys().isEmpty()) {
-                    cfg.setValue(entry.getKey(), entry.getValue().toJSON());
-                }
-            }
-
-            cfg.save(chunks);
+            Slimefun.getBlockStorageBackend().flushChunks(unsavedChunks);
 
             chunkChanges = 0;
         }

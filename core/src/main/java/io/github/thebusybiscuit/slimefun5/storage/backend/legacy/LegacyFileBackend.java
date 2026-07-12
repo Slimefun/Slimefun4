@@ -1,6 +1,9 @@
 package io.github.thebusybiscuit.slimefun5.storage.backend.legacy;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -211,26 +214,70 @@ public class LegacyFileBackend implements BlockStorageBackend {
 
     @Override
     public void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
-        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+        for (Map.Entry<String, Config> entry : blocksCache.entrySet()) {
+            Config cfg = entry.getValue();
+
+            if (cfg.getKeys().isEmpty()) {
+                File file = cfg.getFile();
+
+                if (file.exists()) {
+                    try {
+                        Files.delete(file.toPath());
+                    } catch (IOException e) {
+                        Slimefun.logger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
+                    }
+                }
+            } else {
+                File tmpFile = new File(cfg.getFile().getParentFile(), cfg.getFile().getName() + ".tmp");
+                cfg.save(tmpFile);
+
+                try {
+                    Files.move(tmpFile.toPath(), cfg.getFile().toPath(), StandardCopyOption.ATOMIC_MOVE);
+                } catch (IOException x) {
+                    Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while copying a temporary File for Slimefun " + Slimefun.getVersion());
+                }
+            }
+        }
     }
 
     @Override
     public void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories) {
-        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+        for (Map.Entry<Location, BlockMenu> entry : dirtyInventories.entrySet()) {
+            entry.getValue().save(entry.getKey());
+        }
     }
 
     @Override
     public void flushUniversalInventories(@Nonnull Map<String, UniversalBlockMenu> universalInventories) {
-        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+        for (Map.Entry<String, UniversalBlockMenu> entry : universalInventories.entrySet()) {
+            entry.getValue().save();
+        }
     }
 
     @Override
     public void flushChunks(@Nonnull Map<String, BlockInfoConfig> chunks) {
-        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+        Config cfg = new Config(BlockStorage.PATH_CHUNKS + "chunks.temp");
+
+        for (Map.Entry<String, BlockInfoConfig> entry : chunks.entrySet()) {
+            // Saving empty chunk data is pointless
+            if (!entry.getValue().getKeys().isEmpty()) {
+                cfg.setValue(entry.getKey(), entry.getValue().toJSON());
+            }
+        }
+
+        cfg.save(new File(BlockStorage.PATH_CHUNKS + "chunks.sfc"));
     }
 
     @Override
     public void deleteInventory(@Nonnull Location l) {
-        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+        File file = new File(BlockStorage.PATH_INVENTORIES + BlockStorage.serializeLocation(l) + ".sfi");
+
+        if (file.exists()) {
+            try {
+                Files.delete(file.toPath());
+            } catch (IOException e) {
+                Slimefun.logger().log(Level.WARNING, e, () -> "Could not delete file \"" + file.getName() + '"');
+            }
+        }
     }
 }
