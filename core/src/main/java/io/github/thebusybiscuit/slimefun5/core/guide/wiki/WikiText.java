@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -18,6 +19,7 @@ import com.cryptomorin.xseries.XMaterial;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
@@ -30,10 +32,21 @@ import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
  */
 public final class WikiText {
 
+    private static final String FALLBACK_ITEM_KEY = "guide.wiki.fallback.item";
+    private static final String FALLBACK_RECIPE_KEY = "guide.wiki.fallback.recipe";
+
     private final Map<String, List<String>> itemLines = new HashMap<>();
     private final Map<String, List<String>> mechanicLines = new HashMap<>();
     private final Map<String, List<String>> topicItems = new HashMap<>();
     private final List<WikiTopic> topics = new ArrayList<>();
+
+    /** Per-language overrides for {@link #itemLines}/{@link #mechanicLines}: langId -> id -> lines. */
+    private final Map<String, Map<String, List<String>>> itemLinesByLanguage = new HashMap<>();
+    private final Map<String, Map<String, List<String>>> mechanicLinesByLanguage = new HashMap<>();
+
+    /** guide.wiki.fallback.item / .recipe, per language id, loaded straight from messages.yml. */
+    private final Map<String, String> fallbackItemMessage = new HashMap<>();
+    private final Map<String, String> fallbackRecipeMessage = new HashMap<>();
 
     /** Stores authored explanation lines for the given item id. */
     public synchronized void set(@Nonnull String id, @Nonnull List<String> lines) {
@@ -56,18 +69,52 @@ public final class WikiText {
      */
     @Nonnull
     public synchronized List<String> get(@Nonnull SlimefunItem item) {
+        return get(item, null);
+    }
+
+    /**
+     * Returns authored explanation lines for the given item in {@code languageId}, falling back
+     * per-key to the English entry, and finally to a generic auto-generated (but still localized)
+     * fallback derived from the item's group and recipe type if no authored lines exist in either.
+     *
+     * @param languageId
+     *            the viewing player's language id, or null to use English/the server default
+     */
+    @Nonnull
+    public synchronized List<String> get(@Nonnull SlimefunItem item, @Nullable String languageId) {
+        List<String> localized = lookup(itemLinesByLanguage, languageId, item.getId());
+
+        if (localized != null) {
+            return new ArrayList<>(localized);
+        }
+
         List<String> authored = itemLines.get(item.getId());
 
         if (authored != null) {
             return new ArrayList<>(authored);
         }
 
-        return buildFallback(item);
+        return buildFallback(item, languageId);
     }
 
     /** Returns authored mechanic-hub lines for the topic, or an empty list. */
     @Nonnull
     public synchronized List<String> getMechanic(@Nonnull String id) {
+        return getMechanic(id, null);
+    }
+
+    /**
+     * Returns authored mechanic-hub lines for the topic in {@code languageId}, falling back per-key
+     * to the English entry, and finally to an empty list if neither has an entry for this topic.
+     */
+    @Nonnull
+    public synchronized List<String> getMechanic(@Nonnull String id, @Nullable String languageId) {
+        List<String> localized = lookup(mechanicLinesByLanguage, languageId, id);
+
+        if (localized != null) {
+            return new ArrayList<>(localized);
+        }
+
         List<String> authored = mechanicLines.get(id);
 
         if (authored != null) {
@@ -75,6 +122,16 @@ public final class WikiText {
         }
 
         return Collections.emptyList();
+    }
+
+    @Nullable
+    private static List<String> lookup(@Nonnull Map<String, Map<String, List<String>>> byLanguage, @Nullable String languageId, @Nonnull String id) {
+        if (languageId == null) {
+            return null;
+        }
+
+        Map<String, List<String>> perLanguage = byLanguage.get(languageId);
+        return perLanguage != null ? perLanguage.get(id) : null;
     }
 
     /** Stores the list of relevant item ids shown alongside a topic guide. */
@@ -102,7 +159,93 @@ public final class WikiText {
         loadResource("/wiki/items.yml", itemLines);
         loadResource("/wiki/mechanics.yml", mechanicLines);
         loadResource("/wiki/topic-items.yml", topicItems);
+        loadLanguageOverrides();
+        loadFallbackMessages();
         registerCoreTopics();
+    }
+
+    /**
+     * Loads optional per-language wiki-body overrides ({@code /wiki/<langId>/items.yml} and
+     * {@code /wiki/<langId>/mechanics.yml}) for every loaded {@link Language}. A language that ships
+     * neither file is simply skipped - this is a clean no-op while no addon/core ships such a file.
+     */
+    private void loadLanguageOverrides() {
+        for (Language language : Slimefun.getLocalization().getLanguages()) {
+            String langId = language.getId();
+            loadLanguageResource("/wiki/" + langId + "/items.yml", langId, itemLinesByLanguage);
+            loadLanguageResource("/wiki/" + langId + "/mechanics.yml", langId, mechanicLinesByLanguage);
+        }
+    }
+
+    private void loadLanguageResource(@Nonnull String path, @Nonnull String langId, @Nonnull Map<String, Map<String, List<String>>> target) {
+        InputStream stream = Slimefun.class.getResourceAsStream(path);
+
+        if (stream == null) {
+            return; // no override shipped for this language - expected for every language today
+        }
+
+        loadLanguageResource(stream, langId, target, path);
+    }
+
+    private synchronized void loadLanguageResource(@Nonnull InputStream stream, @Nonnull String langId, @Nonnull Map<String, Map<String, List<String>>> target) {
+        loadLanguageResource(stream, langId, target, "<test>");
+    }
+
+    private synchronized void loadLanguageResource(@Nonnull InputStream stream, @Nonnull String langId, @Nonnull Map<String, Map<String, List<String>>> target, @Nonnull String sourceForLogging) {
+        try {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            Map<String, List<String>> perLanguage = target.computeIfAbsent(langId, k -> new HashMap<>());
+
+            for (String key : config.getKeys(false)) {
+                perLanguage.put(key, new ArrayList<>(config.getStringList(key)));
+            }
+        } catch (RuntimeException e) {
+            Slimefun.logger().log(Level.WARNING, "Failed to load wiki language override {0}: {1}", new Object[] { sourceForLogging, e.getMessage() });
+        }
+    }
+
+    /** Loads the guide.wiki.fallback.item/.recipe messages for every loaded {@link Language}. */
+    private void loadFallbackMessages() {
+        for (Language language : Slimefun.getLocalization().getLanguages()) {
+            InputStream stream = Slimefun.class.getResourceAsStream("/languages/" + language.getId() + "/messages.yml");
+
+            if (stream != null) {
+                loadFallbackMessage(language.getId(), stream);
+            }
+        }
+    }
+
+    private synchronized void loadFallbackMessage(@Nonnull String langId, @Nonnull InputStream stream) {
+        try {
+            YamlConfiguration config = YamlConfiguration.loadConfiguration(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            String item = config.getString(FALLBACK_ITEM_KEY);
+            String recipe = config.getString(FALLBACK_RECIPE_KEY);
+
+            if (item != null) {
+                fallbackItemMessage.put(langId, item);
+            }
+
+            if (recipe != null) {
+                fallbackRecipeMessage.put(langId, recipe);
+            }
+        } catch (RuntimeException e) {
+            Slimefun.logger().log(Level.WARNING, "Failed to load wiki fallback messages for {0}: {1}", new Object[] { langId, e.getMessage() });
+        }
+    }
+
+    // Package-private seams for headless tests: Slimefun.getLocalization().getLanguages() is always
+    // empty under the MockBukkit unit-test harness (see Slimefun#onUnitTestStart), so loadBundled()
+    // alone never populates these per-language maps there.
+    void loadItemLanguageOverrideForTest(@Nonnull String langId, @Nonnull InputStream stream) {
+        loadLanguageResource(stream, langId, itemLinesByLanguage);
+    }
+
+    void loadMechanicLanguageOverrideForTest(@Nonnull String langId, @Nonnull InputStream stream) {
+        loadLanguageResource(stream, langId, mechanicLinesByLanguage);
+    }
+
+    void loadFallbackMessagesForTest(@Nonnull String langId, @Nonnull InputStream stream) {
+        loadFallbackMessage(langId, stream);
     }
 
     /** Registers a guide topic shown on the wiki home. Addons may call this to add their own topics. */
@@ -163,22 +306,35 @@ public final class WikiText {
         }
     }
 
-    /** Builds a short, generic explanation from the item's group and recipe type. */
+    /** Builds a short, generic explanation from the item's group and recipe type, in {@code languageId}. */
     @Nonnull
-    private List<String> buildFallback(@Nonnull SlimefunItem item) {
+    private List<String> buildFallback(@Nonnull SlimefunItem item, @Nullable String languageId) {
         List<String> lines = new ArrayList<>();
 
         NamespacedKey groupKey = item.getItemGroup().getKey();
         String groupName = groupKey != null ? groupKey.getKey() : "Slimefun";
-        lines.add("&7A " + groupName + " item.");
+        lines.add(fallbackMessage(fallbackItemMessage, languageId).replace("%group%", groupName));
 
         String recipeName = readRecipeName(item.getRecipeType());
 
         if (recipeName != null) {
-            lines.add("&7Crafted via: &b" + recipeName);
+            lines.add(fallbackMessage(fallbackRecipeMessage, languageId).replace("%recipe%", recipeName));
         }
 
         return lines;
+    }
+
+    /** {@code languageId}'s message, else English, else a "missing key" marker (never null). */
+    @Nonnull
+    private static String fallbackMessage(@Nonnull Map<String, String> byLanguage, @Nullable String languageId) {
+        String message = languageId != null ? byLanguage.get(languageId) : null;
+
+        if (message != null) {
+            return message;
+        }
+
+        String english = byLanguage.get("en");
+        return english != null ? english : "! Missing wiki fallback message";
     }
 
     /** Null-safe extraction of a recipe type's key for display. */

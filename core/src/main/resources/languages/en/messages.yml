@@ -434,6 +434,9 @@ guide:
     topic-title: 'Wiki: %topic%'
     back: '&e⇦ Back'
     no-info: '&7(No information available yet.)'
+    fallback:
+      item: '&7A %group% item.'
+      recipe: '&7Crafted via: &b%recipe%'
     used-in:
       name: '&eUsed in'
       lore:

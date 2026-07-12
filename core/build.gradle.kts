@@ -139,6 +139,8 @@ tasks {
         include("**/GuideBookDisplayTest*")
         include("**/EnchantTranslationTest.java")
         include("**/EnchantTranslationTest*")
+        include("**/WikiTextLanguageTest.java")
+        include("**/WikiTextLanguageTest*")
     }
     test {
         enabled = true
@@ -158,6 +160,7 @@ tasks {
         include("**/PacketRenderTest*")
         include("**/GuideBookDisplayTest*")
         include("**/EnchantTranslationTest*")
+        include("**/WikiTextLanguageTest*")
     }
 
     processResources {
