@@ -45,6 +45,11 @@ public class PacketTranslationService implements Listener {
     // is not synchronized for concurrent reads) and re-parse the enum on every single packet.
     private final TranslationConfig.FallbackMode fallback;
 
+    // Snapshotted once at construction, same rationale as fallback above. refreshLanguage() runs on the
+    // main thread so reading this field there is safe; it must never be re-read from TranslationConfig
+    // off the main thread.
+    private final TranslationConfig.LanguageSource languageSource;
+
     /**
      * Effective language id per player, refreshed on the main thread (join / language change) and read
      * verbatim by the Netty write handler. This is the ONLY thing the Netty thread may touch - it must
@@ -64,6 +69,7 @@ public class PacketTranslationService implements Listener {
     public PacketTranslationService(@Nonnull Slimefun plugin) {
         this.descriptors = PacketItemDescriptor.resolveAll();
         this.fallback = TranslationConfig.fallback();
+        this.languageSource = TranslationConfig.languageSource();
 
         if (!TranslationConfig.packetsEnabled() || descriptors.isEmpty()) {
             Slimefun.logger().info("Packet item translation disabled or unsupported on this version; "
@@ -121,23 +127,25 @@ public class PacketTranslationService implements Listener {
      */
     private void refreshLanguage(@Nonnull Player p) {
         String explicit = PdcCompat.getString(p, Slimefun.getLocalization().getKey());
-        if (explicit != null) {
-            languageCache.put(p.getUniqueId(), explicit);
-            return;
-        }
+        String clientLocale = null;
 
         try {
             // Reflective: Player.getLocale() was added after the 1.8.8 Bukkit API this module compiles against.
             String locale = (String) p.getClass().getMethod("getLocale").invoke(p);
             if (locale != null && locale.length() >= 2) {
-                languageCache.put(p.getUniqueId(), locale.substring(0, 2).toLowerCase(java.util.Locale.ROOT));
-                return;
+                clientLocale = locale.substring(0, 2).toLowerCase(java.util.Locale.ROOT);
             }
         } catch (Throwable ignored) {
-            // fall through
+            // fall through, clientLocale stays null
         }
 
-        languageCache.put(p.getUniqueId(), NO_LANGUAGE);
+        Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
+        String serverDefault = defaultLanguage != null ? defaultLanguage.getId() : null;
+
+        String resolved = LanguageResolver.resolveLanguageId(explicit, clientLocale, languageSource,
+            id -> Slimefun.getLocalization().isLanguageLoaded(id), serverDefault);
+
+        languageCache.put(p.getUniqueId(), resolved != null ? resolved : NO_LANGUAGE);
     }
 
     private void inject(Player player) {

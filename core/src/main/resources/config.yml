@@ -120,6 +120,10 @@ translation:
   packets: true
   # What a missing translation label falls back to: 'english' or 'id' (the raw Slimefun id).
   fallback: english
+  # For players who haven't picked a Slimefun language in the guide:
+  # 'client' = use their Minecraft client language when it's installed, else the server default.
+  # 'server' = always use the server's default language.
+  language-source: client
 
 research-ranks:
 - Chicken

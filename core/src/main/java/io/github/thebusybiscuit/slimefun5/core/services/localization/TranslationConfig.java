@@ -16,11 +16,24 @@ public final class TranslationConfig {
         }
     }
 
+    public enum LanguageSource {
+        SERVER,
+        CLIENT;
+
+        public static LanguageSource of(String raw) {
+            return raw != null && raw.trim().equalsIgnoreCase("server") ? SERVER : CLIENT;
+        }
+    }
+
     public static boolean packetsEnabled() {
         return !Slimefun.getCfg().contains("translation.packets") || Slimefun.getCfg().getBoolean("translation.packets");
     }
 
     public static FallbackMode fallback() {
         return FallbackMode.of(Slimefun.getCfg().getString("translation.fallback"));
+    }
+
+    public static LanguageSource languageSource() {
+        return LanguageSource.of(Slimefun.getCfg().getString("translation.language-source"));
     }
 }
