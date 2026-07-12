@@ -41,9 +41,17 @@ public interface BlockStorageBackend {
     @Nullable
     BlockMenu loadInventoryIfPresent(@Nonnull Location l, @Nonnull BlockMenuPreset preset);
 
-    void flushWorldBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache);
+    void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache);
+
+    void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories);
+
+    void flushUniversalInventories(@Nonnull Map<String, UniversalBlockMenu> universalInventories);
 
     void flushChunks(@Nonnull Map<String, BlockInfoConfig> chunks);
 
     void deleteInventory(@Nonnull Location l);
+
+    default void close() {
+        // Flat-file backend needs no teardown; DB backends override this.
+    }
 }

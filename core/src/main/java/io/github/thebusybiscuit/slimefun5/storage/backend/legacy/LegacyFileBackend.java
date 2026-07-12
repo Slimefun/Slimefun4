@@ -210,7 +210,17 @@ public class LegacyFileBackend implements BlockStorageBackend {
     }
 
     @Override
-    public void flushWorldBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
+    public void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
+        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+    }
+
+    @Override
+    public void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories) {
+        throw new UnsupportedOperationException("implemented in SP-1 Task 2");
+    }
+
+    @Override
+    public void flushUniversalInventories(@Nonnull Map<String, UniversalBlockMenu> universalInventories) {
         throw new UnsupportedOperationException("implemented in SP-1 Task 2");
     }
 
