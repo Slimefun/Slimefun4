@@ -201,6 +201,19 @@ public abstract class SlimefunLocalization implements Keyed {
         return string != null ? string : "! Missing string \"" + path + '"';
     }
 
+    /**
+     * Per-language message read with an English fallback, for callers that only have a {@link Language}
+     * (no {@link Player}) - e.g. a boot-time precompute running on the Netty-safe path. Unlike
+     * {@link #getMessage(Player, String)}, this never touches a {@link Player}. Public (not
+     * package-private): {@link LocalizationService}, the concrete subclass returned by
+     * {@code Slimefun.getLocalization()}, lives in a different package and would not inherit a
+     * default-access member declared here.
+     */
+    @ParametersAreNonnullByDefault
+    public @Nullable String getStringOrDefault(Language language, LanguageFile file, String path) {
+        return getStringOrNull(language, file, path);
+    }
+
     @ParametersAreNonnullByDefault
     private @Nullable List<String> getStringListOrNull(@Nullable Language language, LanguageFile file, String path) {
         Validate.notNull(file, "You need to provide a LanguageFile!");

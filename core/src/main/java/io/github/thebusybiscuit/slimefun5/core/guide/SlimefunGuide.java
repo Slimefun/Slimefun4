@@ -186,8 +186,8 @@ public final class SlimefunGuide {
             return true;
         }
 
-        // The guide-mode PDC tag is language-independent, so a guide that was re-skinned into
-        // the holder's language (see ItemTranslationService#applyGuideTranslation) is still
+        // The guide-mode PDC tag is language-independent, so a guide whose name/lore the packet layer
+        // renders into a viewer's language (see PacketTranslationService#rewriteGuideBook) is still
         // recognized. Name/lore similarity alone broke translated guides from opening.
         if (item.hasItemMeta() && PdcCompat.getString(item.getItemMeta(), Slimefun.getRegistry().getGuideDataKey()) != null) {
             return true;

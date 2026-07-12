@@ -17,7 +17,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -25,10 +24,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun5.core.guide.options.ItemDescriptionsOption;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.items.VanillaItem;
-import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 /**
  * Translates Slimefun item names and lore per language. Translations live in
@@ -385,197 +382,6 @@ public class ItemTranslationService {
     }
 
     /**
-     * Returns a display copy of the item with its name and lore translated into the player's language.
-     * Falls back to the item's built-in (English) name/lore where no translation exists.
-     */
-    @Nonnull
-    public ItemStack getDisplayItem(@Nonnull Player p, @Nonnull SlimefunItem item) {
-        ItemTranslation translation = lookup(languageOf(p), item.getId());
-
-        // Base display: the player's translated template if available, else the English baseline
-        // (when the physical template was baked to the server default), else the item template.
-        // A description-only entry (name null, lore empty) is not a usable name/lore translation, so fall
-        // back to the English baseline template for the base display, then append the description below.
-        boolean usableTranslation = translation != null && (translation.name != null || !translation.lore.isEmpty());
-
-        ItemStack display;
-
-        if (!usableTranslation) {
-            ItemStack baseline = englishBaseline.get(item.getId());
-            display = baseline != null ? baseline.clone() : item.getItem();
-        } else {
-            display = item.getItem();
-        }
-
-        ItemMeta meta = display.getItemMeta();
-
-        if (meta != null) {
-            if (translation != null && translation.name != null) {
-                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', translation.name));
-            }
-
-            List<String> fallbackBase = (translation != null && !translation.lore.isEmpty())
-                ? translation.lore
-                : (meta.getLore() != null ? meta.getLore() : new ArrayList<String>());
-
-            List<List<String>> blocks = resolveBlocks(languageOf(p), item);
-
-            List<String> composed = LoreComposer.compose(
-                item,
-                blocks.get(0),
-                blocks.get(1),
-                blocks.get(2),
-                blocks.get(3),
-                fallbackBase,
-                true);
-
-            if (!composed.isEmpty()) {
-                meta.setLore(composed);
-            }
-
-            // Enchantments are re-rendered as lore under the Type block, so hide the vanilla tooltip.
-            EnchantDisplay.hide(meta);
-
-            display.setItemMeta(meta);
-        }
-
-        return display;
-    }
-
-    /**
-     * Per-holder translation: rewrites a real {@link ItemStack}'s name (and static lore) in place into
-     * the holding player's language, identifying the item by its Slimefun id so it can be re-translated
-     * from any language. Preserves per-instance data (amount, durability, enchants, PDC) by editing meta
-     * rather than replacing the stack. Lore is only rewritten when it is still a pristine template — i.e.
-     * it matches the English baseline or one of the shipped language renderings (with or without the
-     * appended description block), as determined by {@link #isPristineOrComposed}. Runtime-mutated lore
-     * (charge/uses counters, backpack id, spawner type, tome owner) matches none of these and is left
-     * untouched. Returns whether the stack was changed.
-     */
-    public boolean applyHolderTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
-        return applyTranslation(languageOf(p), ItemDescriptionsOption.isEnabledFor(p), stack);
-    }
-
-    private boolean applyTranslation(@Nullable String languageId, boolean includeDescription, @Nullable ItemStack stack) {
-        if (stack == null || stack.getType() == Material.AIR) {
-            return false;
-        }
-
-        SlimefunItem item;
-
-        try {
-            item = SlimefunItem.getByItem(stack);
-        } catch (Exception | LinkageError e) {
-            return false;
-        }
-
-        if (item == null) {
-            return false; // Vanilla item - nothing to translate.
-        }
-
-        // Canonical English copy: the pre-bake baseline if this item was baked, else its template.
-        ItemStack english = englishBaseline.containsKey(item.getId()) ? englishBaseline.get(item.getId()) : item.getItem();
-        ItemMeta englishMeta = english.getItemMeta();
-        ItemMeta meta = stack.getItemMeta();
-
-        if (meta == null || englishMeta == null) {
-            return false;
-        }
-
-        ItemTranslation translation = lookup(languageId, item.getId());
-
-        String targetName = (translation != null && translation.name != null)
-            ? ChatColor.translateAlternateColorCodes('&', translation.name)
-            : englishMeta.getDisplayName();
-
-        boolean changed = false;
-
-        if (targetName != null && !targetName.equals(meta.getDisplayName())) {
-            meta.setDisplayName(targetName);
-            changed = true;
-        }
-
-        // Game logic mutates the lore of some items in place (spawner "<Type>", backpack "<ID>", tome
-        // owner, charge/uses counters). Those items must be left untouched, so we only rewrite lore
-        // that is still recognized as a pristine template.
-        List<String> englishLore = englishMeta.getLore();
-        List<String> currentLore = meta.getLore();
-
-        // A lore list is pristine when it matches the English baseline, or the base lore of any shipped
-        // language rendering with or without its appended description block (see isPristineOrComposed).
-        // Runtime-mutated lore matches none of these variants and is correctly skipped.
-        if (isPristineOrComposed(item, currentLore, englishLore)) {
-            List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
-                : (englishLore != null ? englishLore : new ArrayList<String>());
-
-            List<List<String>> blocks = resolveBlocks(languageId, item);
-
-            List<String> targetLore = LoreComposer.compose(
-                item,
-                blocks.get(0),
-                blocks.get(1),
-                blocks.get(2),
-                blocks.get(3),
-                fallbackBase,
-                includeDescription);
-
-            List<String> currentForCompare = currentLore != null ? currentLore : Collections.<String>emptyList();
-            if (!targetLore.equals(currentForCompare)) {
-                meta.setLore(targetLore.isEmpty() ? null : targetLore);
-                changed = true;
-            }
-
-            // The item's enchantments are re-rendered as lore under the Type block (only reached here for a
-            // pristine template, so we aren't hiding a player's own anvil enchants); hide the vanilla tooltip.
-            if (!english.getEnchantments().isEmpty()) {
-                EnchantDisplay.hide(meta);
-                changed = true;
-            }
-        }
-
-        if (changed) {
-            stack.setItemMeta(meta);
-        }
-
-        return changed;
-    }
-
-    /**
-     * Whether {@code currentLore} is a pristine (not runtime-mutated) rendering for this item: null/empty,
-     * the English baseline lore, or the LoreComposer output for ANY shipped language with the description
-     * block either shown or hidden. Runtime-mutated lore (charge/uses counters, backpack id, spawner type,
-     * tome owner) matches none of these and is left untouched.
-     */
-    private boolean isPristineOrComposed(@Nonnull SlimefunItem item, @Nullable List<String> currentLore, @Nullable List<String> englishLore) {
-        if (currentLore == null || currentLore.isEmpty()) {
-            return true;
-        }
-
-        if (currentLore.equals(englishLore)) {
-            return true;
-        }
-
-        List<String> englishBase = englishLore != null ? englishLore : Collections.<String>emptyList();
-
-        for (String language : byLanguage.keySet()) {
-            List<List<String>> blocks = resolveBlocks(language, item);
-            ItemTranslation t = lookup(language, item.getId());
-            List<String> langBase = (t != null && !t.lore.isEmpty()) ? t.lore : englishBase;
-
-            for (List<String> fallbackBase : java.util.Arrays.asList(langBase, englishBase)) {
-                for (int i = 0; i < 2; i++) {
-                    boolean includeDescription = i == 0;
-                    if (currentLore.equals(LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription))) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Returns the item's display name in the player's language (without colour-stripping), falling back
      * to the English baseline and then the item's built-in name. Useful where only the name string is
      * needed (e.g. locked/not-researched guide entries) rather than a full display ItemStack.
@@ -645,13 +451,13 @@ public class ItemTranslationService {
      * @param languageId the viewer's language id, or null to use the server's default language
      * @param fallback   what a missing label becomes (ENGLISH or ID)
      */
-    public RenderedDisplay renderForPacket(@Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback) {
+    public RenderedDisplay renderForPacket(@Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback, boolean includeDescription) {
         SlimefunItem item = SlimefunItem.getById(id);
         if (item == null) {
             return null;
         }
 
-        String cacheKey = id + '|' + languageId + '|' + fallback;
+        String cacheKey = id + '|' + languageId + '|' + fallback + '|' + includeDescription;
         RenderedDisplay cached = renderCache.get(cacheKey);
         if (cached != null) {
             return cached;
@@ -690,7 +496,7 @@ public class ItemTranslationService {
         List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
             : (englishTranslation != null && !englishTranslation.lore.isEmpty()) ? englishTranslation.lore
             : englishLore;
-        List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, true);
+        List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription);
 
         RenderedDisplay result = new RenderedDisplay(name, lore);
         renderCache.put(cacheKey, result);
@@ -706,63 +512,6 @@ public class ItemTranslationService {
 
         Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
         return defaultLanguage != null ? defaultLanguage.getId() : null;
-    }
-
-    /**
-     * Coverage of a language per plugin: pluginName -> [translatedItems, totalItems], over all enabled
-     * items grouped by their addon. Powers the translation-percentage UI.
-     */
-    @Nonnull
-    /**
-     * Re-skins a Slimefun Guide book to the holder's language. The guide is not a {@link SlimefunItem}, so
-     * {@link #applyHolderTranslation} skips it; this rebuilds its name + lore from the guide message keys.
-     * Identified by the guide-mode PDC tag. Returns true only when the stack was actually changed.
-     */
-    public boolean applyGuideTranslation(@Nonnull Player p, @Nullable ItemStack stack) {
-        if (stack == null || !stack.hasItemMeta()) {
-            return false;
-        }
-
-        ItemMeta meta = stack.getItemMeta();
-        String mode = PdcCompat.getString(meta, Slimefun.getRegistry().getGuideDataKey());
-
-        if (mode == null) {
-            return false;
-        }
-
-        boolean cheat = "CHEAT_MODE".equals(mode);
-        String name = ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, cheat ? "guide.item.cheat-name" : "guide.item.name"));
-
-        List<String> lore = new ArrayList<>();
-        lore.add(cheat ? ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.cheat-only")) : "");
-        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.browse")));
-        lore.add(ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.item.settings")));
-
-        // No-op when already in the right language, so the periodic inventory sweep stays cheap.
-        if (name.equals(meta.getDisplayName()) && lore.equals(meta.getLore())) {
-            return false;
-        }
-
-        meta.setDisplayName(name);
-        meta.setLore(lore);
-        stack.setItemMeta(meta);
-        return true;
-    }
-
-    /**
-     * Re-applies per-holder translation to every stack in the player's inventory. Called by the item
-     * description toggle so a change takes effect immediately rather than on the next periodic sweep.
-     */
-    public void retranslateInventory(@Nonnull Player p) {
-        org.bukkit.inventory.ItemStack[] contents = p.getInventory().getContents();
-
-        for (int slot = 0; slot < contents.length; slot++) {
-            org.bukkit.inventory.ItemStack stack = contents[slot];
-
-            if (applyHolderTranslation(p, stack) | applyGuideTranslation(p, stack)) {
-                p.getInventory().setItem(slot, stack);
-            }
-        }
     }
 
     /**
@@ -878,6 +627,11 @@ public class ItemTranslationService {
         }
     }
 
+    /**
+     * Coverage of a language per plugin: pluginName -> [translatedItems, totalItems], over all enabled
+     * items grouped by their addon. Powers the translation-percentage UI.
+     */
+    @Nonnull
     public Map<String, int[]> getCoverage(@Nonnull String language) {
         if ("en".equalsIgnoreCase(language)) {
             // English is the language items are authored in. Register each item's built-in English name

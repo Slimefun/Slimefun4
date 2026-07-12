@@ -124,7 +124,7 @@ public final class WikiPage {
 
     /** The result item carries the authored explanation (and energy stats) appended to its lore. */
     private static void addOutput(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull SlimefunItem item) {
-        ItemStack output = Slimefun.getItemTranslationService().getDisplayItem(p, item);
+        ItemStack output = item.getItem();
 
         if (output == null || output.getType() == Material.AIR) {
             output = MaterialCompat.stack(XMaterial.BARRIER);
@@ -189,7 +189,7 @@ public final class WikiPage {
             SlimefunItem consumer = consumers.get(i);
             int slot = USED_IN_START + i;
 
-            menu.addItem(slot, Slimefun.getItemTranslationService().getDisplayItem(p, consumer));
+            menu.addItem(slot, consumer.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 open(pl, guide, consumer, () -> open(pl, guide, item));
                 return false;

@@ -9,6 +9,7 @@ import com.cryptomorin.xseries.XMaterial;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.PacketTranslationService;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
@@ -50,8 +51,14 @@ public class ItemDescriptionsOption implements SlimefunGuideOption<Boolean> {
     @Override
     public void onClick(Player p, ItemStack guide) {
         setSelectedOption(p, guide, !getSelectedOption(p, guide).orElse(true));
+
         // Apply immediately so the player sees their inventory items change now, not on the next sweep.
-        Slimefun.getItemTranslationService().retranslateInventory(p);
+        PacketTranslationService svc = Slimefun.getPacketTranslationService();
+        if (svc != null) {
+            svc.refreshDescriptions(p);
+        }
+        p.updateInventory(); // resend so the packet layer re-renders with the new preference immediately
+
         SlimefunGuideSettings.openSettings(p, guide);
     }
 

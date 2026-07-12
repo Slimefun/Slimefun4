@@ -353,7 +353,7 @@ public final class WikiIndex {
             SlimefunItem item = matches.get(offset + i);
             int slot = CONTENT_START + i;
 
-            menu.addItem(slot, Slimefun.getItemTranslationService().getDisplayItem(p, item));
+            menu.addItem(slot, item.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 WikiPage.open(pl, guide, item, () -> openSearchResults(pl, guide, query, page));
                 return false;

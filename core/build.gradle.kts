@@ -135,6 +135,8 @@ tasks {
         include("**/TranslationConfigTest.java")
         include("**/PacketRenderTest.java")
         include("**/PacketRenderTest*")
+        include("**/GuideBookDisplayTest.java")
+        include("**/GuideBookDisplayTest*")
     }
     test {
         enabled = true
@@ -152,6 +154,7 @@ tasks {
         include("**/TestViewedInventoryGuard*")
         include("**/TranslationConfigTest*")
         include("**/PacketRenderTest*")
+        include("**/GuideBookDisplayTest*")
     }
 
     processResources {

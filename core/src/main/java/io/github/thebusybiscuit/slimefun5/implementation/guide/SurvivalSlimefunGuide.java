@@ -422,7 +422,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return false;
             });
         } else {
-            menu.addItem(index, Slimefun.getItemTranslationService().getDisplayItem(p, sfitem));
+            menu.addItem(index, sfitem.getItem());
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 try {
                     if (isSurvivalMode()) {
@@ -487,7 +487,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 && !AddonVisibility.isHidden(p, slimefunItem.getItemGroup().getKey().getNamespace())
                 && isItemGroupAccessible(p, slimefunItem)
                 && isSearchFilterApplicable(p, slimefunItem, searchTerm)) {
-                ItemStack itemstack = CustomItemStack.create(Slimefun.getItemTranslationService().getDisplayItem(p, slimefunItem), meta -> {
+                ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
                     GuideTheme theme = GuideTheme.byId(itemGroup.getThemeId());
                     if (theme == null) {
@@ -723,8 +723,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
 
-        // Show the result in the viewing player's language when it is a Slimefun item.
-        ItemStack displayedOutput = isSlimefunRecipe ? Slimefun.getItemTranslationService().getDisplayItem(p, (SlimefunItem) item) : output;
+        // The packet layer translates the result per viewer; the canonical template is id-only here.
+        ItemStack displayedOutput = isSlimefunRecipe ? ((SlimefunItem) item).getItem() : output;
         menu.addItem(16, displayedOutput, ChestMenuUtils.getEmptyClickHandler());
     }
 
@@ -797,7 +797,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             ItemTranslationService translations = Slimefun.getItemTranslationService();
 
             if (slimefunItem.canUse(p, false)) {
-                return translations.getDisplayItem(p, slimefunItem);
+                return slimefunItem.getItem();
             }
 
             String lore = hasPermission(p, slimefunItem) ? Slimefun.getLocalization().getMessage(p, "guide.recipe.needs-unlock").replace("%group%", slimefunItem.getItemGroup().getDisplayName(p)) : Slimefun.getLocalization().getMessage(p, "guide.recipe.no-permission");

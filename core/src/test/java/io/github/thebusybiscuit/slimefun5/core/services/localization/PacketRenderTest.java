@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
 
@@ -31,7 +32,7 @@ class PacketRenderTest {
     @Test
     void unknownIdRendersNull() {
         Assertions.assertNull(Slimefun.getItemTranslationService()
-            .renderForPacket("NOT_A_REAL_ITEM", "en", TranslationConfig.FallbackMode.ENGLISH));
+            .renderForPacket("NOT_A_REAL_ITEM", "en", TranslationConfig.FallbackMode.ENGLISH, true));
     }
 
     @Test
@@ -39,7 +40,7 @@ class PacketRenderTest {
         SlimefunItem probe = SlimefunItem.getById("ELECTRIC_MOTOR");
         Assertions.assertNotNull(probe, "ELECTRIC_MOTOR must be registered");
         ItemTranslationService.RenderedDisplay d = Slimefun.getItemTranslationService()
-            .renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
+            .renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         Assertions.assertNotNull(d);
         Assertions.assertNotNull(d.name);
         Assertions.assertFalse(d.name.trim().isEmpty());
@@ -48,17 +49,17 @@ class PacketRenderTest {
     @Test
     void cacheReturnsEqualResultOnSecondCall() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
-        ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
-        ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
+        ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         Assertions.assertSame(a, b, "cache must return the same instance");
     }
 
     @Test
     void clearRenderCacheForcesANewInstance() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
-        ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
+        ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         svc.clearRenderCache();
-        ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
+        ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         Assertions.assertNotSame(a, b, "clearRenderCache() must force a repeat call to recompute a fresh instance");
     }
 
@@ -66,7 +67,7 @@ class PacketRenderTest {
     void idFallbackRendersRawIdForALanguageWithNoLabel() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
         // "zz" is not a shipped language, so it has no translation - the name must fall back to the raw id.
-        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ID);
+        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ID, true);
         Assertions.assertNotNull(d);
         Assertions.assertEquals("ELECTRIC_MOTOR", d.name);
     }
@@ -81,7 +82,7 @@ class PacketRenderTest {
             new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
         svc.clearRenderCache();
 
-        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH);
+        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH, true);
 
         Assertions.assertNotNull(d);
         Assertions.assertEquals("Test Electric Motor", ChatColor.stripColor(d.name));
@@ -106,7 +107,7 @@ class PacketRenderTest {
             new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
         svc.clearRenderCache();
 
-        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH);
+        ItemTranslationService.RenderedDisplay d = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH, true);
 
         Assertions.assertNotNull(d);
         Assertions.assertEquals("Consistent Fallback Motor", ChatColor.stripColor(d.name));
@@ -124,12 +125,37 @@ class PacketRenderTest {
     @Test
     void differentCacheKeysDoNotCollide() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
-        ItemTranslationService.RenderedDisplay byLanguage = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH);
-        ItemTranslationService.RenderedDisplay byOtherLanguage = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH);
-        ItemTranslationService.RenderedDisplay byFallback = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ID);
+        ItemTranslationService.RenderedDisplay byLanguage = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        ItemTranslationService.RenderedDisplay byOtherLanguage = svc.renderForPacket("ELECTRIC_MOTOR", "zz", TranslationConfig.FallbackMode.ENGLISH, true);
+        ItemTranslationService.RenderedDisplay byFallback = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ID, true);
 
         Assertions.assertNotSame(byLanguage, byOtherLanguage, "different languageId must not share a cache entry");
         Assertions.assertNotSame(byLanguage, byFallback, "different fallback mode must not share a cache entry");
         Assertions.assertNotSame(byOtherLanguage, byFallback);
+    }
+
+    @Test
+    @DisplayName("renderForPacket honours includeDescription: false drops the description block")
+    void includeDescriptionToggleControlsDescriptionBlock() {
+        ItemTranslationService svc = Slimefun.getItemTranslationService();
+        String id = "ELECTRIC_MOTOR";
+        // MockBukkit's unit-test LocalizationService has no default language, so loadBundled() (called in
+        // load()) never actually loads languages/en/items.yml here - load a type + description block for
+        // "en" explicitly, the same way the other tests in this file inject translations.
+        String yaml = "ELECTRIC_MOTOR:\n"
+            + "  name: '&aDescribed Motor'\n"
+            + "  type:\n"
+            + "  - '&7&oComponent'\n"
+            + "  description:\n"
+            + "  - '&7A crafting component.'\n";
+        svc.loadTranslationsForTest("en", new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        svc.clearRenderCache();
+
+        ItemTranslationService.RenderedDisplay withDesc = svc.renderForPacket(id, "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        ItemTranslationService.RenderedDisplay noDesc = svc.renderForPacket(id, "en", TranslationConfig.FallbackMode.ENGLISH, false);
+        Assertions.assertNotEquals(withDesc.lore, noDesc.lore,
+            "includeDescription=false must produce different lore than includeDescription=true when a description exists");
+        Assertions.assertTrue(withDesc.lore.size() >= noDesc.lore.size(),
+            "dropping the description can only remove lines");
     }
 }

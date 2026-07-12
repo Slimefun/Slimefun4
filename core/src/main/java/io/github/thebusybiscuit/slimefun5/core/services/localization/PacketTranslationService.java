@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
+import io.github.thebusybiscuit.slimefun5.core.guide.options.ItemDescriptionsOption;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.packet.PacketItemDescriptor;
@@ -53,6 +54,13 @@ public class PacketTranslationService implements Listener {
      */
     private final Map<UUID, String> languageCache = new ConcurrentHashMap<>();
 
+    /**
+     * Per-player description-toggle preference, refreshed on the main thread (join / toggle click) and
+     * read verbatim by the Netty write handler. Absent means "default true" - the Netty thread must never
+     * call {@link ItemDescriptionsOption#isEnabledFor(Player)} directly (it reads player PDC).
+     */
+    private final Map<UUID, Boolean> descriptionsCache = new ConcurrentHashMap<>();
+
     public PacketTranslationService(@Nonnull Slimefun plugin) {
         this.descriptors = PacketItemDescriptor.resolveAll();
         this.fallback = TranslationConfig.fallback();
@@ -71,6 +79,7 @@ public class PacketTranslationService implements Listener {
         for (Player p : Slimefun.instance().getServer().getOnlinePlayers()) {
             inject(p);
             refreshLanguage(p);
+            refreshDescriptions(p);
         }
     }
 
@@ -78,12 +87,23 @@ public class PacketTranslationService implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         inject(e.getPlayer());
         refreshLanguage(e.getPlayer());
+        refreshDescriptions(e.getPlayer());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         // Channel is torn down by the server; nothing to clean up explicitly.
         languageCache.remove(e.getPlayer().getUniqueId());
+        descriptionsCache.remove(e.getPlayer().getUniqueId());
+    }
+
+    /**
+     * Refreshes the description-toggle preference cache for a player. Must run on the main thread: it
+     * reads the player's PDC ({@link ItemDescriptionsOption#isEnabledFor(Player)}). Called on join and
+     * whenever the player flips the toggle so the packet layer reflects it immediately.
+     */
+    public void refreshDescriptions(@Nonnull Player p) {
+        descriptionsCache.put(p.getUniqueId(), ItemDescriptionsOption.isEnabledFor(p));
     }
 
     @EventHandler
@@ -152,10 +172,12 @@ public class PacketTranslationService implements Listener {
         try {
             for (PacketItemDescriptor descriptor : descriptors) {
                 if (descriptor.matches(msg)) {
-                    // Pure cache read - no getLanguage()/entity PDC access on the Netty thread.
-                    String cached = languageCache.get(player.getUniqueId());
+                    // Pure cache reads - no getLanguage()/entity PDC/ItemDescriptionsOption access on the
+                    // Netty thread.
+                    UUID playerId = player.getUniqueId();
+                    String cached = languageCache.get(playerId);
                     final String language = NO_LANGUAGE.equals(cached) ? null : cached;
-                    return descriptor.rewrite(msg, nmsItem -> rewriteItem(nmsItem, language, fallback));
+                    return descriptor.rewrite(msg, nmsItem -> rewriteItem(nmsItem, playerId, language, fallback));
                 }
             }
         } catch (Throwable ignored) {
@@ -164,17 +186,18 @@ public class PacketTranslationService implements Listener {
         return msg;
     }
 
-    private Object rewriteItem(Object nmsItem, String language, TranslationConfig.FallbackMode fallback) {
+    private Object rewriteItem(Object nmsItem, UUID playerId, String language, TranslationConfig.FallbackMode fallback) {
         ItemStack bukkit = PacketReflect.asBukkit(nmsItem);
         if (bukkit == null || !bukkit.hasItemMeta()) {
             return nmsItem;
         }
         String id = Slimefun.getItemDataService().getItemData(bukkit).orElse(null);
         if (id == null) {
-            return nmsItem;
+            return rewriteGuideBook(nmsItem, bukkit, language); // null id → maybe the guide book
         }
+        boolean includeDescription = !Boolean.FALSE.equals(descriptionsCache.get(playerId)); // default true
         ItemTranslationService.RenderedDisplay display =
-            Slimefun.getItemTranslationService().renderForPacket(id, language, fallback);
+            Slimefun.getItemTranslationService().renderForPacket(id, language, fallback, includeDescription);
         if (display == null) {
             return nmsItem;
         }
@@ -184,6 +207,27 @@ public class PacketTranslationService implements Listener {
         }
         meta.setDisplayName(display.name);
         meta.setLore(display.lore.isEmpty() ? null : display.lore);
+        bukkit.setItemMeta(meta);
+        Object rewritten = PacketReflect.asNms(bukkit);
+        return rewritten != null ? rewritten : nmsItem;
+    }
+
+    private Object rewriteGuideBook(Object nmsItem, ItemStack bukkit, String language) {
+        ItemMeta meta = bukkit.getItemMeta();
+        if (meta == null) {
+            return nmsItem;
+        }
+        String mode = PdcCompat.getString(meta, Slimefun.getRegistry().getGuideDataKey());
+        if (mode == null) {
+            return nmsItem; // not the guide book
+        }
+        ItemTranslationService.RenderedDisplay d =
+            Slimefun.getGuideBookDisplay().rendered(language, "CHEAT_MODE".equals(mode));
+        if (d == null) {
+            return nmsItem;
+        }
+        meta.setDisplayName(d.name);
+        meta.setLore(d.lore.isEmpty() ? null : d.lore);
         bukkit.setItemMeta(meta);
         Object rewritten = PacketReflect.asNms(bukkit);
         return rewritten != null ? rewritten : nmsItem;

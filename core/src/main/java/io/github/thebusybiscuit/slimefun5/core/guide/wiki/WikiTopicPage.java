@@ -128,7 +128,7 @@ public final class WikiTopicPage {
             int slot = ITEM_SLOTS[placed];
             placed++;
 
-            menu.addItem(slot, Slimefun.getItemTranslationService().getDisplayItem(p, item));
+            menu.addItem(slot, item.getItem());
             menu.addMenuClickHandler(slot, (pl, sl, clicked, action) -> {
                 WikiPage.open(pl, guide, item, () -> open(pl, guide, topicId, displayName, icon));
                 return false;

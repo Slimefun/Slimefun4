@@ -49,6 +49,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.BlockDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.GuideBookDisplay;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.PacketTranslationService;
@@ -199,6 +200,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
     private final MenuTranslationService menuTranslationService = new MenuTranslationService();
+    private final GuideBookDisplay guideBookDisplay = new GuideBookDisplay();
     private PacketTranslationService packetTranslationService;
 
     // Some other things we need
@@ -390,6 +392,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
         packetTranslationService = new PacketTranslationService(this);
+        guideBookDisplay.build();
 
         // Initiating various Stuff and all items with a slight delay (0ms after the Server finished loading)
         runSync(new SlimefunStartupTask(this, () -> {
@@ -1061,6 +1064,28 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull MenuTranslationService getMenuTranslationService() {
         validateInstance();
         return instance.menuTranslationService;
+    }
+
+    /**
+     * This method returns the {@link GuideBookDisplay} of Slimefun.
+     * It holds the boot-precomputed, per-language rendering of the Slimefun Guide book.
+     *
+     * @return The {@link GuideBookDisplay} for Slimefun
+     */
+    public static @Nonnull GuideBookDisplay getGuideBookDisplay() {
+        validateInstance();
+        return instance.guideBookDisplay;
+    }
+
+    /**
+     * This method returns the {@link PacketTranslationService} of Slimefun, or null if packet
+     * translation has not been set up yet (before it is constructed during boot) or is disabled.
+     *
+     * @return The {@link PacketTranslationService} for Slimefun, or null
+     */
+    public static @Nullable PacketTranslationService getPacketTranslationService() {
+        validateInstance();
+        return instance.packetTranslationService;
     }
 
     /**
