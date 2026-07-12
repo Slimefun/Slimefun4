@@ -23,6 +23,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 
 /**
@@ -145,7 +146,7 @@ public final class Script {
             lore.add("&eShift + Right Click &fto leave a negative Rating");
         }
 
-        return CustomItemStack.create(android.getItem(), "&b" + getName(), lore.toArray(new String[0]));
+        return ChestMenuUtils.stripTranslationIdentity(CustomItemStack.create(android.getItem(), "&b" + getName(), lore.toArray(new String[0])));
     }
 
     @Nonnull

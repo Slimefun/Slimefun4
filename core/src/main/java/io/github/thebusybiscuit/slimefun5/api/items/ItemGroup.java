@@ -24,6 +24,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
 
 /**
@@ -238,7 +239,10 @@ public class ItemGroup implements Keyed {
      * @return A localized display item for this {@link ItemGroup}
      */
     public @Nonnull ItemStack getItem(@Nonnull Player p) {
-        return CustomItemStack.create(item, meta -> {
+        // The backing icon (item) is typically a clone of a real Slimefun item's ItemStack and still
+        // carries its Slimefun id; strip it from this display copy so the per-viewer packet translator
+        // doesn't clobber the category name/tooltip set below with that item's own translated render.
+        ItemStack display = CustomItemStack.create(item, meta -> {
             String name = Slimefun.getLocalization().getItemGroupName(p, getKey());
 
             if (name == null) {
@@ -253,6 +257,8 @@ public class ItemGroup implements Keyed {
 
             meta.setLore(Arrays.asList("", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
         });
+
+        return ChestMenuUtils.stripTranslationIdentity(display);
     }
 
     /**

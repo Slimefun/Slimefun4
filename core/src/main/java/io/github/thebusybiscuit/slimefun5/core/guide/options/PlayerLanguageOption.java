@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
 import io.github.bakedlibs.dough.items.CustomItemStack;
@@ -206,7 +205,7 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
             // for anything still carrying the Slimefun id. Strip it from this display copy only - base
             // itself is untouched since CustomItemStack.create() already clones it (see WikiPage#addOutput
             // for the same pattern).
-            stripSlimefunIdentity(icon);
+            ChestMenuUtils.stripTranslationIdentity(icon);
 
             menu.addItem(slot, icon, ChestMenuUtils.getEmptyClickHandler());
 
@@ -214,18 +213,6 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         }
 
         menu.open(p);
-    }
-
-    /** Strips the Slimefun item-id marker from this display copy so the packet layer skips it entirely. */
-    private void stripSlimefunIdentity(ItemStack display) {
-        ItemMeta meta = display.getItemMeta();
-
-        if (meta == null) {
-            return;
-        }
-
-        PdcCompat.remove(meta, Slimefun.getItemDataService().getKey());
-        display.setItemMeta(meta);
     }
 
     private String coverageColour(int percent) {

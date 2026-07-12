@@ -22,7 +22,6 @@ import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
-import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 import com.cryptomorin.xseries.XMaterial;
 
@@ -130,7 +129,7 @@ public final class WikiPage {
     /**
      * The result item carries the authored explanation (and energy stats) appended to its lore. This
      * display copy pre-renders the item's translated name/lore for {@code p}'s language itself and then
-     * strips its Slimefun id (see {@link #stripSlimefunIdentity}) - it is never sent back through the
+     * strips its Slimefun id (see {@link ChestMenuUtils#stripTranslationIdentity}) - it is never sent back through the
      * normal per-viewer rendering path, so nothing may re-render (and clobber) the wiki body appended
      * here. See the Task C report for why: the packet-translation layer rewrites any outbound
      * ClientboundContainerSetSlot/SetContent packet item that still carries the Slimefun id.
@@ -160,7 +159,7 @@ public final class WikiPage {
             appendStats(p, lore, item);
             meta.setLore(lore);
             display.setItemMeta(meta);
-            stripSlimefunIdentity(display);
+            ChestMenuUtils.stripTranslationIdentity(display);
         }
 
         menu.addItem(OUTPUT_SLOT, display);
@@ -188,22 +187,6 @@ public final class WikiPage {
         if (!rendered.lore.isEmpty()) {
             meta.setLore(new ArrayList<>(rendered.lore));
         }
-    }
-
-    /**
-     * Strips the Slimefun item-id marker from this display copy so the packet-translation layer skips it
-     * entirely (it only rewrites items it can resolve back to a registered id) - preventing it from
-     * overwriting the wiki body/stats lore just appended above with its own per-viewer render.
-     */
-    private static void stripSlimefunIdentity(@Nonnull ItemStack display) {
-        ItemMeta meta = display.getItemMeta();
-
-        if (meta == null) {
-            return;
-        }
-
-        PdcCompat.remove(meta, Slimefun.getItemDataService().getKey());
-        display.setItemMeta(meta);
     }
 
     @Nonnull

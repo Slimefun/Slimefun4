@@ -260,7 +260,7 @@ public class ItemTranslationService {
             return null;
         }
 
-        String cacheKey = language + ' ' + itemId;
+        String cacheKey = language + '|' + itemId;
 
         if (familyResolveCache.containsKey(cacheKey)) {
             return familyResolveCache.get(cacheKey);

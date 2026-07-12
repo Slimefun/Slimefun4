@@ -21,6 +21,7 @@ import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
 
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -189,6 +190,22 @@ public final class ChestMenuUtils {
 
     private static short getDurability(@Nonnull ItemStack item, int timeLeft, int max) {
         return (short) ((item.getType().getMaxDurability() / max) * timeLeft);
+    }
+
+    /**
+     * Removes the Slimefun id PDC from a DISPLAY copy so the per-viewer packet translator skips it, leaving
+     * custom menu-icon name/lore intact. Use ONLY on short-lived display clones, never a registered template.
+     */
+    public static @Nonnull ItemStack stripTranslationIdentity(@Nonnull ItemStack displayCopy) {
+        ItemMeta meta = displayCopy.getItemMeta();
+
+        if (meta == null) {
+            return displayCopy;
+        }
+
+        PdcCompat.remove(meta, Slimefun.getItemDataService().getKey());
+        displayCopy.setItemMeta(meta);
+        return displayCopy;
     }
 
 }
