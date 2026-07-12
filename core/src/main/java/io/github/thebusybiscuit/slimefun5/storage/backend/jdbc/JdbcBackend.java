@@ -123,7 +123,8 @@ public class JdbcBackend implements BlockStorageBackend {
                         Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
                         Config blockInfo = BlockStorage.parseBlockInfo(location, rs.getString("data"));
 
-                        if (blockInfo != null) {
+                        // Match LegacyFileBackend.loadBlock: only surface entries that carry an id.
+                        if (blockInfo != null && blockInfo.contains("id")) {
                             result.computeIfAbsent(sfId, k -> new HashMap<>()).put(location, blockInfo);
                         }
                     }

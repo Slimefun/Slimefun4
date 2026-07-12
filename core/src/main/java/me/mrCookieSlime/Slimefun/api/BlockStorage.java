@@ -220,7 +220,10 @@ public class BlockStorage {
             // Delete BEFORE upserting: a break-then-replace of the same spot within one flush
             // window must keep the new block, so the delete must not run after its upsert.
             java.util.List<Location> deleted = new ArrayList<>(deletedBlocks);
-            deletedBlocks.clear();
+            // Remove only what we snapshotted (mirrors the blocksCache drain above): a blanket clear()
+            // would drop a deletion added by another thread between the snapshot and the clear, leaking
+            // its row and resurrecting a ghost block on the next load.
+            deletedBlocks.removeAll(deleted);
             backend.deleteBlocks(world, deleted);
         }
 
