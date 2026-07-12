@@ -149,6 +149,7 @@ tasks {
         include("**/AddonVersionFormatTest.java")
         include("**/AddonVersionFormatTest*")
         include("**/ThreadSafeStorageMapsTest.java")
+        include("**/LegacyFileBackendTest*")
     }
     test {
         enabled = true
@@ -174,6 +175,7 @@ tasks {
         include("**/PacketReflectTest*")
         include("**/AddonVersionFormatTest*")
         include("**/ThreadSafeStorageMapsTest*")
+        include("**/LegacyFileBackendTest*")
     }
 
     processResources {

@@ -15,6 +15,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun5.storage.Storage;
+import io.github.thebusybiscuit.slimefun5.storage.backend.BlockStorageBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
 
 import org.apache.commons.lang.Validate;
@@ -223,6 +225,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     // Data storage
     private Storage playerStorage;
+    private BlockStorageBackend blockStorageBackend;
 
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
@@ -276,6 +279,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
         // Do we have a way to override this?
         playerStorage = new LegacyStorage();
+        blockStorageBackend = new LegacyFileBackend();
     }
 
     /**
@@ -339,6 +343,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Data storage
         playerStorage = new LegacyStorage();
         logger.log(Level.INFO, "Using legacy storage for player data");
+        blockStorageBackend = new LegacyFileBackend();
 
         // Setting up bStats and analytics. Metrics is OFF by default on this fork: the module still
         // reports to upstream Slimefun's bStats project, not this fork. (options.metrics-service)
@@ -1280,6 +1285,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull Storage getPlayerStorage() {
         return instance().playerStorage;
+    }
+
+    public static @Nonnull BlockStorageBackend getBlockStorageBackend() {
+        return instance().blockStorageBackend;
     }
 
     /**
