@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.ChatColor;
 import org.bukkit.enchantments.Enchantment;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
 
@@ -46,7 +48,7 @@ public final class EnchantDisplay {
      * hidden on this version (so we never double-render).
      */
     @Nonnull
-    public static List<String> lines(@Nonnull SlimefunItem item) {
+    public static List<String> lines(@Nonnull SlimefunItem item, @Nullable String languageId) {
         if (!canReposition()) {
             return Collections.emptyList();
         }
@@ -66,15 +68,15 @@ public final class EnchantDisplay {
         List<String> out = new ArrayList<>(enchantments.size());
 
         for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-            out.add(ChatColor.GRAY + prettyName(entry.getKey()) + " " + roman(entry.getValue()));
+            out.add(ChatColor.GRAY + prettyName(entry.getKey(), languageId) + " " + roman(entry.getValue()));
         }
 
         return out;
     }
 
-    /** A human-readable enchantment name, version-safe: modern {@code getKey().getKey()}, else legacy {@code getName()}. */
+    /** A human-readable enchantment name: the data-driven translation, else version-safe title-casing of the raw key. */
     @Nonnull
-    private static String prettyName(@Nonnull Enchantment enchantment) {
+    private static String prettyName(@Nonnull Enchantment enchantment, @Nullable String languageId) {
         String raw = null;
 
         try {
@@ -97,7 +99,8 @@ public final class EnchantDisplay {
             }
         }
 
-        return titleCase(raw);
+        String resolved = Slimefun.getEnchantTranslationService().name(languageId, raw);
+        return resolved != null ? resolved : titleCase(raw);
     }
 
     @Nonnull

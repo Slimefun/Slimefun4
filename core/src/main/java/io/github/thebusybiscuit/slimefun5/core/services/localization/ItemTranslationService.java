@@ -496,7 +496,7 @@ public class ItemTranslationService {
         List<String> fallbackBase = (translation != null && !translation.lore.isEmpty()) ? translation.lore
             : (englishTranslation != null && !englishTranslation.lore.isEmpty()) ? englishTranslation.lore
             : englishLore;
-        List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription);
+        List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription, effectiveLanguage);
 
         RenderedDisplay result = new RenderedDisplay(name, lore);
         renderCache.put(cacheKey, result);

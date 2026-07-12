@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import org.bukkit.ChatColor;
 
@@ -29,13 +30,13 @@ public final class LoreComposer {
     @Nonnull
     public static List<String> compose(@Nonnull SlimefunItem item, @Nonnull List<String> type, @Nonnull List<String> description,
                                        @Nonnull List<String> stats, @Nonnull List<String> usage, @Nonnull List<String> fallbackBase,
-                                       boolean includeDescription) {
+                                       boolean includeDescription, @Nullable String languageId) {
         List<String> desc = includeDescription ? description : new ArrayList<String>();
 
         // Enchantment lines render directly under the Type category (not vanilla's default spot above the
         // lore). EnchantDisplay returns empty unless the item is enchanted AND the vanilla tooltip can be
         // hidden on this version, so this never double-renders.
-        List<String> enchantLines = EnchantDisplay.lines(item);
+        List<String> enchantLines = EnchantDisplay.lines(item, languageId);
 
         boolean hasStructuralBlocks = !type.isEmpty() || !stats.isEmpty() || !usage.isEmpty() || !enchantLines.isEmpty();
 

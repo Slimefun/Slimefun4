@@ -50,6 +50,7 @@ import io.github.thebusybiscuit.slimefun5.core.services.CustomItemDataService;
 import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.GuideBookDisplay;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.PacketTranslationService;
@@ -199,6 +200,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final ThreadService threadService = new ThreadService(this);
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
+    private final EnchantTranslationService enchantTranslationService = new EnchantTranslationService();
     private final MenuTranslationService menuTranslationService = new MenuTranslationService();
     private final GuideBookDisplay guideBookDisplay = new GuideBookDisplay();
     private PacketTranslationService packetTranslationService;
@@ -374,6 +376,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         logger.log(Level.INFO, "Loading item translations...");
         itemTranslationService.loadBundled();
         itemTranslationService.canonicalizeToId();
+        enchantTranslationService.loadBundled();
         menuTranslationService.loadBundled();
 
         // Boot audit (delayed so addons have registered their items): warn about items still using
@@ -1053,6 +1056,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull ItemTranslationService getItemTranslationService() {
         validateInstance();
         return instance.itemTranslationService;
+    }
+
+    /**
+     * This method returns the {@link EnchantTranslationService} of Slimefun.
+     * It resolves per-language enchantment display names for the packet lore renderer.
+     *
+     * @return The {@link EnchantTranslationService} for Slimefun
+     */
+    public static @Nonnull EnchantTranslationService getEnchantTranslationService() {
+        validateInstance();
+        return instance.enchantTranslationService;
     }
 
     /**

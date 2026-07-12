@@ -137,6 +137,8 @@ tasks {
         include("**/PacketRenderTest*")
         include("**/GuideBookDisplayTest.java")
         include("**/GuideBookDisplayTest*")
+        include("**/EnchantTranslationTest.java")
+        include("**/EnchantTranslationTest*")
     }
     test {
         enabled = true
@@ -155,6 +157,7 @@ tasks {
         include("**/TranslationConfigTest*")
         include("**/PacketRenderTest*")
         include("**/GuideBookDisplayTest*")
+        include("**/EnchantTranslationTest*")
     }
 
     processResources {
