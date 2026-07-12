@@ -68,6 +68,9 @@ dependencies {
     implementation("commons-lang:commons-lang:2.6")
     // XSeries: cross-version Material/Sound/Particle resolution, shaded.
     implementation("com.github.cryptomorin:XSeries:9.10.0")
+    // Embedded H2 for the JDBC storage backend (SP-2), shaded. Pinned to 2.1.214: the last H2
+    // release that still targets Java 8; 2.2+ requires Java 11.
+    implementation("com.h2database:h2:2.1.214")
 
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     // Compile against the oldest Bukkit API (1.8.8); newer APIs go through the stubs module + reflection.
@@ -150,6 +153,7 @@ tasks {
         include("**/AddonVersionFormatTest*")
         include("**/ThreadSafeStorageMapsTest.java")
         include("**/LegacyFileBackendTest*")
+        include("**/JdbcBackendTest*")
     }
     test {
         enabled = true
@@ -176,6 +180,7 @@ tasks {
         include("**/AddonVersionFormatTest*")
         include("**/ThreadSafeStorageMapsTest*")
         include("**/LegacyFileBackendTest*")
+        include("**/JdbcBackendTest*")
     }
 
     processResources {
@@ -202,6 +207,7 @@ tasks {
         relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun5.libraries.paperlib")
         relocate("org.apache.commons.lang", "io.github.thebusybiscuit.slimefun5.libraries.commons.lang")
         relocate("com.cryptomorin.xseries", "io.github.thebusybiscuit.slimefun5.libraries.xseries")
+        relocate("org.h2", "io.github.thebusybiscuit.slimefun5.libraries.h2")
 
         exclude("META-INF/**")
 
