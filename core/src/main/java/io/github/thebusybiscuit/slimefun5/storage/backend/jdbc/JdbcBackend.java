@@ -2,8 +2,11 @@ package io.github.thebusybiscuit.slimefun5.storage.backend.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -15,11 +18,13 @@ import org.bukkit.World;
 
 import com.google.common.annotations.Beta;
 
+import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.storage.backend.BlockStorageBackend;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
@@ -105,13 +110,52 @@ public class JdbcBackend implements BlockStorageBackend {
     @Override
     @Nonnull
     public Map<String, Map<Location, Config>> loadWorldBlocks(@Nonnull World world) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            Map<String, Map<Location, Config>> result = new HashMap<>();
+
+            try (PreparedStatement st = connection.prepareStatement("SELECT sf_id, x, y, z, data FROM block_data WHERE world = ?")) {
+                st.setString(1, world.getName());
+
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String sfId = rs.getString("sf_id");
+                        Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
+                        Config blockInfo = BlockStorage.parseBlockInfo(location, rs.getString("data"));
+
+                        if (blockInfo != null) {
+                            result.computeIfAbsent(sfId, k -> new HashMap<>()).put(location, blockInfo);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block data from H2 storage for world \"" + world.getName() + '"');
+            }
+
+            return result;
+        }
     }
 
     @Override
     @Nonnull
     public Map<String, BlockInfoConfig> loadChunksForWorld(@Nonnull World world) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            Map<String, BlockInfoConfig> result = new HashMap<>();
+
+            try (PreparedStatement st = connection.prepareStatement("SELECT cx, cz, data FROM chunk_data WHERE world = ?")) {
+                st.setString(1, world.getName());
+
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        String key = BlockStorage.serializeChunk(world, rs.getInt("cx"), rs.getInt("cz"));
+                        result.put(key, new BlockInfoConfig(BlockStorage.parseJSON(rs.getString("data"))));
+                    }
+                }
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load chunk data from H2 storage for world \"" + world.getName() + '"');
+            }
+
+            return result;
+        }
     }
 
     @Override
@@ -134,7 +178,78 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            try {
+                connection.setAutoCommit(false);
+
+                try (PreparedStatement upsert = connection.prepareStatement(
+                        "MERGE INTO block_data(world,x,y,z,sf_id,data) KEY(world,x,y,z) VALUES(?,?,?,?,?,?)");
+                        PreparedStatement deleteForId = connection.prepareStatement(
+                                "DELETE FROM block_data WHERE world = ? AND sf_id = ?");
+                        PreparedStatement deleteLocation = connection.prepareStatement(
+                                "DELETE FROM block_data WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+
+                    for (Map.Entry<String, Config> entry : blocksCache.entrySet()) {
+                        String sfId = entry.getKey();
+                        Config cfg = entry.getValue();
+
+                        if (cfg.getKeys().isEmpty()) {
+                            // Mirrors LegacyFileBackend deleting the whole "<sf_id>.sfb" file: no
+                            // locations remain queued for this id, so no rows for it remain either.
+                            deleteForId.setString(1, world.getName());
+                            deleteForId.setString(2, sfId);
+                            deleteForId.executeUpdate();
+                            continue;
+                        }
+
+                        for (String locationKey : cfg.getKeys()) {
+                            String[] parts = CommonPatterns.SEMICOLON.split(locationKey);
+
+                            if (parts.length != 4) {
+                                continue;
+                            }
+
+                            int x = Integer.parseInt(parts[1]);
+                            int y = Integer.parseInt(parts[2]);
+                            int z = Integer.parseInt(parts[3]);
+                            String json = cfg.getString(locationKey);
+
+                            if (json == null) {
+                                deleteLocation.setString(1, world.getName());
+                                deleteLocation.setInt(2, x);
+                                deleteLocation.setInt(3, y);
+                                deleteLocation.setInt(4, z);
+                                deleteLocation.executeUpdate();
+                            } else {
+                                upsert.setString(1, world.getName());
+                                upsert.setInt(2, x);
+                                upsert.setInt(3, y);
+                                upsert.setInt(4, z);
+                                upsert.setString(5, sfId);
+                                upsert.setString(6, json);
+                                upsert.executeUpdate();
+                            }
+                        }
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException | NumberFormatException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block flush");
+                }
+
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to H2 storage for world \"" + world.getName() + '"');
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                }
+            }
+        }
     }
 
     @Override
@@ -149,7 +264,52 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushChunks(@Nonnull Map<String, BlockInfoConfig> chunks) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            try {
+                connection.setAutoCommit(false);
+
+                try (PreparedStatement upsert = connection.prepareStatement(
+                        "MERGE INTO chunk_data(world,cx,cz,data) KEY(world,cx,cz) VALUES(?,?,?,?)")) {
+
+                    for (Map.Entry<String, BlockInfoConfig> entry : chunks.entrySet()) {
+                        BlockInfoConfig biCfg = entry.getValue();
+
+                        if (biCfg.getKeys().isEmpty()) {
+                            // Saving empty chunk data is pointless, matches LegacyFileBackend.
+                            continue;
+                        }
+
+                        String[] parts = CommonPatterns.SEMICOLON.split(entry.getKey());
+
+                        if (parts.length != 4) {
+                            continue;
+                        }
+
+                        upsert.setString(1, parts[0]);
+                        upsert.setInt(2, Integer.parseInt(parts[2]));
+                        upsert.setInt(3, Integer.parseInt(parts[3]));
+                        upsert.setString(4, biCfg.toJSON());
+                        upsert.executeUpdate();
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException | NumberFormatException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 chunk flush");
+                }
+
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush chunk data to H2 storage");
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                }
+            }
+        }
     }
 
     @Override
