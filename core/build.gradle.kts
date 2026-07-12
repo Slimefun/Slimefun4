@@ -143,6 +143,8 @@ tasks {
         include("**/WikiTextLanguageTest*")
         include("**/CoverageTest.java")
         include("**/CoverageTest*")
+        include("**/PacketReflectTest.java")
+        include("**/PacketReflectTest*")
     }
     test {
         enabled = true
@@ -164,6 +166,7 @@ tasks {
         include("**/EnchantTranslationTest*")
         include("**/WikiTextLanguageTest*")
         include("**/CoverageTest*")
+        include("**/PacketReflectTest*")
     }
 
     processResources {

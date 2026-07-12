@@ -19,8 +19,10 @@ public final class PacketReflect {
     private PacketReflect() {}
 
     private static final Class<?> CHANNEL = forName("io.netty.channel.Channel");
-    private static final Method AS_BUKKIT_COPY = resolveCraftItemMethod("asBukkitCopy");
-    private static final Method AS_NMS_COPY = resolveCraftItemMethod("asNMSCopy");
+    // Declaration order matters: NMS_ITEM must resolve before the two AS_* fields use it as an argType.
+    private static final Class<?> NMS_ITEM = resolveNmsItemClass();
+    private static final Method AS_BUKKIT_COPY = resolveCraftItemMethod("asBukkitCopy", NMS_ITEM);
+    private static final Method AS_NMS_COPY = resolveCraftItemMethod("asNMSCopy", ItemStack.class);
 
     @Nullable
     private static Class<?> forName(String n) {
@@ -31,19 +33,47 @@ public final class PacketReflect {
         }
     }
 
-    // CraftItemStack lives at org.bukkit.craftbukkit.<ver>.inventory.CraftItemStack (versioned pre-1.20.5)
-    // or org.bukkit.craftbukkit.inventory.CraftItemStack (unversioned on modern Paper). Try both.
+    // Mirrors PacketItemDescriptor.resolveNmsItemClass: Mojang-mapped modern NMS, else legacy versioned Spigot NMS.
     @Nullable
-    private static Method resolveCraftItemMethod(String name) {
+    private static Class<?> resolveNmsItemClass() {
+        Class<?> c = forName("net.minecraft.world.item.ItemStack");
+        if (c != null) {
+            return c;
+        }
+        String legacy = legacyNmsPackage();
+        return legacy != null ? forName(legacy + ".ItemStack") : null;
+    }
+
+    @Nullable
+    private static String legacyNmsPackage() {
+        // Spigot: org.bukkit.craftbukkit.v1_8_R3 -> net.minecraft.server.v1_8_R3
+        try {
+            String cb = Bukkit.getServer().getClass().getPackage().getName();
+            int i = cb.lastIndexOf('.');
+            if (i < 0) {
+                return null;
+            }
+            String ver = cb.substring(i + 1);
+            return ver.startsWith("v") ? "net.minecraft.server." + ver : null;
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    // CraftItemStack lives at org.bukkit.craftbukkit.<ver>.inventory.CraftItemStack (versioned pre-1.20.5)
+    // or org.bukkit.craftbukkit.inventory.CraftItemStack (unversioned on modern Paper). Try both. Matched
+    // by PARAMETER TYPE (not just name+arity): on 26.2 CraftItemStack has two one-arg asNMSCopy overloads
+    // (ItemStack and List), and getMethods() order is not guaranteed across JVMs.
+    @Nullable
+    private static Method resolveCraftItemMethod(String name, @Nullable Class<?> argType) {
         try {
             String pkg = Bukkit.getServer().getClass().getPackage().getName(); // org.bukkit.craftbukkit[.<ver>]
             for (String cls : new String[] { pkg + ".inventory.CraftItemStack", "org.bukkit.craftbukkit.inventory.CraftItemStack" }) {
                 Class<?> c = forName(cls);
                 if (c != null) {
-                    for (Method m : c.getMethods()) {
-                        if (m.getName().equals(name) && m.getParameterCount() == 1) {
-                            return m;
-                        }
+                    Method m = resolveByParamType(c, name, argType);
+                    if (m != null) {
+                        return m;
                     }
                 }
             }
@@ -51,6 +81,17 @@ public final class PacketReflect {
         } catch (Throwable t) {
             return null;
         }
+    }
+
+    @Nullable
+    static Method resolveByParamType(Class<?> c, String name, @Nullable Class<?> argType) {
+        for (Method m : c.getMethods()) {
+            if (m.getName().equals(name) && m.getParameterCount() == 1
+                    && argType != null && m.getParameterTypes()[0].isAssignableFrom(argType)) {
+                return m;
+            }
+        }
+        return null;
     }
 
     @Nullable
@@ -160,6 +201,12 @@ public final class PacketReflect {
         } catch (Throwable t) {
             return null;
         }
+    }
+
+    /** The resolved parameter type of {@code asNMSCopy}, for diagnostics (e.g. {@code /sf debugpackets}). */
+    @Nullable
+    public static Class<?> asNmsParamType() {
+        return AS_NMS_COPY != null ? AS_NMS_COPY.getParameterTypes()[0] : null;
     }
 
     @Nullable
