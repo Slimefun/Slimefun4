@@ -154,6 +154,7 @@ tasks {
         include("**/ThreadSafeStorageMapsTest.java")
         include("**/LegacyFileBackendTest*")
         include("**/JdbcBackendTest*")
+        include("**/MigrationServiceTest*")
     }
     test {
         enabled = true
@@ -181,6 +182,7 @@ tasks {
         include("**/ThreadSafeStorageMapsTest*")
         include("**/LegacyFileBackendTest*")
         include("**/JdbcBackendTest*")
+        include("**/MigrationServiceTest*")
     }
 
     processResources {
