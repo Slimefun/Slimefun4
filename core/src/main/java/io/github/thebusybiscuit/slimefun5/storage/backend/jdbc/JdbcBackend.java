@@ -548,6 +548,39 @@ public class JdbcBackend implements BlockStorageBackend {
         }
     }
 
+    /**
+     * Reads a single key from {@code storage_meta} (used by storage migrations for per-world flags).
+     */
+    @Nullable
+    public String getMeta(@Nonnull String key) {
+        synchronized (lock) {
+            try (PreparedStatement st = connection.prepareStatement("SELECT v FROM storage_meta WHERE k = ?")) {
+                st.setString(1, key);
+                try (ResultSet rs = st.executeQuery()) {
+                    return rs.next() ? rs.getString(1) : null;
+                }
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not read storage_meta key " + key);
+                return null;
+            }
+        }
+    }
+
+    /**
+     * Writes (upserts) a single key into {@code storage_meta}.
+     */
+    public void setMeta(@Nonnull String key, @Nonnull String value) {
+        synchronized (lock) {
+            try (PreparedStatement st = connection.prepareStatement("MERGE INTO storage_meta(k,v) KEY(k) VALUES(?,?)")) {
+                st.setString(1, key);
+                st.setString(2, value);
+                st.executeUpdate();
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not write storage_meta key " + key);
+            }
+        }
+    }
+
     @Override
     public void deleteInventory(@Nonnull Location l) {
         synchronized (lock) {

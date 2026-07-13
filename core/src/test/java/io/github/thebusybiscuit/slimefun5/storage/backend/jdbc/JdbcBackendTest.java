@@ -288,6 +288,23 @@ class JdbcBackendTest {
     }
 
     @Test
+    void testGetMetaAndSetMetaRoundTripAndOverwrite() {
+        JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_meta;DB_CLOSE_DELAY=-1");
+
+        try {
+            Assertions.assertNull(backend.getMeta("absent"));
+
+            backend.setMeta("k", "v1");
+            Assertions.assertEquals("v1", backend.getMeta("k"));
+
+            backend.setMeta("k", "v2");
+            Assertions.assertEquals("v2", backend.getMeta("k"));
+        } finally {
+            backend.close();
+        }
+    }
+
+    @Test
     void testFlushUniversalInventoriesWritesAndLoadUniversalInventoriesRoundTrips() {
         JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_universal_inventories;DB_CLOSE_DELAY=-1");
 
