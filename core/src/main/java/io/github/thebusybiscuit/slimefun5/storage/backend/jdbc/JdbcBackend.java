@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun5.storage.backend.jdbc;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -54,29 +53,26 @@ public class JdbcBackend implements BlockStorageBackend {
     private static final File DUMMY_MENU_FILE = new File("");
 
     // Single embedded connection; all access must go through `lock` to keep it thread-safe.
-    private final Connection connection;
+    private final ConnectionProvider provider;
     private final Object lock = new Object();
     private final SqlDialect dialect;
 
     public JdbcBackend(@Nonnull String jdbcUrl) {
-        this.dialect = new H2Dialect();
-        Connection c;
-        try {
-            // H2 registers its driver via META-INF/services, but shadowJar's `exclude("META-INF/**")`
-            // strips that file from the shaded jar, so ServiceLoader auto-registration won't fire at
-            // runtime. Force registration explicitly instead. We reference the driver class directly
-            // (not a "org.h2.Driver" string literal) because shadow's relocator only guarantees
-            // rewriting genuine class references (CONSTANT_Class in the bytecode); a bare string isn't
-            // reliably rewritten across relocator implementations. `.class.getName()` compiles to a real
-            // class reference, so it is relocated together with the rest of org.h2.
-            Class.forName(org.h2.Driver.class.getName());
-            c = DriverManager.getConnection(jdbcUrl);
-            c.setAutoCommit(true);
-            createSchema(c);
-        } catch (Exception e) {
-            throw new IllegalStateException("Could not open H2 storage at " + jdbcUrl, e);
+        this(new H2Dialect(), new EmbeddedH2Provider(jdbcUrl));
+    }
+
+    public JdbcBackend(@Nonnull SqlDialect dialect, @Nonnull ConnectionProvider provider) {
+        this.dialect = dialect;
+        this.provider = provider;
+
+        synchronized (lock) {
+            try {
+                Connection connection = provider.conn();
+                createSchema(connection);
+            } catch (SQLException e) {
+                throw new IllegalStateException("Could not initialize storage schema", e);
+            }
         }
-        this.connection = c;
     }
 
     private void createSchema(@Nonnull Connection c) throws SQLException {
@@ -85,14 +81,6 @@ public class JdbcBackend implements BlockStorageBackend {
                 st.execute(stmt);
             }
         }
-    }
-
-    /**
-     * Package-private accessor for Tasks 2/3 + tests: every use must synchronize on {@link #lock}.
-     */
-    @Nonnull
-    Connection connection() {
-        return connection;
     }
 
     @Nonnull
@@ -134,13 +122,7 @@ public class JdbcBackend implements BlockStorageBackend {
     @Override
     public void close() {
         synchronized (lock) {
-            try {
-                if (connection != null && !connection.isClosed()) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                Slimefun.logger().log(Level.WARNING, "Error closing H2 storage", e);
-            }
+            provider.close();
         }
     }
 
@@ -150,18 +132,22 @@ public class JdbcBackend implements BlockStorageBackend {
         synchronized (lock) {
             Map<String, Map<Location, Config>> result = new HashMap<>();
 
-            try (PreparedStatement st = connection.prepareStatement("SELECT sf_id, x, y, z, data FROM block_data WHERE world = ?")) {
-                st.setString(1, world.getName());
+            try {
+                Connection connection = provider.conn();
 
-                try (ResultSet rs = st.executeQuery()) {
-                    while (rs.next()) {
-                        String sfId = rs.getString("sf_id");
-                        Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
-                        Config blockInfo = BlockStorage.parseBlockInfo(location, rs.getString("data"));
+                try (PreparedStatement st = connection.prepareStatement("SELECT sf_id, x, y, z, data FROM block_data WHERE world = ?")) {
+                    st.setString(1, world.getName());
 
-                        // Match LegacyFileBackend.loadBlock: only surface entries that carry an id.
-                        if (blockInfo != null && blockInfo.contains("id")) {
-                            result.computeIfAbsent(sfId, k -> new HashMap<>()).put(location, blockInfo);
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            String sfId = rs.getString("sf_id");
+                            Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
+                            Config blockInfo = BlockStorage.parseBlockInfo(location, rs.getString("data"));
+
+                            // Match LegacyFileBackend.loadBlock: only surface entries that carry an id.
+                            if (blockInfo != null && blockInfo.contains("id")) {
+                                result.computeIfAbsent(sfId, k -> new HashMap<>()).put(location, blockInfo);
+                            }
                         }
                     }
                 }
@@ -179,13 +165,17 @@ public class JdbcBackend implements BlockStorageBackend {
         synchronized (lock) {
             Map<String, BlockInfoConfig> result = new HashMap<>();
 
-            try (PreparedStatement st = connection.prepareStatement("SELECT cx, cz, data FROM chunk_data WHERE world = ?")) {
-                st.setString(1, world.getName());
+            try {
+                Connection connection = provider.conn();
 
-                try (ResultSet rs = st.executeQuery()) {
-                    while (rs.next()) {
-                        String key = BlockStorage.serializeChunk(world, rs.getInt("cx"), rs.getInt("cz"));
-                        result.put(key, new BlockInfoConfig(BlockStorage.parseJSON(rs.getString("data"))));
+                try (PreparedStatement st = connection.prepareStatement("SELECT cx, cz, data FROM chunk_data WHERE world = ?")) {
+                    st.setString(1, world.getName());
+
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            String key = BlockStorage.serializeChunk(world, rs.getInt("cx"), rs.getInt("cz"));
+                            result.put(key, new BlockInfoConfig(BlockStorage.parseJSON(rs.getString("data"))));
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -202,26 +192,30 @@ public class JdbcBackend implements BlockStorageBackend {
         synchronized (lock) {
             Map<Location, BlockMenu> result = new HashMap<>();
 
-            try (PreparedStatement st = connection.prepareStatement("SELECT x, y, z, inv FROM block_inventory WHERE world = ?")) {
-                st.setString(1, world.getName());
+            try {
+                Connection connection = provider.conn();
 
-                try (ResultSet rs = st.executeQuery()) {
-                    while (rs.next()) {
-                        Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
+                try (PreparedStatement st = connection.prepareStatement("SELECT x, y, z, inv FROM block_inventory WHERE world = ?")) {
+                    st.setString(1, world.getName());
 
-                        try {
-                            io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
-                            BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+                    try (ResultSet rs = st.executeQuery()) {
+                        while (rs.next()) {
+                            Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
 
-                            if (preset == null) {
-                                preset = BlockMenuPreset.getPreset(BlockStorage.checkID(location));
+                            try {
+                                io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
+                                BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+
+                                if (preset == null) {
+                                    preset = BlockMenuPreset.getPreset(BlockStorage.checkID(location));
+                                }
+
+                                if (preset != null) {
+                                    result.put(location, new BlockMenu(preset, location, cfg));
+                                }
+                            } catch (InvalidConfigurationException e) {
+                                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse Block Inventory at " + location);
                             }
-
-                            if (preset != null) {
-                                result.put(location, new BlockMenu(preset, location, cfg));
-                            }
-                        } catch (InvalidConfigurationException e) {
-                            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse Block Inventory at " + location);
                         }
                     }
                 }
@@ -239,21 +233,25 @@ public class JdbcBackend implements BlockStorageBackend {
         synchronized (lock) {
             Map<String, UniversalBlockMenu> result = new HashMap<>();
 
-            try (PreparedStatement st = connection.prepareStatement("SELECT id, inv FROM universal_inventory");
-                    ResultSet rs = st.executeQuery()) {
+            try {
+                Connection connection = provider.conn();
 
-                while (rs.next()) {
-                    String id = rs.getString("id");
+                try (PreparedStatement st = connection.prepareStatement("SELECT id, inv FROM universal_inventory");
+                        ResultSet rs = st.executeQuery()) {
 
-                    try {
-                        io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
-                        BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+                    while (rs.next()) {
+                        String id = rs.getString("id");
 
-                        if (preset != null) {
-                            result.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+                        try {
+                            io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
+                            BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+
+                            if (preset != null) {
+                                result.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+                            }
+                        } catch (InvalidConfigurationException e) {
+                            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse universal Inventory \"" + id + '"');
                         }
-                    } catch (InvalidConfigurationException e) {
-                        Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse universal Inventory \"" + id + '"');
                     }
                 }
             } catch (SQLException e) {
@@ -268,16 +266,20 @@ public class JdbcBackend implements BlockStorageBackend {
     @Nullable
     public BlockMenu loadInventoryIfPresent(@Nonnull Location l, @Nonnull BlockMenuPreset preset) {
         synchronized (lock) {
-            try (PreparedStatement st = connection.prepareStatement(
-                    "SELECT inv FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
-                st.setString(1, l.getWorld().getName());
-                st.setInt(2, l.getBlockX());
-                st.setInt(3, l.getBlockY());
-                st.setInt(4, l.getBlockZ());
+            try {
+                Connection connection = provider.conn();
 
-                try (ResultSet rs = st.executeQuery()) {
-                    if (rs.next()) {
-                        return new BlockMenu(preset, l, yamlToConfig(rs.getString("inv")));
+                try (PreparedStatement st = connection.prepareStatement(
+                        "SELECT inv FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                    st.setString(1, l.getWorld().getName());
+                    st.setInt(2, l.getBlockX());
+                    st.setInt(3, l.getBlockY());
+                    st.setInt(4, l.getBlockZ());
+
+                    try (ResultSet rs = st.executeQuery()) {
+                        if (rs.next()) {
+                            return new BlockMenu(preset, l, yamlToConfig(rs.getString("inv")));
+                        }
                     }
                 }
             } catch (SQLException | InvalidConfigurationException e) {
@@ -306,6 +308,7 @@ public class JdbcBackend implements BlockStorageBackend {
         // Upsert-only: deletions are no longer inferred from the (delta-only) Config here, they
         // come exclusively via deleteBlocks(). An empty Config means nothing to do.
         synchronized (lock) {
+            Connection connection = provider.conn();
             boolean committed = false;
 
             try {
@@ -372,35 +375,41 @@ public class JdbcBackend implements BlockStorageBackend {
 
         synchronized (lock) {
             try {
-                connection.setAutoCommit(false);
+                Connection connection = provider.conn();
 
-                try (PreparedStatement delete = connection.prepareStatement(
-                        "DELETE FROM block_data WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                try {
+                    connection.setAutoCommit(false);
 
-                    for (Location location : locations) {
-                        delete.setString(1, world.getName());
-                        delete.setInt(2, location.getBlockX());
-                        delete.setInt(3, location.getBlockY());
-                        delete.setInt(4, location.getBlockZ());
-                        delete.executeUpdate();
+                    try (PreparedStatement delete = connection.prepareStatement(
+                            "DELETE FROM block_data WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+
+                        for (Location location : locations) {
+                            delete.setString(1, world.getName());
+                            delete.setInt(2, location.getBlockX());
+                            delete.setInt(3, location.getBlockY());
+                            delete.setInt(4, location.getBlockZ());
+                            delete.executeUpdate();
+                        }
+                    }
+
+                    connection.commit();
+                } catch (SQLException e) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException rollbackException) {
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block deletion");
+                    }
+
+                    Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from H2 storage for world \"" + world.getName() + '"');
+                } finally {
+                    try {
+                        connection.setAutoCommit(true);
+                    } catch (SQLException e) {
+                        Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
                     }
                 }
-
-                connection.commit();
             } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block deletion");
-                }
-
                 Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from H2 storage for world \"" + world.getName() + '"');
-            } finally {
-                try {
-                    connection.setAutoCommit(true);
-                } catch (SQLException e) {
-                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
-                }
             }
         }
     }
@@ -422,6 +431,7 @@ public class JdbcBackend implements BlockStorageBackend {
         // per-menu with isDirty() to match legacy's write-avoidance (BlockMenu.save() no-ops when
         // !isDirty()). Menus that were never opened/modified are skipped entirely.
         synchronized (lock) {
+            Connection connection = provider.conn();
             boolean committed = false;
 
             try {
@@ -490,6 +500,7 @@ public class JdbcBackend implements BlockStorageBackend {
      */
     public void flushUniversalInventoriesOrThrow(@Nonnull Map<String, UniversalBlockMenu> universalInventories) throws SQLException {
         synchronized (lock) {
+            Connection connection = provider.conn();
             boolean committed = false;
 
             try {
@@ -551,6 +562,7 @@ public class JdbcBackend implements BlockStorageBackend {
      */
     public void flushChunksOrThrow(@Nonnull Map<String, BlockInfoConfig> chunks) throws SQLException {
         synchronized (lock) {
+            Connection connection = provider.conn();
             boolean committed = false;
 
             try {
@@ -606,10 +618,14 @@ public class JdbcBackend implements BlockStorageBackend {
     @Nullable
     public String getMeta(@Nonnull String key) {
         synchronized (lock) {
-            try (PreparedStatement st = connection.prepareStatement("SELECT v FROM storage_meta WHERE k = ?")) {
-                st.setString(1, key);
-                try (ResultSet rs = st.executeQuery()) {
-                    return rs.next() ? rs.getString(1) : null;
+            try {
+                Connection connection = provider.conn();
+
+                try (PreparedStatement st = connection.prepareStatement("SELECT v FROM storage_meta WHERE k = ?")) {
+                    st.setString(1, key);
+                    try (ResultSet rs = st.executeQuery()) {
+                        return rs.next() ? rs.getString(1) : null;
+                    }
                 }
             } catch (SQLException e) {
                 Slimefun.logger().log(Level.SEVERE, e, () -> "Could not read storage_meta key " + key);
@@ -623,10 +639,14 @@ public class JdbcBackend implements BlockStorageBackend {
      */
     public void setMeta(@Nonnull String key, @Nonnull String value) {
         synchronized (lock) {
-            try (PreparedStatement st = connection.prepareStatement(dialect.upsertMeta())) {
-                st.setString(1, key);
-                st.setString(2, value);
-                st.executeUpdate();
+            try {
+                Connection connection = provider.conn();
+
+                try (PreparedStatement st = connection.prepareStatement(dialect.upsertMeta())) {
+                    st.setString(1, key);
+                    st.setString(2, value);
+                    st.executeUpdate();
+                }
             } catch (SQLException e) {
                 Slimefun.logger().log(Level.SEVERE, e, () -> "Could not write storage_meta key " + key);
             }
@@ -636,13 +656,17 @@ public class JdbcBackend implements BlockStorageBackend {
     @Override
     public void deleteInventory(@Nonnull Location l) {
         synchronized (lock) {
-            try (PreparedStatement delete = connection.prepareStatement(
-                    "DELETE FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
-                delete.setString(1, l.getWorld().getName());
-                delete.setInt(2, l.getBlockX());
-                delete.setInt(3, l.getBlockY());
-                delete.setInt(4, l.getBlockZ());
-                delete.executeUpdate();
+            try {
+                Connection connection = provider.conn();
+
+                try (PreparedStatement delete = connection.prepareStatement(
+                        "DELETE FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                    delete.setString(1, l.getWorld().getName());
+                    delete.setInt(2, l.getBlockX());
+                    delete.setInt(3, l.getBlockY());
+                    delete.setInt(4, l.getBlockZ());
+                    delete.executeUpdate();
+                }
             } catch (SQLException e) {
                 Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete Block Inventory at " + l);
             }
