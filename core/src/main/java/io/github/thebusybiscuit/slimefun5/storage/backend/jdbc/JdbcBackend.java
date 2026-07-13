@@ -293,9 +293,24 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushBlocks(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) {
+        try {
+            flushBlocksOrThrow(world, blocksCache);
+        } catch (SQLException | NumberFormatException e) {
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to H2 storage for world \"" + world.getName() + '"');
+        }
+    }
+
+    /**
+     * Same as {@link #flushBlocks(World, Map)}, but propagates a failed write instead of swallowing
+     * it - used by {@link io.github.thebusybiscuit.slimefun5.storage.backend.migration.MigrationService}
+     * so it can detect a failed write and skip marking the migration as done.
+     */
+    public void flushBlocksOrThrow(@Nonnull World world, @Nonnull Map<String, Config> blocksCache) throws SQLException {
         // Upsert-only: deletions are no longer inferred from the (delta-only) Config here, they
         // come exclusively via deleteBlocks(). An empty Config means nothing to do.
         synchronized (lock) {
+            boolean committed = false;
+
             try {
                 connection.setAutoCommit(false);
 
@@ -334,15 +349,16 @@ public class JdbcBackend implements BlockStorageBackend {
                 }
 
                 connection.commit();
-            } catch (SQLException | NumberFormatException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block flush");
+                committed = true;
+            } finally {
+                if (!committed) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException rollbackException) {
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block flush");
+                    }
                 }
 
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to H2 storage for world \"" + world.getName() + '"');
-            } finally {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
@@ -395,10 +411,23 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories) {
+        try {
+            flushInventoriesOrThrow(dirtyInventories);
+        } catch (SQLException e) {
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block inventories to H2 storage");
+        }
+    }
+
+    /**
+     * Same as {@link #flushInventories(Map)}, but propagates a failed write instead of swallowing it.
+     */
+    public void flushInventoriesOrThrow(@Nonnull Map<Location, BlockMenu> dirtyInventories) throws SQLException {
         // The map passed in is the full inventories snapshot, not just the dirty ones - guard
         // per-menu with isDirty() to match legacy's write-avoidance (BlockMenu.save() no-ops when
         // !isDirty()). Menus that were never opened/modified are skipped entirely.
         synchronized (lock) {
+            boolean committed = false;
+
             try {
                 connection.setAutoCommit(false);
 
@@ -426,21 +455,22 @@ public class JdbcBackend implements BlockStorageBackend {
                 }
 
                 connection.commit();
+                committed = true;
 
                 // Only after the write is committed: mark the menus clean so they aren't needlessly
                 // re-serialized every autosave. On a rollback below they stay dirty and retry next cycle.
                 for (BlockMenu menu : flushed) {
                     menu.resetDirty();
                 }
-            } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 inventory flush");
+            } finally {
+                if (!committed) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException rollbackException) {
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 inventory flush");
+                    }
                 }
 
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block inventories to H2 storage");
-            } finally {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
@@ -452,7 +482,21 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushUniversalInventories(@Nonnull Map<String, UniversalBlockMenu> universalInventories) {
+        try {
+            flushUniversalInventoriesOrThrow(universalInventories);
+        } catch (SQLException e) {
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush universal inventories to H2 storage");
+        }
+    }
+
+    /**
+     * Same as {@link #flushUniversalInventories(Map)}, but propagates a failed write instead of
+     * swallowing it.
+     */
+    public void flushUniversalInventoriesOrThrow(@Nonnull Map<String, UniversalBlockMenu> universalInventories) throws SQLException {
         synchronized (lock) {
+            boolean committed = false;
+
             try {
                 connection.setAutoCommit(false);
 
@@ -476,19 +520,20 @@ public class JdbcBackend implements BlockStorageBackend {
                 }
 
                 connection.commit();
+                committed = true;
 
                 for (UniversalBlockMenu menu : flushed) {
                     menu.resetDirty();
                 }
-            } catch (SQLException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 universal inventory flush");
+            } finally {
+                if (!committed) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException rollbackException) {
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 universal inventory flush");
+                    }
                 }
 
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush universal inventories to H2 storage");
-            } finally {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
@@ -500,7 +545,20 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushChunks(@Nonnull Map<String, BlockInfoConfig> chunks) {
+        try {
+            flushChunksOrThrow(chunks);
+        } catch (SQLException | NumberFormatException e) {
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush chunk data to H2 storage");
+        }
+    }
+
+    /**
+     * Same as {@link #flushChunks(Map)}, but propagates a failed write instead of swallowing it.
+     */
+    public void flushChunksOrThrow(@Nonnull Map<String, BlockInfoConfig> chunks) throws SQLException {
         synchronized (lock) {
+            boolean committed = false;
+
             try {
                 connection.setAutoCommit(false);
 
@@ -530,15 +588,16 @@ public class JdbcBackend implements BlockStorageBackend {
                 }
 
                 connection.commit();
-            } catch (SQLException | NumberFormatException e) {
-                try {
-                    connection.rollback();
-                } catch (SQLException rollbackException) {
-                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 chunk flush");
+                committed = true;
+            } finally {
+                if (!committed) {
+                    try {
+                        connection.rollback();
+                    } catch (SQLException rollbackException) {
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 chunk flush");
+                    }
                 }
 
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush chunk data to H2 storage");
-            } finally {
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {

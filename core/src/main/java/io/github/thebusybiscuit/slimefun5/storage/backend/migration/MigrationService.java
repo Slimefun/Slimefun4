@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBacke
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 /**
@@ -84,9 +86,13 @@ public class MigrationService {
                 flushShape.put(e.getKey(), idCfg);
             }
 
-            jdbc.flushBlocks(world, flushShape);
-            jdbc.flushChunks(legacy.loadChunksForWorld(world));
-            jdbc.flushInventories(legacy.loadWorldInventories(world));
+            jdbc.flushBlocksOrThrow(world, flushShape);
+            jdbc.flushChunksOrThrow(legacy.loadChunksForWorld(world));
+
+            Map<Location, BlockMenu> inventories = hasWorldInventoryFiles(world)
+                    ? legacy.loadWorldInventories(world)
+                    : Collections.<Location, BlockMenu>emptyMap();
+            jdbc.flushInventoriesOrThrow(inventories);
 
             // Only after every flush succeeded: mark migrated, then back up the flat pieces.
             jdbc.setMeta(flag, VERSION);
@@ -117,7 +123,7 @@ public class MigrationService {
 
         try {
             Map<String, UniversalBlockMenu> uni = legacy.loadUniversalInventories();
-            jdbc.flushUniversalInventories(uni);
+            jdbc.flushUniversalInventoriesOrThrow(uni);
 
             jdbc.setMeta("migrated.universal", VERSION);
             renameToBackup(dir, backupSiblingOf(BlockStorage.PATH_UNIVERSAL_INVENTORIES));

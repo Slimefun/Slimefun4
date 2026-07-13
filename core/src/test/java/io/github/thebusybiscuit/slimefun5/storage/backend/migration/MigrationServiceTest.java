@@ -121,6 +121,15 @@ class MigrationServiceTest {
             Assertions.assertTrue(blocks.containsKey("TEST"), "the migrated block id must be present in H2");
             Assertions.assertEquals("TEST", blocks.get("TEST").get(blockLocation).getString("id"));
 
+            Map<String, BlockInfoConfig> chunks = jdbc.loadChunksForWorld(world);
+            String chunkKey = BlockStorage.serializeChunk(world, 0, 0);
+            Assertions.assertTrue(chunks.containsKey(chunkKey), "the migrated chunk entry must be present in H2");
+            Assertions.assertEquals("v", chunks.get(chunkKey).getString("k"));
+
+            Map<Location, BlockMenu> inventories = jdbc.loadWorldInventories(world);
+            Assertions.assertTrue(inventories.containsKey(invLocation), "the migrated inventory must be present in H2");
+            Assertions.assertEquals(Material.DIAMOND, inventories.get(invLocation).getItemInSlot(0).getType());
+
             File backupDir = new File(BlockStorage.PATH_BLOCKS + world.getName() + ".migrated-backup-12345");
             Assertions.assertTrue(backupDir.isDirectory(), "flat block dir must be renamed to the backup sibling");
             Assertions.assertFalse(blocksDir.exists(), "the original flat block dir must be gone");
@@ -132,5 +141,36 @@ class MigrationServiceTest {
         } finally {
             jdbc.close();
         }
+    }
+
+    @Test
+    void testMigrateWorldIfNeededLeavesFlatDataIntactWhenH2WriteFails() {
+        World failWorld = server.createWorld(WorldCreator.name("migration-world-fail").environment(Environment.NORMAL));
+
+        // Seed one block, same as the happy-path test.
+        Location blockLocation = new Location(failWorld, 5, 64, 5);
+        BlockInfoConfig info = new BlockInfoConfig();
+        info.setValue("id", "TEST");
+
+        File blocksDir = new File(BlockStorage.PATH_BLOCKS + failWorld.getName());
+        blocksDir.mkdirs();
+        Config blockFile = new Config(new File(blocksDir, "TEST.sfb"));
+        blockFile.setValue(BlockStorage.serializeLocation(blockLocation), BlockStorage.serializeBlockInfo(info));
+        blockFile.save();
+
+        JdbcBackend jdbc = new JdbcBackend("jdbc:h2:mem:sf_migration_fail;DB_CLOSE_DELAY=-1");
+        MigrationService migration = new MigrationService(jdbc, 99999L);
+
+        // Close the H2 connection up front so the migration's first flush throws - simulates any
+        // failed DB write mid-migration. getMeta/setMeta can't be asserted afterwards (connection is
+        // closed), so we only assert on the filesystem state.
+        jdbc.close();
+
+        Assertions.assertDoesNotThrow(() -> migration.migrateWorldIfNeeded(failWorld));
+
+        Assertions.assertTrue(blocksDir.isDirectory(), "flat block dir must remain in place after a failed H2 write");
+
+        File backupDir = new File(BlockStorage.PATH_BLOCKS + failWorld.getName() + ".migrated-backup-99999");
+        Assertions.assertFalse(backupDir.exists(), "no backup sibling must be created when migration fails");
     }
 }
