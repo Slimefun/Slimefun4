@@ -16,6 +16,8 @@ import javax.annotation.Nullable;
 
 import io.github.thebusybiscuit.slimefun5.storage.Storage;
 import io.github.thebusybiscuit.slimefun5.storage.backend.BlockStorageBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.StorageBackendConfig;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
 
@@ -279,7 +281,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?
         // Do we have a way to override this?
         playerStorage = new LegacyStorage();
-        blockStorageBackend = new LegacyFileBackend();
+
+        if (StorageBackendConfig.isJdbcBackend()) {
+            blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
+        } else {
+            blockStorageBackend = new LegacyFileBackend();
+        }
     }
 
     /**
@@ -343,7 +350,14 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Data storage
         playerStorage = new LegacyStorage();
         logger.log(Level.INFO, "Using legacy storage for player data");
-        blockStorageBackend = new LegacyFileBackend();
+
+        if (StorageBackendConfig.isJdbcBackend()) {
+            blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
+            logger.log(Level.INFO, "Using H2 database storage for block data");
+        } else {
+            blockStorageBackend = new LegacyFileBackend();
+            logger.log(Level.INFO, "Using legacy (flat-file) storage for block data");
+        }
 
         // Setting up bStats and analytics. Metrics is OFF by default on this fork: the module still
         // reports to upstream Slimefun's bStats project, not this fork. (options.metrics-service)
@@ -522,6 +536,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
         }
+
+        // Tear down the block storage backend (H2 connection close; no-op for legacy) now that
+        // every flush above has gone through it.
+        blockStorageBackend.close();
 
         // Create a new backup zip
         if (config.getBoolean("options.backup-data")) {

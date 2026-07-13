@@ -27,6 +27,12 @@ options:
   backup-data: true
   drop-block-creative: true
 
+# Where Slimefun stores block/machine/chunk data.
+storage:
+  # 'legacy' = flat files (default). 'h2' = embedded H2 database (recommended for large servers).
+  # Player data currently always uses legacy storage regardless of this setting.
+  backend: legacy
+
 guide:
   show-vanilla-recipes: true
   receive-on-first-join: true
