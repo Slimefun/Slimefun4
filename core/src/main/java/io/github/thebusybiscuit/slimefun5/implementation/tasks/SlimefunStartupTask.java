@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.PostSetup;
+import io.github.thebusybiscuit.slimefun5.storage.backend.migration.MigrationService;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -51,8 +52,18 @@ public class SlimefunStartupTask implements Runnable {
         // Load all worlds
         Slimefun.getWorldSettingsService().load(Bukkit.getWorlds());
 
+        MigrationService svc = Slimefun.getStorageMigration();
+
+        if (svc != null) {
+            svc.migrateUniversalIfNeeded();
+        }
+
         for (World world : Bukkit.getWorlds()) {
             try {
+                if (svc != null) {
+                    svc.migrateWorldIfNeeded(world);
+                }
+
                 new BlockStorage(world);
             } catch (Exception x) {
                 Slimefun.logger().log(Level.SEVERE, x, () -> "An Error occurred while trying to load World \"" + world.getName() + "\" for Slimefun v" + Slimefun.getVersion());

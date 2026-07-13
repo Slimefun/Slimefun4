@@ -10,6 +10,7 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.storage.backend.migration.MigrationService;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
@@ -22,6 +23,13 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
         Slimefun.getWorldSettingsService().load(e.getWorld());
+
+        MigrationService svc = Slimefun.getStorageMigration();
+
+        if (svc != null) {
+            svc.migrateWorldIfNeeded(e.getWorld());
+        }
+
         BlockStorage.getOrCreate(e.getWorld());
     }
 

@@ -29,9 +29,10 @@ options:
 
 # Where Slimefun stores block/machine/chunk data.
 storage:
-  # 'legacy' = flat files (default). 'h2' = embedded H2 database (recommended for large servers).
+  # 'h2' = embedded database (default). Existing servers auto-migrate their flat-file data to the
+  # database on first boot, keeping a '*.migrated-backup-*' copy. Set 'legacy' to stay on flat files.
   # Player data currently always uses legacy storage regardless of this setting.
-  backend: legacy
+  backend: h2
 
 guide:
   show-vanilla-recipes: true

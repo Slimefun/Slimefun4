@@ -20,6 +20,7 @@ import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.StorageBackendConfig;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
+import io.github.thebusybiscuit.slimefun5.storage.backend.migration.MigrationService;
 
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -228,6 +229,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     // Data storage
     private Storage playerStorage;
     private BlockStorageBackend blockStorageBackend;
+    private long bootTimestamp;
+    private MigrationService storageMigration;
 
     // Listeners that need to be accessed elsewhere
     private final GrapplingHookListener grapplingHookListener = new GrapplingHookListener();
@@ -282,17 +285,16 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Do we have a way to override this?
         playerStorage = new LegacyStorage();
 
-        if (StorageBackendConfig.isJdbcBackend()) {
-            blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
-        } else {
-            blockStorageBackend = new LegacyFileBackend();
-        }
+        // Unit tests always use flat-file storage regardless of config (the H2-default inversion
+        // must not create a DB during tests).
+        blockStorageBackend = new LegacyFileBackend();
     }
 
     /**
      * This is our start method for a correct Slimefun installation.
      */
     private void onPluginStart() {
+        bootTimestamp = System.currentTimeMillis();
         long timestamp = System.nanoTime();
         Logger logger = getLogger();
 
@@ -357,6 +359,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         } else {
             blockStorageBackend = new LegacyFileBackend();
             logger.log(Level.INFO, "Using legacy (flat-file) storage for block data");
+        }
+
+        if (blockStorageBackend instanceof JdbcBackend) {
+            storageMigration = new MigrationService((JdbcBackend) blockStorageBackend, bootTimestamp);
         }
 
         // Setting up bStats and analytics. Metrics is OFF by default on this fork: the module still
@@ -1310,6 +1316,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
     public static @Nonnull BlockStorageBackend getBlockStorageBackend() {
         return instance().blockStorageBackend;
+    }
+
+    public static @Nullable MigrationService getStorageMigration() {
+        return instance == null ? null : instance.storageMigration;
     }
 
     /**
