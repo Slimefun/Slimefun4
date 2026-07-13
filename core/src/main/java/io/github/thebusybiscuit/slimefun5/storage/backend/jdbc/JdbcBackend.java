@@ -7,8 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -46,8 +48,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
  */
 @Beta
 public class JdbcBackend implements BlockStorageBackend {
-
-    private static final String STUB_MESSAGE = "SP-2 Task 2/3";
 
     // Never read/written to - Config only touches the filesystem in save(), which we never call.
     // The in-memory YamlConfiguration passed alongside it is the actual data holder.
@@ -402,6 +402,8 @@ public class JdbcBackend implements BlockStorageBackend {
             try {
                 connection.setAutoCommit(false);
 
+                List<BlockMenu> flushed = new ArrayList<>();
+
                 try (PreparedStatement upsert = connection.prepareStatement(
                         "MERGE INTO block_inventory(world,x,y,z,inv) KEY(world,x,y,z) VALUES(?,?,?,?,?)")) {
 
@@ -419,10 +421,17 @@ public class JdbcBackend implements BlockStorageBackend {
                         upsert.setInt(4, location.getBlockZ());
                         upsert.setString(5, menuToYaml(menu));
                         upsert.executeUpdate();
+                        flushed.add(menu);
                     }
                 }
 
                 connection.commit();
+
+                // Only after the write is committed: mark the menus clean so they aren't needlessly
+                // re-serialized every autosave. On a rollback below they stay dirty and retry next cycle.
+                for (BlockMenu menu : flushed) {
+                    menu.resetDirty();
+                }
             } catch (SQLException e) {
                 try {
                     connection.rollback();
@@ -447,6 +456,8 @@ public class JdbcBackend implements BlockStorageBackend {
             try {
                 connection.setAutoCommit(false);
 
+                List<UniversalBlockMenu> flushed = new ArrayList<>();
+
                 try (PreparedStatement upsert = connection.prepareStatement(
                         "MERGE INTO universal_inventory(id,inv) KEY(id) VALUES(?,?)")) {
 
@@ -460,10 +471,15 @@ public class JdbcBackend implements BlockStorageBackend {
                         upsert.setString(1, entry.getKey());
                         upsert.setString(2, menuToYaml(menu));
                         upsert.executeUpdate();
+                        flushed.add(menu);
                     }
                 }
 
                 connection.commit();
+
+                for (UniversalBlockMenu menu : flushed) {
+                    menu.resetDirty();
+                }
             } catch (SQLException e) {
                 try {
                     connection.rollback();

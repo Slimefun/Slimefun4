@@ -49,6 +49,16 @@ public class DirtyChestMenu extends ChestMenu {
         return changes > 0;
     }
 
+    /**
+     * Marks this menu as saved (no unsaved changes). {@code BlockMenu.save()}/{@code UniversalBlockMenu.save()}
+     * reset {@link #changes} inline after a file write; a backend that persists a menu WITHOUT going through
+     * those (e.g. the JDBC backend serializing it to the DB) calls this after a successful flush so the menu
+     * is not needlessly re-persisted every autosave.
+     */
+    public void resetDirty() {
+        changes = 0;
+    }
+
     public int getUnsavedChanges() {
         return changes;
     }
