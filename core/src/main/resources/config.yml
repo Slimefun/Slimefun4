@@ -1,44 +1,81 @@
 options:
+  # Automatically download and install new Slimefun builds on startup.
   # Instead of disabling Auto Updates consider using the "stable" version of Slimefun.
   # These builds are much more tested and are far less likely to have any issues.
   # Note: When running a stable build auto-updates ONLY update to other stable builds! Perfect eh?
   # You can download the latest stable build here: https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun5/stable/
-
+  # Values: true | false
   auto-update: true
   # bStats metrics module. Off by default on this fork: the module targets the old slimefun4 package and
   # its data would report to upstream Slimefun's bStats project, not this fork. Enable only if you know why.
+  # Values: true | false
   metrics-service: false
+  # Prefix prepended to Slimefun's chat messages. Supports '&' colour/format codes.
   chat-prefix: '&a&lSlimefun 5&7> '
+  # How often (in SECONDS) worn Slimefun armor effects are re-applied (also drives the Solar Helmet task).
+  # Lower = more responsive perks but slightly more work per player. Values: whole number of seconds (e.g. 10).
   armor-update-interval: 10
+  # Master switch for ALL armor-effect systems (armor perks, rainbow armor, solar helmet). Radiation also
+  # requires this to be true - if this is false, radiation will not run even if enable-radiation is true.
+  # Values: true | false
   enable-armor-effects: true
+  # Enable radiation: radioactive items damage players who carry them without proper protection.
+  # Only takes effect when enable-armor-effects is also true. Values: true | false
   enable-radiation: true
+  # How often (in SECONDS) the radiation check runs. Values: whole number of seconds (e.g. 1).
   radiation-update-interval: 1
+  # Seconds of immunity a player gets after joining before radiation can hurt them (prevents join-damage).
+  # Values: whole number of seconds (e.g. 15).
   radiation-grace-period: 15
+  # How often (in SECONDS) the cosmetic rainbow-armor colour cycle updates. Values: whole number of seconds.
   rainbow-armor-update-interval: 3
+  # How often (in MINUTES) Slimefun auto-saves player data and block/machine data to storage.
+  # Values: whole number of minutes (e.g. 10). Lower = safer against crashes but more frequent disk/DB writes.
   auto-save-delay-in-minutes: 10
+  # Use the old (pre-rework) recipe/behaviour for the multiblock Ore Washer. Values: true | false
   legacy-ore-washer: false
+  # Use the old recipe/behaviour for the Electric Dust Washer. Values: true | false
   legacy-dust-washer: false
+  # Keep the legacy Ore Grinder recipes registered (true) instead of the reworked recipe path (false).
+  # Values: true | false
   legacy-ore-grinder: true
+  # Server default language for item names/lore and messages. A player who hasn't picked their own
+  # language (see the 'translation' section) sees this one. Unrecognised codes fall back to 'en' with a
+  # console warning. Values: a language code such as en, de, fr, es, it, ru, pl, nl, pt-BR, zh-CN, ja, id, ...
   language: en
+  # Allow per-player translated item names/lore and messages at all. When false, everyone sees the server
+  # default language above. Values: true | false
   enable-translations: true
+  # Log an INFO line when a duplicate block entry at the same location is ignored while loading storage.
+  # Useful for diagnosing corrupt/duplicated block data. Values: true | false
   log-duplicate-block-entries: true
+  # (Legacy/unused) Historical radiation toggle - it is no longer read by any code and has no effect.
+  # Kept only so old config files don't lose the key. Values: true | false
   burn-players-when-radioactive: true
+  # When '/sf give' produces more items than fit in the target inventory, drop the excess on the ground
+  # (true) instead of discarding it (false). Values: true | false
   drop-excess-sf-give-items: false
+  # On shutdown, create a backup zip of Slimefun's data. Values: true | false
   backup-data: true
+  # Whether Slimefun blocks broken by a creative-mode player still drop their item. Vanilla creative
+  # normally voids drops; true keeps the Slimefun item. Values: true | false
   drop-block-creative: true
 
 # Where Slimefun stores block/machine/chunk data.
 storage:
   # 'h2' = embedded database (default). 'mysql' = an external MySQL/MariaDB server, configured below.
+  # 'legacy' = the old flat-file format (.sfb/.sfc/.sfi).
   # Existing servers auto-migrate their flat-file data to the database on first boot, keeping a
   # '*.migrated-backup-*' copy. Set 'legacy' to stay on flat files.
   # Player data currently always uses legacy storage regardless of this setting.
+  # Values: h2 | mysql | legacy
   backend: h2
-  # Only used when 'backend' is set to 'mysql' above.
+  # Only used when 'backend' is set to 'mysql' above. The database must already exist and the user must
+  # have privileges to create tables in it; Slimefun creates its own tables on first connect.
   mysql:
     # The hostname or IP address of your MySQL/MariaDB server.
     host: localhost
-    # The port your MySQL/MariaDB server listens on.
+    # The port your MySQL/MariaDB server listens on. Default MySQL port is 3306.
     port: 3306
     # The name of the database Slimefun should use (must already exist).
     database: slimefun
@@ -46,12 +83,17 @@ storage:
     username: root
     # The password for the above username.
     password: ""
-    # Extra JDBC URL parameters, appended as-is after a '?'.
+    # Extra JDBC URL parameters, appended as-is after a '?'. Adjust only if you know what you need
+    # (e.g. set useSSL=true when your server requires TLS).
     extra-params: "useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8"
 
 guide:
+  # Show the vanilla crafting recipe alongside Slimefun items in the guide where one exists.
+  # Values: true | false
   show-vanilla-recipes: true
+  # Give every player a Slimefun Guide book automatically the first time they join. Values: true | false
   receive-on-first-join: true
+  # Include item groups flagged as hidden when a player searches the guide. Values: true | false
   show-hidden-item-groups-in-search: false
   # When false, guide buttons that open an external website outside the settings panel (item wiki
   # pages, contributor profiles, the addon list) are hidden. Leave true to keep them.
@@ -115,38 +157,70 @@ installer:
   github-token: ''
 
 researches:
+  # Creative-mode players unlock researches for free (no level/XP cost). Values: true | false
   free-in-creative-mode: true
+  # Launch a celebratory firework when a player completes a research. Values: true | false
   enable-fireworks: true
+  # Skip the "learning" animation (particles/title) shown when unlocking a research. Values: true | false
   disable-learning-animation: false
 
+# Block-loading and machine-ticking timings. ("URID" is a legacy section name carried over from
+# upstream Slimefun and has no documented meaning - the keys below control tickers and load logging.)
 URID:
+  # How often (in MILLISECONDS) the "Loading Blocks... X% done" progress line is logged while loading a
+  # world's blocks at startup. Values: whole number of milliseconds (e.g. 3000).
   info-delay: 3000
+  # The machine/block ticker interval, in Minecraft TICKS (20 ticks = 1 second). This is how often
+  # ticking Slimefun machines run their logic. Lower = faster machines but more server load.
+  # Values: whole number of ticks (e.g. 10).
   custom-ticker-delay: 10
+  # Master switch for all block tickers. When false, every item that ticks (machines, generators, etc.)
+  # is disabled at startup. Values: true | false
   enable-tickers: true
 
 networks:
+  # Maximum number of nodes (blocks) a single energy or cargo network may contain. Must be at least 1.
+  # Values: whole number (e.g. 200).
   max-size: 200
+  # Extra delay for cargo-network processing, measured in TICKER CYCLES (multiples of URID.custom-ticker-delay
+  # above), NOT raw Minecraft ticks. 0 = process cargo every ticker cycle. Raise it to ease cargo load.
+  # Values: whole number (e.g. 0).
   cargo-ticker-delay: 0
+  # Enable the in-game network visualizer (particles showing a network's shape/nodes). Values: true | false
   enable-visualizer: true
+  # When a cargo network cannot place items anywhere, void (delete) the excess instead of keeping/dropping
+  # it. Values: true | false
   delete-excess-items: false
 
 talismans:
+  # Send talisman trigger messages via the action bar (above the hotbar) when true, or in normal chat
+  # when false. Values: true | false
   use-actionbar: true
 
+# The bStats-based metrics module (separate from options.metrics-service above). Off by default on this
+# fork - these only matter if that module is enabled.
 metrics:
+  # Let the metrics module auto-download its own updates. Values: true | false
   auto-update: true
+  # Enable the separate analytics service. Values: true | false
   analytics: true
 
 translation:
   # Rewrite item name/lore per viewer via packets so each player sees their own language.
+  # Values: true | false
   packets: true
   # What a missing translation label falls back to: 'english' or 'id' (the raw Slimefun id).
+  # Values: english | id
   fallback: english
   # For players who haven't picked a Slimefun language in the guide:
   # 'client' = use their Minecraft client language when it's installed, else the server default.
-  # 'server' = always use the server's default language.
+  # 'server' = always use the server's default language (options.language above).
+  # Values: client | server
   language-source: client
 
+# Ordered list of research rank titles, from lowest to highest. A player's title is chosen by the
+# percentage of all researches they've unlocked: the list is split evenly across 0%-100%, so the first
+# entry is shown at 0 researches and the last at 100%. Edit/reorder freely, but the list must not be empty.
 research-ranks:
 - Chicken
 - Cow
