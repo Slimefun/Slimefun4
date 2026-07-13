@@ -175,7 +175,7 @@ public class JdbcBackend implements BlockStorageBackend {
                     }
                 }
             } catch (SQLException e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block data from H2 storage for world \"" + world.getName() + '"');
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block data from the database for world \"" + world.getName() + '"');
             }
 
             return result;
@@ -202,7 +202,7 @@ public class JdbcBackend implements BlockStorageBackend {
                     }
                 }
             } catch (SQLException e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load chunk data from H2 storage for world \"" + world.getName() + '"');
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load chunk data from the database for world \"" + world.getName() + '"');
             }
 
             return result;
@@ -243,7 +243,7 @@ public class JdbcBackend implements BlockStorageBackend {
                     }
                 }
             } catch (SQLException e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block inventories from H2 storage for world \"" + world.getName() + '"');
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block inventories from the database for world \"" + world.getName() + '"');
             }
 
             return result;
@@ -278,7 +278,7 @@ public class JdbcBackend implements BlockStorageBackend {
                     }
                 }
             } catch (SQLException e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load universal inventories from H2 storage");
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load universal inventories from the database");
             }
 
             return result;
@@ -318,7 +318,7 @@ public class JdbcBackend implements BlockStorageBackend {
         try {
             flushBlocksOrThrow(world, blocksCache);
         } catch (SQLException | NumberFormatException e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to H2 storage for world \"" + world.getName() + '"');
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block data to the database for world \"" + world.getName() + '"');
         }
     }
 
@@ -377,14 +377,14 @@ public class JdbcBackend implements BlockStorageBackend {
                     try {
                         connection.rollback();
                     } catch (SQLException rollbackException) {
-                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block flush");
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back the database block flush");
                     }
                 }
 
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the database connection");
                 }
             }
         }
@@ -420,19 +420,19 @@ public class JdbcBackend implements BlockStorageBackend {
                     try {
                         connection.rollback();
                     } catch (SQLException rollbackException) {
-                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 block deletion");
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back the database block deletion");
                     }
 
-                    Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from H2 storage for world \"" + world.getName() + '"');
+                    Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from the database for world \"" + world.getName() + '"');
                 } finally {
                     try {
                         connection.setAutoCommit(true);
                     } catch (SQLException e) {
-                        Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                        Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the database connection");
                     }
                 }
             } catch (SQLException e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from H2 storage for world \"" + world.getName() + '"');
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete block data from the database for world \"" + world.getName() + '"');
             }
         }
     }
@@ -442,7 +442,7 @@ public class JdbcBackend implements BlockStorageBackend {
         try {
             flushInventoriesOrThrow(dirtyInventories);
         } catch (SQLException e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block inventories to H2 storage");
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block inventories to the database");
         }
     }
 
@@ -495,14 +495,14 @@ public class JdbcBackend implements BlockStorageBackend {
                     try {
                         connection.rollback();
                     } catch (SQLException rollbackException) {
-                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 inventory flush");
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back the database inventory flush");
                     }
                 }
 
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the database connection");
                 }
             }
         }
@@ -513,7 +513,7 @@ public class JdbcBackend implements BlockStorageBackend {
         try {
             flushUniversalInventoriesOrThrow(universalInventories);
         } catch (SQLException e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush universal inventories to H2 storage");
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush universal inventories to the database");
         }
     }
 
@@ -558,14 +558,14 @@ public class JdbcBackend implements BlockStorageBackend {
                     try {
                         connection.rollback();
                     } catch (SQLException rollbackException) {
-                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 universal inventory flush");
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back the database universal inventory flush");
                     }
                 }
 
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the database connection");
                 }
             }
         }
@@ -576,7 +576,7 @@ public class JdbcBackend implements BlockStorageBackend {
         try {
             flushChunksOrThrow(chunks);
         } catch (SQLException | NumberFormatException e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush chunk data to H2 storage");
+            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush chunk data to the database");
         }
     }
 
@@ -622,14 +622,14 @@ public class JdbcBackend implements BlockStorageBackend {
                     try {
                         connection.rollback();
                     } catch (SQLException rollbackException) {
-                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 chunk flush");
+                        Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back the database chunk flush");
                     }
                 }
 
                 try {
                     connection.setAutoCommit(true);
                 } catch (SQLException e) {
-                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the database connection");
                 }
             }
         }
