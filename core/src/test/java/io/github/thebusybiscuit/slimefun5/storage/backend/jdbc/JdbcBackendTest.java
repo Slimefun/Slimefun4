@@ -112,6 +112,11 @@ class JdbcBackendTest {
     }
 
     @Test
+    void h2DialectUpsertBlocksTargetsBlockDataTable() {
+        Assertions.assertTrue(new H2Dialect().upsertBlocks().startsWith("MERGE INTO block_data"));
+    }
+
+    @Test
     void testFlushBlocksWritesAndLoadWorldBlocksRoundTrips() {
         JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_blocks;DB_CLOSE_DELAY=-1");
 

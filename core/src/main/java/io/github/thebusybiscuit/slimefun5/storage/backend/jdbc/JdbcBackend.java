@@ -56,8 +56,10 @@ public class JdbcBackend implements BlockStorageBackend {
     // Single embedded connection; all access must go through `lock` to keep it thread-safe.
     private final Connection connection;
     private final Object lock = new Object();
+    private final SqlDialect dialect;
 
     public JdbcBackend(@Nonnull String jdbcUrl) {
+        this.dialect = new H2Dialect();
         Connection c;
         try {
             // H2 registers its driver via META-INF/services, but shadowJar's `exclude("META-INF/**")`
@@ -79,14 +81,9 @@ public class JdbcBackend implements BlockStorageBackend {
 
     private void createSchema(@Nonnull Connection c) throws SQLException {
         try (Statement st = c.createStatement()) {
-            st.execute("CREATE TABLE IF NOT EXISTS storage_meta (k VARCHAR(64) PRIMARY KEY, v VARCHAR(255))");
-            st.execute("CREATE TABLE IF NOT EXISTS block_data (world VARCHAR(255), x INT, y INT, z INT, sf_id VARCHAR(255), data CLOB, PRIMARY KEY(world,x,y,z))");
-            st.execute("CREATE TABLE IF NOT EXISTS chunk_data (world VARCHAR(255), cx INT, cz INT, data CLOB, PRIMARY KEY(world,cx,cz))");
-            st.execute("CREATE TABLE IF NOT EXISTS block_inventory (world VARCHAR(255), x INT, y INT, z INT, inv CLOB, PRIMARY KEY(world,x,y,z))");
-            st.execute("CREATE TABLE IF NOT EXISTS universal_inventory (id VARCHAR(255) PRIMARY KEY, inv CLOB)");
-            st.execute("CREATE INDEX IF NOT EXISTS idx_block_data_world ON block_data(world)");
-            st.execute("CREATE INDEX IF NOT EXISTS idx_block_inventory_world ON block_inventory(world)");
-            st.execute("CREATE INDEX IF NOT EXISTS idx_chunk_data_world ON chunk_data(world)");
+            for (String stmt : dialect.ddl()) {
+                st.execute(stmt);
+            }
         }
     }
 
@@ -314,8 +311,7 @@ public class JdbcBackend implements BlockStorageBackend {
             try {
                 connection.setAutoCommit(false);
 
-                try (PreparedStatement upsert = connection.prepareStatement(
-                        "MERGE INTO block_data(world,x,y,z,sf_id,data) KEY(world,x,y,z) VALUES(?,?,?,?,?,?)")) {
+                try (PreparedStatement upsert = connection.prepareStatement(dialect.upsertBlocks())) {
 
                     for (Map.Entry<String, Config> entry : blocksCache.entrySet()) {
                         String sfId = entry.getKey();
@@ -433,8 +429,7 @@ public class JdbcBackend implements BlockStorageBackend {
 
                 List<BlockMenu> flushed = new ArrayList<>();
 
-                try (PreparedStatement upsert = connection.prepareStatement(
-                        "MERGE INTO block_inventory(world,x,y,z,inv) KEY(world,x,y,z) VALUES(?,?,?,?,?)")) {
+                try (PreparedStatement upsert = connection.prepareStatement(dialect.upsertBlockInventory())) {
 
                     for (Map.Entry<Location, BlockMenu> entry : dirtyInventories.entrySet()) {
                         BlockMenu menu = entry.getValue();
@@ -502,8 +497,7 @@ public class JdbcBackend implements BlockStorageBackend {
 
                 List<UniversalBlockMenu> flushed = new ArrayList<>();
 
-                try (PreparedStatement upsert = connection.prepareStatement(
-                        "MERGE INTO universal_inventory(id,inv) KEY(id) VALUES(?,?)")) {
+                try (PreparedStatement upsert = connection.prepareStatement(dialect.upsertUniversalInventory())) {
 
                     for (Map.Entry<String, UniversalBlockMenu> entry : universalInventories.entrySet()) {
                         UniversalBlockMenu menu = entry.getValue();
@@ -562,8 +556,7 @@ public class JdbcBackend implements BlockStorageBackend {
             try {
                 connection.setAutoCommit(false);
 
-                try (PreparedStatement upsert = connection.prepareStatement(
-                        "MERGE INTO chunk_data(world,cx,cz,data) KEY(world,cx,cz) VALUES(?,?,?,?)")) {
+                try (PreparedStatement upsert = connection.prepareStatement(dialect.upsertChunks())) {
 
                     for (Map.Entry<String, BlockInfoConfig> entry : chunks.entrySet()) {
                         BlockInfoConfig biCfg = entry.getValue();
@@ -630,7 +623,7 @@ public class JdbcBackend implements BlockStorageBackend {
      */
     public void setMeta(@Nonnull String key, @Nonnull String value) {
         synchronized (lock) {
-            try (PreparedStatement st = connection.prepareStatement("MERGE INTO storage_meta(k,v) KEY(k) VALUES(?,?)")) {
+            try (PreparedStatement st = connection.prepareStatement(dialect.upsertMeta())) {
                 st.setString(1, key);
                 st.setString(2, value);
                 st.executeUpdate();
