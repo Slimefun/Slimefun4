@@ -100,6 +100,14 @@ guide:
     select: 'Click to select this language'
     select-default: 'Click to select the default language'
     change: 'Click to select a new language'
+    automatic: 'Automatic'
+    automatic-description:
+    - '&7Uses your Minecraft client'
+    - '&7language, or the server default'
+    - '&7if it is not available.'
+    select-automatic: 'Click to use your Minecraft language'
+    currently-selected: 'Currently selected'
+    server-default-suffix: 'server default'
 
     description:
     - '&7You now have the option to change'

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -93,13 +94,32 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
         }
 
         Language defaultLanguage = Slimefun.getLocalization().getDefaultLanguage();
-        String defaultLanguageString = Slimefun.getLocalization().getMessage(p, "languages.default");
 
-        menu.addItem(9, CustomItemStack.create(defaultLanguage.getItem(), ChatColor.GRAY + defaultLanguageString + ChatColor.DARK_GRAY + " (" + defaultLanguage.getName(p) + ")", "", "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select-default")), (pl, i, item, action) -> {
-            Slimefun.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, Slimefun.getLocalization().getLanguage(pl), defaultLanguage));
+        // The player's RAW stored choice: null means "no explicit pick" i.e. the Automatic option.
+        // (getLanguage(p) would resolve that to a concrete language, which we don't want here - we need
+        // to know whether a choice was actually made in order to highlight the right tile.)
+        String rawChoice = PdcCompat.getString(p, getKey());
+        boolean automaticSelected = rawChoice == null;
+
+        // Slot 9: "Automatic" - clears the explicit choice so item names AND menus follow the player's
+        // Minecraft client language, falling back to the server default when that language isn't loaded.
+        List<String> autoLore = new ArrayList<>();
+        autoLore.add("");
+        autoLore.addAll(Slimefun.getLocalization().getMessages(p, "guide.languages.automatic-description"));
+        autoLore.add("");
+        autoLore.add(automaticSelected
+            ? "&a\u2714 " + Slimefun.getLocalization().getMessage(p, "guide.languages.currently-selected")
+            : "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select-automatic"));
+
+        menu.addItem(9, CustomItemStack.create(new ItemStack(Material.COMPASS),
+            (automaticSelected ? "&a" : "&f") + Slimefun.getLocalization().getMessage(p, "guide.languages.automatic"),
+            autoLore.toArray(new String[0])), (pl, i, item, action) -> {
+            Language previous = Slimefun.getLocalization().getLanguage(pl);
             setSelectedOption(pl, guide, null);
+            Language now = Slimefun.getLocalization().getLanguage(pl);
+            Slimefun.instance().getServer().getPluginManager().callEvent(new PlayerLanguageChangeEvent(pl, previous, now));
 
-            Slimefun.getLocalization().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", defaultLanguageString));
+            Slimefun.getLocalization().sendMessage(pl, "guide.languages.updated", msg -> msg.replace("%lang%", Slimefun.getLocalization().getMessage(pl, "guide.languages.automatic")));
 
             SlimefunGuideSettings.openSettings(pl, guide);
             return false;
@@ -109,11 +129,18 @@ class PlayerLanguageOption implements SlimefunGuideOption<String> {
 
         for (Language language : Slimefun.getLocalization().getLanguages()) {
             int pct = Slimefun.getTranslationCoverageService().getOverallPercent(language.getId());
+            boolean selected = rawChoice != null && rawChoice.equals(language.getId());
+            boolean isServerDefault = defaultLanguage != null && language.getId().equals(defaultLanguage.getId());
 
-            menu.addItem(slot, CustomItemStack.create(language.getItem(), ChatColor.GREEN + language.getName(p),
+            String displayName = (selected ? ChatColor.GREEN.toString() : ChatColor.WHITE.toString()) + language.getName(p)
+                + (isServerDefault ? ChatColor.DARK_GRAY + " (" + Slimefun.getLocalization().getMessage(p, "guide.languages.server-default-suffix") + ")" : "");
+
+            menu.addItem(slot, CustomItemStack.create(language.getItem(), displayName,
                 Slimefun.getLocalization().getMessage(p, "guide.coverage.overall").replace("%color%", coverageColour(pct)).replace("%percent%", String.valueOf(pct)),
                 "",
-                "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select"),
+                selected
+                    ? "&a\u2714 " + Slimefun.getLocalization().getMessage(p, "guide.languages.currently-selected")
+                    : "&7\u21E8 &e" + Slimefun.getLocalization().getMessage(p, "guide.languages.select"),
                 Slimefun.getLocalization().getMessage(p, "guide.coverage.breakdown-hint")), (pl, i, item, action) -> {
                 if (action.isRightClicked()) {
                     openItemCoverage(pl, guide, language);

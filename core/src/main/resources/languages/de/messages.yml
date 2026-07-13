@@ -459,6 +459,15 @@ guide:
     select: 'Klicke hier um diese Sprache auszuwählen'
     select-default: 'Klicke hier um die Standardsprache auszuwählen'
     change: 'Klicke um die Sprache zu ändern'
+    automatic: 'Automatisch'
+    automatic-description:
+      - '&7Verwendet die Sprache deines'
+      - '&7Minecraft-Clients, oder die'
+      - '&7Server-Standardsprache, falls'
+      - '&7diese nicht verfügbar ist.'
+    select-automatic: 'Klicke, um deine Minecraft-Sprache zu verwenden'
+    currently-selected: 'Aktuell ausgewählt'
+    server-default-suffix: 'Server-Standard'
     description:
       - '&7Hier kannst du deine Spracheinstellungen'
       - '&7verwalten. Derzeit umfasst dies'

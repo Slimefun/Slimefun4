@@ -30,7 +30,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import io.github.thebusybiscuit.slimefun5.core.services.localization.Language;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.LanguageFile;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.LanguageResolver;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.SlimefunLocalization;
+import io.github.thebusybiscuit.slimefun5.core.services.localization.TranslationConfig;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun5.utils.PatternUtils;
@@ -156,17 +158,52 @@ public class LocalizationService extends SlimefunLocalization {
     public Language getLanguage(@Nonnull Player p) {
         Validate.notNull(p, "Player cannot be null!");
 
-        String language = (String) PdcCompat.get(p, languageKey, "STRING");
+        // An explicit choice (stored in the player's PDC) always wins. When the player has made none
+        // (the "Automatic" option), and translation.language-source is 'client', we follow their
+        // Minecraft client locale if that language is loaded, otherwise the server default. This mirrors
+        // the packet-based item translation so a player's items AND menus render in the same language.
+        String explicit = (String) PdcCompat.get(p, languageKey, "STRING");
+        Language defaultLanguage = getDefaultLanguage();
+        String serverDefault = defaultLanguage != null ? defaultLanguage.getId() : null;
 
-        if (language != null) {
-            Language lang = languages.get(language);
+        String resolved = LanguageResolver.resolveLanguageId(explicit, clientLocaleOf(p),
+                TranslationConfig.languageSource(), this::isLanguageLoaded, serverDefault);
 
-            if (lang != null) {
-                return lang;
+        Language lang = resolved != null ? languages.get(resolved) : null;
+        return lang != null ? lang : defaultLanguage;
+    }
+
+    // Player.getLocale() was added after the 1.8.8 Bukkit API this module compiles against, so it is
+    // resolved reflectively; the Method is cached after the first lookup. Returns the 2-letter language
+    // part (e.g. "de" from "de_DE") lower-cased, or null when unavailable.
+    private transient java.lang.reflect.Method localeMethod;
+    private transient boolean localeMethodResolved;
+
+    @Nullable
+    private String clientLocaleOf(@Nonnull Player p) {
+        try {
+            if (!localeMethodResolved) {
+                localeMethodResolved = true;
+                try {
+                    localeMethod = p.getClass().getMethod("getLocale");
+                } catch (NoSuchMethodException e) {
+                    localeMethod = null;
+                }
             }
+
+            if (localeMethod == null) {
+                return null;
+            }
+
+            Object locale = localeMethod.invoke(p);
+            if (locale instanceof String && ((String) locale).length() >= 2) {
+                return ((String) locale).substring(0, 2).toLowerCase(java.util.Locale.ROOT);
+            }
+        } catch (Throwable ignored) {
+            // getLocale() missing or failing → no client locale, fall back to the server default.
         }
 
-        return getDefaultLanguage();
+        return null;
     }
 
     private void setLanguage(@Nonnull String language, boolean reset) {

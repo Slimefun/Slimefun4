@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * of Bukkit/Netty imports, so it loads cleanly under a plain JUnit runtime with no server platform on
  * the classpath.
  */
-final class LanguageResolver {
+public final class LanguageResolver {
 
     private LanguageResolver() {}
 
@@ -16,7 +16,7 @@ final class LanguageResolver {
      * {@link TranslationConfig.LanguageSource#CLIENT} mode, the client locale wins if it is loaded;
      * otherwise the server default (which may itself be null).
      */
-    static String resolveLanguageId(String explicit, String clientLocale, TranslationConfig.LanguageSource source,
+    public static String resolveLanguageId(String explicit, String clientLocale, TranslationConfig.LanguageSource source,
             Predicate<String> isLoaded, String serverDefault) {
         if (explicit != null && isLoaded.test(explicit)) {
             return explicit;
