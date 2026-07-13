@@ -1,8 +1,10 @@
 package io.github.thebusybiscuit.slimefun5.storage.backend.jdbc;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.Driver;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -19,15 +21,17 @@ class EmbeddedH2Provider implements ConnectionProvider {
 
     EmbeddedH2Provider(@Nonnull String jdbcUrl) {
         try {
-            // H2 registers its driver via META-INF/services, but shadowJar's `exclude("META-INF/**")`
-            // strips that file from the shaded jar, so ServiceLoader auto-registration won't fire at
-            // runtime. Force registration explicitly instead. We reference the driver class directly
-            // (not a "org.h2.Driver" string literal) because shadow's relocator only guarantees
-            // rewriting genuine class references (CONSTANT_Class in the bytecode); a bare string isn't
-            // reliably rewritten across relocator implementations. `.class.getName()` compiles to a real
-            // class reference, so it is relocated together with the rest of org.h2.
-            Class.forName(org.h2.Driver.class.getName());
-            connection = DriverManager.getConnection(jdbcUrl);
+            // H2 is not shaded into the jar; the driver is loaded from the classpath if present
+            // (unit tests) or downloaded once into plugins/Slimefun/libraries otherwise. We connect
+            // through the Driver instance directly rather than DriverManager, which can't see a driver
+            // loaded by a child classloader.
+            Driver driver = StorageDriverLoader.loadDriver("org.h2.Driver", Collections.singletonList("com.h2database:h2:2.1.214"));
+            connection = driver.connect(jdbcUrl, new Properties());
+
+            if (connection == null) {
+                throw new IllegalStateException("H2 driver did not accept the URL " + jdbcUrl);
+            }
+
             connection.setAutoCommit(true);
         } catch (Exception e) {
             throw new IllegalStateException("Could not open H2 storage at " + jdbcUrl, e);

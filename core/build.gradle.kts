@@ -68,11 +68,12 @@ dependencies {
     implementation("commons-lang:commons-lang:2.6")
     // XSeries: cross-version Material/Sound/Particle resolution, shaded.
     implementation("com.github.cryptomorin:XSeries:9.10.0")
-    // Embedded H2 for the JDBC storage backend (SP-2), shaded. Pinned to 2.1.214: the last H2
-    // release that still targets Java 8; 2.2+ requires Java 11.
-    implementation("com.h2database:h2:2.1.214")
-    // Java-8-compatible MySQL driver for the optional 'mysql' storage backend (SP-4), shaded.
-    implementation("com.mysql:mysql-connector-j:8.0.33")
+    // The H2 and MySQL JDBC drivers are NOT shaded into the jar (that pushed it past some publishing
+    // platforms' file-size limit). They are loaded at runtime by StorageDriverLoader - from the
+    // classpath if present, else downloaded once into plugins/Slimefun/libraries. Only the tests need
+    // H2 on the classpath (the JDBC tests run against jdbc:h2:mem, incl. MySQL dialect via MODE=MySQL).
+    // Pinned to 2.1.214: the last H2 release that still targets Java 8 (2.2+ requires Java 11).
+    testImplementation("com.h2database:h2:2.1.214")
 
     compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     // Compile against the oldest Bukkit API (1.8.8); newer APIs go through the stubs module + reflection.
@@ -213,11 +214,6 @@ tasks {
         relocate("io.papermc.lib", "io.github.thebusybiscuit.slimefun5.libraries.paperlib")
         relocate("org.apache.commons.lang", "io.github.thebusybiscuit.slimefun5.libraries.commons.lang")
         relocate("com.cryptomorin.xseries", "io.github.thebusybiscuit.slimefun5.libraries.xseries")
-        relocate("org.h2", "io.github.thebusybiscuit.slimefun5.libraries.h2")
-        relocate("com.mysql", "io.github.thebusybiscuit.slimefun5.libraries.mysql")
-        // Connector/J bundles protobuf for the (unused) X DevAPI; relocate rather than exclude to
-        // avoid a runtime NoClassDefFoundError we can't boot-test in this environment.
-        relocate("com.google.protobuf", "io.github.thebusybiscuit.slimefun5.libraries.protobuf")
 
         exclude("META-INF/**")
 
