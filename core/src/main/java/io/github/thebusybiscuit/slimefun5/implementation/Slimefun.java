@@ -335,6 +335,14 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Load various config settings into our cache
         registry.load(this, config);
 
+        // One-time config migration: configs from older builds carry upstream Slimefun 4's default chat
+        // prefix (dough only writes defaults for MISSING keys, so our 'Slimefun 5' default never replaced
+        // it). Bump ONLY that exact stale default to the current one; a customised prefix is left as-is.
+        if ("&a&lSlimefun 4&7> ".equals(config.getString("options.chat-prefix"))) {
+            config.setValue("options.chat-prefix", "&a&lSlimefun 5&7> ");
+            config.save();
+        }
+
         // Set up localization
         logger.log(Level.INFO, "Loading language files...");
         String chatPrefix = config.getString("options.chat-prefix");
