@@ -66,8 +66,15 @@ public class JdbcBackend implements BlockStorageBackend {
         this.provider = provider;
 
         synchronized (lock) {
+            Connection connection;
+
             try {
-                Connection connection = provider.conn();
+                connection = provider.conn();
+            } catch (SQLException e) {
+                throw new IllegalStateException("Could not open the storage database connection", e);
+            }
+
+            try {
                 createSchema(connection);
             } catch (SQLException e) {
                 throw new IllegalStateException("Could not initialize storage schema", e);
@@ -78,7 +85,15 @@ public class JdbcBackend implements BlockStorageBackend {
     private void createSchema(@Nonnull Connection c) throws SQLException {
         try (Statement st = c.createStatement()) {
             for (String stmt : dialect.ddl()) {
-                st.execute(stmt);
+                try {
+                    st.execute(stmt);
+                } catch (SQLException e) {
+                    // MySQL's CREATE INDEX has no IF NOT EXISTS, so re-running the schema (e.g. a
+                    // second JdbcBackend against the same database, mirroring H2's idempotent
+                    // re-init) throws "Duplicate key name" on the index statements. H2's own
+                    // IF NOT EXISTS DDL never throws, so this is a no-op there.
+                    Slimefun.logger().log(Level.FINE, e, () -> "Ignoring DDL statement failure (likely already applied): " + stmt);
+                }
             }
         }
     }

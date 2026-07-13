@@ -29,10 +29,25 @@ options:
 
 # Where Slimefun stores block/machine/chunk data.
 storage:
-  # 'h2' = embedded database (default). Existing servers auto-migrate their flat-file data to the
-  # database on first boot, keeping a '*.migrated-backup-*' copy. Set 'legacy' to stay on flat files.
+  # 'h2' = embedded database (default). 'mysql' = an external MySQL/MariaDB server, configured below.
+  # Existing servers auto-migrate their flat-file data to the database on first boot, keeping a
+  # '*.migrated-backup-*' copy. Set 'legacy' to stay on flat files.
   # Player data currently always uses legacy storage regardless of this setting.
   backend: h2
+  # Only used when 'backend' is set to 'mysql' above.
+  mysql:
+    # The hostname or IP address of your MySQL/MariaDB server.
+    host: localhost
+    # The port your MySQL/MariaDB server listens on.
+    port: 3306
+    # The name of the database Slimefun should use (must already exist).
+    database: slimefun
+    # The username Slimefun should authenticate as.
+    username: root
+    # The password for the above username.
+    password: ""
+    # Extra JDBC URL parameters, appended as-is after a '?'.
+    extra-params: "useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8"
 
 guide:
   show-vanilla-recipes: true

@@ -17,6 +17,8 @@ import javax.annotation.Nullable;
 import io.github.thebusybiscuit.slimefun5.storage.Storage;
 import io.github.thebusybiscuit.slimefun5.storage.backend.BlockStorageBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.MySqlDialect;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.MySqlProvider;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.StorageBackendConfig;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
@@ -353,12 +355,21 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         playerStorage = new LegacyStorage();
         logger.log(Level.INFO, "Using legacy storage for player data");
 
-        if (StorageBackendConfig.isJdbcBackend()) {
-            blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
-            logger.log(Level.INFO, "Using H2 database storage for block data");
-        } else {
-            blockStorageBackend = new LegacyFileBackend();
-            logger.log(Level.INFO, "Using legacy (flat-file) storage for block data");
+        switch (StorageBackendConfig.backend()) {
+            case MYSQL:
+                blockStorageBackend = new JdbcBackend(new MySqlDialect(), new MySqlProvider(
+                    StorageBackendConfig.mysqlUrl(), StorageBackendConfig.mysqlUser(), StorageBackendConfig.mysqlPassword()));
+                logger.log(Level.INFO, "Using MySQL database storage for block data");
+                break;
+            case H2:
+                blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
+                logger.log(Level.INFO, "Using H2 database storage for block data");
+                break;
+            case LEGACY:
+            default:
+                blockStorageBackend = new LegacyFileBackend();
+                logger.log(Level.INFO, "Using legacy (flat-file) storage for block data");
+                break;
         }
 
         if (blockStorageBackend instanceof JdbcBackend) {
