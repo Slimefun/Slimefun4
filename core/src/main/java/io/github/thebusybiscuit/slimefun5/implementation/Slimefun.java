@@ -538,8 +538,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
 
         // Tear down the block storage backend (H2 connection close; no-op for legacy) now that
-        // every flush above has gone through it.
-        blockStorageBackend.close();
+        // every flush above has gone through it. Null-guarded: onDisable can run before the backend
+        // is assigned (unsupported-version / missing-CS-CoreLib early exits both re-enter onDisable).
+        if (blockStorageBackend != null) {
+            blockStorageBackend.close();
+        }
 
         // Create a new backup zip
         if (config.getBoolean("options.backup-data")) {
