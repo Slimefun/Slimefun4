@@ -76,6 +76,8 @@ public class MySqlProvider implements ConnectionProvider {
             }
         } catch (SQLException e) {
             Slimefun.logger().log(Level.WARNING, "Error closing MySQL storage connection", e);
+        } finally {
+            connection = null;
         }
     }
 }

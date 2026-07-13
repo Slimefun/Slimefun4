@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -85,14 +86,21 @@ public class JdbcBackend implements BlockStorageBackend {
     private void createSchema(@Nonnull Connection c) throws SQLException {
         try (Statement st = c.createStatement()) {
             for (String stmt : dialect.ddl()) {
-                try {
+                // CREATE TABLE always uses IF NOT EXISTS (both H2 and MySQL), so it never throws on
+                // a re-run - a failure there is a genuine, fatal misconfiguration and must propagate.
+                // Only MySQL's CREATE INDEX has no IF NOT EXISTS, so it alone can throw "Duplicate
+                // key name" on re-init; that is safe to ignore. Checking the statement text (rather
+                // than a MySQL error code) is portable and also correct under H2 MODE=MySQL.
+                boolean isIndex = stmt.toUpperCase(Locale.ROOT).contains("CREATE INDEX");
+
+                if (isIndex) {
+                    try {
+                        st.execute(stmt);
+                    } catch (SQLException e) {
+                        Slimefun.logger().log(Level.FINE, e, () -> "Index already exists / ignoring: " + e.getMessage());
+                    }
+                } else {
                     st.execute(stmt);
-                } catch (SQLException e) {
-                    // MySQL's CREATE INDEX has no IF NOT EXISTS, so re-running the schema (e.g. a
-                    // second JdbcBackend against the same database, mirroring H2's idempotent
-                    // re-init) throws "Duplicate key name" on the index statements. H2's own
-                    // IF NOT EXISTS DDL never throws, so this is a no-op there.
-                    Slimefun.logger().log(Level.FINE, e, () -> "Ignoring DDL statement failure (likely already applied): " + stmt);
                 }
             }
         }
