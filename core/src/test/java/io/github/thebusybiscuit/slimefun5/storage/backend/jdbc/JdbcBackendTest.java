@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.storage.backend.jdbc;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -8,9 +10,16 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -20,10 +29,15 @@ import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.FileUtils;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 
 /**
  * Pure-JDBC schema test: no MockBukkit needed since the schema only touches H2 via plain SQL.
@@ -39,11 +53,47 @@ class JdbcBackendTest {
         server = MockBukkit.mock();
         MockBukkit.load(Slimefun.class);
         world = server.createWorld(WorldCreator.name("world").environment(Environment.NORMAL));
+
+        // MockBukkit doesn't always trigger ItemStack/ItemMeta's static ConfigurationSerialization
+        // registration, needed for YamlConfiguration (de)serialization of inventory contents.
+        ConfigurationSerialization.registerClass(ItemStack.class);
+        ConfigurationSerialization.registerClass(ItemMeta.class);
     }
 
     @AfterAll
-    public static void unload() {
+    public static void unload() throws IOException {
         MockBukkit.unmock();
+        FileUtils.deleteDirectory(new File("data-storage"));
+    }
+
+    /**
+     * Minimal concrete {@link BlockMenuPreset} for exercising {@link BlockMenu}/{@link UniversalBlockMenu}
+     * construction without needing a registered SlimefunItem.
+     */
+    private static final class TestBlockMenuPreset extends BlockMenuPreset {
+
+        TestBlockMenuPreset(String id) {
+            super(id, "Test Menu", false);
+        }
+
+        TestBlockMenuPreset(String id, boolean universal) {
+            super(id, "Test Menu", universal);
+        }
+
+        @Override
+        public void init() {
+            setSize(9);
+        }
+
+        @Override
+        public boolean canOpen(Block b, Player p) {
+            return true;
+        }
+
+        @Override
+        public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
+            return new int[0];
+        }
     }
 
     @Test
@@ -179,6 +229,84 @@ class JdbcBackendTest {
 
             Map<String, BlockInfoConfig> chunks = backend.loadChunksForWorld(world);
             Assertions.assertTrue(chunks.isEmpty());
+        } finally {
+            backend.close();
+        }
+    }
+
+    @Test
+    void testFlushInventoriesWritesAndLoadWorldInventoriesRoundTrips() {
+        JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_inventories;DB_CLOSE_DELAY=-1");
+
+        try {
+            Location location = new Location(world, 5, 6, 7);
+            BlockMenuPreset preset = new TestBlockMenuPreset("JDBC_TEST_BLOCK_PRESET");
+
+            BlockMenu menu = new BlockMenu(preset, location);
+            ItemStack item = new ItemStack(Material.DIAMOND, 5);
+            menu.replaceExistingItem(0, item);
+
+            backend.flushInventories(Collections.singletonMap(location, menu));
+
+            Map<Location, BlockMenu> loaded = backend.loadWorldInventories(world);
+            Assertions.assertTrue(loaded.containsKey(location));
+            Assertions.assertEquals(item, loaded.get(location).getItemInSlot(0));
+
+            backend.deleteInventory(location);
+
+            Map<Location, BlockMenu> afterDelete = backend.loadWorldInventories(world);
+            Assertions.assertFalse(afterDelete.containsKey(location));
+        } finally {
+            backend.close();
+        }
+    }
+
+    @Test
+    void testFlushInventoriesSkipsNonDirtyMenus() {
+        JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_inventories_nondirty;DB_CLOSE_DELAY=-1");
+
+        try {
+            Location location = new Location(world, 8, 9, 10);
+            BlockMenuPreset preset = new TestBlockMenuPreset("JDBC_TEST_BLOCK_PRESET_NONDIRTY");
+
+            BlockMenu menu = new BlockMenu(preset, location);
+            menu.replaceExistingItem(0, new ItemStack(Material.DIAMOND, 1));
+
+            // BlockMenu.save() (its own file-based save) is the only way to reset isDirty() - there
+            // is no public reset API. Calling it here writes a throwaway .sfi file (cleaned up in
+            // @AfterAll via FileUtils.deleteDirectory), purely to get the menu into a non-dirty state.
+            menu.save(location);
+            Assertions.assertFalse(menu.isDirty());
+
+            backend.flushInventories(Collections.singletonMap(location, menu));
+
+            Map<Location, BlockMenu> loaded = backend.loadWorldInventories(world);
+            Assertions.assertFalse(loaded.containsKey(location), "a non-dirty menu must not be persisted to H2");
+        } finally {
+            backend.close();
+        }
+    }
+
+    @Test
+    void testFlushUniversalInventoriesWritesAndLoadUniversalInventoriesRoundTrips() {
+        JdbcBackend backend = new JdbcBackend("jdbc:h2:mem:sf_universal_inventories;DB_CLOSE_DELAY=-1");
+
+        try {
+            BlockMenuPreset preset = new TestBlockMenuPreset("JDBC_TEST_UNIVERSAL_PRESET", true);
+
+            // Use the (preset, Config) constructor with an empty in-memory Config so this never
+            // touches disk - the single-arg UniversalBlockMenu(preset) constructor calls save().
+            io.github.bakedlibs.dough.config.Config emptyCfg = new io.github.bakedlibs.dough.config.Config(new File(""), new YamlConfiguration());
+            UniversalBlockMenu menu = new UniversalBlockMenu(preset, emptyCfg);
+
+            ItemStack item = new ItemStack(Material.EMERALD, 3);
+            menu.replaceExistingItem(0, item);
+
+            backend.flushUniversalInventories(Collections.singletonMap(preset.getID(), menu));
+
+            Map<String, UniversalBlockMenu> loaded = backend.loadUniversalInventories();
+            Assertions.assertTrue(loaded.containsKey(preset.getID()));
+            Assertions.assertEquals(item, loaded.get(preset.getID()).getItemInSlot(0));
         } finally {
             backend.close();
         }

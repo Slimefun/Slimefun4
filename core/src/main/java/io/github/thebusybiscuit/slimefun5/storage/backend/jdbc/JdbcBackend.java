@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.storage.backend.jdbc;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import javax.annotation.Nullable;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.google.common.annotations.Beta;
 
@@ -28,6 +31,7 @@ import me.mrCookieSlime.Slimefun.api.BlockInfoConfig;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
+import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 
 /**
@@ -44,6 +48,10 @@ import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 public class JdbcBackend implements BlockStorageBackend {
 
     private static final String STUB_MESSAGE = "SP-2 Task 2/3";
+
+    // Never read/written to - Config only touches the filesystem in save(), which we never call.
+    // The in-memory YamlConfiguration passed alongside it is the actual data holder.
+    private static final File DUMMY_MENU_FILE = new File("");
 
     // Single embedded connection; all access must go through `lock` to keep it thread-safe.
     private final Connection connection;
@@ -93,6 +101,37 @@ public class JdbcBackend implements BlockStorageBackend {
     @Nonnull
     Object lock() {
         return lock;
+    }
+
+    /**
+     * Serializes a {@link DirtyChestMenu} (i.e. {@link BlockMenu} or {@link UniversalBlockMenu}) into the
+     * exact same YAML a {@code .sfi} file holds, by mirroring {@code BlockMenu.save}/{@code UniversalBlockMenu.save}'s
+     * write loop against an in-memory {@link YamlConfiguration} instead of a file-backed one.
+     */
+    @Nonnull
+    private String menuToYaml(@Nonnull DirtyChestMenu menu) {
+        YamlConfiguration yaml = new YamlConfiguration();
+        io.github.bakedlibs.dough.config.Config cfg = new io.github.bakedlibs.dough.config.Config(DUMMY_MENU_FILE, yaml);
+
+        cfg.setValue("preset", menu.getPreset().getID());
+
+        for (int slot : menu.getPreset().getInventorySlots()) {
+            cfg.setValue(String.valueOf(slot), menu.getItemInSlot(slot));
+        }
+
+        return yaml.saveToString();
+    }
+
+    /**
+     * Inverse of {@link #menuToYaml(DirtyChestMenu)}: parses a {@code .sfi}-formatted CLOB back into a
+     * dough {@link io.github.bakedlibs.dough.config.Config} that can be fed verbatim into the existing
+     * {@code BlockMenu}/{@code UniversalBlockMenu} constructors.
+     */
+    @Nonnull
+    private io.github.bakedlibs.dough.config.Config yamlToConfig(@Nonnull String clob) throws InvalidConfigurationException {
+        YamlConfiguration yaml = new YamlConfiguration();
+        yaml.loadFromString(clob);
+        return new io.github.bakedlibs.dough.config.Config(DUMMY_MENU_FILE, yaml);
     }
 
     @Override
@@ -163,19 +202,93 @@ public class JdbcBackend implements BlockStorageBackend {
     @Override
     @Nonnull
     public Map<Location, BlockMenu> loadWorldInventories(@Nonnull World world) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            Map<Location, BlockMenu> result = new HashMap<>();
+
+            try (PreparedStatement st = connection.prepareStatement("SELECT x, y, z, inv FROM block_inventory WHERE world = ?")) {
+                st.setString(1, world.getName());
+
+                try (ResultSet rs = st.executeQuery()) {
+                    while (rs.next()) {
+                        Location location = new Location(world, rs.getInt("x"), rs.getInt("y"), rs.getInt("z"));
+
+                        try {
+                            io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
+                            BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+
+                            if (preset == null) {
+                                preset = BlockMenuPreset.getPreset(BlockStorage.checkID(location));
+                            }
+
+                            if (preset != null) {
+                                result.put(location, new BlockMenu(preset, location, cfg));
+                            }
+                        } catch (InvalidConfigurationException e) {
+                            Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse Block Inventory at " + location);
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load block inventories from H2 storage for world \"" + world.getName() + '"');
+            }
+
+            return result;
+        }
     }
 
     @Override
     @Nonnull
     public Map<String, UniversalBlockMenu> loadUniversalInventories() {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            Map<String, UniversalBlockMenu> result = new HashMap<>();
+
+            try (PreparedStatement st = connection.prepareStatement("SELECT id, inv FROM universal_inventory");
+                    ResultSet rs = st.executeQuery()) {
+
+                while (rs.next()) {
+                    String id = rs.getString("id");
+
+                    try {
+                        io.github.bakedlibs.dough.config.Config cfg = yamlToConfig(rs.getString("inv"));
+                        BlockMenuPreset preset = BlockMenuPreset.getPreset(cfg.getString("preset"));
+
+                        if (preset != null) {
+                            result.put(preset.getID(), new UniversalBlockMenu(preset, cfg));
+                        }
+                    } catch (InvalidConfigurationException e) {
+                        Slimefun.logger().log(Level.SEVERE, e, () -> "Could not parse universal Inventory \"" + id + '"');
+                    }
+                }
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load universal inventories from H2 storage");
+            }
+
+            return result;
+        }
     }
 
     @Override
     @Nullable
     public BlockMenu loadInventoryIfPresent(@Nonnull Location l, @Nonnull BlockMenuPreset preset) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            try (PreparedStatement st = connection.prepareStatement(
+                    "SELECT inv FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                st.setString(1, l.getWorld().getName());
+                st.setInt(2, l.getBlockX());
+                st.setInt(3, l.getBlockY());
+                st.setInt(4, l.getBlockZ());
+
+                try (ResultSet rs = st.executeQuery()) {
+                    if (rs.next()) {
+                        return new BlockMenu(preset, l, yamlToConfig(rs.getString("inv")));
+                    }
+                }
+            } catch (SQLException | InvalidConfigurationException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not load Block Inventory at " + l);
+            }
+
+            return null;
+        }
     }
 
     @Override
@@ -282,12 +395,91 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void flushInventories(@Nonnull Map<Location, BlockMenu> dirtyInventories) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        // The map passed in is the full inventories snapshot, not just the dirty ones - guard
+        // per-menu with isDirty() to match legacy's write-avoidance (BlockMenu.save() no-ops when
+        // !isDirty()). Menus that were never opened/modified are skipped entirely.
+        synchronized (lock) {
+            try {
+                connection.setAutoCommit(false);
+
+                try (PreparedStatement upsert = connection.prepareStatement(
+                        "MERGE INTO block_inventory(world,x,y,z,inv) KEY(world,x,y,z) VALUES(?,?,?,?,?)")) {
+
+                    for (Map.Entry<Location, BlockMenu> entry : dirtyInventories.entrySet()) {
+                        BlockMenu menu = entry.getValue();
+
+                        if (!menu.isDirty()) {
+                            continue;
+                        }
+
+                        Location location = entry.getKey();
+                        upsert.setString(1, location.getWorld().getName());
+                        upsert.setInt(2, location.getBlockX());
+                        upsert.setInt(3, location.getBlockY());
+                        upsert.setInt(4, location.getBlockZ());
+                        upsert.setString(5, menuToYaml(menu));
+                        upsert.executeUpdate();
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 inventory flush");
+                }
+
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush block inventories to H2 storage");
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                }
+            }
+        }
     }
 
     @Override
     public void flushUniversalInventories(@Nonnull Map<String, UniversalBlockMenu> universalInventories) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            try {
+                connection.setAutoCommit(false);
+
+                try (PreparedStatement upsert = connection.prepareStatement(
+                        "MERGE INTO universal_inventory(id,inv) KEY(id) VALUES(?,?)")) {
+
+                    for (Map.Entry<String, UniversalBlockMenu> entry : universalInventories.entrySet()) {
+                        UniversalBlockMenu menu = entry.getValue();
+
+                        if (!menu.isDirty()) {
+                            continue;
+                        }
+
+                        upsert.setString(1, entry.getKey());
+                        upsert.setString(2, menuToYaml(menu));
+                        upsert.executeUpdate();
+                    }
+                }
+
+                connection.commit();
+            } catch (SQLException e) {
+                try {
+                    connection.rollback();
+                } catch (SQLException rollbackException) {
+                    Slimefun.logger().log(Level.SEVERE, rollbackException, () -> "Could not roll back H2 universal inventory flush");
+                }
+
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not flush universal inventories to H2 storage");
+            } finally {
+                try {
+                    connection.setAutoCommit(true);
+                } catch (SQLException e) {
+                    Slimefun.logger().log(Level.WARNING, e, () -> "Could not restore auto-commit on the H2 connection");
+                }
+            }
+        }
     }
 
     @Override
@@ -342,6 +534,17 @@ public class JdbcBackend implements BlockStorageBackend {
 
     @Override
     public void deleteInventory(@Nonnull Location l) {
-        throw new UnsupportedOperationException(STUB_MESSAGE);
+        synchronized (lock) {
+            try (PreparedStatement delete = connection.prepareStatement(
+                    "DELETE FROM block_inventory WHERE world = ? AND x = ? AND y = ? AND z = ?")) {
+                delete.setString(1, l.getWorld().getName());
+                delete.setInt(2, l.getBlockX());
+                delete.setInt(3, l.getBlockY());
+                delete.setInt(4, l.getBlockZ());
+                delete.executeUpdate();
+            } catch (SQLException e) {
+                Slimefun.logger().log(Level.SEVERE, e, () -> "Could not delete Block Inventory at " + l);
+            }
+        }
     }
 }
