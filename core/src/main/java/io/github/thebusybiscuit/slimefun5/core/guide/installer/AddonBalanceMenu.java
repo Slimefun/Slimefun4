@@ -104,7 +104,7 @@ public final class AddonBalanceMenu {
             lore.add(verdictLine);
 
             ItemStack icon = sfItem.getItem().clone();
-            ItemStack display = ChestMenuUtils.stripTranslationIdentity(CustomItemStack.create(icon, "&f" + sfItem.getItemName(), lore.toArray(new String[0])));
+            ItemStack display = ChestMenuUtils.stripTranslationIdentity(CustomItemStack.create(icon, "&f" + Slimefun.getItemTranslationService().getName(p, sfItem), lore.toArray(new String[0])));
             menu.addItem(slot, display);
             menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
             slot++;

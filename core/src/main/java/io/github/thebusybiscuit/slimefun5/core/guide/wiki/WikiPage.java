@@ -67,7 +67,10 @@ public final class WikiPage {
 
     /** Opens the item's wiki page; Back runs the given action (returns to wherever you came from). */
     public static void open(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull SlimefunItem item, @Nonnull Runnable onBack) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.wiki.item-title").replace("%item%", item.getItemName()));
+        // Use the per-viewer translated name, not item.getItemName() - templates are canonicalized to
+        // their raw id (the packet layer re-renders per viewer), so getItemName() returns "CACTUS_HELMET".
+        String itemName = Slimefun.getItemTranslationService().getName(p, item);
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.wiki.item-title").replace("%item%", itemName));
         menu.addMenuOpeningHandler(SoundEffect.GUIDE_BUTTON_CLICK_SOUND::playFor);
         menu.setEmptySlotsClickable(false);
         ChestMenuUtils.drawBackground(menu, BORDER);
