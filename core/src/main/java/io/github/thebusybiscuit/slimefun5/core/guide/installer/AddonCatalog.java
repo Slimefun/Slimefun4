@@ -132,6 +132,7 @@ public final class AddonCatalog {
         register(new Entry("simpleutils", "SimpleUtils", "Simple Utils", XMaterial.CRAFTING_TABLE, empty(), false));
         register(new Entry("foxymachines", "FoxyMachines", "Foxy Machines", XMaterial.BLAST_FURNACE, empty(), false));
         register(new Entry("geneticchickengineering", "GeneticChickengineering", "Genetic Chickengineering", XMaterial.EGG, empty(), false));
+        register(new Entry("supreme", "Supreme", "Supreme", XMaterial.DIAMOND_SWORD, empty(), false));
     }
 
     private AddonCatalog() {}

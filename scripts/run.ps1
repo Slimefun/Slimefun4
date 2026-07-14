@@ -31,7 +31,8 @@ $availableAddons = @(
     "Slimefun5/DynaTech", "Slimefun5/Galactifun", "Slimefun5/SlimeTinker", "Slimefun5/FluffyMachines",
     "Slimefun5/LiteXpansion", "Slimefun5/SensibleToolbox", "Slimefun5/ChestTerminal", "Slimefun5/ExtraGear",
     "Slimefun5/LuckyBlocks", "Slimefun5/MissileWarfare", "Slimefun5/SlimefunAdvancements", "Slimefun5/SoulJars",
-    "Slimefun5/SMG", "Slimefun5/SimpleUtils", "Slimefun5/FoxyMachines", "Slimefun5/GeneticChickengineering"
+    "Slimefun5/SMG", "Slimefun5/SimpleUtils", "Slimefun5/FoxyMachines", "Slimefun5/GeneticChickengineering",
+    "Slimefun5/Supreme"
 )
 
 function Resolve-AllBranches($repos) {
