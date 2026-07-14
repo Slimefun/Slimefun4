@@ -32,7 +32,7 @@ $availableAddons = @(
     "Slimefun5/LiteXpansion", "Slimefun5/SensibleToolbox", "Slimefun5/ChestTerminal", "Slimefun5/ExtraGear",
     "Slimefun5/LuckyBlocks", "Slimefun5/MissileWarfare", "Slimefun5/SlimefunAdvancements", "Slimefun5/SoulJars",
     "Slimefun5/SMG", "Slimefun5/SimpleUtils", "Slimefun5/FoxyMachines", "Slimefun5/GeneticChickengineering",
-    "Slimefun5/Supreme"
+    "Slimefun5/Supreme", "Slimefun5/FastMachines"
 )
 
 function Resolve-AllBranches($repos) {
