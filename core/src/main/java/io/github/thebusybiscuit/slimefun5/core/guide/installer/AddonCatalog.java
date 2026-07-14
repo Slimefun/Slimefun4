@@ -129,6 +129,7 @@ public final class AddonCatalog {
         register(new Entry("slimefunadvancements", "SlimefunAdvancements", "Slimefun Advancements", XMaterial.KNOWLEDGE_BOOK, empty(), false, false, "SFAdvancements"));
         register(new Entry("souljars", "SoulJars", "Soul Jars", XMaterial.SOUL_LANTERN, empty(), false));
         register(new Entry("smg", "SMG", "Simple Material Generators", XMaterial.SMOOTH_STONE, empty(), false, false, "SimpleMaterialGenerators"));
+        register(new Entry("simpleutils", "SimpleUtils", "Simple Utils", XMaterial.CRAFTING_TABLE, empty(), false));
     }
 
     private AddonCatalog() {}
