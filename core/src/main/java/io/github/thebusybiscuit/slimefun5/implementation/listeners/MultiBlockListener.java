@@ -78,35 +78,47 @@ public class MultiBlockListener implements Listener {
      */
     @EventHandler(ignoreCancelled = true)
     public void onMultiBlockComplete(org.bukkit.event.block.BlockPlaceEvent e) {
+        // canBuild() is false when the placement is blocked (e.g. the player is standing in the target
+        // cell), in which case the block reverts - never announce a machine that was never actually built.
+        if (!e.canBuild()) {
+            return;
+        }
+
         Block placed = e.getBlock();
+        Player p = e.getPlayer();
+        Material placedType = placed.getType();
 
-        for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
-            Material[] structure = mb.getStructure();
-
-            // Cheap pre-filter: only consider a multiblock the placed block could actually be part of.
-            // This also avoids re-announcing an existing machine when placing an unrelated block beside it.
-            if (!structureContains(structure, placed.getType())) {
-                continue;
+        // The placed block's world state only settles (or reverts) after the event returns, so defer the
+        // structure match one tick and re-verify the placed block is still there before announcing.
+        Slimefun.runSync(() -> {
+            if (placed.getType() != placedType) {
+                return;
             }
 
-            // The placed block can be any cell of the structure, so test every center within one block.
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    for (int dz = -1; dz <= 1; dz++) {
-                        if (mb.matches(placed.getRelative(dx, dy, dz))) {
-                            Player p = e.getPlayer();
+            for (MultiBlock mb : Slimefun.getRegistry().getMultiBlocks()) {
+                // Cheap pre-filter: only consider a multiblock the placed block could actually be part of.
+                // This also avoids re-announcing an existing machine when placing an unrelated block beside it.
+                if (!structureContains(mb.getStructure(), placedType)) {
+                    continue;
+                }
 
-                            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
-                                io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
-                                p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + mb.getSlimefunItem().getItemName());
+                // The placed block can be any cell of the structure, so test every center within one block.
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        for (int dz = -1; dz <= 1; dz++) {
+                            if (mb.matches(placed.getRelative(dx, dy, dz))) {
+                                if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
+                                    io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
+                                    p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + Slimefun.getItemTranslationService().getName(p, mb.getSlimefunItem()));
+                                }
+
+                                return;
                             }
-
-                            return;
                         }
                     }
                 }
             }
-        }
+        }, 1L);
     }
 
     private boolean structureContains(@Nonnull Material[] structure, @Nonnull Material placed) {
