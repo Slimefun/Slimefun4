@@ -20,7 +20,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
+import org.bukkit.inventory.EquipmentSlot;
+
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -89,7 +91,7 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
 
         ItemStack finalOutput = event.getOutput();
         if (p.getGameMode() != GameMode.CREATIVE) {
-            ItemUtils.consumeItem(input, false);
+            InventoryCompat.consumeHeldItem(p, EquipmentSlot.HAND, 1, false);
         }
 
         TaskQueue queue = new TaskQueue();

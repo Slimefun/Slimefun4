@@ -9,7 +9,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemSpawnReason;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -49,7 +49,7 @@ public class EasterEgg extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
 
             if (p.getGameMode() != GameMode.CREATIVE) {
-                ItemUtils.consumeItem(e.getItem(), false);
+                InventoryCompat.consumeHeldItem(p, e.getHand(), 1, false);
             }
 
             FireworkUtils.launchRandom(p, 2);

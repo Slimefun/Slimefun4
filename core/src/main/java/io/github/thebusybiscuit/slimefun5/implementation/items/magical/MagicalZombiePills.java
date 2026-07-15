@@ -1,6 +1,8 @@
 package io.github.thebusybiscuit.slimefun5.implementation.items.magical;
 
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.EntityCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -15,9 +17,9 @@ import org.bukkit.entity.PigZombie;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.ZombieVillager;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -61,10 +63,10 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
             Player p = e.getPlayer();
 
             if (entity instanceof ZombieVillager) {
-                ZombieVillager zombieVillager = (ZombieVillager) entity;                useItem(p, item);
+                ZombieVillager zombieVillager = (ZombieVillager) entity;                useItem(p, offhand);
                 healZombieVillager(zombieVillager, p);
             } else if (entity instanceof PigZombie) {
-                PigZombie pigZombie = (PigZombie) entity;                useItem(p, item);
+                PigZombie pigZombie = (PigZombie) entity;                useItem(p, offhand);
                 healZombifiedPiglin(pigZombie);
             }
         };
@@ -79,9 +81,9 @@ public class MagicalZombiePills extends SimpleSlimefunItem<EntityInteractHandler
         return PlayerRightClickEvent::cancel;
     }
 
-    private void useItem(@Nonnull Player p, @Nonnull ItemStack item) {
+    private void useItem(@Nonnull Player p, boolean offHand) {
         if (p.getGameMode() != GameMode.CREATIVE) {
-            ItemUtils.consumeItem(item, false);
+            InventoryCompat.consumeHeldItem(p, offHand ? HandCompat.OFF_HAND : EquipmentSlot.HAND, 1, false);
         }
 
         // This is supposed to be a vanilla sound. No need for a SoundEffect

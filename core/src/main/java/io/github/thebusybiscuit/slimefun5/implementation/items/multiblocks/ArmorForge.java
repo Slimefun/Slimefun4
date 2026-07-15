@@ -15,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
@@ -88,7 +87,7 @@ public class ArmorForge extends AbstractCraftingTable {
                 ItemStack item = inv.getContents()[j];
 
                 if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                    ItemUtils.consumeItem(item, true);
+                    InventoryCompat.consumeSlot(inv, j, 1, true);
                 }
             }
 

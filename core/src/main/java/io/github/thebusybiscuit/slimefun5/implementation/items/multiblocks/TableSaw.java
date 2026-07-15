@@ -22,7 +22,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
+import org.bukkit.inventory.EquipmentSlot;
+
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
@@ -121,7 +123,7 @@ public class TableSaw extends MultiBlockMachine {
         }
 
         if (p.getGameMode() != GameMode.CREATIVE) {
-            ItemUtils.consumeItem(item, true);
+            InventoryCompat.consumeHeldItem(p, EquipmentSlot.HAND, 1, true);
         }
 
         outputItems(b, event.getOutput());

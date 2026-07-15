@@ -29,7 +29,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
@@ -324,7 +324,7 @@ class MiningTask implements Runnable {
                  * no errors during #setPistonState
                  */
                 if (fuelType.test(item) && running) {
-                    ItemUtils.consumeItem(item, false);
+                    InventoryCompat.consumeSlot(inv, i, 1, false);
 
                     if (miner instanceof AdvancedIndustrialMiner) {
                         inv.addItem(new ItemStack(Material.BUCKET));

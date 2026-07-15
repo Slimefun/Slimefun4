@@ -38,6 +38,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun5.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.BlockDataCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCategory;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCompat;
 import io.papermc.lib.PaperLib;
@@ -116,7 +117,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             ItemStack item = inv.getContents()[j];
 
             if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                ItemUtils.consumeItem(item, true);
+                InventoryCompat.consumeSlot(inv, j, 1, true);
             }
         }
     }
@@ -155,7 +156,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                     ItemStack item = inv.getContents()[j];
 
                     if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                        ItemUtils.consumeItem(item, true);
+                        InventoryCompat.consumeSlot(inv, j, 1, true);
                     }
                 }
 

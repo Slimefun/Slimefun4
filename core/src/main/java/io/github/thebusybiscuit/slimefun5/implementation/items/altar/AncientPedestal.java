@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun5.implementation.items.altar;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.EntityCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
@@ -168,7 +170,7 @@ public class AncientPedestal extends SimpleSlimefunItem<BlockDispenseHandler> im
         String nametag = ItemUtils.getItemName(hand);
 
         if (p.getGameMode() != GameMode.CREATIVE) {
-            ItemUtils.consumeItem(hand, false);
+            InventoryCompat.consumeHeldItem(p, EquipmentSlot.HAND, 1, false);
         }
 
         Item entity = SlimefunUtils.spawnItem(b.getLocation().add(0.5, 1.2, 0.5), displayItem, ItemSpawnReason.ANCIENT_PEDESTAL_PLACE_ITEM, false, p);

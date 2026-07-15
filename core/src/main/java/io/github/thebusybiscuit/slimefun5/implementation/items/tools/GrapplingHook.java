@@ -18,7 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -72,7 +72,7 @@ public class GrapplingHook extends SimpleSlimefunItem<ItemUseHandler> {
 
                 if (item.getType() == XMaterial.LEAD.parseMaterial() && isConsumed) {
                     // If consume on use is enabled, consume one item
-                    ItemUtils.consumeItem(item, false);
+                    InventoryCompat.consumeHeldItem(p, e.getHand(), 1, false);
                 }
 
                 Vector direction = p.getEyeLocation().getDirection().multiply(2.0);

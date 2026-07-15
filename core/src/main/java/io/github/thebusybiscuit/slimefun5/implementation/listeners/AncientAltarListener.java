@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun5.implementation.listeners;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,10 +32,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerRightClickEvent;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -248,7 +249,7 @@ public class AncientAltarListener implements Listener {
                 consumed.add(catalyst);
 
                 if (p.getGameMode() != GameMode.CREATIVE) {
-                    ItemUtils.consumeItem(HandCompat.getMainHand(p.getInventory()), false);
+                    InventoryCompat.consumeHeldItem(p, EquipmentSlot.HAND, 1, false);
                 }
 
                 SoundEffect.ANCIENT_ALTAR_START_SOUND.playAt(b);

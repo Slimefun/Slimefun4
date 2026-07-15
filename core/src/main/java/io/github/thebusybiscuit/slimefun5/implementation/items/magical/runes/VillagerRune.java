@@ -1,5 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.implementation.items.magical.runes;
 
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.HandCompat;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.InventoryCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.ParticleCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VillagerCompat;
 
@@ -13,9 +15,9 @@ import org.bukkit.Particle;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.SoundCategory;
 import org.bukkit.entity.Villager;
 import org.bukkit.entity.Villager.Profession;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
@@ -55,7 +57,7 @@ public class VillagerRune extends SimpleSlimefunItem<EntityInteractHandler> {
                 }
 
                 if (e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-                    ItemUtils.consumeItem(item, false);
+                    InventoryCompat.consumeHeldItem(e.getPlayer(), offhand ? HandCompat.OFF_HAND : EquipmentSlot.HAND, 1, false);
                 }
 
                 // Reset Villager
