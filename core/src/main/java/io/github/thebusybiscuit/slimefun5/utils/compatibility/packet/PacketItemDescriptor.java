@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.utils.compatibility.packet;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,25 @@ public final class PacketItemDescriptor {
                             Object rewritten = itemRewriter.apply(el);
                             if (rewritten != null && rewritten != el) {
                                 list.set(i, rewritten);
+                            }
+                        }
+                    }
+                }
+            }
+            // Array payload (early-legacy PacketPlayOutWindowItems carries its contents as an
+            // ItemStack[] rather than a List): rewrite each element in place. General enough to cover any
+            // other array-based container packet.
+            Field arrayField = PacketReflect.firstFieldOfArrayType(packet, nmsItemClass);
+            if (arrayField != null) {
+                Object arrayObj = arrayField.get(packet);
+                if (arrayObj != null && arrayObj.getClass().isArray()) {
+                    int length = Array.getLength(arrayObj);
+                    for (int i = 0; i < length; i++) {
+                        Object el = Array.get(arrayObj, i);
+                        if (nmsItemClass.isInstance(el)) {
+                            Object rewritten = itemRewriter.apply(el);
+                            if (rewritten != null && rewritten != el) {
+                                Array.set(arrayObj, i, rewritten);
                             }
                         }
                     }

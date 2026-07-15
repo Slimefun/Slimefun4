@@ -1184,7 +1184,7 @@ public class SlimefunItem implements Placeable {
                  * required Research to use this SlimefunItem.
                  */
                 if (sendMessage && !(this instanceof VanillaItem)) {
-                    Slimefun.getLocalization().sendMessage(p, "messages.not-researched", true, s -> s.replace("%item%", getItemName()));
+                    Slimefun.getLocalization().sendMessage(p, "messages.not-researched", true, s -> s.replace("%item%", Slimefun.getItemTranslationService().getName(p, this)));
                 }
 
                 return false;

@@ -168,6 +168,30 @@ public final class PacketReflect {
         }
     }
 
+    /**
+     * The first field whose type is an array with a component assignable from {@code componentType}
+     * (e.g. an {@code ItemStack[]} carried by legacy {@code PacketPlayOutWindowItems}). Located by type,
+     * never by name, so it survives remapping.
+     */
+    @Nullable
+    public static Field firstFieldOfArrayType(Object owner, Class<?> componentType) {
+        if (owner == null || componentType == null) {
+            return null;
+        }
+        try {
+            for (Field f : allFields(owner.getClass())) {
+                Class<?> type = f.getType();
+                if (type.isArray() && componentType.isAssignableFrom(type.getComponentType())) {
+                    f.setAccessible(true);
+                    return f;
+                }
+            }
+            return null;
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
     @Nullable
     public static Object fieldValueOfType(Object owner, Class<?> type) {
         Field f = firstFieldOfType(owner, type);
