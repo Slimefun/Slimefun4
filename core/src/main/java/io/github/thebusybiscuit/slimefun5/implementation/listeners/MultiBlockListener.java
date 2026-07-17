@@ -116,6 +116,13 @@ public class MultiBlockListener implements Listener {
                     for (int dy = -1; dy <= 1; dy++) {
                         for (int dz = -1; dz <= 1; dz++) {
                             if (mb.matches(placed.getRelative(dx, dy, dz))) {
+                                // Claim ownership for the builder so the redstone auto-craft works right away,
+                                // without needing a manual right-click first (crafting tables only - they hold
+                                // the auto-craft dispenser). Owner is keyed by that dispenser's location.
+                                if (mb.getSlimefunItem() instanceof io.github.thebusybiscuit.slimefun5.implementation.items.multiblocks.AbstractCraftingTable) {
+                                    claimCraftingTableOwnership(placed.getRelative(dx, dy, dz), p);
+                                }
+
                                 if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
                                     io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect.ANCIENT_ALTAR_FINISH_SOUND.playFor(p);
                                     p.sendMessage(org.bukkit.ChatColor.GREEN + "✔ Assembled: " + Slimefun.getItemTranslationService().getName(p, mb.getSlimefunItem()));
@@ -128,6 +135,26 @@ public class MultiBlockListener implements Listener {
                 }
             }
         }, 1L);
+    }
+
+    /**
+     * Assigns the multiblock's owner to {@code p} (if not already owned) by finding the crafting table's
+     * dispenser within one block of the matched centre. Lets the redstone auto-craft work as soon as the
+     * table is built, without requiring a manual right-click to claim it first.
+     */
+    private void claimCraftingTableOwnership(@Nonnull Block center, @Nonnull Player p) {
+        for (int ox = -1; ox <= 1; ox++) {
+            for (int oy = -1; oy <= 1; oy++) {
+                for (int oz = -1; oz <= 1; oz++) {
+                    Block near = center.getRelative(ox, oy, oz);
+
+                    if (near.getType() == Material.DISPENSER) {
+                        Slimefun.getMultiBlockOwnership().setOwnerIfAbsent(near.getLocation(), p.getUniqueId());
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private boolean structureContains(@Nonnull Material[] structure, @Nonnull Material placed) {
