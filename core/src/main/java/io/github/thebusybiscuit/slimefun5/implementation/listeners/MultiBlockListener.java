@@ -61,13 +61,22 @@ public class MultiBlockListener implements Listener {
         if (!multiblocks.isEmpty()) {
             e.setCancelled(true);
 
-            MultiBlock mb = multiblocks.getLast();
-            MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, mb, b, e.getBlockFace());
-            Bukkit.getPluginManager().callEvent(event);
+            // Several multiblocks can match the same clicked structure when legacy (1.8-1.12) material-collapse
+            // makes distinct modern variants identical (e.g. ARMOR_FORGE vs EXP_DISPENSER both resolve to
+            // ANVIL over DISPENSER). Dispatch to every match, most-recently-registered first, instead of only
+            // getLast(): each machine's onInteract self-guards on its own recipe/input, so the intended one
+            // acts and the rest no-op - rather than the wrong (last-registered) one silently swallowing it.
+            java.util.Iterator<MultiBlock> it = multiblocks.descendingIterator();
 
-            // Fixes #2809
-            if (!event.isCancelled()) {
-                mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
+            while (it.hasNext()) {
+                MultiBlock mb = it.next();
+                MultiBlockInteractEvent event = new MultiBlockInteractEvent(p, mb, b, e.getBlockFace());
+                Bukkit.getPluginManager().callEvent(event);
+
+                // Fixes #2809
+                if (!event.isCancelled()) {
+                    mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
+                }
             }
         }
     }
