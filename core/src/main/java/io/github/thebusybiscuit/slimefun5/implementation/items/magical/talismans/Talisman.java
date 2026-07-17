@@ -17,7 +17,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.enchantment.EnchantItemEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityEvent;
@@ -321,8 +320,11 @@ public class Talisman extends SlimefunItem {
             EntityDeathEvent entityDeathEvent = (EntityDeathEvent) e;            return entityDeathEvent.getEntity().getKiller();
         } else if (e instanceof BlockBreakEvent) {
             BlockBreakEvent blockBreakEvent = (BlockBreakEvent) e;            return blockBreakEvent.getPlayer();
-        } else if (e instanceof BlockDropItemEvent) {
-            BlockDropItemEvent blockDropItemEvent = (BlockDropItemEvent) e;            return blockDropItemEvent.getPlayer();
+        } else if (e.getClass().getName().equals("org.bukkit.event.block.BlockDropItemEvent")) {
+            // BlockDropItemEvent is 1.13+. Referencing it via `instanceof` would run against an absent class
+            // on 1.8-1.12 (NoClassDefFoundError) for EVERY event routed here, so match by name + reflect getPlayer().
+            Object player = io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat.invoke(e, "getPlayer");
+            return player instanceof Player ? (Player) player : null;
         } else if (e instanceof PlayerEvent) {
             PlayerEvent playerEvent = (PlayerEvent) e;            return playerEvent.getPlayer();
         } else if (e instanceof EntityEvent) {
