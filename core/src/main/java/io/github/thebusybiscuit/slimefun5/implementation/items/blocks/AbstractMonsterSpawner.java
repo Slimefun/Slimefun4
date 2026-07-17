@@ -54,6 +54,12 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
 
         ItemMeta meta = item.getItemMeta();
 
+        // id-only items (the fork's packet-translation architecture) carry no physical lore, so getLore()
+        // is null here; the type then lives only in the BlockStateMeta, so there is nothing to read.
+        if (meta == null || !meta.hasLore()) {
+            return Optional.empty();
+        }
+
         // We may want to update this in the future to also make use of the BlockStateMeta
         for (String line : meta.getLore()) {
             if (ChatColor.stripColor(line).startsWith("Type: ") && !line.contains("<Type>")) {
@@ -93,8 +99,10 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
             stateMeta.setBlockState(state);
         }
 
-        // Setting the lore to indicate the Type visually
-        List<String> lore = meta.getLore();
+        // Setting the lore to indicate the Type visually. id-only items carry no physical lore (getLore()
+        // is null under the fork's packet-translation architecture); default to empty so we don't NPE - the
+        // functional spawn type is stored in the BlockStateMeta above, and the display comes from translation.
+        List<String> lore = meta.hasLore() ? meta.getLore() : new java.util.ArrayList<>();
 
         for (int i = 0; i < lore.size(); i++) {
             if (lore.get(i).contains("<Type>")) {
