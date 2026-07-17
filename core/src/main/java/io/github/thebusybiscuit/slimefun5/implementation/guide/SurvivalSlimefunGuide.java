@@ -120,7 +120,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        return ThemeRegistry.buildThemeGroups(p, collectVisibleCategories(p, profile));
+        List<ItemGroup> categories = collectVisibleCategories(p, profile);
+
+        // guide.categorize-main-menu = false restores the classic flat main menu: every category listed
+        // directly, with no theme grouping. Default true keeps the reworked themed layout. Themes still
+        // exist and work everywhere else - this only controls the main menu's top level.
+        if (!Slimefun.getCfg().getOrSetDefault("guide.categorize-main-menu", true)) {
+            return categories;
+        }
+
+        return ThemeRegistry.buildThemeGroups(p, categories);
     }
 
     protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {

@@ -98,6 +98,9 @@ guide:
   receive-on-first-join: true
   # Include item groups flagged as hidden when a player searches the guide. Values: true | false
   show-hidden-item-groups-in-search: false
+  # Group the guide's main menu into themes (the reworked layout). Set to false for the classic flat
+  # main menu that lists every category directly, with no theme grouping. Values: true | false
+  categorize-main-menu: true
   # When false, guide buttons that open an external website outside the settings panel (item wiki
   # pages, contributor profiles, the addon list) are hidden. Leave true to keep them.
   external-links: true
