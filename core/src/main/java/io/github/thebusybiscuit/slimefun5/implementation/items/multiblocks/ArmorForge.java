@@ -51,7 +51,7 @@ public class ArmorForge extends AbstractCraftingTable {
 
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(p, event.getOutput(), inv, possibleDispenser);
+                        craft(p, event.getOutput(), inv, possibleDispenser, input);
                     }
 
                     return;
@@ -81,18 +81,12 @@ public class ArmorForge extends AbstractCraftingTable {
     }
 
     @ParametersAreNonnullByDefault
-    private void craft(Player p, ItemStack output, Inventory inv, Block dispenser) {
+    private void craft(Player p, ItemStack output, Inventory inv, Block dispenser, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
 
         if (outputInv != null) {
-            for (int j = 0; j < 9; j++) {
-                ItemStack item = inv.getContents()[j];
-
-                if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                    InventoryCompat.consumeSlot(inv, j, 1, true);
-                }
-            }
+            consumeInputs(inv, recipe);
 
             for (int j = 0; j < 4; j++) {
                 int current = j;

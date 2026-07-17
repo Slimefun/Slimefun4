@@ -124,6 +124,28 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
     }
 
     /**
+     * Consumes each input slot by the amount the matched {@code recipe} cell requires (not a hardcoded 1):
+     * recipes may need more than one of an ingredient per slot (e.g. 2 planks), and {@code isCraftable}
+     * already gates on {@code slot.getAmount() >= recipe.getAmount()}, so consuming only 1 left the surplus
+     * behind ("consumes one too little"). Slot-lock markers and empty recipe cells are skipped.
+     */
+    protected void consumeInputs(@Nonnull Inventory inv, @Nonnull ItemStack[] recipe) {
+        for (int j = 0; j < 9 && j < recipe.length; j++) {
+            ItemStack cell = recipe[j];
+
+            if (cell == null || cell.getType() == Material.AIR) {
+                continue;
+            }
+
+            ItemStack item = inv.getContents()[j];
+
+            if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
+                InventoryCompat.consumeSlot(inv, j, cell.getAmount(), true);
+            }
+        }
+    }
+
+    /**
      * Performs a single craft headlessly (no {@link Player}, no permission check, no
      * {@link io.github.thebusybiscuit.slimefun5.api.events.MultiBlockCraftEvent}) directly from a
      * powered dispenser, ejecting the result as a dropped item in the dispenser's facing direction.
@@ -167,13 +189,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                     return false;
                 }
 
-                for (int j = 0; j < 9; j++) {
-                    ItemStack item = inv.getContents()[j];
-
-                    if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                        InventoryCompat.consumeSlot(inv, j, 1, true);
-                    }
-                }
+                consumeInputs(inv, input);
 
                 ejectOutput(dispenser, output);
                 SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);

@@ -54,7 +54,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
                     Bukkit.getPluginManager().callEvent(event);
                     if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, possibleDispenser, p, b, event.getOutput());
+                        craft(inv, possibleDispenser, p, b, event.getOutput(), input);
                     }
 
                     return;
@@ -71,7 +71,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         }
     }
 
-    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output) {
+    private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
 
@@ -82,13 +82,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                 SlimefunBackpack backpack = (SlimefunBackpack) sfItem;                upgradeBackpack(p, inv, backpack, output);
             }
 
-            for (int j = 0; j < 9; j++) {
-                ItemStack item = inv.getContents()[j];
-
-                if (item != null && item.getType() != Material.AIR && !isSlotLock(item)) {
-                    InventoryCompat.consumeSlot(inv, j, 1, true);
-                }
-            }
+            consumeInputs(inv, recipe);
 
             SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
             outputInv.addItem(output);
@@ -96,7 +90,7 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
         } else {
             // Output has nowhere to go (dispenser full): craft anyway and eject it out of the dispenser,
             // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
-            consumeInputs(inv);
+            consumeInputs(inv, recipe);
             ejectOutput(dispenser, output);
             SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
         }
