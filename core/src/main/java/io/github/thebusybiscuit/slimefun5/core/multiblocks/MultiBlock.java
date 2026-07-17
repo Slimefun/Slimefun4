@@ -180,6 +180,51 @@ public class MultiBlock {
         return false;
     }
 
+    /**
+     * Whether {@code placed} occupies one of this structure's non-null cells when centred at {@code center},
+     * in the orientation that matches. Used to confirm a just-placed block is genuinely part of a newly
+     * completed structure, rather than an unrelated block set down beside an already-complete one (which
+     * would otherwise re-announce "Assembled").
+     */
+    public boolean containsBlock(@Nonnull Block center, @Nonnull Block placed) {
+        // Centre column: blocks[1]=up, blocks[4]=centre, blocks[7]=down.
+        if (blocks[4] != null && sameBlock(center, placed)) {
+            return true;
+        }
+        if (blocks[1] != null && sameBlock(center.getRelative(BlockFace.UP), placed)) {
+            return true;
+        }
+        if (blocks[7] != null && sameBlock(center.getRelative(BlockFace.DOWN), placed)) {
+            return true;
+        }
+
+        BlockFace[] directions = isSymmetric ? new BlockFace[] { BlockFace.NORTH, BlockFace.EAST } : new BlockFace[] { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+
+        for (BlockFace direction : directions) {
+            if (!matchesColumn(center.getRelative(direction), blocks[0], blocks[3], blocks[6]) || !matchesColumn(center.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
+                continue;
+            }
+
+            Block near = center.getRelative(direction);
+            Block far = center.getRelative(direction.getOppositeFace());
+
+            if ((blocks[3] != null && sameBlock(near, placed))
+                || (blocks[0] != null && sameBlock(near.getRelative(BlockFace.UP), placed))
+                || (blocks[6] != null && sameBlock(near.getRelative(BlockFace.DOWN), placed))
+                || (blocks[5] != null && sameBlock(far, placed))
+                || (blocks[2] != null && sameBlock(far.getRelative(BlockFace.UP), placed))
+                || (blocks[8] != null && sameBlock(far.getRelative(BlockFace.DOWN), placed))) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean sameBlock(@Nonnull Block a, @Nonnull Block b) {
+        return a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ() && a.getWorld().equals(b.getWorld());
+    }
+
     private boolean matchesColumn(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
         return (center == null || materialsMatch(b.getType(), center)) && (top == null || materialsMatch(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || materialsMatch(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }

@@ -115,12 +115,17 @@ public class MultiBlockListener implements Listener {
                 for (int dx = -1; dx <= 1; dx++) {
                     for (int dy = -1; dy <= 1; dy++) {
                         for (int dz = -1; dz <= 1; dz++) {
-                            if (mb.matches(placed.getRelative(dx, dy, dz))) {
+                            Block center = placed.getRelative(dx, dy, dz);
+
+                            // Require the placed block to actually be one of the structure's cells, not just
+                            // near a complete structure - otherwise placing an unrelated block beside an
+                            // existing machine re-announces "Assembled".
+                            if (mb.matches(center) && mb.containsBlock(center, placed)) {
                                 // Claim ownership for the builder so the redstone auto-craft works right away,
                                 // without needing a manual right-click first (crafting tables only - they hold
                                 // the auto-craft dispenser). Owner is keyed by that dispenser's location.
                                 if (mb.getSlimefunItem() instanceof io.github.thebusybiscuit.slimefun5.implementation.items.multiblocks.AbstractCraftingTable) {
-                                    claimCraftingTableOwnership(placed.getRelative(dx, dy, dz), p);
+                                    claimCraftingTableOwnership(center, p);
                                 }
 
                                 if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasMachineMessagesEnabled(p)) {
