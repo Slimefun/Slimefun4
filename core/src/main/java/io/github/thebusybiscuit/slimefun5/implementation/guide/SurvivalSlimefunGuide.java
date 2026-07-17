@@ -122,10 +122,10 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<ItemGroup> categories = collectVisibleCategories(p, profile);
 
-        // guide.categorize-main-menu = false restores the classic flat main menu: every category listed
-        // directly, with no theme grouping. Default true keeps the reworked themed layout. Themes still
-        // exist and work everywhere else - this only controls the main menu's top level.
-        if (!Slimefun.getCfg().getOrSetDefault("guide.categorize-main-menu", true)) {
+        // Per-player toggle (guide settings), defaulting to the server's guide.categorize-main-menu. When
+        // off, the main menu lists every category directly (classic flat layout) instead of theme groups.
+        // Themes still exist and work everywhere else - this only controls the main menu's top level.
+        if (!io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.isMainMenuCategorized(p)) {
             return categories;
         }
 

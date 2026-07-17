@@ -59,6 +59,7 @@ public final class SlimefunGuideSettings {
         options.add(new LearningAnimationOption());
         options.add(new MachineMessagesOption());
         options.add(new ItemDescriptionsOption());
+        options.add(new MainMenuLayoutOption());
         options.add(new PlayerLanguageOption());
     }
 
@@ -310,6 +311,20 @@ public final class SlimefunGuideSettings {
      */
     public static boolean hasMachineMessagesEnabled(@Nonnull Player p) {
         return getOptionValue(p, MachineMessagesOption.class, true);
+    }
+
+    /**
+     * Whether the guide's main menu should be grouped into themes (the reworked layout) for this
+     * {@link Player}. When false, the main menu lists every category directly (the classic flat layout).
+     * Per-player, defaulting to the server's {@code guide.categorize-main-menu} value.
+     *
+     * @param p
+     *            The {@link Player}
+     *
+     * @return Whether the main menu is categorized for this {@link Player}
+     */
+    public static boolean isMainMenuCategorized(@Nonnull Player p) {
+        return getOptionValue(p, MainMenuLayoutOption.class, MainMenuLayoutOption.serverDefault());
     }
 
     /**

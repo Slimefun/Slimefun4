@@ -175,6 +175,23 @@ guide:
         - '&7such as the multiblock assembly tips.'
         - ''
         - '&7⇨ &eClick to enable'
+    main-menu-layout:
+      categorized:
+        text:
+        - '&bMain Menu: &aCategorized'
+        - ''
+        - '&7Group the main menu into themes'
+        - '&7(the reworked layout).'
+        - ''
+        - '&7⇨ &eClick for the classic flat layout'
+      classic:
+        text:
+        - '&bMain Menu: &eClassic'
+        - ''
+        - '&7List every category directly, with'
+        - '&7no theme grouping (the classic layout).'
+        - ''
+        - '&7⇨ &eClick to group into themes'
 
   title:
     main: 'Slimefun Guide'
