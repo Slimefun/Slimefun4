@@ -25,7 +25,9 @@ public class AutoDisenchantEvent extends Event implements Cancellable {
     private boolean cancelled;
 
     public AutoDisenchantEvent(@Nonnull ItemStack item) {
-        super(true);
+        // Thread-adaptive: a VIEWED machine ticks on the main thread while unviewed ticks are async;
+        // Bukkit rejects an async-flagged event fired sync (and vice-versa), so match the current thread.
+        super(!org.bukkit.Bukkit.isPrimaryThread());
 
         this.item = item;
     }

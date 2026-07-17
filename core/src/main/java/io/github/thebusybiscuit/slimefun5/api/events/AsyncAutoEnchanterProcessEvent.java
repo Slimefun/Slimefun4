@@ -29,7 +29,9 @@ public class AsyncAutoEnchanterProcessEvent extends Event implements Cancellable
     private boolean cancelled;
 
     public AsyncAutoEnchanterProcessEvent(@Nonnull ItemStack item, @Nonnull ItemStack enchantedBook, @Nonnull BlockMenu menu) {
-        super(true);
+        // Thread-adaptive: a VIEWED machine ticks on the main thread while unviewed ticks are async;
+        // Bukkit rejects an async-flagged event fired sync (and vice-versa), so match the current thread.
+        super(!org.bukkit.Bukkit.isPrimaryThread());
 
         Validate.notNull(item, "The item to enchant cannot be null!");
         Validate.notNull(enchantedBook, "The enchanted book to enchant cannot be null!");
