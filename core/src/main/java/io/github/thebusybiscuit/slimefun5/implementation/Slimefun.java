@@ -48,6 +48,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.SlimefunRegistry;
 import io.github.thebusybiscuit.slimefun5.core.commands.SlimefunCommand;
+import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockOwnership;
 import io.github.thebusybiscuit.slimefun5.core.networks.NetworkManager;
 import io.github.thebusybiscuit.slimefun5.core.services.AnalyticsService;
 import io.github.thebusybiscuit.slimefun5.core.services.AutoSavingService;
@@ -222,6 +223,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     // Even more things we need
     private NetworkManager networkManager;
     private LocalizationService local;
+    private MultiBlockOwnership multiBlockOwnership;
 
     // Important config files for Slimefun
     private final Config config = new Config(this);
@@ -331,6 +333,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Creating all necessary Folders
         logger.log(Level.INFO, "Creating directories...");
         createDirectories();
+
+        // Load the multiblock ownership store (redstone auto-craft owner gating)
+        multiBlockOwnership = new MultiBlockOwnership(this);
+        multiBlockOwnership.load();
 
         // Load various config settings into our cache
         registry.load(this, config);
@@ -572,6 +578,11 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // Save all "universal" inventories (ender chests for example)
         for (UniversalBlockMenu menu : registry.getUniversalInventories().values()) {
             menu.save();
+        }
+
+        // Flush any multiblock ownership changes still inside the debounce window
+        if (multiBlockOwnership != null) {
+            multiBlockOwnership.save();
         }
 
         // Tear down the block storage backend (H2 connection close; no-op for legacy) now that
@@ -1198,6 +1209,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull SlimefunRegistry getRegistry() {
         validateInstance();
         return instance.registry;
+    }
+
+    /**
+     * This returns our {@link MultiBlockOwnership} store, which tracks the owner of each multiblock
+     * crafting table and gates the redstone auto-craft on that owner's unlocked research.
+     *
+     * @return Our {@link MultiBlockOwnership} instance
+     */
+    public static @Nonnull MultiBlockOwnership getMultiBlockOwnership() {
+        validateInstance();
+        return instance.multiBlockOwnership;
     }
 
     public static @Nonnull WikiText getWikiText() {

@@ -31,6 +31,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun5.api.researches.Research;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -141,6 +142,13 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             return false;
         }
 
+        // An unowned multiblock (nobody has interacted with it yet) never auto-crafts.
+        UUID owner = Slimefun.getMultiBlockOwnership().getOwner(dispenser.getLocation());
+
+        if (owner == null) {
+            return false;
+        }
+
         Inventory inv = ((Dispenser) state).getInventory();
 
         for (ItemStack[] input : RecipeType.getRecipeInputList(this)) {
@@ -149,6 +157,13 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
 
                 // Backpacks need a player profile to assign an id, so they cannot be auto-crafted.
                 if (SlimefunItem.getByItem(output) instanceof SlimefunBackpack) {
+                    return false;
+                }
+
+                // Gate on the owner's research: only auto-craft items the owner has unlocked. There is
+                // no player at redstone time, so we only consult an already-loaded profile - if it is not
+                // in memory (owner offline & uncached) or the research is locked, we do NOT craft.
+                if (!isUnlockedForOwner(output, owner)) {
                     return false;
                 }
 
@@ -167,6 +182,31 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
         }
 
         return false;
+    }
+
+    /**
+     * Whether the given crafted output is allowed for the multiblock's owner at redstone time. This
+     * is deliberately conservative: with no player present we only trust an already-loaded
+     * {@link PlayerProfile}. If the item requires no (enabled) {@link Research} it is always allowed;
+     * otherwise we require the owner's profile to be in memory AND to have the research unlocked -
+     * "cannot confirm unlocked" is treated as "do not craft".
+     */
+    private boolean isUnlockedForOwner(@Nonnull ItemStack output, @Nonnull UUID owner) {
+        SlimefunItem sfItem = SlimefunItem.getByItem(output);
+
+        if (sfItem == null) {
+            return true;
+        }
+
+        Research research = sfItem.getResearch();
+
+        if (research == null || !research.isEnabled()) {
+            // No research requirement (or researching disabled) - nothing to gate on.
+            return true;
+        }
+
+        Optional<PlayerProfile> profile = PlayerProfile.find(Bukkit.getOfflinePlayer(owner));
+        return profile.isPresent() && profile.get().hasUnlocked(research);
     }
 
     /** Ejects the crafted item out of the dispenser's front, exactly like a vanilla dispenser: spawned

@@ -49,6 +49,9 @@ public class MagicWorkbench extends AbstractCraftingTable {
         BlockState state = PaperLib.getBlockState(possibleDispener, false).getState();
 
         if (state instanceof Dispenser) {
+            // First player to interact claims ownership; this gates the redstone auto-craft later.
+            Slimefun.getMultiBlockOwnership().setOwnerIfAbsent(possibleDispener.getLocation(), p.getUniqueId());
+
             Dispenser dispenser = (Dispenser) state;            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 

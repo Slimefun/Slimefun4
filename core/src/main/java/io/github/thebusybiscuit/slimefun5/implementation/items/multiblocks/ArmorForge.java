@@ -38,6 +38,9 @@ public class ArmorForge extends AbstractCraftingTable {
         BlockState state = PaperLib.getBlockState(possibleDispenser, false).getState();
 
         if (state instanceof Dispenser) {
+            // First player to interact claims ownership; this gates the redstone auto-craft later.
+            Slimefun.getMultiBlockOwnership().setOwnerIfAbsent(possibleDispenser.getLocation(), p.getUniqueId());
+
             Dispenser dispenser = (Dispenser) state;            Inventory inv = dispenser.getInventory();
             List<ItemStack[]> inputs = RecipeType.getRecipeInputList(this);
 
