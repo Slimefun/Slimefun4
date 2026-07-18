@@ -87,8 +87,13 @@ public class ArmorForge extends AbstractCraftingTable {
     }
 
     @Override
-    protected SoundEffect getAutoCraftSound() {
-        return SoundEffect.ARMOR_FORGE_FINISH_SOUND;
+    protected java.util.List<AutoCraftSoundStep> getAutoCraftSoundSequence() {
+        // Mirrors the manual craft: three working "clangs" then the anvil finish, over 60 ticks.
+        return java.util.Arrays.asList(
+            new AutoCraftSoundStep(SoundEffect.ARMOR_FORGE_WORKING_SOUND, 0L),
+            new AutoCraftSoundStep(SoundEffect.ARMOR_FORGE_WORKING_SOUND, 20L),
+            new AutoCraftSoundStep(SoundEffect.ARMOR_FORGE_WORKING_SOUND, 40L),
+            new AutoCraftSoundStep(SoundEffect.ARMOR_FORGE_FINISH_SOUND, 60L));
     }
 
     @ParametersAreNonnullByDefault

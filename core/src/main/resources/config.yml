@@ -70,12 +70,13 @@ auto-craft:
   # so research-gated items only auto-craft once researched. true lets automated crafters ignore research.
   # Values: true | false
   bypass-research: false
-  # Sounds played when a dispenser auto-crafts via redstone (independent - enable either, both or neither).
+  # DEFAULTS for the per-player redstone auto-craft sound toggles. Each player can override these in the
+  # guide's Settings panel; a player who never touches them uses the value below.
   sound:
-    # Play the craft sound at the machine so nearby players hear it (a bit quieter than a manual craft).
+    # Whether players hear a nearby machine's auto-craft sounds (a bit quieter than a manual craft).
     # Values: true | false
     everyone: true
-    # Also play the craft sound privately to the multiblock's owner, if they are online. Values: true | false
+    # Whether a player hears a sound when a machine THEY own auto-crafts, wherever they are. Values: true | false
     player: false
 
 # Where Slimefun stores block/machine/chunk data.

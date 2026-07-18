@@ -60,6 +60,8 @@ public final class SlimefunGuideSettings {
         options.add(new MachineMessagesOption());
         options.add(new ItemDescriptionsOption());
         options.add(new MainMenuLayoutOption());
+        options.add(new AutoCraftAmbientSoundOption());
+        options.add(new AutoCraftOwnerSoundOption());
         options.add(new PlayerLanguageOption());
     }
 
@@ -325,6 +327,32 @@ public final class SlimefunGuideSettings {
      */
     public static boolean isMainMenuCategorized(@Nonnull Player p) {
         return getOptionValue(p, MainMenuLayoutOption.class, MainMenuLayoutOption.serverDefault());
+    }
+
+    /**
+     * Whether the given {@link Player} hears the sound a nearby multiblock plays when it auto-crafts via
+     * redstone. Per-player, defaulting to the server's {@code auto-craft.sound.everyone} value.
+     *
+     * @param p
+     *            The {@link Player}
+     *
+     * @return Whether nearby auto-craft sounds should be played to this {@link Player}
+     */
+    public static boolean hasAutoCraftAmbientSound(@Nonnull Player p) {
+        return getOptionValue(p, AutoCraftAmbientSoundOption.class, AutoCraftAmbientSoundOption.serverDefault());
+    }
+
+    /**
+     * Whether the given {@link Player} hears a sound when a multiblock they own auto-crafts via redstone,
+     * wherever they are. Per-player, defaulting to the server's {@code auto-craft.sound.player} value.
+     *
+     * @param p
+     *            The {@link Player}
+     *
+     * @return Whether their own machines' auto-craft sound should be played to this {@link Player}
+     */
+    public static boolean hasAutoCraftOwnerSound(@Nonnull Player p) {
+        return getOptionValue(p, AutoCraftOwnerSoundOption.class, AutoCraftOwnerSoundOption.serverDefault());
     }
 
     /**

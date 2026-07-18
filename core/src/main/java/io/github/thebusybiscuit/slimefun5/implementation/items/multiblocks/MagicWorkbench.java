@@ -86,8 +86,13 @@ public class MagicWorkbench extends AbstractCraftingTable {
     }
 
     @Override
-    protected SoundEffect getAutoCraftSound() {
-        return SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND;
+    protected java.util.List<AutoCraftSoundStep> getAutoCraftSoundSequence() {
+        // Mirrors the manual craft: three animation notes then the finish, over 60 ticks.
+        return java.util.Arrays.asList(
+            new AutoCraftSoundStep(SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND, 0L),
+            new AutoCraftSoundStep(SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND, 20L),
+            new AutoCraftSoundStep(SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND, 40L),
+            new AutoCraftSoundStep(SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND, 60L));
     }
 
     @ParametersAreNonnullByDefault

@@ -532,6 +532,40 @@ guide:
           - '&7z. B. die Multiblock-Zusammenbau-Tipps.'
           - ''
           - '&7⇨ &eKlicke zum Aktivieren'
+    auto-craft-ambient-sound:
+      enabled:
+        text:
+          - '&bAuto-Craft-Ton: &aAktiviert'
+          - ''
+          - '&7Ob du nahe Maschinen hörst,'
+          - '&7die per Redstone automatisch craften.'
+          - ''
+          - '&7⇨ &eKlicke zum Deaktivieren'
+      disabled:
+        text:
+          - '&bAuto-Craft-Ton: &cDeaktiviert'
+          - ''
+          - '&7Ob du nahe Maschinen hörst,'
+          - '&7die per Redstone automatisch craften.'
+          - ''
+          - '&7⇨ &eKlicke zum Aktivieren'
+    auto-craft-owner-sound:
+      enabled:
+        text:
+          - '&bDein Auto-Craft-Signal: &aAktiviert'
+          - ''
+          - '&7Höre einen Ton, wenn eine Maschine,'
+          - '&7die DIR gehört, automatisch craftet.'
+          - ''
+          - '&7⇨ &eKlicke zum Deaktivieren'
+      disabled:
+        text:
+          - '&bDein Auto-Craft-Signal: &cDeaktiviert'
+          - ''
+          - '&7Höre einen Ton, wenn eine Maschine,'
+          - '&7die DIR gehört, automatisch craftet.'
+          - ''
+          - '&7⇨ &eKlicke zum Aktivieren'
   title:
     main: 'Slimefun-Handbuch'
     settings: 'Einstellungen & Infos'
