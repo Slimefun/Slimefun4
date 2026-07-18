@@ -101,6 +101,10 @@ public class ArmorForge extends AbstractCraftingTable {
         Inventory fakeInv = createVirtualInventory(inv);
         Inventory outputInv = findOutputInventory(output, dispenser, inv, fakeInv);
 
+        // Whether THIS crafting player wants to hear the craft sounds (guide toggle); the craft itself and
+        // its item deposit happen regardless.
+        boolean manualSounds = io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasManualCraftSound(p);
+
         if (outputInv != null) {
             consumeInputs(inv, recipe);
 
@@ -109,9 +113,13 @@ public class ArmorForge extends AbstractCraftingTable {
 
                 Slimefun.runSync(() -> {
                     if (current < 3) {
-                        SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
+                        if (manualSounds) {
+                            SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
+                        }
                     } else {
-                        SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
+                        if (manualSounds) {
+                            SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
+                        }
                         handleCraftedItem(output, dispenser, inv);
                     }
                 }, j * 20L);
@@ -122,7 +130,10 @@ public class ArmorForge extends AbstractCraftingTable {
             // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
             consumeInputs(inv);
             ejectOutput(dispenser, output);
-            SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
+
+            if (manualSounds) {
+                SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
+            }
         }
     }
 }

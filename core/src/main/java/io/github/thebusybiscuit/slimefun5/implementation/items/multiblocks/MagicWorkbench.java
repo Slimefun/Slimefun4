@@ -115,11 +115,17 @@ public class MagicWorkbench extends AbstractCraftingTable {
             // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
             consumeInputs(inv, recipe);
             ejectOutput(dispenser, output);
-            SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
+
+            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasManualCraftSound(p)) {
+                SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
+            }
         }
     }
 
     private void startAnimation(Player p, Block b, Inventory dispInv, Block dispenser, ItemStack output) {
+        // Whether THIS crafting player wants the craft sounds (guide toggle); effects and item deposit still run.
+        boolean manualSounds = io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasManualCraftSound(p);
+
         for (int j = 0; j < 4; j++) {
             int current = j;
             Slimefun.runSync(() -> {
@@ -127,9 +133,13 @@ public class MagicWorkbench extends AbstractCraftingTable {
                 p.getWorld().playEffect(b.getLocation(), Effect.ENDER_SIGNAL, 1);
 
                 if (current < 3) {
-                    SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND.playAt(b);
+                    if (manualSounds) {
+                        SoundEffect.MAGIC_WORKBENCH_START_ANIMATION_SOUND.playAt(b);
+                    }
                 } else {
-                    SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
+                    if (manualSounds) {
+                        SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND.playAt(b);
+                    }
                     handleCraftedItem(output, dispenser, dispInv);
                 }
             }, j * 20L);

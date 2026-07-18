@@ -193,21 +193,21 @@ guide:
         - '&7auto-crafting via redstone.'
         - ''
         - '&7⇨ &eClick to enable'
-    auto-craft-owner-sound:
+    manual-craft-sound:
       enabled:
         text:
-        - '&bYour Auto-Craft Ping: &aEnabled'
+        - '&bManual Craft Sounds: &aEnabled'
         - ''
-        - '&7Hear a sound when a machine YOU own'
-        - '&7auto-crafts, wherever you are.'
+        - '&7Whether craft sounds play when you'
+        - '&7craft at a multiblock by hand.'
         - ''
         - '&7⇨ &eClick to disable'
       disabled:
         text:
-        - '&bYour Auto-Craft Ping: &cDisabled'
+        - '&bManual Craft Sounds: &cDisabled'
         - ''
-        - '&7Hear a sound when a machine YOU own'
-        - '&7auto-crafts, wherever you are.'
+        - '&7Whether craft sounds play when you'
+        - '&7craft at a multiblock by hand.'
         - ''
         - '&7⇨ &eClick to enable'
     main-menu-layout:

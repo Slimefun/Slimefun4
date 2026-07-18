@@ -84,7 +84,9 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
             consumeInputs(inv, recipe);
 
-            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
+            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasManualCraftSound(p)) {
+                SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
+            }
             outputInv.addItem(output);
 
         } else {
@@ -92,7 +94,9 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
             // the same way the redstone auto-craft does, so it lands in open space instead of being lost.
             consumeInputs(inv, recipe);
             ejectOutput(dispenser, output);
-            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
+            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasManualCraftSound(p)) {
+                SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(b);
+            }
         }
     }
 

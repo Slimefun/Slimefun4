@@ -549,23 +549,40 @@ guide:
           - '&7die per Redstone automatisch craften.'
           - ''
           - '&7⇨ &eKlicke zum Aktivieren'
-    auto-craft-owner-sound:
+    manual-craft-sound:
       enabled:
         text:
-          - '&bDein Auto-Craft-Signal: &aAktiviert'
+          - '&bManuelle Craft-Töne: &aAktiviert'
           - ''
-          - '&7Höre einen Ton, wenn eine Maschine,'
-          - '&7die DIR gehört, automatisch craftet.'
+          - '&7Ob Craft-Töne abgespielt werden, wenn'
+          - '&7du von Hand an einem Multiblock craftest.'
           - ''
           - '&7⇨ &eKlicke zum Deaktivieren'
       disabled:
         text:
-          - '&bDein Auto-Craft-Signal: &cDeaktiviert'
+          - '&bManuelle Craft-Töne: &cDeaktiviert'
           - ''
-          - '&7Höre einen Ton, wenn eine Maschine,'
-          - '&7die DIR gehört, automatisch craftet.'
+          - '&7Ob Craft-Töne abgespielt werden, wenn'
+          - '&7du von Hand an einem Multiblock craftest.'
           - ''
           - '&7⇨ &eKlicke zum Aktivieren'
+    main-menu-layout:
+      categorized:
+        text:
+          - '&bHauptmenü: &aKategorisiert'
+          - ''
+          - '&7Gruppiere das Hauptmenü in Themen'
+          - '&7(das überarbeitete Layout).'
+          - ''
+          - '&7⇨ &eKlicke für das klassische Layout'
+      classic:
+        text:
+          - '&bHauptmenü: &eKlassisch'
+          - ''
+          - '&7Liste jede Kategorie direkt auf,'
+          - '&7ohne Themen-Gruppierung (klassisch).'
+          - ''
+          - '&7⇨ &eKlicke zum Gruppieren in Themen'
   title:
     main: 'Slimefun-Handbuch'
     settings: 'Einstellungen & Infos'

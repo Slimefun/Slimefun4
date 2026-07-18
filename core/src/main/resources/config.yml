@@ -73,11 +73,12 @@ auto-craft:
   # DEFAULTS for the per-player redstone auto-craft sound toggles. Each player can override these in the
   # guide's Settings panel; a player who never touches them uses the value below.
   sound:
-    # Whether players hear a nearby machine's auto-craft sounds (a bit quieter than a manual craft).
+    # Whether players hear a nearby machine auto-crafting via redstone (a bit quieter than a manual craft).
     # Values: true | false
     everyone: true
-    # Whether a player hears a sound when a machine THEY own auto-crafts, wherever they are. Values: true | false
-    player: false
+    # Whether the craft sounds play when a player manually crafts at a multiblock by clicking it (ownership
+    # is irrelevant - it's simply whether the crafting player hears the sounds). Values: true | false
+    manual: true
 
 # Where Slimefun stores block/machine/chunk data.
 storage:

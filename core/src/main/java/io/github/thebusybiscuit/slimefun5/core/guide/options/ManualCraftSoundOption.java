@@ -15,13 +15,14 @@ import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 
 /**
- * A per-player toggle for whether this player hears a sound when a multiblock they own auto-crafts via
- * redstone, wherever they are. Defaults to the server's {@code auto-craft.sound.player} value.
+ * A per-player toggle for whether the craft sounds play when this player manually crafts at a multiblock
+ * (Enhanced Crafting Table, Magic Workbench, Armor Forge) by clicking it. Ownership is irrelevant - it is
+ * simply whether the crafting player hears the sounds. Defaults to the server's {@code auto-craft.sound.manual} value.
  */
-class AutoCraftOwnerSoundOption implements SlimefunGuideOption<Boolean> {
+class ManualCraftSoundOption implements SlimefunGuideOption<Boolean> {
 
     static boolean serverDefault() {
-        return Slimefun.getCfg().getOrSetDefault("auto-craft.sound.player", false);
+        return Slimefun.getCfg().getOrSetDefault("auto-craft.sound.manual", true);
     }
 
     @Override
@@ -31,16 +32,16 @@ class AutoCraftOwnerSoundOption implements SlimefunGuideOption<Boolean> {
 
     @Override
     public NamespacedKey getKey() {
-        return new NamespacedKey(Slimefun.instance(), "auto_craft_owner_sound");
+        return new NamespacedKey(Slimefun.instance(), "manual_craft_sound");
     }
 
     @Override
     public Optional<ItemStack> getDisplayItem(Player p, ItemStack guide) {
         boolean enabled = getSelectedOption(p, guide).orElse(serverDefault());
         String state = enabled ? "enabled" : "disabled";
-        List<String> lines = Slimefun.getLocalization().getMessages(p, "guide.options.auto-craft-owner-sound." + state + ".text");
+        List<String> lines = Slimefun.getLocalization().getMessages(p, "guide.options.manual-craft-sound." + state + ".text");
 
-        ItemStack item = CustomItemStack.create(XMaterial.JUKEBOX.parseMaterial(), lines.get(0),
+        ItemStack item = CustomItemStack.create(XMaterial.CRAFTING_TABLE.parseMaterial(), lines.get(0),
             lines.subList(1, lines.size()).toArray(new String[0]));
         return Optional.of(item);
     }

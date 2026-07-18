@@ -204,8 +204,8 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                 consumeInputs(inv, input);
 
                 // Play the machine's craft sound sequence (mirroring its manual animation) from the start of
-                // the craft, per-player so each viewer's guide toggle is honoured.
-                playAutoCraftSounds(dispenser, owner);
+                // the craft, to each nearby player who opted to hear redstone auto-craft sounds.
+                playAutoCraftSounds(dispenser);
 
                 int delay = getAutoCraftDelayTicks();
 
@@ -290,42 +290,31 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
     }
 
     /**
-     * Schedules this machine's auto-craft sound sequence, played per-player so each viewer's guide toggle is
-     * honoured: nearby players with {@link SlimefunGuideSettings#hasAutoCraftAmbientSound} hear it (quieter)
-     * from the machine, and the owner, if online with {@link SlimefunGuideSettings#hasAutoCraftOwnerSound} and
-     * not already nearby, hears it wherever they are.
+     * Schedules this machine's redstone auto-craft sound sequence, played per-player so each viewer's guide
+     * toggle is honoured: every nearby player with {@link SlimefunGuideSettings#hasAutoCraftAmbientSound} hears
+     * it (a bit quieter) coming from the machine, regardless of who owns it.
      */
-    private void playAutoCraftSounds(@Nonnull Block dispenser, @Nonnull UUID owner) {
+    private void playAutoCraftSounds(@Nonnull Block dispenser) {
         Location loc = dispenser.getLocation();
 
-        List<Player> ambient = new java.util.ArrayList<>();
+        List<Player> recipients = new java.util.ArrayList<>();
         for (Player nearby : dispenser.getWorld().getPlayers()) {
             if (nearby.getLocation().distanceSquared(loc) <= AMBIENT_RANGE_SQUARED
                     && io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasAutoCraftAmbientSound(nearby)) {
-                ambient.add(nearby);
+                recipients.add(nearby);
             }
         }
 
-        Player ownerPlayer = Bukkit.getPlayer(owner);
-        Player ping = (ownerPlayer != null && !ambient.contains(ownerPlayer)
-                && io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.hasAutoCraftOwnerSound(ownerPlayer)) ? ownerPlayer : null;
-
-        if (ambient.isEmpty() && ping == null) {
+        if (recipients.isEmpty()) {
             return;
         }
 
         for (AutoCraftSoundStep step : getAutoCraftSoundSequence()) {
-            Player pingTarget = ping;
             Runnable play = () -> {
-                for (Player recipient : ambient) {
+                for (Player recipient : recipients) {
                     if (recipient.isOnline()) {
                         step.sound.playFor(recipient, loc, SoundCategory.BLOCKS, ENVIRONMENT_VOLUME);
                     }
-                }
-
-                // The owner's personal ping follows them (played at their current location).
-                if (pingTarget != null && pingTarget.isOnline()) {
-                    step.sound.playFor(pingTarget, pingTarget.getLocation(), SoundCategory.BLOCKS, ENVIRONMENT_VOLUME);
                 }
             };
 
