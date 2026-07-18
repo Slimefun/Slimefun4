@@ -9,6 +9,7 @@ commands:
   open_guide: Opens Slimefun's guide without using the book
   stats: Shows some Stats about a Player
   migrationcheck: Checks your inventory for unresolved Slimefun items
+  owner: Shows who owns the multiblock you are looking at
 
   research:
     description: Unlock/Reset researches for a player
@@ -622,6 +623,10 @@ messages:
     all-good: '&aEvery Slimefun item in your inventory resolves correctly.'
     unresolved-header: '&cThese ids no longer match a registered item (missing addon or renamed item):'
     unresolved-entry: '&c- &7%id% &8x%amount%'
+  owner:
+    not-looking: '&cLook at an Enhanced Crafting Table, Magic Workbench or Armor Forge to see its owner.'
+    unowned: '&7This &b%machine% &7has no owner yet - nobody has interacted with it.'
+    owned: '&7This &b%machine% &7is owned by &b%owner%&7.'
   not-online: '&4%player% &cis not online!'
   invalid-item: '&4%item% &cis not a valid Item!'
   invalid-amount: '&4%amount% &cis not a valid amount : it must be higher than 0!'

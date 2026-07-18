@@ -10,6 +10,7 @@ commands:
   open_guide: Öffnet das Slimefun-Handbuch
   stats: Zeigt einige Statistiken über einen Spieler
   migrationcheck: Prüft dein Inventar auf nicht aufgelöste Slimefun-Items
+  owner: Zeigt den Besitzer der Maschine, die du ansiehst
   research:
     description: Verändert den Erfahrungsgrad eines Spielers
     reset: '&cDu hast soeben %player%''s Erfahrungsgrad zurückgesetzt'
@@ -575,6 +576,10 @@ messages:
     all-good: '&aAlle Slimefun-Items in deinem Inventar werden korrekt aufgelöst.'
     unresolved-header: '&cDiese IDs passen zu keinem registrierten Item mehr (fehlendes Addon oder umbenanntes Item):'
     unresolved-entry: '&c- &7%id% &8x%amount%'
+  owner:
+    not-looking: '&cSchau eine Verbesserte Werkbank, Magische Werkbank oder Rüstungsschmiede an, um ihren Besitzer zu sehen.'
+    unowned: '&7Diese &b%machine% &7hat noch keinen Besitzer - niemand hat mit ihr interagiert.'
+    owned: '&7Diese &b%machine% &7gehört &b%owner%&7.'
   not-online: '&4%player% &cist derzeit nicht online!'
   invalid-item: '&4%item% &cist kein gültiges Item!'
   invalid-amount: '&4%amount% &cist keine gültige Anzahl! Sie muss höher als 0 sein!'
