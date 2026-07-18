@@ -79,6 +79,12 @@ public class MagicWorkbench extends AbstractCraftingTable {
         }
     }
 
+    @Override
+    protected int getAutoCraftDelayTicks() {
+        // Matches the manual craft animation (4 steps at 20-tick intervals, finishing at ~60 ticks).
+        return 60;
+    }
+
     @ParametersAreNonnullByDefault
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);

@@ -171,6 +171,14 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             return false;
         }
 
+        // A craft already in progress at this dispenser blocks re-triggering until it finishes: a timed
+        // machine takes time to craft, and can only be powered again once the current item completes.
+        Location loc = dispenser.getLocation();
+
+        if (AUTO_CRAFTING.contains(loc)) {
+            return false;
+        }
+
         Inventory inv = ((Dispenser) state).getInventory();
 
         for (ItemStack[] input : RecipeType.getRecipeInputList(this)) {
@@ -194,13 +202,41 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
 
                 consumeInputs(inv, input);
 
-                ejectOutput(dispenser, output);
-                SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+                int delay = getAutoCraftDelayTicks();
+
+                if (delay <= 0) {
+                    ejectOutput(dispenser, output);
+                    SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+                    return true;
+                }
+
+                // Timed machine (Armor Forge / Magic Workbench): the craft takes time. Mark the dispenser
+                // busy now, eject when the craft finishes, then free it so redstone can power it again.
+                AUTO_CRAFTING.add(loc);
+                ItemStack finalOutput = output;
+                Slimefun.runSync(() -> {
+                    ejectOutput(dispenser, finalOutput);
+                    SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+                    AUTO_CRAFTING.remove(loc);
+                }, delay);
                 return true;
             }
         }
 
         return false;
+    }
+
+    /** Dispenser locations with a redstone auto-craft currently in progress; blocks re-triggering. */
+    private static final java.util.Set<Location> AUTO_CRAFTING = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
+    /**
+     * Ticks a redstone auto-craft takes to complete before its output is ejected, mirroring the machine's
+     * manual craft time. {@code 0} (default) ejects instantly (Enhanced Crafting Table); timed machines
+     * (Armor Forge, Magic Workbench) override this so redstone crafting takes as long as crafting by hand,
+     * and the dispenser cannot be re-powered until the current craft finishes.
+     */
+    protected int getAutoCraftDelayTicks() {
+        return 0;
     }
 
     /**

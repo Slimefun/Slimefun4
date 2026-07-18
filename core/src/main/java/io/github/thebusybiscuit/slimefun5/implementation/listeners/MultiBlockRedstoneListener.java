@@ -69,12 +69,7 @@ public class MultiBlockRedstoneListener implements Listener {
             Slimefun.runSync(() -> recentlyCrafted.remove(loc), 2L);
 
             try {
-                // Diagnostic: one line per activation (debounced above) so a server can see why a powered
-                // crafting-table dispenser did or did not auto-craft (event fired + machine detected here;
-                // owner presence and craft result below).
-                java.util.UUID owner = Slimefun.getMultiBlockOwnership().getOwner(loc);
-                boolean crafted = machine.autoCraft(dispenser);
-                Slimefun.logger().info("[autocraft] " + machine.getId() + " @ " + loc + " powered: owner=" + owner + ", crafted=" + crafted);
+                machine.autoCraft(dispenser);
             } catch (Exception | LinkageError x) {
                 Slimefun.logger().warning("Failed to redstone auto-craft at " + loc + ": " + x.getMessage());
             }

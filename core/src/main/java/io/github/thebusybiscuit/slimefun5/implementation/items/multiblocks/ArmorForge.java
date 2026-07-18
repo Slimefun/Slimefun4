@@ -80,6 +80,12 @@ public class ArmorForge extends AbstractCraftingTable {
         return true;
     }
 
+    @Override
+    protected int getAutoCraftDelayTicks() {
+        // Matches the manual craft animation (4 steps at 20-tick intervals, finishing at ~60 ticks).
+        return 60;
+    }
+
     @ParametersAreNonnullByDefault
     private void craft(Player p, ItemStack output, Inventory inv, Block dispenser, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);
