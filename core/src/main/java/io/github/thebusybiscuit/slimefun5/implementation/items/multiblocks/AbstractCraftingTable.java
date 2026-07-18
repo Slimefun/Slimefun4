@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun5.api.researches.Research;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun5.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun5.implementation.items.backpacks.SlimefunBackpack;
@@ -205,18 +206,16 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                 int delay = getAutoCraftDelayTicks();
 
                 if (delay <= 0) {
-                    ejectOutput(dispenser, output);
-                    SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+                    depositAutoCraftOutput(dispenser, output);
                     return true;
                 }
 
                 // Timed machine (Armor Forge / Magic Workbench): the craft takes time. Mark the dispenser
-                // busy now, eject when the craft finishes, then free it so redstone can power it again.
+                // busy now, deposit when the craft finishes, then free it so redstone can power it again.
                 AUTO_CRAFTING.add(loc);
                 ItemStack finalOutput = output;
                 Slimefun.runSync(() -> {
-                    ejectOutput(dispenser, finalOutput);
-                    SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+                    depositAutoCraftOutput(dispenser, finalOutput);
                     AUTO_CRAFTING.remove(loc);
                 }, delay);
                 return true;
@@ -237,6 +236,26 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
      */
     protected int getAutoCraftDelayTicks() {
         return 0;
+    }
+
+    /**
+     * Deposits a redstone auto-craft output: into an adjacent {@link OutputChest} if one can hold it (so
+     * automated setups collect it, exactly like a manual craft), otherwise ejected out of the dispenser's
+     * front. Never placed back into the dispenser, which would clog the recipe inputs and re-trigger.
+     */
+    private void depositAutoCraftOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
+        Optional<Inventory> chest = OutputChest.findOutputChestFor(dispenser, output);
+        SlimefunItem sfItem = SlimefunItem.getByItem(output);
+        String outputId = sfItem != null ? sfItem.getId() : String.valueOf(output.getType());
+
+        if (chest.isPresent()) {
+            chest.get().addItem(output);
+            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
+            Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> deposited into an adjacent output chest");
+        } else {
+            ejectOutput(dispenser, output);
+            Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> ejected out the dispenser front (no output chest found)");
+        }
     }
 
     /**
