@@ -49,9 +49,12 @@ jobs:
           else
             TAG="${GITHUB_REF_NAME}"
           fi
-          # Derive the artifact version by stripping an optional gh-v or v prefix (5.2.3.1 stays 5.2.3.1).
+          # Derive the artifact version by stripping an optional gh-v or v prefix (5.2.3.1 stays 5.2.3.1),
+          # then any stray leading punctuation so a mistyped tag like gh-v.5.3.1.1 still yields 5.3.1.1
+          # (not ".5.3.1.1", which would produce a "Slimefun-.5.3.1.1.jar").
           VERSION="${TAG#gh-v}"
           VERSION="${VERSION#v}"
+          VERSION="${VERSION#.}"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
