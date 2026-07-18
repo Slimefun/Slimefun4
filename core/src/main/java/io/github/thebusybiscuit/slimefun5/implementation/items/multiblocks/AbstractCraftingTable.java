@@ -177,15 +177,18 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             if (isCraftable(inv, input)) {
                 ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
 
+                SlimefunItem outputItem = SlimefunItem.getByItem(output);
+                String outputId = outputItem != null ? outputItem.getId() : String.valueOf(output.getType());
+
                 // Backpacks need a player profile to assign an id, so they cannot be auto-crafted.
-                if (SlimefunItem.getByItem(output) instanceof SlimefunBackpack) {
+                if (outputItem instanceof SlimefunBackpack) {
+                    Slimefun.logger().info("[autocraft] " + getId() + ": recipe matched (" + outputId + ") but backpacks cannot be auto-crafted (need a player).");
                     return false;
                 }
 
-                // Gate on the owner's research: only auto-craft items the owner has unlocked. There is
-                // no player at redstone time, so we only consult an already-loaded profile - if it is not
-                // in memory (owner offline & uncached) or the research is locked, we do NOT craft.
+                // Gate on the owner's research/permission: only auto-craft what the owner could craft by hand.
                 if (!isUnlockedForOwner(output, owner)) {
+                    Slimefun.logger().info("[autocraft] " + getId() + ": recipe matched (" + outputId + ") but the owner is not allowed to use it (research not unlocked / no permission).");
                     return false;
                 }
 
@@ -221,6 +224,16 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             return true;
         }
 
+        // If the owner is online, mirror exactly what they could do by hand: canPlayerUseItem honours the
+        // research AND their creative/op/permission bypass, so a redstone craft matches a manual one (a
+        // player who can craft it manually can also automate it).
+        Player online = Bukkit.getPlayer(owner);
+
+        if (online != null) {
+            return SlimefunUtils.canPlayerUseItem(online, output, false);
+        }
+
+        // Offline owner: only trust an already-loaded profile that has the research unlocked.
         Optional<PlayerProfile> profile = PlayerProfile.find(Bukkit.getOfflinePlayer(owner));
         return profile.isPresent() && profile.get().hasUnlocked(research);
     }
