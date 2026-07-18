@@ -68,11 +68,17 @@ public class MultiBlockRedstoneListener implements Listener {
 
             Slimefun.runSync(() -> recentlyCrafted.remove(loc), 2L);
 
-            try {
-                machine.autoCraft(dispenser);
-            } catch (Exception | LinkageError x) {
-                Slimefun.logger().warning("Failed to redstone auto-craft at " + loc + ": " + x.getMessage());
-            }
+            // Vanilla splits one item off the selected slot BEFORE firing this event, and only restores it
+            // (because we cancelled) after this handler returns. Crafting now would read the dispenser one
+            // ingredient short, so a recipe with exactly one of that ingredient would falsely not match
+            // ("needs enough to craft twice"). Defer one tick so autoCraft sees the full, restored inventory.
+            Slimefun.runSync(() -> {
+                try {
+                    machine.autoCraft(dispenser);
+                } catch (Exception | LinkageError x) {
+                    Slimefun.logger().warning("Failed to redstone auto-craft at " + loc + ": " + x.getMessage());
+                }
+            }, 1L);
         }
     }
 
