@@ -279,6 +279,12 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
             return true;
         }
 
+        // Opt-in: let automated crafters ignore the research requirement (permission/world checks that
+        // gate the machine itself still apply). Off by default, so auto-craft mirrors manual crafting.
+        if (Slimefun.getCfg().getBoolean("auto-craft.bypass-research")) {
+            return true;
+        }
+
         // If the owner is online, mirror exactly what they could do by hand: canPlayerUseItem honours the
         // research AND their creative/op/permission bypass, so a redstone craft matches a manual one (a
         // player who can craft it manually can also automate it).

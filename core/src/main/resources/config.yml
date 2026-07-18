@@ -61,6 +61,16 @@ options:
   # normally voids drops; true keeps the Slimefun item. Values: true | false
   drop-block-creative: true
 
+# Redstone auto-crafting: a dispenser that forms part of an Enhanced Crafting Table, Magic Workbench or
+# Armor Forge crafts its recipe headlessly when powered by redstone (the multiblock's owner is the first
+# player to build/interact with it).
+auto-craft:
+  # Whether a redstone auto-craft may produce a research-gated item WITHOUT its owner having unlocked the
+  # research. false (default) mirrors manual crafting - the owner must be able to craft the item by hand,
+  # so research-gated items only auto-craft once researched. true lets automated crafters ignore research.
+  # Values: true | false
+  bypass-research: false
+
 # Where Slimefun stores block/machine/chunk data.
 storage:
   # 'h2' = embedded database (default). 'mysql' = an external MySQL/MariaDB server, configured below.
