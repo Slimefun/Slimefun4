@@ -85,6 +85,11 @@ public class MagicWorkbench extends AbstractCraftingTable {
         return 60;
     }
 
+    @Override
+    protected SoundEffect getAutoCraftSound() {
+        return SoundEffect.MAGIC_WORKBENCH_FINISH_SOUND;
+    }
+
     @ParametersAreNonnullByDefault
     private void craft(Inventory inv, Block dispenser, Player p, Block b, ItemStack output, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);

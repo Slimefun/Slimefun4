@@ -174,6 +174,24 @@ public enum SoundEffect {
     }
 
     /**
+     * This method will play this {@link SoundEffect} at the given {@link Location} with its configured
+     * volume scaled by {@code volumeMultiplier} (e.g. {@code 0.4} for a quieter play), using the given
+     * {@link SoundCategory}.
+     *
+     * @param loc              The {@link Location} at which to play the {@link SoundEffect}.
+     * @param category         The {@link SoundCategory} that should be used.
+     * @param volumeMultiplier A factor applied to the configured volume (1.0 = unchanged).
+     */
+    public void playAt(@Nonnull Location loc, @Nonnull SoundCategory category, float volumeMultiplier) {
+        Preconditions.checkNotNull(loc, "The location should not be null.");
+        SoundConfiguration config = getConfiguration();
+
+        if (config != null && loc.getWorld() != null) {
+            SoundCompat.playAt(loc, config.getSoundId(), category, config.getVolume() * volumeMultiplier, config.getPitch());
+        }
+    }
+
+    /**
      * This method will play this {@link SoundEffect} at the {@link Location} of the given {@link Block},
      * the used {@link SoundCategory} will be {@code BLOCKS}.
      *

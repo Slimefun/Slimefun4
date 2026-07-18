@@ -206,7 +206,7 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                 int delay = getAutoCraftDelayTicks();
 
                 if (delay <= 0) {
-                    depositAutoCraftOutput(dispenser, output);
+                    depositAutoCraftOutput(dispenser, output, owner);
                     return true;
                 }
 
@@ -214,8 +214,9 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
                 // busy now, deposit when the craft finishes, then free it so redstone can power it again.
                 AUTO_CRAFTING.add(loc);
                 ItemStack finalOutput = output;
+                UUID finalOwner = owner;
                 Slimefun.runSync(() -> {
-                    depositAutoCraftOutput(dispenser, finalOutput);
+                    depositAutoCraftOutput(dispenser, finalOutput, finalOwner);
                     AUTO_CRAFTING.remove(loc);
                 }, delay);
                 return true;
@@ -243,19 +244,49 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
      * automated setups collect it, exactly like a manual craft), otherwise ejected out of the dispenser's
      * front. Never placed back into the dispenser, which would clog the recipe inputs and re-trigger.
      */
-    private void depositAutoCraftOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
+    private void depositAutoCraftOutput(@Nonnull Block dispenser, @Nonnull ItemStack output, @Nonnull UUID owner) {
+        playAutoCraftSound(dispenser, owner);
+
         Optional<Inventory> chest = OutputChest.findOutputChestFor(dispenser, output);
         SlimefunItem sfItem = SlimefunItem.getByItem(output);
         String outputId = sfItem != null ? sfItem.getId() : String.valueOf(output.getType());
 
         if (chest.isPresent()) {
             chest.get().addItem(output);
-            SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND.playAt(dispenser);
             Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> deposited into an adjacent output chest");
         } else {
             ejectOutput(dispenser, output);
             Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> ejected out the dispenser front (no output chest found)");
         }
+    }
+
+    /** How much quieter the "everyone hears" redstone-craft sound is than a normal (manual) craft. */
+    private static final float ENVIRONMENT_VOLUME = 0.4F;
+
+    /**
+     * Plays this machine's craft sound for a redstone auto-craft, honouring two independent config toggles:
+     * {@code auto-craft.sound.everyone} plays it (a bit quieter) at the block so nearby players hear it, and
+     * {@code auto-craft.sound.player} additionally plays it privately to the owner if they are online.
+     */
+    private void playAutoCraftSound(@Nonnull Block dispenser, @Nonnull UUID owner) {
+        SoundEffect sound = getAutoCraftSound();
+
+        if (Slimefun.getCfg().getBoolean("auto-craft.sound.everyone")) {
+            sound.playAt(dispenser.getLocation(), SoundCategory.BLOCKS, ENVIRONMENT_VOLUME);
+        }
+
+        if (Slimefun.getCfg().getBoolean("auto-craft.sound.player")) {
+            Player online = Bukkit.getPlayer(owner);
+
+            if (online != null) {
+                sound.playFor(online);
+            }
+        }
+    }
+
+    /** The sound a redstone auto-craft plays on completion. Overridden per machine to match its manual craft. */
+    protected @Nonnull SoundEffect getAutoCraftSound() {
+        return SoundEffect.ENHANCED_CRAFTING_TABLE_CRAFT_SOUND;
     }
 
     /**

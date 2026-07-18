@@ -86,6 +86,11 @@ public class ArmorForge extends AbstractCraftingTable {
         return 60;
     }
 
+    @Override
+    protected SoundEffect getAutoCraftSound() {
+        return SoundEffect.ARMOR_FORGE_FINISH_SOUND;
+    }
+
     @ParametersAreNonnullByDefault
     private void craft(Player p, ItemStack output, Inventory inv, Block dispenser, ItemStack[] recipe) {
         Inventory fakeInv = createVirtualInventory(inv);
