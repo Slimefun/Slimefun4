@@ -249,15 +249,11 @@ public abstract class AbstractCraftingTable extends MultiBlockMachine {
      */
     private void depositAutoCraftOutput(@Nonnull Block dispenser, @Nonnull ItemStack output) {
         Optional<Inventory> chest = OutputChest.findOutputChestFor(dispenser, output);
-        SlimefunItem sfItem = SlimefunItem.getByItem(output);
-        String outputId = sfItem != null ? sfItem.getId() : String.valueOf(output.getType());
 
         if (chest.isPresent()) {
             chest.get().addItem(output);
-            Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> deposited into an adjacent output chest");
         } else {
             ejectOutput(dispenser, output);
-            Slimefun.logger().info("[autocraft] " + getId() + " crafted " + outputId + " -> ejected out the dispenser front (no output chest found)");
         }
     }
 
