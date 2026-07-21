@@ -22,6 +22,12 @@ public final class ItemTypeClassifier {
 
     @Nullable
     public static String classify(@Nonnull SlimefunItem item) {
+        // An explicit addon-declared type wins over the heuristic (the caller validates it against the
+        // category registry, so an unknown id still lands in Misc).
+        if (item.getGuideType() != null) {
+            return item.getGuideType();
+        }
+
         if (item instanceof SlimefunArmorPiece) {
             return DefaultGuideCategories.ARMOR;
         }

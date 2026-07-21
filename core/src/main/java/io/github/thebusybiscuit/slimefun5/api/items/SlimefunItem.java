@@ -97,6 +97,13 @@ public class SlimefunItem implements Placeable {
     private ItemGroup itemGroup;
 
     /**
+     * Optional guide-type (a category id) an addon declares for this item, so the categorized guide files
+     * it under that type instead of the material/type heuristic. {@code null} = use the heuristic.
+     */
+    @Nullable
+    private String guideType;
+
+    /**
      * This is a reference to the associated {@link Research}, can be null.
      */
     private Research research;
@@ -290,6 +297,28 @@ public class SlimefunItem implements Placeable {
      */
     public @Nonnull ItemGroup getItemGroup() {
         return itemGroup;
+    }
+
+    /**
+     * Declares the guide-type (a category id, e.g. {@code DefaultGuideCategories.RESOURCES}) the
+     * categorized guide should file this item under, overriding the material/type heuristic. Opt-in for
+     * addons whose items the heuristic can't type (resources, decoration, magic). Fluent.
+     *
+     * @param categoryId the category id, or {@code null} to clear (fall back to the heuristic)
+     * @return this {@link SlimefunItem}
+     */
+    @Nonnull
+    public SlimefunItem setGuideType(@Nullable String categoryId) {
+        this.guideType = categoryId;
+        return this;
+    }
+
+    /**
+     * @return the addon-declared guide-type category id, or {@code null} to use the heuristic.
+     */
+    @Nullable
+    public String getGuideType() {
+        return guideType;
     }
 
     /**

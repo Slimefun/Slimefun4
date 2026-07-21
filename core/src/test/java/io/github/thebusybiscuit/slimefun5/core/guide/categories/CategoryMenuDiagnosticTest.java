@@ -78,6 +78,20 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
+    void declaredGuideTypeOverridesHeuristic() {
+        io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
+            io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("ELECTRIC_MOTOR");
+        Assertions.assertNotNull(item, "ELECTRIC_MOTOR must be registered");
+        try {
+            item.setGuideType(DefaultGuideCategories.RESOURCES);
+            Assertions.assertEquals(DefaultGuideCategories.RESOURCES, ItemTypeClassifier.classify(item),
+                "an explicit guide type must win over the heuristic");
+        } finally {
+            item.setGuideType(null); // restore heuristic for other tests
+        }
+    }
+
+    @Test
     void coreGroupsCategorizedAndNoAddonFallbackInPureCoreBoot() {
         // The headless boot has only core items, so the full <Addon> <Type> item split can't be asserted
         // here (ItemTypeClassifier is unit-tested separately, end-to-end split is verified in-game). This
