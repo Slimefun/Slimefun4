@@ -184,20 +184,6 @@ class PacketRenderTest {
     }
 
     @Test
-    @DisplayName("the guide-source marker round-trips through PDC (the packet source-append relies on it)")
-    void guideSourceMarkerRoundTrips() {
-        io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey key =
-            new io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey(Slimefun.instance(), io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils.GUIDE_SOURCE_MARKER);
-
-        org.bukkit.inventory.ItemStack marked = io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils.markGuideSource(new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER));
-        Assertions.assertTrue(io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat.has(marked.getItemMeta(), key, "STRING"),
-            "a marked guide display copy must carry the source marker");
-
-        Assertions.assertFalse(io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat.has(new org.bukkit.inventory.ItemStack(org.bukkit.Material.PAPER).getItemMeta(), key, "STRING"),
-            "an unmarked (real) item must not carry the marker, so its source is never shown");
-    }
-
-    @Test
     @DisplayName("renderForPacket honours includeDescription: false drops the description block")
     void includeDescriptionToggleControlsDescriptionBlock() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();

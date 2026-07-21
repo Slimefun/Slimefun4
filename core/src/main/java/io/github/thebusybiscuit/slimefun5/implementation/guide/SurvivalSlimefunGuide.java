@@ -435,9 +435,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 return false;
             });
         } else {
-            // Mark a display clone so the packet translator appends the item's source (owning addon) line
-            // in the guide only - never on the real item (see ChestMenuUtils#markGuideSource).
-            menu.addItem(index, ChestMenuUtils.markGuideSource(sfitem.getItem().clone()));
+            menu.addItem(index, sfitem.getItem());
             menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
                 try {
                     if (isSurvivalMode()) {

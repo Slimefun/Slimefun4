@@ -208,26 +208,5 @@ public final class ChestMenuUtils {
         return displayCopy;
     }
 
-    /** PDC marker for a guide DISPLAY copy: the packet translator appends the item's source (owning addon)
-     *  line only to items carrying this marker, so the source shows in the guide but never on a real item. */
-    public static final String GUIDE_SOURCE_MARKER = "guide_source";
-
-    /**
-     * Marks a guide DISPLAY copy so the packet translator appends its source (owning addon) line. Use ONLY
-     * on short-lived guide display clones, never a registered template (it would bake the source into the
-     * real item).
-     */
-    public static @Nonnull ItemStack markGuideSource(@Nonnull ItemStack displayCopy) {
-        ItemMeta meta = displayCopy.getItemMeta();
-
-        if (meta == null) {
-            return displayCopy;
-        }
-
-        PdcCompat.setString(meta, new io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey(Slimefun.instance(), GUIDE_SOURCE_MARKER), "1");
-        displayCopy.setItemMeta(meta);
-        return displayCopy;
-    }
-
 }
 
