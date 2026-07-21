@@ -212,6 +212,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
     private final GuideCategoryRegistry guideCategoryRegistry = new GuideCategoryRegistry();
+    private final io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidgetRegistry guideWidgetRegistry = new io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidgetRegistry();
     private final EnchantTranslationService enchantTranslationService = new EnchantTranslationService();
     private final MenuTranslationService menuTranslationService = new MenuTranslationService();
     private final TranslationCoverageService translationCoverageService = new TranslationCoverageService();
@@ -1143,6 +1144,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull GuideCategoryRegistry getGuideCategories() {
         validateInstance();
         return instance.guideCategoryRegistry;
+    }
+
+    /**
+     * This returns the {@link GuideWidgetRegistry} of Slimefun.
+     * Addons register functional guide screens (e.g. an advancement tree) here.
+     *
+     * @return The {@link GuideWidgetRegistry} for Slimefun
+     */
+    public static @Nonnull io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidgetRegistry getGuideWidgets() {
+        validateInstance();
+        return instance.guideWidgetRegistry;
     }
 
     /**

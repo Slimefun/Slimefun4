@@ -80,6 +80,23 @@ class GuideCategoryTest {
     }
 
     @Test
+    @DisplayName("GuideWidgetRegistry registers, looks up, and orders by order then id")
+    void widgetRegistry() {
+        io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidgetRegistry reg =
+            new io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidgetRegistry();
+        io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget b =
+            new io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget("b", "&7B", XMaterial.CHEST, 20, (p, pr) -> { });
+        io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget a =
+            new io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget("a", "&7A", XMaterial.CHEST, 10, (p, pr) -> { });
+        reg.register(b);
+        reg.register(a);
+        Assertions.assertSame(b, reg.getById("b"));
+        Assertions.assertNull(reg.getById("nope"));
+        Assertions.assertEquals("a", reg.getAll().get(0).getId());
+        Assertions.assertEquals("b", reg.getAll().get(1).getId());
+    }
+
+    @Test
     @DisplayName("typeSingular maps ids to section-title words")
     void typeSingularWords() {
         Assertions.assertEquals("Weapon", ItemTypeClassifier.typeSingular(DefaultGuideCategories.WEAPONS));
