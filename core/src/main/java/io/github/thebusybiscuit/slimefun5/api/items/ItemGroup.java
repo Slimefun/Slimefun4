@@ -165,6 +165,26 @@ public class ItemGroup implements Keyed {
     }
 
     /**
+     * @deprecated Renamed to {@link #setCategory(String)}. Kept so already-released addons that call the
+     *             old name (with what are now category ids, e.g. {@code "machines"}) still link at runtime
+     *             instead of throwing {@link NoSuchMethodError} on enable.
+     */
+    @Deprecated
+    @Nonnull
+    public ItemGroup setTheme(@Nullable String themeId) {
+        return setCategory(themeId);
+    }
+
+    /**
+     * @deprecated Renamed to {@link #getCategoryId()}.
+     */
+    @Deprecated
+    @Nullable
+    public String getThemeId() {
+        return categoryId;
+    }
+
+    /**
      * This sets the tier of this {@link ItemGroup}.
      * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      *

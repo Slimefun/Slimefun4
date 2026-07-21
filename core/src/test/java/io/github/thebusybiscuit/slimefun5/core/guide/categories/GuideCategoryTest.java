@@ -68,6 +68,18 @@ class GuideCategoryTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
+    void legacySetThemeDelegatesToCategory() {
+        // Addons in the wild (Networks, InfinityExpansion, ...) call the old setTheme("machines") with the
+        // exact ids that are now canonical category ids. setTheme must survive (deprecated) and delegate,
+        // or those addons NoSuchMethodError on enable and their groups never register (invisible in guide).
+        ItemGroup group = new ItemGroup(new NamespacedKey("myaddon", "machines"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.FURNACE));
+        group.setTheme("machines");
+        Assertions.assertEquals("machines", group.getCategoryId());
+        Assertions.assertEquals("machines", group.getThemeId());
+    }
+
+    @Test
     void resolveCategoryIdUsesDeclaredThenAddonFallback() {
         ItemGroup declared = new ItemGroup(new NamespacedKey("myaddon", "weapons"), new ItemStack(Material.DIAMOND_SWORD));
         declared.setCategory("weapons");
