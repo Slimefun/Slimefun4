@@ -179,7 +179,24 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        List<ItemGroup> itemGroups = getVisibleItemGroups(p, profile);
+
+        List<ItemGroup> itemGroups;
+        try {
+            itemGroups = getVisibleItemGroups(p, profile);
+        } catch (Exception | LinkageError x) {
+            // A failure while building the menu must never leave the player with an unopened/blank guide.
+            itemGroups = new ArrayList<>();
+            Slimefun.logger().log(Level.SEVERE, x, () -> "Failed to build the guide main menu for " + p.getName());
+        }
+
+        if (itemGroups.isEmpty()) {
+            // Surface the reason rather than silently showing an empty guide - the counts pinpoint which
+            // link (categories registered / groups visible / items loaded) is broken on this server.
+            int cats = Slimefun.getGuideCategories().getAll().size();
+            int enabled = Slimefun.getRegistry().getEnabledSlimefunItems().size();
+            Slimefun.logger().log(Level.WARNING, "Guide main menu is empty: registeredCategories={0}, enabledItems={1}. "
+                + "If enabledItems>0 this is a guide bug - please report it.", new Object[] { cats, enabled });
+        }
 
         int index = 9;
         createHeader(p, profile, menu);

@@ -94,19 +94,31 @@ public final class CategoryMenuBuilder {
             String cat = catEntry.getKey();
 
             for (Map.Entry<String, List<SlimefunItem>> addonEntry : catEntry.getValue().entrySet()) {
-                membersByCat.computeIfAbsent(cat, k -> new ArrayList<>())
-                    .add(section(cat, addonEntry.getKey(), addonEntry.getValue()));
+                try {
+                    membersByCat.computeIfAbsent(cat, k -> new ArrayList<>())
+                        .add(section(cat, addonEntry.getKey(), addonEntry.getValue()));
+                } catch (Exception | LinkageError x) {
+                    Slimefun.logger().log(java.util.logging.Level.WARNING, x,
+                        () -> "Could not build guide section: " + addonEntry.getKey() + " / " + cat);
+                }
             }
         }
 
-        // 4. Emit one tile per non-empty registered category, in registry order.
+        // 4. Emit one tile per non-empty registered category, in registry order. A single failing tile
+        //    (e.g. a missing message key on an out-of-date messages.yml) must never empty the whole guide,
+        //    so each tile is built defensively and skipped on failure rather than aborting the menu.
         List<ItemGroup> tiles = new ArrayList<>();
 
         for (GuideCategory category : registry.getAll()) {
             List<ItemGroup> members = membersByCat.get(category.getId());
 
             if (members != null && !members.isEmpty()) {
-                tiles.add(tile(p, category, members));
+                try {
+                    tiles.add(tile(p, category, members));
+                } catch (Exception | LinkageError x) {
+                    Slimefun.logger().log(java.util.logging.Level.WARNING, x,
+                        () -> "Could not build guide category tile: " + category.getId());
+                }
             }
         }
 
@@ -130,18 +142,30 @@ public final class CategoryMenuBuilder {
 
     @Nonnull
     private static CategoryItemGroup tile(@Nonnull Player p, @Nonnull GuideCategory category, @Nonnull List<ItemGroup> members) {
-        String name = Slimefun.getLocalization().getMessage(p, "guide.categories." + category.getId());
+        String name = message(p, "guide.categories." + category.getId(), category.getDefaultName());
 
-        if (name == null || name.startsWith("guide.categories.") || name.startsWith("! Missing")) {
-            name = category.getDefaultName();
-        }
+        String countLine = message(p, "guide.categories-meta.categories", "&7Categories: &e%count%")
+            .replace("%count%", String.valueOf(members.size()));
+        String openLine = message(p, "guide.categories-meta.open", "&aClick to open");
 
-        ItemStack icon = CustomItemStack.create(MaterialCompat.stack(category.getIcon()), name,
-            "",
-            Slimefun.getLocalization().getMessage(p, "guide.categories-meta.categories").replace("%count%", String.valueOf(members.size())),
-            "",
-            Slimefun.getLocalization().getMessage(p, "guide.categories-meta.open"));
+        ItemStack icon = CustomItemStack.create(MaterialCompat.stack(category.getIcon()), name, "", countLine, "", openLine);
 
         return new CategoryItemGroup(category, icon, members);
+    }
+
+    /**
+     * A message lookup that never returns null and falls back to a sane default when the key is missing
+     * (an out-of-date {@code messages.yml} that predates these keys) - the old direct lookups NPE'd on a
+     * null result and emptied the entire guide.
+     */
+    @Nonnull
+    private static String message(@Nonnull Player p, @Nonnull String key, @Nonnull String fallback) {
+        String value = Slimefun.getLocalization().getMessage(p, key);
+
+        if (value == null || value.startsWith(key) || value.startsWith("! Missing") || value.startsWith("guide.categories")) {
+            return fallback;
+        }
+
+        return value;
     }
 }

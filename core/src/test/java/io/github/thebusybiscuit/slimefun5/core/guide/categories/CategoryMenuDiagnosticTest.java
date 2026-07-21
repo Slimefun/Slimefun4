@@ -13,6 +13,7 @@ import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockbukkit.mockbukkit.ServerMock;
 
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.SlimefunItemSetup;
@@ -28,6 +29,10 @@ class CategoryMenuDiagnosticTest {
         server = MockBukkit.mock();
         plugin = MockBukkit.load(Slimefun.class);
         SlimefunItemSetup.setup(plugin);
+        // A real boot links each item into its ItemGroup via item.load() (run by PostSetup.loadItems in
+        // SlimefunStartupTask). Without it, groups report 0 items and the guide's visibility filter drops
+        // everything - a harness artifact, not the live behaviour. Run it so the guide path is faithful.
+        io.github.thebusybiscuit.slimefun5.implementation.setup.PostSetup.loadItems();
     }
 
     @AfterAll
@@ -113,6 +118,69 @@ class CategoryMenuDiagnosticTest {
         Assertions.assertTrue(hasTypedSection,
             "the addon sword must appear as a typed weapon section under Weapons; members="
                 + weapons.getMembers().stream().map(m -> m.getKey().getKey()).collect(Collectors.joining(",")));
+    }
+
+    @Test
+    void realGuideMainMenuIsNotEmpty() throws Exception {
+        // Exercise the REAL entry point (getVisibleItemGroups -> collectVisibleCategories -> build), not
+        // build() directly, so an empty-guide regression in that path is caught. The guide must produce
+        // category tiles from core's curated groups.
+        org.bukkit.entity.Player player = server.addPlayer();
+        // A real server has its worlds enabled (WorldSettingsService loaded on world-load); the mock does
+        // not, so without this every item reports isDisabledIn=true and collectVisibleCategories filters
+        // everything - mimicking an empty guide that would NOT happen on a live server.
+        Slimefun.getWorldSettingsService().load(player.getWorld());
+        java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.atomic.AtomicReference<PlayerProfile> ref = new java.util.concurrent.atomic.AtomicReference<>();
+        PlayerProfile.get(player, pr -> { ref.set(pr); latch.countDown(); });
+        latch.await(2, java.util.concurrent.TimeUnit.SECONDS);
+        PlayerProfile profile = ref.get();
+        Assertions.assertNotNull(profile);
+
+        io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation guide =
+            Slimefun.getRegistry().getSlimefunGuide(io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode.SURVIVAL_MODE);
+        java.lang.reflect.Method m = io.github.thebusybiscuit.slimefun5.implementation.guide.SurvivalSlimefunGuide.class
+            .getDeclaredMethod("getVisibleItemGroups", org.bukkit.entity.Player.class, PlayerProfile.class);
+        m.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        List<ItemGroup> tiles = (List<ItemGroup>) m.invoke(guide, player, profile);
+
+        String diag = "\nregisteredCategories=" + Slimefun.getGuideCategories().getAll().size()
+            + "\nenabledItems=" + Slimefun.getRegistry().getEnabledSlimefunItems().size() + "\ntiles=" + tiles.size();
+
+        Assertions.assertFalse(tiles.isEmpty(), "the main menu must not be empty (category tiles from core groups)" + diag);
+    }
+
+    @Test
+    void openMainMenuActuallyPlacesTiles() throws Exception {
+        // The strongest reproduction: drive the REAL openMainMenu and inspect the inventory the player is
+        // shown. getVisibleItemGroups being non-empty is necessary but not sufficient - a rendering fault
+        // (widget NPE, packet rewrite, slot math) could still leave the shown menu blank.
+        org.bukkit.entity.Player player = server.addPlayer();
+        Slimefun.getWorldSettingsService().load(player.getWorld());
+        java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.atomic.AtomicReference<PlayerProfile> ref = new java.util.concurrent.atomic.AtomicReference<>();
+        PlayerProfile.get(player, pr -> { ref.set(pr); latch.countDown(); });
+        latch.await(2, java.util.concurrent.TimeUnit.SECONDS);
+        PlayerProfile profile = ref.get();
+        Assertions.assertNotNull(profile);
+
+        io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation guide =
+            Slimefun.getRegistry().getSlimefunGuide(io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode.SURVIVAL_MODE);
+        guide.openMainMenu(profile, 1);
+
+        org.bukkit.inventory.Inventory top = player.getOpenInventory() == null ? null : player.getOpenInventory().getTopInventory();
+        int tileCount = 0;
+        if (top != null) {
+            for (int slot = 9; slot <= 44; slot++) {
+                org.bukkit.inventory.ItemStack it = top.getItem(slot);
+                if (it != null && it.getType() != org.bukkit.Material.AIR) {
+                    tileCount++;
+                }
+            }
+        }
+        Assertions.assertNotNull(top, "openMainMenu must open an inventory");
+        Assertions.assertTrue(tileCount > 0, "the opened main menu must contain category tiles in the content slots; found " + tileCount);
     }
 
     @Test
