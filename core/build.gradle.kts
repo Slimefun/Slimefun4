@@ -396,16 +396,45 @@ val cloneAndBuildAddons by tasks.registering {
             }
         }
 
+        // GIT_CEILING_DIRECTORIES stops git's parent-directory search at addons-src, so a git command run
+        // in a build/addons-src/<repo> dir that has lost its own .git can NEVER ascend into the enclosing
+        // core repo. Without this, a missing addon .git made `checkout -B experimental origin/experimental`
+        // + `reset --hard` operate on CORE and wipe unpushed core commits.
+        fun gitCeiling(pb: ProcessBuilder): ProcessBuilder {
+            pb.environment()["GIT_CEILING_DIRECTORIES"] = addonsSrcDir.absolutePath
+            return pb
+        }
+
         fun getGitHash(dir: File): String {
             try {
-                val proc = ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "HEAD")
+                val proc = gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "HEAD")
                     .directory(dir)
-                    .redirectErrorStream(true)
+                    .redirectErrorStream(true))
                     .start()
                 proc.waitFor()
                 return proc.inputStream.bufferedReader().readText().trim()
             } catch (e: Exception) {
                 return ""
+            }
+        }
+
+        // True only when `dir` is its OWN git repo root (its .git resolves to `dir`, not an enclosing repo).
+        // Guards the fetch/reset path: a build/addons-src/<repo> that exists but is not its own repo must be
+        // re-cloned, never git-reset in place (that would hit the core repo above it).
+        fun isGitRepoRoot(dir: File): Boolean {
+            if (!File(dir, ".git").exists()) {
+                return false
+            }
+            return try {
+                val proc = gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "--show-toplevel")
+                    .directory(dir)
+                    .redirectErrorStream(true))
+                    .start()
+                proc.waitFor()
+                val top = proc.inputStream.bufferedReader().readText().trim()
+                top.isNotEmpty() && File(top).canonicalFile == dir.canonicalFile
+            } catch (e: Exception) {
+                false
             }
         }
 
@@ -754,26 +783,34 @@ val cloneAndBuildAddons by tasks.registering {
 
             if (localAddons && repoDir.exists()) {
                 println("[localAddons] using working copy of $label as-is")
-            } else if (repoDir.exists()) {
+            } else if (repoDir.exists() && isGitRepoRoot(repoDir)) {
                 println("Pulling latest for $label...")
-                runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "fetch", "--all").directory(repoDir), 2)
-                runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "remote", "set-head", "origin", "-a").directory(repoDir), 1)
+                runProcess(gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "fetch", "--all").directory(repoDir)), 2)
+                runProcess(gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "remote", "set-head", "origin", "-a").directory(repoDir)), 1)
                 // Fork policy: all addon work (balance.yml, en/items.yml, ports) lives on `experimental`.
                 // When run.ps1 doesn't pin a branch, default to experimental - NOT origin/HEAD, which is
                 // `stable` and predates our commits (a stale clone stuck on stable is why pushed balance/lore
                 // never reached the built jars). Fall back to origin/HEAD only for repos with no experimental.
                 val effectiveBranch = when {
                     branch.isNotBlank() -> branch
-                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "--verify", "--quiet", "origin/experimental").directory(repoDir), 1) == 0 -> "experimental"
+                    runProcess(gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "rev-parse", "--verify", "--quiet", "origin/experimental").directory(repoDir)), 1) == 0 -> "experimental"
                     else -> ""
                 }
                 val ref = if (effectiveBranch.isNotBlank()) "origin/$effectiveBranch" else "origin/HEAD"
                 if (effectiveBranch.isNotBlank()) {
-                    runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "checkout", "-B", effectiveBranch, ref).directory(repoDir), 1)
+                    runProcess(gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "checkout", "-B", effectiveBranch, ref).directory(repoDir)), 1)
                 }
                 // addons-src is a throwaway clone; always force it to match origin exactly.
-                runProcess(ProcessBuilder("git", "-c", "safe.directory=*", "reset", "--hard", ref).directory(repoDir), 1)
+                runProcess(gitCeiling(ProcessBuilder("git", "-c", "safe.directory=*", "reset", "--hard", ref).directory(repoDir)), 1)
             } else {
+                // Either a fresh clone, or the dir exists but is NOT its own git repo (a broken/partial
+                // clone, or the build dir got cleaned). Delete a stale non-repo dir first: running git in it
+                // would ascend to - and reset - the enclosing core repo. clone re-creates repoDir with its
+                // own .git.
+                if (repoDir.exists()) {
+                    println("$label working copy is not a git repo; re-cloning from scratch...")
+                    repoDir.deleteRecursively()
+                }
                 println("Cloning $label...")
                 val cloneBranch = if (branch.isNotBlank()) branch else "experimental"
                 // Prefer the experimental branch; fall back to the repo default if it has no such branch.
