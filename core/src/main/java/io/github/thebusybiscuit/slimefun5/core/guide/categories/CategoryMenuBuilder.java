@@ -125,6 +125,66 @@ public final class CategoryMenuBuilder {
         return tiles;
     }
 
+    /**
+     * Explains why {@link #build} produced no tiles, as a human-readable breakdown of every filter stage.
+     * Called only when the menu came back empty, so its cost is irrelevant. Mirrors build()'s filters
+     * exactly so the counts pinpoint the culprit (core groups vs each addon-item filter).
+     */
+    @Nonnull
+    public static String diagnose(@Nonnull Player p, @Nonnull List<ItemGroup> visibleGroups, @Nonnull GuideCategoryRegistry registry) {
+        Collection<SlimefunItem> allItems = Slimefun.getRegistry().getEnabledSlimefunItems();
+
+        int visibleTotal = visibleGroups.size();
+        int coreGroups = 0;
+        int coreHiddenByAddonVis = 0;
+        for (ItemGroup group : visibleGroups) {
+            String ns = group.getKey().getNamespace();
+            if ("slimefun".equals(ns)) {
+                if (AddonVisibility.isHidden(p, ns)) {
+                    coreHiddenByAddonVis++;
+                } else {
+                    coreGroups++;
+                }
+            }
+        }
+
+        int addonTotal = 0;
+        int skipNullGroup = 0;
+        int skipCoreNs = 0;
+        int skipAddonHidden = 0;
+        int skipItemHidden = 0;
+        int skipDisabledWorld = 0;
+        int addonSurvived = 0;
+        for (SlimefunItem item : allItems) {
+            ItemGroup group = item.getItemGroup();
+            if (group == null) {
+                skipNullGroup++;
+                continue;
+            }
+            String ns = group.getKey().getNamespace();
+            if ("slimefun".equals(ns)) {
+                skipCoreNs++;
+                continue;
+            }
+            addonTotal++;
+            if (AddonVisibility.isHidden(p, ns)) {
+                skipAddonHidden++;
+            } else if (item.isHidden()) {
+                skipItemHidden++;
+            } else if (item.isDisabledIn(p.getWorld())) {
+                skipDisabledWorld++;
+            } else {
+                addonSurvived++;
+            }
+        }
+
+        return "world=" + p.getWorld().getName()
+            + " | visibleGroups=" + visibleTotal + " (coreVisible=" + coreGroups + ", coreHiddenByAddonVis=" + coreHiddenByAddonVis + ")"
+            + " | addonItems=" + addonTotal + " -> survived=" + addonSurvived
+            + " [skip: addonHidden=" + skipAddonHidden + ", itemHidden=" + skipItemHidden + ", disabledInWorld=" + skipDisabledWorld + "]"
+            + " | coreNsItems=" + skipCoreNs + ", nullGroup=" + skipNullGroup;
+    }
+
     /** A transient (unregistered) "<Addon> <Type>" section holding an addon's items of one type. */
     @Nonnull
     private static ItemGroup section(@Nonnull String categoryId, @Nonnull String addonName, @Nonnull List<SlimefunItem> items) {

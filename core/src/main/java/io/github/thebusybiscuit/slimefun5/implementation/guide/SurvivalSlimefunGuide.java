@@ -194,8 +194,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             // link (categories registered / groups visible / items loaded) is broken on this server.
             int cats = Slimefun.getGuideCategories().getAll().size();
             int enabled = Slimefun.getRegistry().getEnabledSlimefunItems().size();
-            Slimefun.logger().log(Level.WARNING, "Guide main menu is empty: registeredCategories={0}, enabledItems={1}. "
-                + "If enabledItems>0 this is a guide bug - please report it.", new Object[] { cats, enabled });
+            String breakdown;
+            try {
+                breakdown = io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryMenuBuilder
+                    .diagnose(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories());
+            } catch (Exception | LinkageError x) {
+                breakdown = "diagnose failed: " + x;
+            }
+            Slimefun.logger().log(Level.WARNING, "Guide main menu is empty: registeredCategories={0}, enabledItems={1}. {2}",
+                new Object[] { cats, enabled, breakdown });
         }
 
         int index = 9;
