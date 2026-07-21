@@ -78,6 +78,44 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
+    void addonItemSplitsIntoTypeSectionFromRegistry() {
+        // Register an addon-NAMESPACED item (group namespace != "slimefun" is what marks it as an addon item
+        // to build()) and assert it's classified into a "<Type>" section under the shared type category.
+        // This exercises the addon path (core-only boots never did) - exactly where the in-game split failed.
+        // Registered with the Slimefun instance so the addon-dependency check is skipped in the harness.
+        ItemGroup group = new ItemGroup(new io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey("myaddon", "stuff"),
+            io.github.bakedlibs.dough.items.CustomItemStack.create(org.bukkit.Material.CHEST, "&7MyAddon"));
+        group.register(plugin);
+        io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack stack =
+            new io.github.thebusybiscuit.slimefun5.api.items.SlimefunItemStack("MY_TEST_SWORD", org.bukkit.Material.DIAMOND_SWORD, "&cTest Sword");
+        io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
+            new io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem(group, stack, io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType.NULL, new org.bukkit.inventory.ItemStack[9]);
+        item.register(plugin);
+
+        Player p = server.addPlayer();
+        List<ItemGroup> visible = new ArrayList<>();
+        for (ItemGroup g : Slimefun.getRegistry().getAllItemGroups()) {
+            if (!(g instanceof CategoryItemGroup)) {
+                visible.add(g);
+            }
+        }
+
+        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, visible, Slimefun.getGuideCategories());
+
+        CategoryItemGroup weapons = tiles.stream()
+            .map(t -> (CategoryItemGroup) t)
+            .filter(t -> DefaultGuideCategories.WEAPONS.equals(t.getCategory().getId()))
+            .findFirst().orElse(null);
+        Assertions.assertNotNull(weapons, "Weapons category must exist");
+
+        boolean hasTypedSection = weapons.getMembers().stream()
+            .anyMatch(m -> m.getKey().getKey().startsWith("typed_weapons_") && m.getItems().contains(item));
+        Assertions.assertTrue(hasTypedSection,
+            "the addon sword must appear as a typed weapon section under Weapons; members="
+                + weapons.getMembers().stream().map(m -> m.getKey().getKey()).collect(Collectors.joining(",")));
+    }
+
+    @Test
     void declaredGuideTypeOverridesHeuristic() {
         io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
             io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("ELECTRIC_MOTOR");

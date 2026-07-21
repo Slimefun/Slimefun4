@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.categories;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -35,6 +36,12 @@ public final class CategoryMenuBuilder {
 
     @Nonnull
     public static List<ItemGroup> build(@Nonnull Player p, @Nonnull List<ItemGroup> visibleGroups, @Nonnull GuideCategoryRegistry registry) {
+        return build(p, visibleGroups, Slimefun.getRegistry().getEnabledSlimefunItems(), registry);
+    }
+
+    /** Seam: the item source is a parameter so tests can pass constructed addon items without registering. */
+    @Nonnull
+    static List<ItemGroup> build(@Nonnull Player p, @Nonnull List<ItemGroup> visibleGroups, @Nonnull Collection<SlimefunItem> allItems, @Nonnull GuideCategoryRegistry registry) {
         // category id -> member tiles (core groups first, then addon "<Addon> <Type>" sections).
         Map<String, List<ItemGroup>> membersByCat = new LinkedHashMap<>();
 
@@ -55,7 +62,7 @@ public final class CategoryMenuBuilder {
         // 2. Every enabled ADDON item, classified by type, grouped by (category id -> addon name -> items).
         Map<String, Map<String, List<SlimefunItem>>> addonItems = new LinkedHashMap<>();
 
-        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+        for (SlimefunItem item : allItems) {
             ItemGroup group = item.getItemGroup();
 
             if (group == null) {
