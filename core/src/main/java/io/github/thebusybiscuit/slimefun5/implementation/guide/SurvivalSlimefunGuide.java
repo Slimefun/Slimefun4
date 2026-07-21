@@ -46,6 +46,8 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.AddonVisibilityMenu;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryItemGroup;
+import io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryMenuBuilder;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
@@ -303,6 +305,68 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (next != page && next <= pages) {
                 openThemeContents(profile, themeGroup, next);
+            }
+
+            return false;
+        });
+
+        menu.open(p);
+    }
+
+    /**
+     * Opens the contents of a single category: a paginated grid of its member groups, with a back button
+     * to the main menu. A category with a single member opens that member directly.
+     */
+    public void openCategoryContents(@Nonnull PlayerProfile profile, @Nonnull CategoryItemGroup categoryGroup, int page) {
+        Player p = profile.getPlayer();
+
+        if (p == null) {
+            return;
+        }
+
+        List<ItemGroup> categories = categoryGroup.getMembers();
+
+        if (categories.size() == 1) {
+            openItemGroup(profile, categories.get(0), 1);
+            return;
+        }
+
+        if (isSurvivalMode()) {
+            profile.getGuideHistory().add(categoryGroup, page);
+        }
+
+        ChestMenu menu = create(p);
+        createHeader(p, profile, menu);
+        addBackButton(menu, 1, p, profile);
+
+        int index = 9;
+        int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
+
+        while (target < (categories.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
+            target++;
+            showItemGroup(menu, p, profile, categories.get(target), index);
+            index++;
+        }
+
+        int pages = target == categories.size() - 1 ? page : (categories.size() - 1) / MAX_ITEM_GROUPS + 1;
+
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            int next = page - 1;
+
+            if (next != page && next > 0) {
+                openCategoryContents(profile, categoryGroup, next);
+            }
+
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            int next = page + 1;
+
+            if (next != page && next <= pages) {
+                openCategoryContents(profile, categoryGroup, next);
             }
 
             return false;

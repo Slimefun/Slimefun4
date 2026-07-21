@@ -59,6 +59,8 @@ import io.github.thebusybiscuit.slimefun5.core.services.CustomTextureService;
 import io.github.thebusybiscuit.slimefun5.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.GuideBookDisplay;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.EnchantTranslationService;
+import io.github.thebusybiscuit.slimefun5.core.guide.categories.DefaultGuideCategories;
+import io.github.thebusybiscuit.slimefun5.core.guide.categories.GuideCategoryRegistry;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.MenuTranslationService;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.PacketTranslationService;
@@ -209,6 +211,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     private final ThreadService threadService = new ThreadService(this);
     private final AnalyticsService analyticsService = new AnalyticsService(this);
     private final ItemTranslationService itemTranslationService = new ItemTranslationService();
+    private final GuideCategoryRegistry guideCategoryRegistry = new GuideCategoryRegistry();
     private final EnchantTranslationService enchantTranslationService = new EnchantTranslationService();
     private final MenuTranslationService menuTranslationService = new MenuTranslationService();
     private final TranslationCoverageService translationCoverageService = new TranslationCoverageService();
@@ -436,6 +439,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         logger.log(Level.INFO, "Loading in-game wiki text...");
         wikiText.loadBundled();
+
+        DefaultGuideCategories.registerInto(guideCategoryRegistry);
 
         logger.log(Level.INFO, "Loading item translations...");
         itemTranslationService.loadBundled();
@@ -1126,6 +1131,17 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
     public static @Nonnull ItemTranslationService getItemTranslationService() {
         validateInstance();
         return instance.itemTranslationService;
+    }
+
+    /**
+     * This method returns the {@link GuideCategoryRegistry} of Slimefun.
+     * It holds the guide's top-level categories (core-registered + addon-registered).
+     *
+     * @return The {@link GuideCategoryRegistry} for Slimefun
+     */
+    public static @Nonnull GuideCategoryRegistry getGuideCategories() {
+        validateInstance();
+        return instance.guideCategoryRegistry;
     }
 
     /**

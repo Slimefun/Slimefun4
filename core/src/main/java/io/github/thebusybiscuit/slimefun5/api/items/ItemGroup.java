@@ -164,6 +164,28 @@ public class ItemGroup implements Keyed {
     }
 
     /**
+     * Assigns this {@link ItemGroup} to a guide category by id (see GuideCategory). Declared by the
+     * group's owner (Slimefun or an addon). {@code null} = undeclared; the guide then files the group
+     * under a per-addon fallback category in the categorized layout. Fluent; call once during setup.
+     *
+     * @param categoryId the category id, or {@code null} to clear
+     * @return this {@link ItemGroup}
+     */
+    @Nonnull
+    public ItemGroup setCategory(@Nullable String categoryId) {
+        this.themeId = categoryId;
+        return this;
+    }
+
+    /**
+     * @return the guide-category id, or {@code null} if undeclared.
+     */
+    @Nullable
+    public String getCategoryId() {
+        return themeId;
+    }
+
+    /**
      * This sets the tier of this {@link ItemGroup}.
      * The tier determines the position of this {@link ItemGroup} in the {@link SlimefunGuide}.
      *
