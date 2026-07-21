@@ -13,9 +13,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.bukkit.entity.Player;
 import org.mockbukkit.mockbukkit.MockBukkit;
+import org.mockbukkit.mockbukkit.ServerMock;
 
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerBackpack;
+import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 
 /**
@@ -28,9 +31,11 @@ class BackpackIdentityTest {
 
     private static final String ID_PREFIX = ChatColor.GRAY + "ID: ";
 
+    private static ServerMock server;
+
     @BeforeAll
     public static void load() {
-        MockBukkit.mock();
+        server = MockBukkit.mock();
         MockBukkit.load(Slimefun.class);
     }
 
@@ -86,6 +91,38 @@ class BackpackIdentityTest {
         meta.setLore(Arrays.asList(ID_PREFIX + "<ID>"));
         item.setItemMeta(meta);
         Assertions.assertFalse(PlayerBackpack.readIdentity(item).isPresent());
+    }
+
+    @Test
+    @DisplayName("createBackpack never reuses an id after a gap (size-based allocation would collide)")
+    void createBackpackDoesNotReuseIdAfterGap() throws InterruptedException {
+        Player player = server.addPlayer();
+
+        java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.atomic.AtomicReference<PlayerProfile> ref = new java.util.concurrent.atomic.AtomicReference<>();
+        PlayerProfile.get(player, p -> {
+            ref.set(p);
+            latch.countDown();
+        });
+        latch.await(2, java.util.concurrent.TimeUnit.SECONDS);
+        PlayerProfile profile = ref.get();
+        Assertions.assertNotNull(profile);
+
+        profile.createBackpack(9); // id 0
+        PlayerBackpack one = profile.createBackpack(9); // id 1
+        PlayerBackpack two = profile.createBackpack(9); // id 2
+        Assertions.assertEquals(2, two.getId());
+
+        // Open a gap in the middle: the id space is now {0, 2} but the map size is 2.
+        profile.getPlayerData().removeBackpack(one);
+
+        PlayerBackpack next = profile.createBackpack(9);
+
+        // size()-based allocation would hand out id 2 again, colliding with `two` (two items sharing one
+        // identity - the "can't open / wrong backpack" bug). It must allocate a fresh, unused id instead.
+        Assertions.assertNotEquals(two.getId(), next.getId(), "a new backpack must not reuse an in-use id");
+        Assertions.assertEquals(3, next.getId());
+        Assertions.assertSame(two, profile.getBackpack(2).orElse(null), "the existing backpack 2 must be untouched");
     }
 
     @Test

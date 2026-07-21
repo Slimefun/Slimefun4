@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -255,7 +256,18 @@ public class PlayerProfile {
     }
 
     public @Nonnull PlayerBackpack createBackpack(int size) {
-        int nextId = this.data.getBackpacks().size(); // Size is not 0 indexed so next ID can just be the current size
+        // Allocate max(existing id) + 1, never the map size. Sizing-based allocation reuses an id whenever
+        // the id space has a gap (a removed backpack, or an id that failed to load from storage): the new
+        // backpack then collides with an existing one, so two items share a single identity and a backpack
+        // can resolve to the wrong or a missing slot - a "backpack won't open" / duplication bug. max+1
+        // never collides and still yields 0, 1, 2, ... for the usual gapless case.
+        int nextId = 0;
+
+        for (int existingId : this.data.getBackpacks().keySet()) {
+            if (existingId >= nextId) {
+                nextId = existingId + 1;
+            }
+        }
 
         PlayerBackpack backpack = PlayerBackpack.newBackpack(this.ownerId, nextId, size);
         this.data.addBackpack(backpack);
@@ -481,6 +493,10 @@ public class PlayerProfile {
         Optional<String> identity = PlayerBackpack.readIdentity(item);
 
         if (!identity.isPresent()) {
+            // The backpack lost its identity (persistent id + legacy lore both gone). The callback never
+            // fires, so the caller opens nothing - log it rather than fail completely silently, since this
+            // is exactly the "backpack won't open" symptom and the log is the only way to catch it.
+            Slimefun.logger().log(Level.WARNING, "A backpack could not be resolved: it has no readable identity. Item: {0}", item);
             return;
         }
 
@@ -491,8 +507,15 @@ public class PlayerProfile {
 
             fromUUID(UUID.fromString(splitLine[0]), profile -> {
                 Optional<PlayerBackpack> backpack = profile.getBackpack(number);
-                backpack.ifPresent(callback);
+
+                if (backpack.isPresent()) {
+                    callback.accept(backpack.get());
+                } else {
+                    Slimefun.logger().log(Level.WARNING, "A backpack could not be resolved: owner has no backpack #{0} (identity \"{1}\").", new Object[] { number, identity.get() });
+                }
             });
+        } else {
+            Slimefun.logger().log(Level.WARNING, "A backpack could not be resolved: malformed identity \"{0}\".", identity.get());
         }
     }
 

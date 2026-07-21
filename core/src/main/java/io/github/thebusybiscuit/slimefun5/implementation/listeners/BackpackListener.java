@@ -165,11 +165,15 @@ public class BackpackListener implements Listener {
 
         // Check if someone else is currently viewing this backpack
         if (!backpacks.containsValue(item)) {
-            SoundEffect.BACKPACK_OPEN_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
-            backpacks.put(p.getUniqueId(), item);
-
             PlayerProfile.getBackpack(item, backpack -> {
+                // Commit to opening (play the sound, mark it as being viewed) only once the backpack has
+                // actually resolved. Previously the sound played and the item was marked viewed up-front,
+                // so a lost/stale identity left the player hearing the open sound while nothing opened.
+                // On failure the callback never fires (PlayerProfile#getBackpack logs why) - no sound, no
+                // stuck "being viewed" entry.
                 if (backpack != null) {
+                    SoundEffect.BACKPACK_OPEN_SOUND.playAt(p.getLocation(), SoundCategory.PLAYERS);
+                    backpacks.put(p.getUniqueId(), item);
                     backpack.open(p);
                 }
             });
