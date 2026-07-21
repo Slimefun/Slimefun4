@@ -49,6 +49,14 @@ class PacketRenderTest {
     @Test
     void cacheReturnsEqualResultOnSecondCall() {
         ItemTranslationService svc = Slimefun.getItemTranslationService();
+        // Give the probe a real (non-raw-id) English name: only genuine renders are cached - a raw-id
+        // fallback render is deliberately never memoized (see rawIdRenderIsNotCached...), and the
+        // MockBukkit harness has no English baseline for core items, so without this the render degrades
+        // to the raw id.
+        svc.loadTranslationsForTest("en", new java.io.ByteArrayInputStream(
+            "ELECTRIC_MOTOR:\n  name: '&aCached Motor'\n".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        svc.clearRenderCache();
+
         ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
         Assertions.assertSame(a, b, "cache must return the same instance");
@@ -132,6 +140,47 @@ class PacketRenderTest {
         Assertions.assertNotSame(byLanguage, byOtherLanguage, "different languageId must not share a cache entry");
         Assertions.assertNotSame(byLanguage, byFallback, "different fallback mode must not share a cache entry");
         Assertions.assertNotSame(byOtherLanguage, byFallback);
+    }
+
+    @Test
+    @DisplayName("a raw-id fallback render is never cached, so it heals once a translation loads")
+    void rawIdRenderIsNotCachedSoItHealsWhenTranslationsLoad() {
+        ItemTranslationService svc = Slimefun.getItemTranslationService();
+        // "q1" is an unshipped language with no translation yet, so the ID fallback renders the raw id -
+        // exactly the "item shows ENDER_HELMET" symptom seen when a render happens before translations are
+        // ready. That degraded result must NOT be memoized.
+        ItemTranslationService.RenderedDisplay stale = svc.renderForPacket("ELECTRIC_MOTOR", "q1", TranslationConfig.FallbackMode.ID, true);
+        Assertions.assertEquals("ELECTRIC_MOTOR", stale.name);
+
+        // The translation now arrives (as when an addon calls registerTranslations post-boot). Without any
+        // explicit clearRenderCache, the very next render must reflect it - a raw-id render must self-heal.
+        String yaml = "ELECTRIC_MOTOR:\n  name: '&aQ1 Motor'\n";
+        svc.loadTranslationsForTest("q1", new java.io.ByteArrayInputStream(yaml.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+
+        ItemTranslationService.RenderedDisplay healed = svc.renderForPacket("ELECTRIC_MOTOR", "q1", TranslationConfig.FallbackMode.ID, true);
+        Assertions.assertEquals("Q1 Motor", ChatColor.stripColor(healed.name),
+            "a raw-id render must not be cached; once the translation loads the next render must use it");
+    }
+
+    @Test
+    @DisplayName("registerTranslations invalidates the render cache so late translations take effect")
+    void registerTranslationsClearsRenderCache() {
+        ItemTranslationService svc = Slimefun.getItemTranslationService();
+        // A genuine (non-raw-id) render IS cached. Load a real English name so the render doesn't degrade
+        // to the raw id (which is never cached) in the baseline-less unit harness.
+        svc.loadTranslationsForTest("en", new java.io.ByteArrayInputStream(
+            "ELECTRIC_MOTOR:\n  name: '&aRegistered Motor'\n".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        svc.clearRenderCache();
+
+        ItemTranslationService.RenderedDisplay a = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        ItemTranslationService.RenderedDisplay a2 = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        Assertions.assertSame(a, a2, "precondition: a non-raw-id render must be cached");
+
+        // An addon registering its translations post-boot must drop the stale renders.
+        svc.registerTranslations(plugin);
+
+        ItemTranslationService.RenderedDisplay b = svc.renderForPacket("ELECTRIC_MOTOR", "en", TranslationConfig.FallbackMode.ENGLISH, true);
+        Assertions.assertNotSame(a, b, "registerTranslations must clear the render cache");
     }
 
     @Test

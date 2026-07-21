@@ -135,6 +135,10 @@ public class ItemTranslationService {
         }
 
         canonicalizeToId();
+
+        // New translations just became available; drop any renders cached before this addon loaded (an
+        // item shown - and cached - as its raw id, or with only-English lore) so they re-render fresh.
+        clearRenderCache();
     }
 
     private void load(@Nonnull String language, @Nonnull InputStream stream) {
@@ -500,7 +504,17 @@ public class ItemTranslationService {
         List<String> lore = LoreComposer.compose(item, blocks.get(0), blocks.get(1), blocks.get(2), blocks.get(3), fallbackBase, includeDescription, effectiveLanguage);
 
         RenderedDisplay result = new RenderedDisplay(name, lore);
-        renderCache.put(cacheKey, result);
+
+        // The raw id is only ever a fallback signal: no real translation (or English baseline name) was
+        // resolvable yet - e.g. a packet rendered the item during boot, before an addon's translations
+        // loaded. Never memoize that: a cached raw id would stick for that (id, language) until a full
+        // restart (clearRenderCache is not called at runtime), which is exactly the "item intermittently
+        // shows its raw id" bug. Leaving it uncached lets the next packet re-render it correctly the moment
+        // the translation/baseline becomes available.
+        if (!name.equals(id)) {
+            renderCache.put(cacheKey, result);
+        }
+
         return result;
     }
 
