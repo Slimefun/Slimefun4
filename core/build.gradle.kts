@@ -160,6 +160,7 @@ tasks {
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
         include("**/GuideCategoryTest*")
+        include("**/CategoryMenuDiagnosticTest*")
     }
     test {
         enabled = true
@@ -190,6 +191,7 @@ tasks {
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
         include("**/GuideCategoryTest*")
+        include("**/CategoryMenuDiagnosticTest*")
     }
 
     processResources {

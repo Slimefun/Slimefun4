@@ -92,6 +92,7 @@ class DefaultItemGroups {
         easter.setCategory(DefaultGuideCategories.MISC);
         birthday.setCategory(DefaultGuideCategories.MISC);
         halloween.setCategory(DefaultGuideCategories.MISC);
+        rickFlexGroup.setCategory(DefaultGuideCategories.MISC);
     }
 }
 

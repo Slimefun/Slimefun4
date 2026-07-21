@@ -22,6 +22,10 @@ class EnderTalisman extends Talisman {
 
     private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "ender_talismans"), CustomItemStack.create(SlimefunItems.ENDER_TALISMAN.item(), "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_ITEMGROUP.getKey());
 
+    static {
+        ENDER_TALISMANS_ITEMGROUP.setCategory(io.github.thebusybiscuit.slimefun5.core.guide.categories.DefaultGuideCategories.MAGIC);
+    }
+
     @ParametersAreNonnullByDefault
     public EnderTalisman(Talisman parent, SlimefunItemStack item) {
         super(ENDER_TALISMANS_ITEMGROUP, item, new ItemStack[] { SlimefunItems.ENDER_LUMP_3.item(), null, SlimefunItems.ENDER_LUMP_3.item(), null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3.item(), null, SlimefunItems.ENDER_LUMP_3.item() }, parent.isConsumable(), parent.isEventCancelled(), parent.getMessageSuffix(), parent.getChance(), parent.getEffects());
