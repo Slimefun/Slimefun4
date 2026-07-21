@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun5.core.services.localization;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -7,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,9 +17,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.events.PlayerLanguageChangeEvent;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.core.guide.options.ItemDescriptionsOption;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.PdcCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.packet.PacketItemDescriptor;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.packet.PacketReflect;
@@ -214,10 +220,32 @@ public class PacketTranslationService implements Listener {
             return nmsItem;
         }
         meta.setDisplayName(display.name);
-        meta.setLore(display.lore.isEmpty() ? null : display.lore);
+        List<String> lore = maybeAppendGuideSource(meta, id, display.lore);
+        meta.setLore(lore.isEmpty() ? null : lore);
         bukkit.setItemMeta(meta);
         Object rewritten = PacketReflect.asNms(bukkit);
         return rewritten != null ? rewritten : nmsItem;
+    }
+
+    /**
+     * Appends the item's source (owning addon) line when the outgoing item carries the guide-source marker.
+     * The marker is set only on guide DISPLAY copies (see {@link ChestMenuUtils#markGuideSource}), so the
+     * source shows in the guide but never on a real inventory item. Source is a proper noun (addon name), so
+     * no per-language text is needed - a language-neutral arrow prefix keeps the guide fully non-English.
+     */
+    @Nonnull
+    private List<String> maybeAppendGuideSource(@Nonnull ItemMeta meta, @Nonnull String id, @Nonnull List<String> baseLore) {
+        if (!PdcCompat.has(meta, new NamespacedKey(Slimefun.instance(), ChestMenuUtils.GUIDE_SOURCE_MARKER), "STRING")) {
+            return baseLore;
+        }
+
+        SlimefunItem item = SlimefunItem.getById(id);
+        SlimefunAddon addon = item != null ? item.getAddon() : null;
+        String source = addon != null ? addon.getName() : "Slimefun";
+
+        List<String> lore = new ArrayList<>(baseLore);
+        lore.add(ChatColor.DARK_GRAY + "» " + ChatColor.GRAY + source);
+        return lore;
     }
 
     private Object rewriteGuideBook(Object nmsItem, ItemStack bukkit, String language) {
