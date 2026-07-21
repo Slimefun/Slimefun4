@@ -43,10 +43,10 @@ guide:
     cheat-only: '&4&lSolo los administradores pueden abrirla'
     browse: '&eClic derecho &8⇨ &7Explorar objetos'
     settings: '&eShift + Clic derecho &8⇨ &7Abrir ajustes / Créditos'
-  themes-meta:
+  categories-meta:
     categories: '&7Categorías: &e%count%'
     open: '&7⇨ &eClic para abrir'
-  themes:
+  categories:
     weapons: '&cArmas'
     tools: '&aHerramientas'
     armor: '&bArmadura'

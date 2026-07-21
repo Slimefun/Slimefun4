@@ -42,10 +42,10 @@ guide:
     cheat-only: '&4&lAlleen te openen door Admins'
     browse: '&eRechtermuisklik &8⇨ &7Items bekijken'
     settings: '&eShift + Rechtermuisklik &8⇨ &7Instellingen / Bijdragers openen'
-  themes-meta:
+  categories-meta:
     categories: '&7Categorieën: &e%count%'
     open: '&7⇨ &eKlik om te openen'
-  themes:
+  categories:
     weapons: '&cWapens'
     tools: '&aGereedschap'
     armor: '&bWapenrusting'

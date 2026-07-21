@@ -40,10 +40,10 @@ guide:
     cheat-only: '&4&lМожет открыть только Администратор'
     browse: '&eПравый клик &8⇨ &7Просмотр предметов'
     settings: '&eShift + Правый клик &8⇨ &7Открыть настройки / авторов'
-  themes-meta:
+  categories-meta:
     categories: '&7Категории: &e%count%'
     open: '&7⇨ &eНажмите, чтобы открыть'
-  themes:
+  categories:
     weapons: '&cОружие'
     tools: '&aИнструменты'
     armor: '&bБроня'

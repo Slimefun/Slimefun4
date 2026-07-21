@@ -42,10 +42,10 @@ guide:
     cheat-only: '&4&lApribile solo dagli Admin'
     browse: '&eClic destro &8⇨ &7Sfoglia oggetti'
     settings: '&eShift + Clic destro &8⇨ &7Apri impostazioni / crediti'
-  themes-meta:
+  categories-meta:
     categories: '&7Categorie: &e%count%'
     open: '&7⇨ &eClicca per aprire'
-  themes:
+  categories:
     weapons: '&cArmi'
     tools: '&aStrumenti'
     armor: '&bArmatura'

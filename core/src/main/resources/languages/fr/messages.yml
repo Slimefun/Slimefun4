@@ -43,10 +43,10 @@ guide:
     cheat-only: '&4&lOuvrable uniquement par les administrateurs'
     browse: '&eClic droit &8⇨ &7Parcourir les objets'
     settings: '&eMaj + Clic droit &8⇨ &7Ouvrir les paramètres / contributeurs'
-  themes-meta:
+  categories-meta:
     categories: '&7Catégories : &e%count%'
     open: '&7⇨ &eCliquez pour ouvrir'
-  themes:
+  categories:
     weapons: '&cArmes'
     tools: '&aOutils'
     armor: '&bArmure'

@@ -42,10 +42,10 @@ guide:
     cheat-only: '&4&l仅管理员可打开'
     browse: '&e右键 &8⇨ &7浏览物品'
     settings: '&eShift + 右键 &8⇨ &7打开设置 / 贡献者'
-  themes-meta:
+  categories-meta:
     categories: '&7分类: &e%count%'
     open: '&7⇨ &e单击打开'
-  themes:
+  categories:
     weapons: '&c武器'
     tools: '&a工具'
     armor: '&b护甲'

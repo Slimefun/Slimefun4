@@ -301,7 +301,7 @@ guide:
     - ''
     - '&7⇨ &eClick to go to the Slimefun5 Bug Tracker'
 
-  themes:
+  categories:
     weapons: '&cWeapons'
     tools: '&aTools'
     armor: '&bArmor'
@@ -412,7 +412,7 @@ guide:
     disabled: '&cIn-game bug reporting is disabled on this server.'
     cooldown: '&cPlease wait a bit before submitting another bug report.'
 
-  themes-meta:
+  categories-meta:
     categories: '&7Categories: &e%count%'
     open: '&7⇨ &eClick to open'
 

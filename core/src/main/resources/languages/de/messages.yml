@@ -171,10 +171,10 @@ guide:
     - '&7Ausstehende Pull Requests: &a%prs%'
     - ''
     - '&7⇨ &eKlicke, um zum Slimefun5-Bugtracker zu gelangen'
-  themes-meta:
+  categories-meta:
     categories: '&7Kategorien: &e%count%'
     open: '&7⇨ &eKlicke zum Öffnen'
-  themes:
+  categories:
     weapons: '&cWaffen'
     tools: '&aWerkzeuge'
     armor: '&bRüstung'
