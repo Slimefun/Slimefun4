@@ -140,6 +140,13 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 continue;
             }
 
+            // Respect the player's per-addon visibility in EVERY layout. Previously only the categorized
+            // path filtered hidden addons, so switching the guide to the classic (flat) layout made hidden
+            // addons reappear.
+            if (AddonVisibility.isHidden(p, group.getKey().getNamespace())) {
+                continue;
+            }
+
             try {
                 if (group instanceof FlexItemGroup) {
                     FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
@@ -243,10 +250,12 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         List<ItemGroup> categories = themeGroup.getCategories();
+        List<SlimefunItem> looseItems = themeGroup.getLooseItems();
+        int totalEntries = categories.size() + looseItems.size();
 
-        // A theme with a single category opens that category directly. The empty theme view is skipped
-        // and not added to history, so back-navigation returns to the main menu.
-        if (categories.size() == 1) {
+        // A theme that is just one category (and no loose items) opens that category directly. The empty
+        // theme view is skipped and not added to history, so back-navigation returns to the main menu.
+        if (categories.size() == 1 && looseItems.isEmpty()) {
             openItemGroup(profile, categories.get(0), 1);
             return;
         }
@@ -262,13 +271,20 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         int index = 9;
         int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
 
-        while (target < (categories.size() - 1) && index < MAX_ITEM_GROUPS + 9) {
+        // Entries are the theme's category/section tiles first, then its loose items shown directly.
+        while (target < (totalEntries - 1) && index < MAX_ITEM_GROUPS + 9) {
             target++;
-            showItemGroup(menu, p, profile, categories.get(target), index);
+
+            if (target < categories.size()) {
+                showItemGroup(menu, p, profile, categories.get(target), index);
+            } else {
+                displaySlimefunItem(menu, themeGroup, p, profile, looseItems.get(target - categories.size()), page, index);
+            }
+
             index++;
         }
 
-        int pages = target == categories.size() - 1 ? page : (categories.size() - 1) / MAX_ITEM_GROUPS + 1;
+        int pages = target == totalEntries - 1 ? page : (totalEntries - 1) / MAX_ITEM_GROUPS + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {

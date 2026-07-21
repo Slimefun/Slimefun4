@@ -159,6 +159,7 @@ tasks {
         include("**/JdbcBackendTest*")
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
+        include("**/ThemeClassifierTest*")
     }
     test {
         enabled = true
@@ -188,6 +189,7 @@ tasks {
         include("**/JdbcBackendTest*")
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
+        include("**/ThemeClassifierTest*")
     }
 
     processResources {
