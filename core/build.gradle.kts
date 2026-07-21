@@ -159,7 +159,6 @@ tasks {
         include("**/JdbcBackendTest*")
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
-        include("**/ThemeClassifierTest*")
         include("**/GuideCategoryTest*")
     }
     test {
@@ -190,7 +189,6 @@ tasks {
         include("**/JdbcBackendTest*")
         include("**/MySqlDialectTest*")
         include("**/MigrationServiceTest*")
-        include("**/ThemeClassifierTest*")
         include("**/GuideCategoryTest*")
     }
 

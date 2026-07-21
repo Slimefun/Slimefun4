@@ -137,43 +137,22 @@ public class ItemGroup implements Keyed {
     }
 
     /**
-     * The optional guide-theme id this {@link ItemGroup} belongs to (see GuideTheme). Declared by the
-     * category's owner (Slimefun or an addon). {@code null} = untagged, which the guide buckets into Misc.
+     * The optional guide-category id this {@link ItemGroup} belongs to (see GuideCategory). Declared by the
+     * group's owner (Slimefun or an addon). {@code null} = undeclared; the guide then files the group under
+     * a per-addon fallback category in the categorized layout.
      */
     @Nullable
-    private String themeId;
+    private String categoryId;
 
     /**
-     * Tags this {@link ItemGroup} with a guide-theme id. Fluent; safe to call once during setup.
-     *
-     * @param themeId the theme id, or {@code null} to clear
-     * @return this {@link ItemGroup}
-     */
-    @Nonnull
-    public ItemGroup setTheme(@Nullable String themeId) {
-        this.themeId = themeId;
-        return this;
-    }
-
-    /**
-     * @return the guide-theme id, or {@code null} if untagged.
-     */
-    @Nullable
-    public String getThemeId() {
-        return themeId;
-    }
-
-    /**
-     * Assigns this {@link ItemGroup} to a guide category by id (see GuideCategory). Declared by the
-     * group's owner (Slimefun or an addon). {@code null} = undeclared; the guide then files the group
-     * under a per-addon fallback category in the categorized layout. Fluent; call once during setup.
+     * Assigns this {@link ItemGroup} to a guide category by id. Fluent; call once during setup.
      *
      * @param categoryId the category id, or {@code null} to clear
      * @return this {@link ItemGroup}
      */
     @Nonnull
     public ItemGroup setCategory(@Nullable String categoryId) {
-        this.themeId = categoryId;
+        this.categoryId = categoryId;
         return this;
     }
 
@@ -182,7 +161,7 @@ public class ItemGroup implements Keyed {
      */
     @Nullable
     public String getCategoryId() {
-        return themeId;
+        return categoryId;
     }
 
     /**

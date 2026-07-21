@@ -48,9 +48,6 @@ import io.github.thebusybiscuit.slimefun5.core.guide.options.AddonVisibilityMenu
 import io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryItemGroup;
 import io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryMenuBuilder;
-import io.github.thebusybiscuit.slimefun5.core.guide.themes.GuideTheme;
-import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
-import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeRegistry;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun5.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun5.core.services.localization.ItemTranslationService;
@@ -131,14 +128,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return categories;
         }
 
-        return ThemeRegistry.buildThemeGroups(p, categories);
+        return CategoryMenuBuilder.build(p, categories, Slimefun.getGuideCategories());
     }
 
     protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (group instanceof ThemeItemGroup) {
+            if (group instanceof CategoryItemGroup) {
                 continue;
             }
 
@@ -241,79 +238,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
     }
 
     /**
-     * Opens the contents of a single theme: a paginated grid of that theme's member categories, with a
-     * back button to the main menu. Pushed onto guide history so back-navigation from a category returns here.
-     */
-    public void openThemeContents(@Nonnull PlayerProfile profile, @Nonnull ThemeItemGroup themeGroup, int page) {
-        Player p = profile.getPlayer();
-
-        if (p == null) {
-            return;
-        }
-
-        List<ItemGroup> categories = themeGroup.getCategories();
-        List<SlimefunItem> looseItems = themeGroup.getLooseItems();
-        int totalEntries = categories.size() + looseItems.size();
-
-        // A theme that is just one category (and no loose items) opens that category directly. The empty
-        // theme view is skipped and not added to history, so back-navigation returns to the main menu.
-        if (categories.size() == 1 && looseItems.isEmpty()) {
-            openItemGroup(profile, categories.get(0), 1);
-            return;
-        }
-
-        if (isSurvivalMode()) {
-            profile.getGuideHistory().add(themeGroup, page);
-        }
-
-        ChestMenu menu = create(p);
-        createHeader(p, profile, menu);
-        addBackButton(menu, 1, p, profile);
-
-        int index = 9;
-        int target = (MAX_ITEM_GROUPS * (page - 1)) - 1;
-
-        // Entries are the theme's category/section tiles first, then its loose items shown directly.
-        while (target < (totalEntries - 1) && index < MAX_ITEM_GROUPS + 9) {
-            target++;
-
-            if (target < categories.size()) {
-                showItemGroup(menu, p, profile, categories.get(target), index);
-            } else {
-                displaySlimefunItem(menu, themeGroup, p, profile, looseItems.get(target - categories.size()), page, index);
-            }
-
-            index++;
-        }
-
-        int pages = target == totalEntries - 1 ? page : (totalEntries - 1) / MAX_ITEM_GROUPS + 1;
-
-        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
-        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-            int next = page - 1;
-
-            if (next != page && next > 0) {
-                openThemeContents(profile, themeGroup, next);
-            }
-
-            return false;
-        });
-
-        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
-        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-            int next = page + 1;
-
-            if (next != page && next <= pages) {
-                openThemeContents(profile, themeGroup, next);
-            }
-
-            return false;
-        });
-
-        menu.open(p);
-    }
-
-    /**
      * Opens the contents of a single category: a paginated grid of its member groups, with a back button
      * to the main menu. A category with a single member opens that member directly.
      */
@@ -381,14 +305,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
     /**
      * The category tile for a group, with its display name normalised to {@link #UNIFIED_GROUP_COLOR}.
-     * Theme tiles ({@link ThemeItemGroup}) are core-defined and intentionally colour-coded per theme, so
-     * they are left untouched; every other category (core or addon) is unified.
+     * Category tiles ({@link CategoryItemGroup}) are core-defined and intentionally colour-coded per
+     * category, so they are left untouched; every other group (core or addon) is unified.
      */
     @Nonnull
     private ItemStack unifiedGroupTile(@Nonnull Player p, @Nonnull ItemGroup group) {
         ItemStack tile = group.getItem(p);
 
-        if (group instanceof ThemeItemGroup) {
+        if (group instanceof CategoryItemGroup) {
             return tile;
         }
 
@@ -578,11 +502,14 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 && isSearchFilterApplicable(p, slimefunItem, searchTerm)) {
                 ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
-                    GuideTheme theme = GuideTheme.byId(itemGroup.getThemeId());
-                    if (theme == null) {
-                        theme = GuideTheme.MISC;
+                    String categoryId = itemGroup.getCategoryId() != null ? itemGroup.getCategoryId() : CategoryMenuBuilder.resolveCategoryId(itemGroup);
+                    io.github.thebusybiscuit.slimefun5.core.guide.categories.GuideCategory category = Slimefun.getGuideCategories().getById(categoryId);
+                    String categoryLabel = Slimefun.getLocalization().getMessage(p, "guide.categories." + categoryId);
+                    if (categoryLabel == null || categoryLabel.startsWith("guide.categories.")) {
+                        categoryLabel = category != null ? category.getDefaultName()
+                            : (itemGroup.getAddon() != null ? "&e" + itemGroup.getAddon().getName() : categoryId);
                     }
-                    String themeName = ChatColor.translateAlternateColorCodes('&', Slimefun.getLocalization().getMessage(p, "guide.themes." + theme.getId()));
+                    String themeName = ChatColor.translateAlternateColorCodes('&', categoryLabel);
                     meta.setLore(Arrays.asList("", ChatColor.DARK_GRAY + "\u21E8 " + ChatColor.WHITE + themeName + ChatColor.GRAY + " \u25B8 " + ChatColor.WHITE + itemGroup.getDisplayName(p)));
                     VersionedItemFlag.addFlags(meta, VersionedItemFlag.HIDE_ATTRIBUTES, VersionedItemFlag.HIDE_ENCHANTS, VersionedItemFlag.HIDE_ADDITIONAL_TOOLTIP);
                 });

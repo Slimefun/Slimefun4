@@ -18,7 +18,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
-import io.github.thebusybiscuit.slimefun5.core.guide.themes.ThemeItemGroup;
+import io.github.thebusybiscuit.slimefun5.core.guide.categories.CategoryItemGroup;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.itemstack.SlimefunGuideItem;
@@ -56,7 +56,7 @@ public class CheatSheetSlimefunGuide extends SurvivalSlimefunGuide {
         List<ItemGroup> groups = new LinkedList<>();
 
         for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
-            if (group instanceof ThemeItemGroup) {
+            if (group instanceof CategoryItemGroup) {
                 continue;
             }
 

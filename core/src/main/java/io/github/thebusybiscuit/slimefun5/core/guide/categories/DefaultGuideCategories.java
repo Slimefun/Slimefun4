@@ -4,7 +4,7 @@ import javax.annotation.Nonnull;
 
 import com.cryptomorin.xseries.XMaterial;
 
-/** Registers Slimefun's canonical guide categories (the set that replaced the old GuideTheme enum). */
+/** Registers Slimefun's canonical guide categories - the built-in set every install ships with. */
 public final class DefaultGuideCategories {
 
     public static final String WEAPONS = "weapons";
