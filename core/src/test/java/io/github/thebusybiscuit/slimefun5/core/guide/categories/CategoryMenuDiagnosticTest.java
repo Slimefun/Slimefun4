@@ -16,7 +16,6 @@ import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.SlimefunItemSetup;
-import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 /** Diagnostic: dumps the real categorization of Slimefun's own item groups so we can see whether any land in a fallback. */
 class CategoryMenuDiagnosticTest {
@@ -79,32 +78,30 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
-    @SuppressWarnings("deprecation")
-    void addonGroupsSplitAcrossCategoriesByTheirDeclaredTheme() {
-        // Reproduce exactly what a theme-tagged addon does (e.g. Networks: setTheme("logistics"/"tools"/...)):
-        // distinct themes on one addon's groups must land the groups in the matching canonical categories,
-        // NOT lump the whole addon into one tile. An undeclared group falls back to the per-addon tile.
+    void coreGroupsCategorizedAndNoAddonFallbackInPureCoreBoot() {
+        // The headless boot has only core items, so the full <Addon> <Type> item split can't be asserted
+        // here (ItemTypeClassifier is unit-tested separately, end-to-end split is verified in-game). This
+        // guards that the core path still produces canonical category tiles from core's curated groups and
+        // never emits a per-addon "addon:*" fallback tile.
         Player p = server.addPlayer();
 
-        ItemGroup weaponsGroup = new ItemGroup(new NamespacedKey("myaddon", "wg"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_SWORD));
-        weaponsGroup.setTheme("weapons");
-        ItemGroup toolsGroup = new ItemGroup(new NamespacedKey("myaddon", "tg"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_PICKAXE));
-        toolsGroup.setTheme("tools");
-        ItemGroup undeclared = new ItemGroup(new NamespacedKey("myaddon", "ug"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.CHEST));
-
-        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, java.util.Arrays.asList(weaponsGroup, toolsGroup, undeclared), Slimefun.getGuideCategories());
-
-        java.util.Map<String, java.util.List<ItemGroup>> byCat = new java.util.HashMap<>();
-        for (ItemGroup t : tiles) {
-            CategoryItemGroup cig = (CategoryItemGroup) t;
-            byCat.put(cig.getCategory().getId(), cig.getMembers());
+        List<ItemGroup> visible = new ArrayList<>();
+        for (ItemGroup group : Slimefun.getRegistry().getAllItemGroups()) {
+            if (!(group instanceof CategoryItemGroup)) {
+                visible.add(group);
+            }
         }
 
-        Assertions.assertTrue(byCat.getOrDefault("weapons", java.util.Collections.emptyList()).contains(weaponsGroup),
-            "a setTheme(\"weapons\") group must land in the Weapons category, not a per-addon tile: " + byCat.keySet());
-        Assertions.assertTrue(byCat.getOrDefault("tools", java.util.Collections.emptyList()).contains(toolsGroup),
-            "a setTheme(\"tools\") group must land in the Tools category: " + byCat.keySet());
-        Assertions.assertTrue(byCat.getOrDefault("addon:myaddon", java.util.Collections.emptyList()).contains(undeclared),
-            "an undeclared group must fall back to the per-addon tile: " + byCat.keySet());
+        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, visible, Slimefun.getGuideCategories());
+
+        CategoryItemGroup weapons = tiles.stream()
+            .map(t -> (CategoryItemGroup) t)
+            .filter(t -> DefaultGuideCategories.WEAPONS.equals(t.getCategory().getId()))
+            .findFirst().orElse(null);
+        Assertions.assertNotNull(weapons, "a Weapons category tile must exist from core's weapons group");
+        Assertions.assertFalse(weapons.getMembers().isEmpty(), "the Weapons tile must have members");
+
+        Assertions.assertTrue(tiles.stream().noneMatch(t -> ((CategoryItemGroup) t).getCategory().getId().startsWith("addon:")),
+            "no per-addon fallback tiles in a pure-core boot");
     }
 }

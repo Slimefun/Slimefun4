@@ -98,14 +98,4 @@ class GuideCategoryTest {
         Assertions.assertEquals("machines", group.getCategoryId());
         Assertions.assertEquals("machines", group.getThemeId());
     }
-
-    @Test
-    void resolveCategoryIdUsesDeclaredThenAddonFallback() {
-        ItemGroup declared = new ItemGroup(new NamespacedKey("myaddon", "weapons"), new ItemStack(Material.DIAMOND_SWORD));
-        declared.setCategory("weapons");
-        Assertions.assertEquals("weapons", CategoryMenuBuilder.resolveCategoryId(declared));
-
-        ItemGroup undeclared = new ItemGroup(new NamespacedKey("myaddon", "stuff"), new ItemStack(Material.CHEST));
-        Assertions.assertEquals("addon:myaddon", CategoryMenuBuilder.resolveCategoryId(undeclared));
-    }
 }

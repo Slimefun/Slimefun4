@@ -3,92 +3,122 @@ package io.github.thebusybiscuit.slimefun5.core.guide.categories;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.cryptomorin.xseries.XMaterial;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 
 /**
- * Turns the guide's currently-visible groups into the transient {@link CategoryItemGroup} tiles for the
- * categorized main menu. Each group goes to its declared category, or an auto per-addon category when it
- * declares none. Purely registry-driven - no content heuristics.
+ * Builds the transient {@link CategoryItemGroup} tiles for the categorized main menu. Slimefun's own
+ * groups keep their curated category and their own names; every enabled ADDON item is pulled from the
+ * registry, classified by type ({@link ItemTypeClassifier}) and grouped into "&lt;Addon&gt; &lt;Type&gt;"
+ * section tiles under the matching type category - so an addon's items split across the shared categories
+ * even when the addon's own guide is a single custom flex UI. Anything the classifier can't type lands in
+ * the addon's Misc section (never dropped).
  */
 public final class CategoryMenuBuilder {
 
-    private static final String ADDON_PREFIX = "addon:";
-    // Pushes the per-addon fallback categories after every registered (canonical or addon-declared) one.
-    private static final int ADDON_FALLBACK_ORDER = 1000;
-
     private CategoryMenuBuilder() {}
-
-    /** The category a group belongs to: its declared id, else an "addon:&lt;namespace&gt;" fallback. */
-    @Nonnull
-    public static String resolveCategoryId(@Nonnull ItemGroup group) {
-        String declared = group.getCategoryId();
-        return declared != null ? declared : ADDON_PREFIX + group.getKey().getNamespace();
-    }
 
     @Nonnull
     public static List<ItemGroup> build(@Nonnull Player p, @Nonnull List<ItemGroup> visibleGroups, @Nonnull GuideCategoryRegistry registry) {
-        // category id -> member groups; LinkedHashMap keeps a stable order for the per-addon fallbacks.
-        Map<String, List<ItemGroup>> membersById = new LinkedHashMap<>();
+        // category id -> member tiles (core groups first, then addon "<Addon> <Type>" sections).
+        Map<String, List<ItemGroup>> membersByCat = new LinkedHashMap<>();
 
+        // 1. Slimefun's OWN groups keep their curated category + their own names. Addon groups are NOT
+        //    bucketed here - their items are classified below (their guide UI stays in the classic layout).
         for (ItemGroup group : visibleGroups) {
-            if (AddonVisibility.isHidden(p, group.getKey().getNamespace())) {
+            String ns = group.getKey().getNamespace();
+
+            if (!"slimefun".equals(ns) || AddonVisibility.isHidden(p, ns)) {
                 continue;
             }
 
-            // A group goes to its declared category only if that category is actually registered; a group
-            // tagged with an unknown id (unregistered custom category, a typo) falls back to its per-addon
-            // tile rather than silently vanishing from the guide.
             String declared = group.getCategoryId();
-            String target = (declared != null && registry.getById(declared) != null)
-                ? declared
-                : ADDON_PREFIX + group.getKey().getNamespace();
-
-            membersById.computeIfAbsent(target, k -> new ArrayList<>()).add(group);
+            String cat = (declared != null && registry.getById(declared) != null) ? declared : DefaultGuideCategories.MISC;
+            membersByCat.computeIfAbsent(cat, k -> new ArrayList<>()).add(group);
         }
 
+        // 2. Every enabled ADDON item, classified by type, grouped by (category id -> addon name -> items).
+        Map<String, Map<String, List<SlimefunItem>>> addonItems = new LinkedHashMap<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            ItemGroup group = item.getItemGroup();
+
+            if (group == null) {
+                continue;
+            }
+
+            String ns = group.getKey().getNamespace();
+
+            if ("slimefun".equals(ns) || AddonVisibility.isHidden(p, ns)) {
+                continue; // core handled above; skip hidden addons
+            }
+
+            if (item.isHidden() || item.isDisabledIn(p.getWorld())) {
+                continue;
+            }
+
+            String typeId = ItemTypeClassifier.classify(item);
+            String cat = (typeId != null && registry.getById(typeId) != null) ? typeId : DefaultGuideCategories.MISC;
+            String addonName = item.getAddon() != null ? item.getAddon().getName() : ns;
+
+            addonItems
+                .computeIfAbsent(cat, k -> new LinkedHashMap<>())
+                .computeIfAbsent(addonName, k -> new ArrayList<>())
+                .add(item);
+        }
+
+        // 3. Turn each (category, addon) bucket into a transient "<Addon> <Type>" section tile.
+        for (Map.Entry<String, Map<String, List<SlimefunItem>>> catEntry : addonItems.entrySet()) {
+            String cat = catEntry.getKey();
+
+            for (Map.Entry<String, List<SlimefunItem>> addonEntry : catEntry.getValue().entrySet()) {
+                membersByCat.computeIfAbsent(cat, k -> new ArrayList<>())
+                    .add(section(cat, addonEntry.getKey(), addonEntry.getValue()));
+            }
+        }
+
+        // 4. Emit one tile per non-empty registered category, in registry order.
         List<ItemGroup> tiles = new ArrayList<>();
 
-        // Registered categories first, in registry order; consume them out of the map as we go.
         for (GuideCategory category : registry.getAll()) {
-            List<ItemGroup> members = membersById.remove(category.getId());
+            List<ItemGroup> members = membersByCat.get(category.getId());
 
             if (members != null && !members.isEmpty()) {
                 tiles.add(tile(p, category, members));
             }
         }
 
-        // Whatever is left is an undeclared per-addon fallback ("addon:<namespace>").
-        for (Map.Entry<String, List<ItemGroup>> entry : membersById.entrySet()) {
-            if (!entry.getKey().startsWith(ADDON_PREFIX) || entry.getValue().isEmpty()) {
-                continue;
-            }
-
-            String namespace = entry.getKey().substring(ADDON_PREFIX.length());
-            tiles.add(tile(p, autoCategory(namespace, entry.getValue()), entry.getValue()));
-        }
-
         return tiles;
     }
 
+    /** A transient (unregistered) "<Addon> <Type>" section holding an addon's items of one type. */
     @Nonnull
-    private static GuideCategory autoCategory(@Nonnull String namespace, @Nonnull List<ItemGroup> members) {
-        SlimefunAddon addon = members.get(0).getAddon();
-        String name = "&e" + (addon != null ? addon.getName() : namespace);
-        return new GuideCategory(ADDON_PREFIX + namespace, name, XMaterial.BOOKSHELF, ADDON_FALLBACK_ORDER);
+    private static ItemGroup section(@Nonnull String categoryId, @Nonnull String addonName, @Nonnull List<SlimefunItem> items) {
+        String title = ChatColor.YELLOW + addonName + " " + ItemTypeClassifier.typeSingular(categoryId);
+        String keyId = "typed_" + categoryId + "_" + addonName.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9_]", "_");
+        ItemStack icon = ChestMenuUtils.stripTranslationIdentity(CustomItemStack.create(items.get(0).getItem().clone(), title));
+
+        ItemGroup group = new ItemGroup(new NamespacedKey(Slimefun.instance(), keyId), icon);
+        for (SlimefunItem item : items) {
+            group.add(item);
+        }
+
+        return group;
     }
 
     @Nonnull

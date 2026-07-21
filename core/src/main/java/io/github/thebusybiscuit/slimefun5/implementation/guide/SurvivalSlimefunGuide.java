@@ -504,7 +504,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 && isSearchFilterApplicable(p, slimefunItem, searchTerm)) {
                 ItemStack itemstack = CustomItemStack.create(slimefunItem.getItem(), meta -> {
                     ItemGroup itemGroup = slimefunItem.getItemGroup();
-                    String categoryId = itemGroup.getCategoryId() != null ? itemGroup.getCategoryId() : CategoryMenuBuilder.resolveCategoryId(itemGroup);
+                    String categoryId = itemGroup.getCategoryId() != null ? itemGroup.getCategoryId() : io.github.thebusybiscuit.slimefun5.core.guide.categories.DefaultGuideCategories.MISC;
                     io.github.thebusybiscuit.slimefun5.core.guide.categories.GuideCategory category = Slimefun.getGuideCategories().getById(categoryId);
                     String categoryLabel = Slimefun.getLocalization().getMessage(p, "guide.categories." + categoryId);
                     if (categoryLabel == null || categoryLabel.startsWith("guide.categories.")) {
