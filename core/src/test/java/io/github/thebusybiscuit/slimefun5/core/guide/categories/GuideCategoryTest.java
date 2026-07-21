@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockbukkit.mockbukkit.MockBukkit;
 
@@ -65,6 +66,25 @@ class GuideCategoryTest {
         reg.register(replacement);
         Assertions.assertSame(replacement, reg.getById("weapons"));
         Assertions.assertEquals(1, reg.getAll().size());
+    }
+
+    @Test
+    @DisplayName("classifyMaterial types weapons/tools/armor/food; axe is a Tool; unknown is null")
+    void classifierMaterialHeuristic() {
+        Assertions.assertEquals(DefaultGuideCategories.WEAPONS, ItemTypeClassifier.classifyMaterial(Material.DIAMOND_SWORD));
+        Assertions.assertEquals(DefaultGuideCategories.TOOLS, ItemTypeClassifier.classifyMaterial(Material.IRON_PICKAXE));
+        Assertions.assertEquals(DefaultGuideCategories.TOOLS, ItemTypeClassifier.classifyMaterial(Material.DIAMOND_AXE));
+        Assertions.assertEquals(DefaultGuideCategories.ARMOR, ItemTypeClassifier.classifyMaterial(Material.DIAMOND_CHESTPLATE));
+        Assertions.assertEquals(DefaultGuideCategories.FOOD, ItemTypeClassifier.classifyMaterial(Material.APPLE));
+        Assertions.assertNull(ItemTypeClassifier.classifyMaterial(Material.DIAMOND));
+    }
+
+    @Test
+    @DisplayName("typeSingular maps ids to section-title words")
+    void typeSingularWords() {
+        Assertions.assertEquals("Weapon", ItemTypeClassifier.typeSingular(DefaultGuideCategories.WEAPONS));
+        Assertions.assertEquals("Machine", ItemTypeClassifier.typeSingular(DefaultGuideCategories.MACHINES));
+        Assertions.assertEquals("Misc", ItemTypeClassifier.typeSingular("resources"));
     }
 
     @Test
