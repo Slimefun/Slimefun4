@@ -16,6 +16,7 @@ import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.SlimefunItemSetup;
+import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 
 /** Diagnostic: dumps the real categorization of Slimefun's own item groups so we can see whether any land in a fallback. */
 class CategoryMenuDiagnosticTest {
@@ -75,5 +76,35 @@ class CategoryMenuDiagnosticTest {
         Assertions.assertTrue(undeclared.isEmpty(), "Undeclared Slimefun groups fall into an 'addon:slimefun' fallback tile:" + report);
         Assertions.assertTrue(tiles.stream().noneMatch(t -> "addon:slimefun".equals(((CategoryItemGroup) t).getCategory().getId())),
             "The categorized menu must not produce an 'addon:slimefun' fallback tile:" + report);
+    }
+
+    @Test
+    @SuppressWarnings("deprecation")
+    void addonGroupsSplitAcrossCategoriesByTheirDeclaredTheme() {
+        // Reproduce exactly what a theme-tagged addon does (e.g. Networks: setTheme("logistics"/"tools"/...)):
+        // distinct themes on one addon's groups must land the groups in the matching canonical categories,
+        // NOT lump the whole addon into one tile. An undeclared group falls back to the per-addon tile.
+        Player p = server.addPlayer();
+
+        ItemGroup weaponsGroup = new ItemGroup(new NamespacedKey("myaddon", "wg"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_SWORD));
+        weaponsGroup.setTheme("weapons");
+        ItemGroup toolsGroup = new ItemGroup(new NamespacedKey("myaddon", "tg"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_PICKAXE));
+        toolsGroup.setTheme("tools");
+        ItemGroup undeclared = new ItemGroup(new NamespacedKey("myaddon", "ug"), new org.bukkit.inventory.ItemStack(org.bukkit.Material.CHEST));
+
+        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, java.util.Arrays.asList(weaponsGroup, toolsGroup, undeclared), Slimefun.getGuideCategories());
+
+        java.util.Map<String, java.util.List<ItemGroup>> byCat = new java.util.HashMap<>();
+        for (ItemGroup t : tiles) {
+            CategoryItemGroup cig = (CategoryItemGroup) t;
+            byCat.put(cig.getCategory().getId(), cig.getMembers());
+        }
+
+        Assertions.assertTrue(byCat.getOrDefault("weapons", java.util.Collections.emptyList()).contains(weaponsGroup),
+            "a setTheme(\"weapons\") group must land in the Weapons category, not a per-addon tile: " + byCat.keySet());
+        Assertions.assertTrue(byCat.getOrDefault("tools", java.util.Collections.emptyList()).contains(toolsGroup),
+            "a setTheme(\"tools\") group must land in the Tools category: " + byCat.keySet());
+        Assertions.assertTrue(byCat.getOrDefault("addon:myaddon", java.util.Collections.emptyList()).contains(undeclared),
+            "an undeclared group must fall back to the per-addon tile: " + byCat.keySet());
     }
 }

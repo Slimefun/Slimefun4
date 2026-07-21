@@ -286,6 +286,7 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         networkManager = new NetworkManager(200);
         command.register();
         registry.load(this, config);
+        DefaultGuideCategories.registerInto(guideCategoryRegistry);
         loadTags();
         soundService.reload(false);
         // TODO: What do we do if tests want to use another storage backend (e.g. testing new feature on legacy + sql)?

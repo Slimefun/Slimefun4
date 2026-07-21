@@ -49,7 +49,15 @@ public final class CategoryMenuBuilder {
                 continue;
             }
 
-            membersById.computeIfAbsent(resolveCategoryId(group), k -> new ArrayList<>()).add(group);
+            // A group goes to its declared category only if that category is actually registered; a group
+            // tagged with an unknown id (unregistered custom category, a typo) falls back to its per-addon
+            // tile rather than silently vanishing from the guide.
+            String declared = group.getCategoryId();
+            String target = (declared != null && registry.getById(declared) != null)
+                ? declared
+                : ADDON_PREFIX + group.getKey().getNamespace();
+
+            membersById.computeIfAbsent(target, k -> new ArrayList<>()).add(group);
         }
 
         List<ItemGroup> tiles = new ArrayList<>();
