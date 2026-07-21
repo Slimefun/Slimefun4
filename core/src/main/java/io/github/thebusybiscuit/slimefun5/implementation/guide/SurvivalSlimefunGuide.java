@@ -56,6 +56,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.tasks.AsyncRecipeChoiceTask;
 import io.github.thebusybiscuit.slimefun5.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun5.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun5.utils.compatibility.MaterialCompat;
 import io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag;
 import io.github.thebusybiscuit.slimefun5.utils.itemstack.SlimefunGuideItem;
 
@@ -119,16 +120,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        List<ItemGroup> categories = collectVisibleCategories(p, profile);
-
-        // Per-player toggle (guide settings), defaulting to the server's guide.categorize-main-menu. When
-        // off, the main menu lists every category directly (classic flat layout) instead of theme groups.
-        // Themes still exist and work everywhere else - this only controls the main menu's top level.
-        if (!io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.isMainMenuCategorized(p)) {
-            return categories;
-        }
-
-        return CategoryMenuBuilder.build(p, categories, Slimefun.getGuideCategories());
+        // Both layouts show the same shared-category tiles on the main menu; addon-defined categories and
+        // custom browse layouts are never shown (their items are classified into the categories). The
+        // categorize toggle now only changes how a category OPENS - sectioned vs a flat item grid
+        // (see CategoryItemGroup#open).
+        return CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories());
     }
 
     protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {
@@ -234,7 +230,28 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         });
 
+        // Functional addon widgets (e.g. an advancement tree) get a dedicated bottom-row entry, shown on
+        // every page and on both layouts.
+        int[] widgetSlots = { 47, 48, 49, 50, 51 };
+        List<io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget> widgets = Slimefun.getGuideWidgets().getAll();
+        for (int i = 0; i < widgets.size() && i < widgetSlots.length; i++) {
+            io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget = widgets.get(i);
+            menu.replaceExistingItem(widgetSlots[i], widgetTile(p, widget));
+            menu.addMenuClickHandler(widgetSlots[i], (pl, slot, item, action) -> {
+                widget.open(pl, profile);
+                return false;
+            });
+        }
+
         menu.open(p);
+    }
+
+    @Nonnull
+    private ItemStack widgetTile(@Nonnull Player p, @Nonnull io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget) {
+        return CustomItemStack.create(MaterialCompat.stack(widget.getIcon()),
+            ChatColor.translateAlternateColorCodes('&', widget.getDefaultName()),
+            "",
+            Slimefun.getLocalization().getMessage(p, "guide.categories-meta.open"));
     }
 
     /**
@@ -291,6 +308,71 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             if (next != page && next <= pages) {
                 openCategoryContents(profile, categoryGroup, next);
+            }
+
+            return false;
+        });
+
+        menu.open(p);
+    }
+
+    /**
+     * The classic-layout view of a category: a flat, paginated grid of ALL its items (core + every addon),
+     * with no per-source sub-sections and a back button to the main menu.
+     */
+    public void openCategoryItemsFlat(@Nonnull PlayerProfile profile, @Nonnull CategoryItemGroup categoryGroup, int page) {
+        Player p = profile.getPlayer();
+
+        if (p == null) {
+            return;
+        }
+
+        List<SlimefunItem> items = categoryGroup.getAllItems();
+
+        if (isSurvivalMode()) {
+            profile.getGuideHistory().add(categoryGroup, page);
+        }
+
+        ChestMenu menu = create(p);
+        createHeader(p, profile, menu);
+        addBackButton(menu, 1, p, profile);
+
+        int pages = Math.max(1, (items.size() - 1) / MAX_ITEM_GROUPS + 1);
+
+        int index = 9;
+        int itemIndex = MAX_ITEM_GROUPS * (page - 1);
+        for (int i = 0; i < MAX_ITEM_GROUPS; i++) {
+            int target = itemIndex + i;
+
+            if (target >= items.size()) {
+                break;
+            }
+
+            SlimefunItem sfitem = items.get(target);
+
+            if (!sfitem.isDisabledIn(p.getWorld())) {
+                displaySlimefunItem(menu, categoryGroup, p, profile, sfitem, page, index);
+                index++;
+            }
+        }
+
+        menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
+        menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+            int next = page - 1;
+
+            if (next != page && next > 0) {
+                openCategoryItemsFlat(profile, categoryGroup, next);
+            }
+
+            return false;
+        });
+
+        menu.addItem(52, ChestMenuUtils.getNextButton(p, page, pages));
+        menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+            int next = page + 1;
+
+            if (next != page && next <= pages) {
+                openCategoryItemsFlat(profile, categoryGroup, next);
             }
 
             return false;

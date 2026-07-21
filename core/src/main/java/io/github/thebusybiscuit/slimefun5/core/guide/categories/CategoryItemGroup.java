@@ -1,7 +1,10 @@
 package io.github.thebusybiscuit.slimefun5.core.guide.categories;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -10,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation;
@@ -47,6 +51,26 @@ public class CategoryItemGroup extends FlexItemGroup {
         return members;
     }
 
+    /**
+     * All items of this category flattened from its member groups (core groups + addon sections),
+     * de-duplicated, preserving order. Used by the classic layout's flat per-category listing.
+     */
+    @Nonnull
+    public List<SlimefunItem> getAllItems() {
+        List<SlimefunItem> all = new ArrayList<>();
+        Set<SlimefunItem> seen = new HashSet<>();
+
+        for (ItemGroup member : members) {
+            for (SlimefunItem item : member.getItems()) {
+                if (seen.add(item)) {
+                    all.add(item);
+                }
+            }
+        }
+
+        return all;
+    }
+
     @Override
     public boolean isVisible(Player p, PlayerProfile profile, SlimefunGuideMode mode) {
         return true;
@@ -57,7 +81,15 @@ public class CategoryItemGroup extends FlexItemGroup {
         SlimefunGuideImplementation guide = Slimefun.getRegistry().getSlimefunGuide(mode);
 
         if (guide instanceof SurvivalSlimefunGuide) {
-            ((SurvivalSlimefunGuide) guide).openCategoryContents(profile, this, 1);
+            SurvivalSlimefunGuide survival = (SurvivalSlimefunGuide) guide;
+
+            // The categorize toggle controls how a category opens: sectioned (categorized) or a flat item
+            // grid (classic). Both use the same main-menu category tiles.
+            if (io.github.thebusybiscuit.slimefun5.core.guide.options.SlimefunGuideSettings.isMainMenuCategorized(p)) {
+                survival.openCategoryContents(profile, this, 1);
+            } else {
+                survival.openCategoryItemsFlat(profile, this, 1);
+            }
         }
     }
 }
