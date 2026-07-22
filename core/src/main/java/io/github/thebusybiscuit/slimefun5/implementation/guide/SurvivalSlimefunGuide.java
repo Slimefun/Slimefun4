@@ -292,20 +292,39 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return false;
         });
 
-        // Functional addon widgets (e.g. an advancement tree) get a dedicated bottom-row entry, shown on
-        // every page and on both layouts.
-        int[] widgetSlots = { 47, 48, 49, 50, 51 };
+        // Functional addon widgets (e.g. an advancement tree) get a dedicated button, top or bottom row per
+        // the widget's own preference, shown on every page and on both layouts.
+        placeWidgets(menu, p, profile);
+
+        menu.open(p);
+    }
+
+    // Free header slots (1 = settings, 4 = addon-visibility, 7 = search are taken) and the bottom row.
+    private static final int[] TOP_WIDGET_SLOTS = { 2, 3, 5, 6 };
+    private static final int[] BOTTOM_WIDGET_SLOTS = { 47, 48, 49, 50, 51 };
+
+    private void placeWidgets(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget> widgets = Slimefun.getGuideWidgets().getAll();
-        for (int i = 0; i < widgets.size() && i < widgetSlots.length; i++) {
-            io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget = widgets.get(i);
-            menu.replaceExistingItem(widgetSlots[i], widgetTile(p, widget));
-            menu.addMenuClickHandler(widgetSlots[i], (pl, slot, item, action) -> {
+        int topIndex = 0;
+        int bottomIndex = 0;
+
+        for (io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget : widgets) {
+            boolean top = widget.getPosition() == io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget.Position.TOP;
+            int[] slots = top ? TOP_WIDGET_SLOTS : BOTTOM_WIDGET_SLOTS;
+            int slotIndex = top ? topIndex++ : bottomIndex++;
+
+            if (slotIndex >= slots.length) {
+                Slimefun.logger().warning("[Guide] No free " + (top ? "top" : "bottom") + "-row slot for guide widget '" + widget.getId() + "'.");
+                continue;
+            }
+
+            int slot = slots[slotIndex];
+            menu.replaceExistingItem(slot, widgetTile(p, widget));
+            menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                 widget.open(pl, profile);
                 return false;
             });
         }
-
-        menu.open(p);
     }
 
     @Nonnull
@@ -506,10 +525,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        if (itemGroup instanceof FlexItemGroup) {
-            FlexItemGroup flexItemGroup = (FlexItemGroup) itemGroup;            flexItemGroup.open(p, profile, getMode());
+        // Core's own category tiles keep their custom open (that IS the category mechanism). Every OTHER
+        // FlexItemGroup is an addon custom screen, which is deprecated: the guide only shows categories and
+        // item lists. Render it as a plain item list instead of the addon's UI, and warn once.
+        if (itemGroup instanceof CategoryItemGroup) {
+            ((FlexItemGroup) itemGroup).open(p, profile, getMode());
             return;
         }
+
+        if (itemGroup instanceof FlexItemGroup) {
+            warnDeprecatedCustomGuideUi(itemGroup);
+        }
+
+        List<SlimefunItem> items = guideItemsOf(itemGroup);
 
         if (isSurvivalMode()) {
             profile.getGuideHistory().add(itemGroup, page);
@@ -520,7 +548,7 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         addBackButton(menu, 1, p, profile);
 
-        int pages = (itemGroup.getItems().size() - 1) / MAX_ITEM_GROUPS + 1;
+        int pages = (items.size() - 1) / MAX_ITEM_GROUPS + 1;
 
         menu.addItem(46, ChestMenuUtils.getPreviousButton(p, page, pages));
         menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
@@ -550,11 +578,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         for (int i = 0; i < MAX_ITEM_GROUPS; i++) {
             int target = itemGroupIndex + i;
 
-            if (target >= itemGroup.getItems().size()) {
+            if (target >= items.size()) {
                 break;
             }
 
-            SlimefunItem sfitem = itemGroup.getItems().get(target);
+            SlimefunItem sfitem = items.get(target);
 
             if (!sfitem.isDisabledIn(p.getWorld())) {
                 displaySlimefunItem(menu, itemGroup, p, profile, sfitem, page, index);
@@ -563,6 +591,44 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
+    }
+
+    /**
+     * The items to list for a group in the guide. Normally the group's own items; but for a (deprecated)
+     * addon {@link FlexItemGroup} whose items are locked away in a custom UI / hidden sub-groups, its own
+     * list is often empty, so we fall back to every enabled item belonging to that addon's namespace - so
+     * the addon's content still shows as a plain list until the addon is updated to declare categories.
+     */
+    @Nonnull
+    private List<SlimefunItem> guideItemsOf(@Nonnull ItemGroup group) {
+        if (!group.getItems().isEmpty() || !(group instanceof FlexItemGroup)) {
+            return group.getItems();
+        }
+
+        String namespace = group.getKey().getNamespace();
+        List<SlimefunItem> items = new ArrayList<>();
+
+        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
+            ItemGroup g = item.getItemGroup();
+
+            if (g != null && namespace.equals(g.getKey().getNamespace()) && !item.isHidden()) {
+                items.add(item);
+            }
+        }
+
+        return items;
+    }
+
+    private final java.util.Set<String> warnedCustomGuideUis = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
+    private void warnDeprecatedCustomGuideUi(@Nonnull ItemGroup group) {
+        if (warnedCustomGuideUis.add(group.getKey().toString())) {
+            SlimefunAddon addon = group.getAddon();
+            String owner = addon != null ? addon.getName() : "unknown";
+            Slimefun.logger().warning("[Guide] Addon '" + owner + "' uses a custom guide screen (" + group.getKey()
+                + "). Custom guide layouts are deprecated - the guide only shows categories and item lists. "
+                + "It is now rendered as a plain item list. Use a GuideWidget button for functional screens.");
+        }
     }
 
     private void displaySlimefunItem(ChestMenu menu, ItemGroup itemGroup, Player p, PlayerProfile profile, SlimefunItem sfitem, int page, int index) {

@@ -20,7 +20,12 @@ import io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode;
  * be completely modified.
  * It cannot hold any {@link SlimefunItem} but can be completely overridden
  * to perform any action upon being opened.
- * 
+ *
+ * @deprecated Addon-defined custom guide screens are deprecated in this fork. The guide only shows
+ *             categories and plain item lists; an addon {@link FlexItemGroup} is rendered as a plain item
+ *             list (its custom {@code open} is ignored) and logs a warning. Contribute categories and items
+ *             instead, and use a {@code GuideWidget} button for genuinely functional screens.
+ *
  * @author TheBusyBiscuit
  *
  */
