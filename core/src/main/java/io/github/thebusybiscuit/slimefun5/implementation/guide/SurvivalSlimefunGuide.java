@@ -120,23 +120,16 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
      * @return a {@link List} of visible {@link ItemGroup} instances
      */
     protected @Nonnull List<ItemGroup> getVisibleItemGroups(@Nonnull Player p, @Nonnull PlayerProfile profile) {
-        // Both layouts show the same shared-category tiles on the main menu; addon-defined categories and
-        // custom browse layouts are never shown (their items are classified into the categories). The
-        // categorize toggle now only changes how a category OPENS - sectioned vs a flat item grid
-        // (see CategoryItemGroup#open).
-        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories());
+        List<ItemGroup> tiles = buildMainMenuTiles(p, profile);
 
         if (tiles.isEmpty()) {
-            // The player's addon-visibility set hid every category (a corrupt/stale set that hides
-            // everything - unreachable via the menu, which keeps at least one shown). The guide must never
-            // be blank because of visibility, so re-render once with filtering disabled.
+            // The player's addon-visibility set hid everything (a corrupt/stale set that hides all content -
+            // unreachable via the menu, which keeps at least one shown). The guide must never be blank
+            // because of visibility, so re-render once with filtering disabled, then repair the set.
             List<ItemGroup> fallback = new ArrayList<>();
-            AddonVisibility.runWithoutFiltering(() ->
-                fallback.addAll(CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories())));
+            AddonVisibility.runWithoutFiltering(() -> fallback.addAll(buildMainMenuTiles(p, profile)));
 
             if (!fallback.isEmpty()) {
-                // The set provably hides all content, which the menu never produces - repair it so the
-                // visibility menu is consistent and this fallback stops firing on every open.
                 AddonVisibility.clear(p);
                 Slimefun.logger().log(Level.WARNING, "Addon visibility hid all guide content for {0}; reset it and showing everything.", p.getName());
                 return fallback;
@@ -144,6 +137,32 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         return tiles;
+    }
+
+    /**
+     * The main-menu tiles for the current layout. Classic mirrors the old upstream main menu: the raw
+     * {@link ItemGroup} tiles (Slimefun's own groups plus every addon's own groups), honoring addon
+     * visibility. Categorized uses the shared-category system, where each category opens into
+     * {@code <Addon> <Type>} sections.
+     */
+    @Nonnull
+    private List<ItemGroup> buildMainMenuTiles(@Nonnull Player p, @Nonnull PlayerProfile profile) {
+        List<ItemGroup> visible = collectVisibleCategories(p, profile);
+
+        boolean categorized;
+        try {
+            categorized = SlimefunGuideSettings.isMainMenuCategorized(p);
+        } catch (Exception | LinkageError x) {
+            // Reading the per-player layout option can fail if the guide/localization isn't fully ready;
+            // default to the richer categorized view rather than let the menu fail to build.
+            categorized = true;
+        }
+
+        if (!categorized) {
+            return visible;
+        }
+
+        return CategoryMenuBuilder.build(p, visible, Slimefun.getGuideCategories());
     }
 
     protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {

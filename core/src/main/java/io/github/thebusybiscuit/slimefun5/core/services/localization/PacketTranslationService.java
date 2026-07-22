@@ -215,9 +215,37 @@ public class PacketTranslationService implements Listener {
         }
         meta.setDisplayName(display.name);
         meta.setLore(display.lore.isEmpty() ? null : display.lore);
+        hideVanillaAttributes(meta);
         bukkit.setItemMeta(meta);
         Object rewritten = PacketReflect.asNms(bukkit);
         return rewritten != null ? rewritten : nmsItem;
+    }
+
+    /**
+     * Hides the vanilla base-material attribute lines ("When in Main Hand: 1 Attack Damage", ...) on the
+     * client-facing copy of a Slimefun item, so its tooltip shows only our unified lore. Those numbers are
+     * the base material's defaults, not the item's actual (custom-handled) behaviour. This only touches the
+     * outbound packet copy, never the stored item, so server-side combat is unaffected. Two mechanisms cover
+     * all versions: the HIDE_ATTRIBUTES flag (removed in 1.21.5+, so null-safe) and clearing the modifier set
+     * (what newer clients honour). Never throws - a display nicety must not break packet delivery.
+     */
+    private void hideVanillaAttributes(@Nonnull ItemMeta meta) {
+        // <=1.21.4: the HIDE_ATTRIBUTES flag suppresses the vanilla lines.
+        try {
+            io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag.addFlags(meta,
+                io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag.HIDE_ATTRIBUTES);
+        } catch (Throwable ignored) {
+            // flag absent on this version - the modifier path below covers it
+        }
+
+        // 1.21.5+ removed the flag; an explicit empty modifier set makes the client show no attribute lines.
+        // Reflective because the core compiles against the 1.8.8 Bukkit API (no setAttributeModifiers there).
+        try {
+            java.lang.reflect.Method setModifiers = meta.getClass().getMethod("setAttributeModifiers", com.google.common.collect.Multimap.class);
+            setModifiers.invoke(meta, com.google.common.collect.HashMultimap.create());
+        } catch (Throwable ignored) {
+            // method absent (pre-1.13) - the flag above already handled those versions
+        }
     }
 
     private Object rewriteGuideBook(Object nmsItem, ItemStack bukkit, String language) {
