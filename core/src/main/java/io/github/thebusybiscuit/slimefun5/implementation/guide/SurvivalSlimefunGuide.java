@@ -124,7 +124,26 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         // custom browse layouts are never shown (their items are classified into the categories). The
         // categorize toggle now only changes how a category OPENS - sectioned vs a flat item grid
         // (see CategoryItemGroup#open).
-        return CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories());
+        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories());
+
+        if (tiles.isEmpty()) {
+            // The player's addon-visibility set hid every category (a corrupt/stale set that hides
+            // everything - unreachable via the menu, which keeps at least one shown). The guide must never
+            // be blank because of visibility, so re-render once with filtering disabled.
+            List<ItemGroup> fallback = new ArrayList<>();
+            AddonVisibility.runWithoutFiltering(() ->
+                fallback.addAll(CategoryMenuBuilder.build(p, collectVisibleCategories(p, profile), Slimefun.getGuideCategories())));
+
+            if (!fallback.isEmpty()) {
+                // The set provably hides all content, which the menu never produces - repair it so the
+                // visibility menu is consistent and this fallback stops firing on every open.
+                AddonVisibility.clear(p);
+                Slimefun.logger().log(Level.WARNING, "Addon visibility hid all guide content for {0}; reset it and showing everything.", p.getName());
+                return fallback;
+            }
+        }
+
+        return tiles;
     }
 
     protected @Nonnull List<ItemGroup> collectVisibleCategories(@Nonnull Player p, @Nonnull PlayerProfile profile) {

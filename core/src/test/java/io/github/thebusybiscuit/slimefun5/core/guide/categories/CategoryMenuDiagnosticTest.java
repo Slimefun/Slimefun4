@@ -184,23 +184,31 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
-    void allHiddenVisibilitySelfHealsSoGuideIsNotEmpty() {
+    void allHiddenVisibilityStillRendersGuide() throws Exception {
         // Reproduces the live empty-guide cause: a corrupt/stale AddonVisibility set that hides EVERYTHING
-        // (in a core-only boot, hiding "slimefun" covers every installed addon). The guide must self-heal
-        // and still show tiles rather than rendering blank.
+        // (in a core-only boot, hiding "slimefun" hides all content). getVisibleItemGroups must fall back
+        // to rendering everything rather than a blank guide.
         Player p = server.addPlayer();
+        Slimefun.getWorldSettingsService().load(p.getWorld());
         io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility.setHidden(p, "slimefun", true);
 
-        List<ItemGroup> visible = new ArrayList<>();
-        for (ItemGroup g : Slimefun.getRegistry().getAllItemGroups()) {
-            if (!(g instanceof CategoryItemGroup)) {
-                visible.add(g);
-            }
-        }
+        java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+        java.util.concurrent.atomic.AtomicReference<PlayerProfile> ref = new java.util.concurrent.atomic.AtomicReference<>();
+        PlayerProfile.get(p, pr -> { ref.set(pr); latch.countDown(); });
+        latch.await(2, java.util.concurrent.TimeUnit.SECONDS);
+        PlayerProfile profile = ref.get();
+        Assertions.assertNotNull(profile);
 
-        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, visible, Slimefun.getGuideCategories());
+        io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideImplementation guide =
+            Slimefun.getRegistry().getSlimefunGuide(io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuideMode.SURVIVAL_MODE);
+        java.lang.reflect.Method m = io.github.thebusybiscuit.slimefun5.implementation.guide.SurvivalSlimefunGuide.class
+            .getDeclaredMethod("getVisibleItemGroups", org.bukkit.entity.Player.class, PlayerProfile.class);
+        m.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        List<ItemGroup> tiles = (List<ItemGroup>) m.invoke(guide, p, profile);
+
         Assertions.assertFalse(tiles.isEmpty(),
-            "a visibility set that hides every addon must self-heal, not blank the guide");
+            "a visibility set that hides everything must fall back to showing content, not blank the guide");
     }
 
     @Test
