@@ -548,6 +548,29 @@ public class ItemTranslationService {
     }
 
     /**
+     * Whether the item's author marked its enchantment(s) hidden ({@code ItemFlag.HIDE_ENCHANTS}) on the
+     * original, pre-bake template - the standard "glow only" trick, where a meaningless enchant is added
+     * purely for the enchanted glint. Read from the English baseline (captured before our own bake adds
+     * HIDE_ENCHANTS to re-render enchants) so the re-render pass never mistakes its own flag for the
+     * author's intent. {@link EnchantDisplay} keeps such enchants hidden (no lore line), leaving only the glint.
+     */
+    public boolean wasAuthorEnchantHidden(@Nonnull String id) {
+        if (io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag.HIDE_ENCHANTS == null) {
+            return false;
+        }
+
+        ItemStack baseline = englishBaseline.get(id);
+
+        if (baseline == null || !baseline.hasItemMeta()) {
+            return false;
+        }
+
+        ItemMeta meta = baseline.getItemMeta();
+        return meta != null
+            && meta.hasItemFlag(io.github.thebusybiscuit.slimefun5.utils.compatibility.VersionedItemFlag.HIDE_ENCHANTS);
+    }
+
+    /**
      * Whether the item has been migrated to the block lore system: any shipped language has a non-empty
      * type/description/stats/usage block for it. An item with only plain/hardcoded lore is NOT migrated.
      */

@@ -53,6 +53,12 @@ public final class EnchantDisplay {
             return Collections.emptyList();
         }
 
+        // A glow-only enchant (author set HIDE_ENCHANTS purely for the glint) is not a real, meaningful
+        // enchantment - so we neither render it as a lore line nor reveal it; only the glint remains.
+        if (Slimefun.getItemTranslationService().wasAuthorEnchantHidden(item.getId())) {
+            return Collections.emptyList();
+        }
+
         Map<Enchantment, Integer> enchantments;
 
         try {
