@@ -935,7 +935,15 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             }
         }
 
-        menu.addItem(10, recipeType.getItem(p), ChestMenuUtils.getEmptyClickHandler());
+        ItemStack machineIcon = recipeType.getItem(p);
+        if (machineIcon == null || machineIcon.getType() == Material.AIR) {
+            // The machine/multiblock icon (slot 10) came back empty - surface why so a missing machine in
+            // the recipe view is diagnosable on the live server rather than silently blank.
+            Slimefun.logger().warning("[Guide] Recipe machine icon is empty for recipe type '" + recipeType.getKey()
+                + "' (machine item id=" + (recipeType.getMachine() != null ? recipeType.getMachine().getId() : "none")
+                + ", toItem=" + (recipeType.toItem() == null ? "null" : recipeType.toItem().getType()) + ").");
+        }
+        menu.addItem(10, machineIcon, ChestMenuUtils.getEmptyClickHandler());
 
         // The packet layer translates the result per viewer; the canonical template is id-only here.
         ItemStack displayedOutput = isSlimefunRecipe ? ((SlimefunItem) item).getItem() : output;
@@ -1011,7 +1019,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             ItemTranslationService translations = Slimefun.getItemTranslationService();
 
             if (slimefunItem.canUse(p, false)) {
-                return slimefunItem.getItem();
+                // Preserve the recipe slot's required amount - returning the canonical item dropped it to 1,
+                // so recipes needing several of a Slimefun ingredient wrongly showed a single item.
+                ItemStack display = slimefunItem.getItem().clone();
+                display.setAmount(item.getAmount());
+                return display;
             }
 
             String lore = hasPermission(p, slimefunItem) ? Slimefun.getLocalization().getMessage(p, "guide.recipe.needs-unlock").replace("%group%", slimefunItem.getItemGroup().getDisplayName(p)) : Slimefun.getLocalization().getMessage(p, "guide.recipe.no-permission");

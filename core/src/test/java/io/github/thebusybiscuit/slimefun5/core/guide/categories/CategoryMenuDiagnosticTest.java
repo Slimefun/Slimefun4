@@ -212,6 +212,21 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
+    void recipeTypeMachineIconResolves() {
+        io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem diamond =
+            io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("SYNTHETIC_DIAMOND");
+        Assertions.assertNotNull(diamond, "SYNTHETIC_DIAMOND must be registered");
+
+        io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType type = diamond.getRecipeType();
+        org.bukkit.inventory.ItemStack machine = type == null ? null : type.toItem();
+        String diag = "recipeType=" + (type == null ? "null" : type.getKey())
+            + " machineItem=" + (machine == null ? "null" : machine.getType());
+        Assertions.assertNotNull(machine, "the recipe-type machine icon must not be null: " + diag);
+        Assertions.assertNotEquals(org.bukkit.Material.AIR, machine.getType(),
+            "the recipe-type machine icon must not be AIR (empty slot 10 in the recipe view): " + diag);
+    }
+
+    @Test
     void declaredGuideTypeOverridesHeuristic() {
         io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
             io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("ELECTRIC_MOTOR");
