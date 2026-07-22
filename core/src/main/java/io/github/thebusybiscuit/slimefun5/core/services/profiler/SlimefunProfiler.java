@@ -219,8 +219,11 @@ public class SlimefunProfiler {
             }
         }
 
-        if (isProfiling && queued.get() > 0) {
-            // Looks like the next profiling has already started, abort!
+        if (isProfiling) {
+            // The next profiling cycle has already started (start() cleared timings and reset queued), so the
+            // live map no longer belongs to the cycle we are reporting on. Aborting leaves the pending
+            // requests queued; the next cycle's finishReport - which completes before the following start()
+            // once entries drain - serves them. Reporting here would deliver an empty (all-zero) summary.
             return;
         }
 

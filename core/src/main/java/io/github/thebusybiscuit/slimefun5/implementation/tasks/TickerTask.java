@@ -152,9 +152,15 @@ public class TickerTask implements Runnable {
         SlimefunItem item = SlimefunItem.getById(data.getString("id"));
 
         if (item != null && item.getBlockTicker() != null) {
-            try {
-                BlockTicker ticker = item.getBlockTicker();
+            BlockTicker ticker = item.getBlockTicker();
 
+            // True once we have incremented the profiler's queued-sample count but nothing else will
+            // decrement it yet. If update() throws before the matching closeEntry is scheduled/run, we
+            // must undo the increment - otherwise queued stays permanently positive and every profiler
+            // report waits forever (delivering an empty "0 blocks / 0ms" summary). See SlimefunProfiler.
+            boolean owedSample = false;
+
+            try {
                 // A synchronized ticker always runs on the main thread. An async ticker normally runs off
                 // it for performance - but if a player is currently viewing this block's menu, running the
                 // tick (which mutates that menu's inventory) off-thread races the player's clicks on the
@@ -164,6 +170,7 @@ public class TickerTask implements Runnable {
                 // (async is only a performance choice, never a correctness requirement).
                 if (ticker.isSynchronized() || BlockStorage.isInventoryViewed(l)) {
                     Slimefun.getProfiler().scheduleEntries(1);
+                    owedSample = true;
                     ticker.update();
 
                     /**
@@ -174,15 +181,22 @@ public class TickerTask implements Runnable {
                         Block b = l.getBlock();
                         tickBlock(l, b, item, data, System.nanoTime());
                     });
+                    owedSample = false; // the scheduled tickBlock now owns the matching closeEntry
                 } else {
                     long timestamp = Slimefun.getProfiler().newEntry();
+                    owedSample = timestamp != 0;
                     ticker.update();
                     Block b = l.getBlock();
                     tickBlock(l, b, item, data, timestamp);
+                    owedSample = false; // tickBlock's finally already closed the entry
                 }
 
                 tickers.add(ticker);
-            } catch (Exception x) {
+            } catch (Exception | LinkageError x) {
+                if (owedSample) {
+                    Slimefun.getProfiler().scheduleEntries(-1);
+                }
+
                 reportErrors(l, item, x);
             }
         }
