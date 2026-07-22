@@ -14,11 +14,11 @@ import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun5.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 import io.github.thebusybiscuit.slimefun5.utils.NumberUtils;
 import io.papermc.lib.PaperLib;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -101,10 +101,42 @@ class VersionsCommand extends SubCommand {
             builder.append("\n").event((HoverEvent) null);
             addPluginVersions(builder);
 
-            // CommandSender#spigot() is post-1.8; reached reflectively (no-op on legacy).
-            ReflectionCompat.invoke(ReflectionCompat.invoke(sender, "spigot"), "sendMessage", (Object) builder.create());
+            send(sender, builder.create());
         } else {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
+        }
+    }
+
+    /**
+     * Sends the rich component message, guaranteeing output on every server version. The Spigot component
+     * API ({@code CommandSender#spigot().sendMessage(BaseComponent[])}) is post-1.8 and, on some newer
+     * servers (e.g. 26.2), is removed or throws - previously that failed silently, so {@code /sf versions}
+     * printed nothing. If the rich send does not succeed, we fall back to a plain legacy-text send that
+     * works everywhere (losing only hover/click, never the whole message).
+     */
+    private void send(@Nonnull CommandSender sender, @Nonnull BaseComponent[] components) {
+        if (!trySpigotSend(sender, components)) {
+            sender.sendMessage(TextComponent.toLegacyText(components));
+        }
+    }
+
+    private boolean trySpigotSend(@Nonnull CommandSender sender, @Nonnull BaseComponent[] components) {
+        try {
+            Object spigot = sender.getClass().getMethod("spigot").invoke(sender);
+
+            if (spigot == null) {
+                return false;
+            }
+
+            // Resolve sendMessage on the PUBLIC CommandSender.Spigot API type: the concrete Spigot instance
+            // is a non-public craftbukkit class, and invoking a Method declared there throws
+            // IllegalAccessException (the same trap ReflectionCompat documents).
+            Class<?> spigotApi = Class.forName("org.bukkit.command.CommandSender$Spigot");
+            spigotApi.getMethod("sendMessage", BaseComponent[].class).invoke(spigot, (Object) components);
+            return true;
+        } catch (Throwable ignored) {
+            // spigot() absent (true 1.8) or the component send is gone/non-functional (26.2): fall back.
+            return false;
         }
     }
 
