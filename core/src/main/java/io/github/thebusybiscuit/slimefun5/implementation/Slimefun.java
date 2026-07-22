@@ -126,6 +126,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanBlock
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TalismanListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.VillagerTradingListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.AnvilListener;
+import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.AnvilRenameListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.BrewingStandListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.CartographyTableListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.crafting.CauldronListener;
@@ -809,6 +810,10 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         }
         register(() -> new CraftingTableListener(this));
         register(() -> new AnvilListener(this));
+        if (minecraftVersion.isAtLeast(MinecraftVersion.MINECRAFT_1_9)) {
+            // PrepareAnvilEvent is 1.9+; used to preserve player renames of Slimefun items.
+            register(() -> new AnvilRenameListener(this));
+        }
         register(() -> new BrewingStandListener(this));
         register(() -> new CauldronListener(this));
         register(() -> new GrindstoneListener(this));
