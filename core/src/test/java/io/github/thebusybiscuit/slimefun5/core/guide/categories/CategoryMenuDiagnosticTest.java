@@ -184,6 +184,26 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
+    void allHiddenVisibilitySelfHealsSoGuideIsNotEmpty() {
+        // Reproduces the live empty-guide cause: a corrupt/stale AddonVisibility set that hides EVERYTHING
+        // (in a core-only boot, hiding "slimefun" covers every installed addon). The guide must self-heal
+        // and still show tiles rather than rendering blank.
+        Player p = server.addPlayer();
+        io.github.thebusybiscuit.slimefun5.core.guide.AddonVisibility.setHidden(p, "slimefun", true);
+
+        List<ItemGroup> visible = new ArrayList<>();
+        for (ItemGroup g : Slimefun.getRegistry().getAllItemGroups()) {
+            if (!(g instanceof CategoryItemGroup)) {
+                visible.add(g);
+            }
+        }
+
+        List<ItemGroup> tiles = CategoryMenuBuilder.build(p, visible, Slimefun.getGuideCategories());
+        Assertions.assertFalse(tiles.isEmpty(),
+            "a visibility set that hides every addon must self-heal, not blank the guide");
+    }
+
+    @Test
     void declaredGuideTypeOverridesHeuristic() {
         io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
             io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("ELECTRIC_MOTOR");

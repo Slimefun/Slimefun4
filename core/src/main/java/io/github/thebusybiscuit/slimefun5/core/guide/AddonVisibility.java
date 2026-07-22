@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import io.github.thebusybiscuit.slimefun5.libraries.keys.NamespacedKey;
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
@@ -32,7 +33,31 @@ public final class AddonVisibility {
             return new HashSet<>();
         }
 
-        return new HashSet<>(Arrays.asList(raw.split(",")));
+        Set<String> hidden = new HashSet<>(Arrays.asList(raw.split(",")));
+
+        // Self-heal a degenerate set that would hide EVERYTHING (Slimefun + every installed addon). The
+        // visibility menu enforces "at least one shown" for live toggles, but stale/corrupt data can bypass
+        // that and blank the whole guide. Treat such a set as empty so the guide is never fully hidden; the
+        // next toggle then persists a clean set.
+        if (hidesEverything(hidden)) {
+            return new HashSet<>();
+        }
+
+        return hidden;
+    }
+
+    private static boolean hidesEverything(@Nonnull Set<String> hidden) {
+        if (!hidden.contains("slimefun")) {
+            return false;
+        }
+
+        for (Plugin addon : Slimefun.getInstalledAddons()) {
+            if (!hidden.contains(addon.getName().toLowerCase(Locale.ROOT))) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public static boolean isHidden(@Nonnull Player p, @Nonnull String addonId) {
