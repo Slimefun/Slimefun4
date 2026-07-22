@@ -196,19 +196,37 @@ public class ItemTranslationService {
     }
 
     /**
-     * Canonicalizes every registered item's template to its raw id as the display name with no composed
-     * lore. This is the language-neutral stored form; the packet layer renders per-viewer at send time,
-     * and this id-name is what shows if the packet layer never runs (an unmistakable fallback signal).
+     * Bakes every registered item's template to its display in the server's default language (name +
+     * composed lore). The packet layer still renders per-viewer at send time and overrides this for
+     * covered surfaces; this baked display is what shows on every surface the packet layer does NOT reach
+     * (dropped items, item frames, entity equipment, villager trades, unsupported server versions, or when
+     * {@code translation.packets=false}). Baking the translated name here - rather than the raw id - is
+     * what stops those surfaces from leaking the raw Slimefun id to players.
+     * <p>
+     * If nothing resolves yet (e.g. an addon whose translations load later), {@link #renderForPacket} falls
+     * back to the English baseline name and, failing that, the raw id; the per-addon re-run of this pass
+     * after that addon's translations load then re-bakes it with the real name.
      */
     public void canonicalizeToId() {
+        TranslationConfig.FallbackMode fallback = TranslationConfig.fallback();
+
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             if (item instanceof VanillaItem) {
                 continue; // deliberately no custom name/lore so the vanilla client localizes it
             }
 
             try {
+                // Capture the pre-bake authored display first so renderForPacket's English fallback (and the
+                // coverage UI) always sees the original name, never a previously baked one.
                 englishBaseline.putIfAbsent(item.getId(), item.getItem().clone());
-                item.bakeTranslatedDisplay(item.getId(), new ArrayList<String>());
+
+                RenderedDisplay display = renderForPacket(item.getId(), null, fallback, true);
+
+                if (display != null) {
+                    item.bakeTranslatedDisplay(display.name, display.lore);
+                } else {
+                    item.bakeTranslatedDisplay(item.getId(), new ArrayList<String>());
+                }
             } catch (Exception | LinkageError ignored) {
                 // a single broken item must not abort the pass
             }
