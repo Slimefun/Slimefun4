@@ -227,6 +227,26 @@ class CategoryMenuDiagnosticTest {
     }
 
     @Test
+    void carbonRecipeKeepsIngredientAmount() {
+        io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem carbon =
+            io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("CARBON");
+        Assertions.assertNotNull(carbon, "CARBON must be registered");
+
+        org.bukkit.inventory.ItemStack[] recipe = carbon.getRecipe();
+        org.bukkit.inventory.ItemStack first = recipe == null ? null : recipe[0];
+        String diag = "recipe[0]=" + (first == null ? "null" : first.getType() + " x" + first.getAmount());
+        Assertions.assertNotNull(first, "CARBON recipe slot 0 must be set: " + diag);
+        Assertions.assertEquals(8, first.getAmount(),
+            "CARBON's recipe should keep 8x Coal (if this is 1, the amount is lost at construction, not display): " + diag);
+
+        io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType type = carbon.getRecipeType();
+        org.bukkit.inventory.ItemStack machine = type == null ? null : type.toItem();
+        Assertions.assertTrue(machine != null && machine.getType() != org.bukkit.Material.AIR,
+            "COMPRESSOR machine icon must resolve; type=" + (type == null ? "null" : type.getKey())
+                + " machine=" + (machine == null ? "null" : machine.getType()));
+    }
+
+    @Test
     void declaredGuideTypeOverridesHeuristic() {
         io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem item =
             io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem.getById("ELECTRIC_MOTOR");
