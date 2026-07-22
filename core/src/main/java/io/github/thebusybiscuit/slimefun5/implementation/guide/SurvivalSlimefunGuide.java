@@ -34,6 +34,7 @@ import io.github.thebusybiscuit.slimefun5.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun5.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.FlexItemGroup;
+import io.github.thebusybiscuit.slimefun5.api.items.groups.NestedItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun5.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun5.api.recipes.RecipeType;
@@ -184,8 +185,9 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
             // Deprecated addon custom guide screens are taken OUT of the guide entirely - not shown, not
             // interactive (rendering them let cheat-mode players pull infinite free items). Their items
-            // still appear via the shared categories. Core's own flex groups (e.g. seasonal) are kept.
-            if (group instanceof FlexItemGroup && !"slimefun".equals(namespace)) {
+            // still appear via the shared categories. Standard NestedItemGroups (plain nested browsing) and
+            // core's own flex groups (e.g. seasonal) are kept.
+            if (group instanceof FlexItemGroup && !(group instanceof NestedItemGroup) && !"slimefun".equals(namespace)) {
                 warnDeprecatedCustomGuideUi(group);
                 continue;
             }
@@ -310,32 +312,47 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         menu.open(p);
     }
 
-    // Free header slots (1 = settings, 4 = addon-visibility, 7 = search are taken) and the bottom row.
-    private static final int[] TOP_WIDGET_SLOTS = { 2, 3, 5, 6 };
+    // Widget buttons are centered in the bottom row; once it's full (>5) the extras spill into the free
+    // header slots (1 = settings, 4 = addon-visibility, 7 = search are taken), also centered.
     private static final int[] BOTTOM_WIDGET_SLOTS = { 47, 48, 49, 50, 51 };
+    private static final int[] TOP_WIDGET_SLOTS = { 0, 2, 3, 5, 6, 8 };
 
     private void placeWidgets(@Nonnull ChestMenu menu, @Nonnull Player p, @Nonnull PlayerProfile profile) {
         List<io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget> widgets = Slimefun.getGuideWidgets().getAll();
-        int topIndex = 0;
-        int bottomIndex = 0;
 
-        for (io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget : widgets) {
-            boolean top = widget.getPosition() == io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget.Position.TOP;
-            int[] slots = top ? TOP_WIDGET_SLOTS : BOTTOM_WIDGET_SLOTS;
-            int slotIndex = top ? topIndex++ : bottomIndex++;
+        if (widgets.isEmpty()) {
+            return;
+        }
 
-            if (slotIndex >= slots.length) {
-                Slimefun.logger().warning("[Guide] No free " + (top ? "top" : "bottom") + "-row slot for guide widget '" + widget.getId() + "'.");
-                continue;
-            }
+        int bottomCount = Math.min(widgets.size(), BOTTOM_WIDGET_SLOTS.length);
+        int topCount = Math.min(widgets.size() - bottomCount, TOP_WIDGET_SLOTS.length);
+        int[] slots = new int[bottomCount + topCount];
+        System.arraycopy(centeredSlots(BOTTOM_WIDGET_SLOTS, bottomCount), 0, slots, 0, bottomCount);
+        System.arraycopy(centeredSlots(TOP_WIDGET_SLOTS, topCount), 0, slots, bottomCount, topCount);
 
-            int slot = slots[slotIndex];
-            menu.replaceExistingItem(slot, widgetTile(p, widget));
-            menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
+        for (int i = 0; i < slots.length; i++) {
+            io.github.thebusybiscuit.slimefun5.core.guide.widgets.GuideWidget widget = widgets.get(i);
+            menu.replaceExistingItem(slots[i], widgetTile(p, widget));
+            menu.addMenuClickHandler(slots[i], (pl, s, item, action) -> {
                 widget.open(pl, profile);
                 return false;
             });
         }
+
+        if (slots.length < widgets.size()) {
+            Slimefun.logger().warning("[Guide] " + (widgets.size() - slots.length) + " guide widget(s) beyond the "
+                + slots.length + " available button slots are not shown.");
+        }
+    }
+
+    /** The {@code count} middle slots of {@code available}, so buttons sit centered rather than left-aligned. */
+    @Nonnull
+    private static int[] centeredSlots(@Nonnull int[] available, int count) {
+        int n = Math.max(0, Math.min(count, available.length));
+        int start = (available.length - n) / 2;
+        int[] result = new int[n];
+        System.arraycopy(available, start, result, 0, n);
+        return result;
     }
 
     @Nonnull
@@ -536,10 +553,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
             return;
         }
 
-        // Core's own category tiles keep their custom open (that IS the category mechanism). Every OTHER
-        // FlexItemGroup is a deprecated addon custom screen: it's taken out of the guide, so it must never
-        // open (guards search/history paths) - bounce to the main menu instead.
-        if (itemGroup instanceof CategoryItemGroup) {
+        // Core's category tiles and standard nested groups keep their normal open: CategoryItemGroup is the
+        // category mechanism, and NestedItemGroup is plain nested browsing (still "categories + item lists").
+        // Every OTHER FlexItemGroup is a deprecated addon custom screen - taken out of the guide, so it must
+        // never open (guards search/history paths); bounce to the main menu instead.
+        if (itemGroup instanceof CategoryItemGroup || itemGroup instanceof NestedItemGroup) {
             ((FlexItemGroup) itemGroup).open(p, profile, getMode());
             return;
         }

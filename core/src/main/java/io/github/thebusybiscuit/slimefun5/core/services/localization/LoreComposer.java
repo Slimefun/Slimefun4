@@ -114,7 +114,16 @@ public final class LoreComposer {
         List<String> out = new ArrayList<>(lines.size());
 
         for (String line : lines) {
-            out.add(ChatColor.translateAlternateColorCodes('&', resolvePlaceholders(item, line)));
+            String rendered = ChatColor.translateAlternateColorCodes('&', resolvePlaceholders(item, line));
+
+            // A lore line with no leading colour renders in Minecraft's default purple italic, which authors
+            // rarely intend (e.g. addon usage lines written without a code). Default such lines to gray so
+            // the guide's lore stays uniform.
+            if (!rendered.isEmpty() && rendered.charAt(0) != ChatColor.COLOR_CHAR) {
+                rendered = ChatColor.GRAY + rendered;
+            }
+
+            out.add(rendered);
         }
 
         return out;
