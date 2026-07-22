@@ -2105,9 +2105,11 @@ public final class SlimefunItemSetup {
                 new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS, 8).item(), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS))
                 .register(plugin);
 
-        new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_GLASS_PANE, RecipeType.ANCIENT_ALTAR,
-                new ItemStack[] {MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), SlimefunItems.RAINBOW_RUNE.item(), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE), MaterialCompat.stack(XMaterial.WHITE_STAINED_GLASS_PANE)},
-                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE, 8).item(), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS_PANE))
+        // Rainbow Glass Panes are crafted from Rainbow Glass, mirroring the vanilla glass -> pane recipe
+        // (6 glass -> 16 panes) instead of consuming plain stained-glass panes at the altar.
+        new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_GLASS_PANE, RecipeType.ENHANCED_CRAFTING_TABLE,
+                new ItemStack[] {SlimefunItems.RAINBOW_GLASS.item(), SlimefunItems.RAINBOW_GLASS.item(), SlimefunItems.RAINBOW_GLASS.item(), SlimefunItems.RAINBOW_GLASS.item(), SlimefunItems.RAINBOW_GLASS.item(), SlimefunItems.RAINBOW_GLASS.item(), null, null, null},
+                new SlimefunItemStack(SlimefunItems.RAINBOW_GLASS_PANE, 16).item(), new RainbowTickHandler(ColoredMaterial.STAINED_GLASS_PANE))
                 .register(plugin);
 
         new RainbowBlock(itemGroups.magicalGadgets, SlimefunItems.RAINBOW_CLAY, RecipeType.ANCIENT_ALTAR,
