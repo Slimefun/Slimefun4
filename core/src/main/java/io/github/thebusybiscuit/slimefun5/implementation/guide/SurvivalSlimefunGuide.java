@@ -879,18 +879,19 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         ChestMenu menu = create(p);
-        Optional<String> wiki = item.getWikipage();
 
-        if (wiki.isPresent() && io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks()) {
+        if (io.github.thebusybiscuit.slimefun5.core.guide.SlimefunGuide.showExternalLinks()) {
+            // Every item links to the wiki (uniform per-plugin URL), even if its page isn't authored yet -
+            // an item's explicit wiki page still wins. See WikiLinks.
+            String wikiUrl = io.github.thebusybiscuit.slimefun5.core.guide.wiki.WikiLinks.urlFor(item);
             menu.addItem(8, CustomItemStack.create(XMaterial.KNOWLEDGE_BOOK.parseMaterial(), ChatColor.WHITE + Slimefun.getLocalization().getMessage(p, "guide.tooltips.wiki"), "", ChatColor.GRAY + "\u21E8 " + ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "guide.tooltips.open-itemgroup")));
             menu.addMenuClickHandler(8, (pl, slot, itemstack, action) -> {
                 pl.closeInventory();
-                ChatUtils.sendURL(pl, wiki.get());
+                ChatUtils.sendURL(pl, wikiUrl);
                 return false;
             });
         } else {
-            // No wiki page (e.g. most addon items) or external links disabled: fill the slot with the
-            // background glass so it doesn't look like a broken empty slot.
+            // External links disabled in config: fill the slot with background glass.
             menu.addItem(8, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
 
