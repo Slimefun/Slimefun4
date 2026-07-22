@@ -5,8 +5,10 @@ import io.github.thebusybiscuit.slimefun5.utils.compatibility.ReflectionCompat;
 
 import java.util.Optional;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -72,11 +74,8 @@ public class AutoCrafterListener implements Listener {
 
                 // Check for the "doLimitedCrafting" gamerule when using a Vanilla Auto-Crafter
                 if (block instanceof VanillaAutoCrafter) {
-                    // GameRule<T> typed accessor is 1.13+; the deprecated String overload exists on 1.8.
-                    boolean doLimitedCrafting = Boolean.parseBoolean(e.getPlayer().getWorld().getGameRuleValue("doLimitedCrafting"));
-
                     // Check if the recipe of the item is disabled.
-                    if (doLimitedCrafting && !hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
+                    if (isLimitedCrafting(e.getPlayer().getWorld()) && !hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
                         Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
                         return;
                     }
@@ -89,6 +88,35 @@ public class AutoCrafterListener implements Listener {
                     crafter.error("Something went wrong while right-clicking an Auto-Crafter", x);
                 }
             }
+        }
+    }
+
+    /**
+     * Reads the {@code doLimitedCrafting} gamerule without ever throwing. The typed
+     * {@code GameRule.DO_LIMITED_CRAFTING} accessor (1.13+) is resolved reflectively so this class carries
+     * no hard reference to {@code org.bukkit.GameRule} (absent on 1.8-1.12). The deprecated
+     * {@code getGameRuleValue(String)} overload is the legacy fallback, but on some newer servers (e.g.
+     * 26.2/purpur) it throws {@link IllegalArgumentException} for an "unknown gamerule" — so the whole
+     * lookup is guarded and defaults to {@code false}, since a gamerule read must never crash the interaction.
+     */
+    private boolean isLimitedCrafting(@Nonnull World world) {
+        try {
+            Class<?> gameRuleClass = Class.forName("org.bukkit.GameRule");
+            Object rule = gameRuleClass.getField("DO_LIMITED_CRAFTING").get(null);
+            Object value = ReflectionCompat.invoke(world, "getGameRuleValue", rule);
+
+            if (value instanceof Boolean) {
+                return (Boolean) value;
+            }
+        } catch (Throwable ignored) {
+            // GameRule type/field absent (1.8-1.12) — fall back to the legacy String overload below.
+        }
+
+        try {
+            return Boolean.parseBoolean(world.getGameRuleValue("doLimitedCrafting"));
+        } catch (Throwable ignored) {
+            // Unknown-gamerule or removed overload on newer servers — treat as disabled.
+            return false;
         }
     }
 
