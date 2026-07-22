@@ -458,6 +458,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         getServer().getScheduler().runTaskLaterAsynchronously(this,
             () -> io.github.thebusybiscuit.slimefun5.core.balance.BalanceService.instance().warmCache(), 210L);
 
+        // Audit which items still use hardcoded lore instead of the en/items.yml block system, once all
+        // addons have registered their items (delayed so late-enabling addons are included). Warns in the
+        // console and writes the full per-addon list to unmigrated-lore.yml so the migration stays visible.
+        getServer().getScheduler().runTaskLaterAsynchronously(this,
+            () -> itemTranslationService.auditUnmigratedLore(new java.io.File(getDataFolder(), "unmigrated-lore.yml")), 220L);
+
         logger.log(Level.INFO, "Registering listeners...");
         registerListeners();
         packetTranslationService = new PacketTranslationService(this);
