@@ -173,16 +173,27 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
                 continue;
             }
 
+            String namespace = group.getKey().getNamespace();
+
             // Respect the player's per-addon visibility in EVERY layout. Previously only the categorized
             // path filtered hidden addons, so switching the guide to the classic (flat) layout made hidden
             // addons reappear.
-            if (AddonVisibility.isHidden(p, group.getKey().getNamespace())) {
+            if (AddonVisibility.isHidden(p, namespace)) {
+                continue;
+            }
+
+            // Deprecated addon custom guide screens are taken OUT of the guide entirely - not shown, not
+            // interactive (rendering them let cheat-mode players pull infinite free items). Their items
+            // still appear via the shared categories. Core's own flex groups (e.g. seasonal) are kept.
+            if (group instanceof FlexItemGroup && !"slimefun".equals(namespace)) {
+                warnDeprecatedCustomGuideUi(group);
                 continue;
             }
 
             try {
                 if (group instanceof FlexItemGroup) {
-                    FlexItemGroup flexItemGroup = (FlexItemGroup) group;                    if (flexItemGroup.isVisible(p, profile, getMode())) {
+                    FlexItemGroup flexItemGroup = (FlexItemGroup) group;
+                    if (flexItemGroup.isVisible(p, profile, getMode())) {
                         groups.add(group);
                     }
                 } else if (!group.isHidden(p)) {
@@ -526,8 +537,8 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         // Core's own category tiles keep their custom open (that IS the category mechanism). Every OTHER
-        // FlexItemGroup is an addon custom screen, which is deprecated: the guide only shows categories and
-        // item lists. Render it as a plain item list instead of the addon's UI, and warn once.
+        // FlexItemGroup is a deprecated addon custom screen: it's taken out of the guide, so it must never
+        // open (guards search/history paths) - bounce to the main menu instead.
         if (itemGroup instanceof CategoryItemGroup) {
             ((FlexItemGroup) itemGroup).open(p, profile, getMode());
             return;
@@ -535,9 +546,11 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
 
         if (itemGroup instanceof FlexItemGroup) {
             warnDeprecatedCustomGuideUi(itemGroup);
+            openMainMenu(profile, profile.getGuideHistory().getMainMenuPage());
+            return;
         }
 
-        List<SlimefunItem> items = guideItemsOf(itemGroup);
+        List<SlimefunItem> items = itemGroup.getItems();
 
         if (isSurvivalMode()) {
             profile.getGuideHistory().add(itemGroup, page);
@@ -591,32 +604,6 @@ public class SurvivalSlimefunGuide implements SlimefunGuideImplementation {
         }
 
         menu.open(p);
-    }
-
-    /**
-     * The items to list for a group in the guide. Normally the group's own items; but for a (deprecated)
-     * addon {@link FlexItemGroup} whose items are locked away in a custom UI / hidden sub-groups, its own
-     * list is often empty, so we fall back to every enabled item belonging to that addon's namespace - so
-     * the addon's content still shows as a plain list until the addon is updated to declare categories.
-     */
-    @Nonnull
-    private List<SlimefunItem> guideItemsOf(@Nonnull ItemGroup group) {
-        if (!group.getItems().isEmpty() || !(group instanceof FlexItemGroup)) {
-            return group.getItems();
-        }
-
-        String namespace = group.getKey().getNamespace();
-        List<SlimefunItem> items = new ArrayList<>();
-
-        for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-            ItemGroup g = item.getItemGroup();
-
-            if (g != null && namespace.equals(g.getKey().getNamespace()) && !item.isHidden()) {
-                items.add(item);
-            }
-        }
-
-        return items;
     }
 
     private final java.util.Set<String> warnedCustomGuideUis = java.util.concurrent.ConcurrentHashMap.newKeySet();
