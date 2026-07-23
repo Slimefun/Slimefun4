@@ -223,12 +223,17 @@ talismans:
   use-actionbar: true
 
 # The bStats-based metrics module (separate from options.metrics-service above). Off by default on this
-# fork - these only matter if that module is enabled.
+# fork's own bStats project (see options.metrics-service above).
 metrics:
   # Let the metrics module auto-download its own updates. Values: true | false
   auto-update: true
   # Enable the separate analytics service. Values: true | false
   analytics: true
+  # Consolidate metrics: when true, Slimefun ADDONS that report through this fork's metrics module do NOT
+  # start their own separate bStats project - the core plugin reports the installed addons instead (its
+  # "Addons" chart), so you get one clean data source rather than a scattered per-addon player count.
+  # Values: true | false
+  disable-addon-metrics: true
 
 translation:
   # Rewrite item name/lore per viewer via packets so each player sees their own language.

@@ -355,6 +355,26 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             config.save();
         }
 
+        // One-time migration: earlier builds shipped with options.metrics-service defaulting to false on a
+        // stale rationale (the module actually reports to THIS fork's own bStats project, not upstream). Turn
+        // it on once for servers updating from those builds so the fork gets real usage stats. A marker file
+        // makes this run exactly once, so a deliberate later opt-out (metrics-service: false) is respected.
+        java.io.File metricsMigrationMarker = new java.io.File(getDataFolder(), ".metrics-service-enabled");
+
+        if (!metricsMigrationMarker.exists()) {
+            if (!config.getBoolean("options.metrics-service")) {
+                config.setValue("options.metrics-service", true);
+                config.save();
+                logger.log(Level.INFO, "Enabled bStats metrics-service (one-time update migration). Set options.metrics-service to false to opt out.");
+            }
+
+            try {
+                metricsMigrationMarker.createNewFile();
+            } catch (java.io.IOException ignored) {
+                // Non-fatal - worst case the check re-runs next boot; still a no-op once the value is true.
+            }
+        }
+
         // Set up localization
         logger.log(Level.INFO, "Loading language files...");
         String chatPrefix = config.getString("options.chat-prefix");
