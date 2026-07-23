@@ -262,10 +262,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 PdcCompat.setString(skull, recipeStorageKey, recipe.toString());
             }
 
-            // Fixes #2899 - Update the BlockState if necessary
-            if (result.isSnapshot()) {
-                state.update(true, false);
-            }
+            // Persist the PDC change. A snapshot state always needs update() to write back; on newer
+            // Paper/Purpur (26.x) a *live* (non-snapshot) TileState's persistent-data change is also not
+            // reliably flushed to disk without it, so the chosen recipe was set in memory but lost. Update
+            // unconditionally (force, no physics) so the recipe persists on every version.
+            state.update(true, false);
         }
     }
 
