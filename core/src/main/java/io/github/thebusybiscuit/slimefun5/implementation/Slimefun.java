@@ -408,8 +408,8 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
             storageMigration = new MigrationService((JdbcBackend) blockStorageBackend, bootTimestamp);
         }
 
-        // Setting up bStats and analytics. Metrics is OFF by default on this fork: the module still
-        // reports to upstream Slimefun's bStats project, not this fork. (options.metrics-service)
+        // Setting up bStats and analytics. The bundled metrics module is compiled against this fork and
+        // reports to the fork's own bStats project (id 31272); on by default (options.metrics-service).
         if (config.getBoolean("options.metrics-service")) {
             new Thread(metricsService::start, "Slimefun Metrics").start();
         }
