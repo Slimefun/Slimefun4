@@ -204,8 +204,10 @@ public class PacketTranslationService implements Listener {
             return rewriteGuideBook(nmsItem, bukkit, language); // null id → maybe the guide book
         }
         boolean includeDescription = !Boolean.FALSE.equals(descriptionsCache.get(playerId)); // default true
+        // WithItem: passes the actual stack so a per-instance resolver (e.g. SlimeTinker tools, whose
+        // name depends on their PDC parts) can compose a per-viewer display; id-keyed items are unaffected.
         ItemTranslationService.RenderedDisplay display =
-            Slimefun.getItemTranslationService().renderForPacket(id, language, fallback, includeDescription);
+            Slimefun.getItemTranslationService().renderForPacketWithItem(bukkit, id, language, fallback, includeDescription);
         if (display == null) {
             return nmsItem;
         }

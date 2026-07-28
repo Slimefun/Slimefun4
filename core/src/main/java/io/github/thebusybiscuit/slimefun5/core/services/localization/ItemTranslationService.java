@@ -458,6 +458,30 @@ public class ItemTranslationService {
             // copy for every other viewer.
             this.lore = Collections.unmodifiableList(new ArrayList<>(lore));
         }
+
+        /**
+         * Factory for {@link ItemTextResolver} implementations in other packages (the constructor is
+         * package-private). {@code name}/{@code lore} should already carry their colour codes.
+         */
+        @Nonnull
+        public static RenderedDisplay of(@Nonnull String name, @Nonnull List<String> lore) {
+            return new RenderedDisplay(name, lore);
+        }
+    }
+
+    // Consulted (in registration order) by renderForPacket when no explicit items.yml entry/family
+    // covers an id, before the english/raw-id fallback - the hook for runtime-generated item displays.
+    // CopyOnWriteArrayList: written on the main thread (addon onEnable) and read on the Netty thread.
+    private final List<ItemTextResolver> resolvers = new java.util.concurrent.CopyOnWriteArrayList<>();
+
+    /**
+     * Registers a dynamic {@link ItemTextResolver} for runtime-generated items. Consulted only for ids
+     * with no explicit {@code items.yml} entry or {@code %MOB%} family, ahead of the english/raw-id
+     * fallback. Drops the render cache so any id previously shown as a raw-id re-renders through it.
+     */
+    public void registerResolver(@Nonnull ItemTextResolver resolver) {
+        resolvers.add(resolver);
+        clearRenderCache();
     }
 
     private final Map<String, RenderedDisplay> renderCache = new java.util.concurrent.ConcurrentHashMap<>();
@@ -502,6 +526,19 @@ public class ItemTranslationService {
         // default language - an inconsistent pair of displays for the exact same render call).
         String effectiveLanguage = resolveEffectiveLanguage(languageId);
         ItemTranslation translation = lookup(effectiveLanguage, id);
+
+        // No explicit items.yml entry/family for this id (in the effective OR english language): let a
+        // registered resolver compose the display before falling back to the english baseline / raw id.
+        // item == null: the id-only path - per-instance resolvers return null here and fall through.
+        if (translation == null && lookup("en", id) == null && !resolvers.isEmpty()) {
+            RenderedDisplay resolved = tryResolvers(null, id, effectiveLanguage);
+
+            if (resolved != null) {
+                renderCache.put(cacheKey, resolved);
+                return resolved;
+            }
+        }
+
         ItemStack english = englishBaseline.get(id);
 
         // Name: language label -> (missing) fallback english baseline or raw id.
@@ -544,6 +581,42 @@ public class ItemTranslationService {
         }
 
         return result;
+    }
+
+    /**
+     * Packet-path render that has the actual {@link ItemStack}. Tries per-instance {@link ItemTextResolver}s
+     * first (passing the stack, e.g. for SlimeTinker tools whose name depends on their PDC parts); those
+     * results are NOT cached since they vary per stack. Falls back to {@link #renderForPacket} (which
+     * handles static entries, id-keyed resolvers and the english/raw fallback, and caches).
+     */
+    public RenderedDisplay renderForPacketWithItem(@Nonnull ItemStack item, @Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback, boolean includeDescription) {
+        if (!resolvers.isEmpty() && SlimefunItem.getById(id) != null && lookup(resolveEffectiveLanguage(languageId), id) == null && lookup("en", id) == null) {
+            RenderedDisplay resolved = tryResolvers(item, id, resolveEffectiveLanguage(languageId));
+
+            if (resolved != null) {
+                return resolved;
+            }
+        }
+
+        return renderForPacket(id, languageId, fallback, includeDescription);
+    }
+
+    /** First non-null resolver result for {@code (item, id, language)}, or null if none handles it. */
+    @Nullable
+    private RenderedDisplay tryResolvers(@Nullable ItemStack item, @Nonnull String id, @Nullable String languageId) {
+        for (ItemTextResolver resolver : resolvers) {
+            try {
+                RenderedDisplay display = resolver.resolve(item, id, languageId);
+
+                if (display != null) {
+                    return display;
+                }
+            } catch (Exception | LinkageError ignored) {
+                // A broken resolver must not break packet rendering for the item.
+            }
+        }
+
+        return null;
     }
 
     /** The given language id, or - when null - the server default language's id (or null if there is none). */
@@ -603,7 +676,9 @@ public class ItemTranslationService {
             }
         }
 
-        return false;
+        // A dynamic resolver supplies the whole display (name + lore), so a resolver-covered id is not
+        // an un-migrated hardcoded-lore item either.
+        return isResolverCovered(itemId);
     }
 
     private static boolean hasBlockContent(@Nonnull ItemTranslation t) {
@@ -629,7 +704,16 @@ public class ItemTranslationService {
             }
         }
 
-        return false;
+        return isResolverCovered(itemId);
+    }
+
+    /**
+     * Whether a registered id-keyed {@link ItemTextResolver} composes a display for this id. Checked with
+     * {@code item == null}, so per-instance resolvers (SlimeTinker) report false here - those items carry
+     * their own {@code items.yml} entries for audit purposes.
+     */
+    private boolean isResolverCovered(@Nonnull String itemId) {
+        return tryResolvers(null, itemId, "en") != null;
     }
 
     /**
