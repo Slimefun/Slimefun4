@@ -109,6 +109,12 @@ public class ItemTranslationService {
     // renderForPacket() on the Netty thread, so this must be thread-safe.
     private final Map<String, ItemStack> englishBaseline = new java.util.concurrent.ConcurrentHashMap<>();
 
+    // Ids that have an explicit `name:` entry loaded from some language's items.yml (NOT the authored-name
+    // baseline that ensureEnglishBaseline() injects into the "en" map). The boot audit uses this to tell a
+    // genuinely localized name from an item that merely keeps its hardcoded English display name. Written
+    // on the main thread during load(); read by the audit on the main thread post-boot.
+    private final Set<String> explicitNameIds = java.util.concurrent.ConcurrentHashMap.newKeySet();
+
     /** Loads the bundled core translations for every supported language. */
     public void loadBundled() {
         for (Language language : Slimefun.getLocalization().getLanguages()) {
@@ -187,6 +193,10 @@ public class ItemTranslationService {
                         familyResolveCache.clear();
                     } else {
                         map.put(id, translation);
+
+                        if (name != null) {
+                            explicitNameIds.add(id);
+                        }
                     }
                 }
             }
@@ -578,7 +588,43 @@ public class ItemTranslationService {
         for (Map<String, ItemTranslation> perLanguage : byLanguage.values()) {
             ItemTranslation t = perLanguage.get(itemId);
 
-            if (t != null && (!t.type.isEmpty() || !t.description.isEmpty() || !t.stats.isEmpty() || !t.usage.isEmpty())) {
+            if (t != null && hasBlockContent(t)) {
+                return true;
+            }
+        }
+
+        // Family-covered ids (e.g. ZOMBIE_SOUL_JAR resolved from a %MOB%_SOUL_JAR template) have no direct
+        // map entry - their blocks come from the template, so check families too or they read as unmigrated.
+        for (String language : familiesByLanguage.keySet()) {
+            ItemTranslation t = resolveFamily(language, itemId);
+
+            if (t != null && hasBlockContent(t)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static boolean hasBlockContent(@Nonnull ItemTranslation t) {
+        return !t.type.isEmpty() || !t.description.isEmpty() || !t.stats.isEmpty() || !t.usage.isEmpty();
+    }
+
+    /**
+     * Whether the item has an explicit translated name: either a direct {@code name:} entry loaded from
+     * some language's items.yml, or a family template that resolves a name for this id. The authored
+     * English baseline injected by {@link #ensureEnglishBaseline()} does NOT count - an item that merely
+     * keeps its hardcoded English display name is still an un-localized gap the audit should surface.
+     */
+    private boolean hasNameTranslation(@Nonnull String itemId) {
+        if (explicitNameIds.contains(itemId)) {
+            return true;
+        }
+
+        for (String language : familiesByLanguage.keySet()) {
+            ItemTranslation t = resolveFamily(language, itemId);
+
+            if (t != null && t.name != null) {
                 return true;
             }
         }
@@ -587,53 +633,96 @@ public class ItemTranslationService {
     }
 
     /**
-     * Boot audit: warns about every enabled item still using hardcoded/plain lore instead of the
-     * en/items.yml block system (Type/Description/Stats/Usage), and writes the full per-addon list to
-     * {@code out}. Runs each launch so the migration to the unified lore system stays visible.
+     * Boot audit of translation coverage: for every enabled item (except {@link VanillaItem}), flags two
+     * independent gaps and writes the full per-addon breakdown to {@code out}. Runs each launch so the
+     * migration to the unified name/lore system stays visible.
+     *
+     * <ul>
+     *   <li><b>untranslated-name</b> - no explicit {@code name:} entry in any language's items.yml (and not
+     *       deliberately English-everywhere via {@link FallbackSafe}). Such an item shows its hardcoded
+     *       English name, or - if it has none - the raw vanilla/id name to every viewer. This is why e.g.
+     *       SlimeTinker's assembled tools look untranslated even though the addon ships an items.yml: the
+     *       registered id simply isn't a key in it.</li>
+     *   <li><b>hardcoded-lore</b> - the template still carries hardcoded lore and has no
+     *       type/description/stats/usage block, so its lore can't be localized.</li>
+     * </ul>
+     *
+     * Both checks are family-aware (an id resolved from a {@code %MOB%} template counts as covered), so
+     * runtime-generated item families are not false-positived.
      */
     public void auditUnmigratedLore(@Nonnull java.io.File out) {
-        Map<String, List<String>> byAddon = new java.util.TreeMap<>();
-        int total = 0;
+        Set<String> fallbackSafe = FallbackSafe.itemIds();
+        Map<String, List<String>> nameGaps = new java.util.TreeMap<>();
+        Map<String, List<String>> loreGaps = new java.util.TreeMap<>();
+        int totalName = 0;
+        int totalLore = 0;
 
         for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
             try {
-                if (hasAnyBlock(item.getId())) {
-                    continue;
+                if (item instanceof VanillaItem) {
+                    continue; // deliberately no custom name/lore - the vanilla client localizes it
                 }
 
-                ItemStack template = item.getItem();
-                List<String> lore = (template != null && template.hasItemMeta()) ? template.getItemMeta().getLore() : null;
+                String id = item.getId();
+                String addon = item.getAddon().getName();
 
-                if (lore != null && !lore.isEmpty()) {
-                    byAddon.computeIfAbsent(item.getAddon().getName(), k -> new ArrayList<>()).add(item.getId());
-                    total++;
+                if (!hasNameTranslation(id) && !fallbackSafe.contains(id)) {
+                    nameGaps.computeIfAbsent(addon, k -> new ArrayList<>()).add(id);
+                    totalName++;
+                }
+
+                if (!hasAnyBlock(id)) {
+                    ItemStack template = item.getItem();
+                    List<String> lore = (template != null && template.hasItemMeta()) ? template.getItemMeta().getLore() : null;
+
+                    if (lore != null && !lore.isEmpty()) {
+                        loreGaps.computeIfAbsent(addon, k -> new ArrayList<>()).add(id);
+                        totalLore++;
+                    }
                 }
             } catch (Exception | LinkageError ignored) {
                 // A single broken item must not abort the audit.
             }
         }
 
-        if (total == 0) {
+        if (totalName == 0 && totalLore == 0) {
             return;
         }
 
-        Slimefun.logger().log(Level.WARNING, "[lore] {0} item(s) still use the DEPRECATED hardcoded name/lore constructors instead of the block system - move them to en/items.yml (type/description/stats/usage). Full list: {1}", new Object[] { total, out.getName() });
+        Slimefun.logger().log(Level.WARNING, "[lore] {0} item(s) with an untranslated name and {1} item(s) still using hardcoded lore (move both to en/items.yml: name + type/description/stats/usage). Full list: {2}", new Object[] { totalName, totalLore, out.getName() });
 
-        for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
-            Slimefun.logger().log(Level.WARNING, "[lore]   {0}: {1} deprecated item(s)", new Object[] { entry.getKey(), entry.getValue().size() });
+        Set<String> auditedAddons = new java.util.TreeSet<>();
+        auditedAddons.addAll(nameGaps.keySet());
+        auditedAddons.addAll(loreGaps.keySet());
+
+        for (String addon : auditedAddons) {
+            int names = nameGaps.getOrDefault(addon, Collections.<String>emptyList()).size();
+            int lores = loreGaps.getOrDefault(addon, Collections.<String>emptyList()).size();
+            Slimefun.logger().log(Level.WARNING, "[lore]   {0}: {1} untranslated-name, {2} hardcoded-lore", new Object[] { addon, names, lores });
         }
 
         org.bukkit.configuration.file.YamlConfiguration config = new org.bukkit.configuration.file.YamlConfiguration();
         config.options().pathSeparator('');
 
-        for (Map.Entry<String, List<String>> entry : byAddon.entrySet()) {
-            config.set(entry.getKey(), entry.getValue());
+        char sep = config.options().pathSeparator();
+
+        for (String addon : auditedAddons) {
+            List<String> names = nameGaps.get(addon);
+            List<String> lores = loreGaps.get(addon);
+
+            if (names != null) {
+                config.set(addon + sep + "untranslated_name", names);
+            }
+
+            if (lores != null) {
+                config.set(addon + sep + "hardcoded_lore", lores);
+            }
         }
 
         try {
             config.save(out);
         } catch (java.io.IOException e) {
-            Slimefun.logger().log(Level.WARNING, "Failed to write hardcoded-lore audit: {0}", e.getMessage());
+            Slimefun.logger().log(Level.WARNING, "Failed to write translation-coverage audit: {0}", e.getMessage());
         }
     }
 
