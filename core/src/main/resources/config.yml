@@ -85,7 +85,8 @@ storage:
   # 'legacy' = the old flat-file format (.sfb/.sfc/.sfi).
   # Existing servers auto-migrate their flat-file data to the database on first boot, keeping a
   # '*.migrated-backup-*' copy. Set 'legacy' to stay on flat files.
-  # Player data currently always uses legacy storage regardless of this setting.
+  # Both block data AND player data (researches, backpacks, waypoints) follow this setting; player
+  # data lives in its own H2 file (slimefun-players) since embedded H2 allows one connection per file.
   # The H2/MySQL JDBC driver is downloaded once into plugins/Slimefun/libraries/ on first use (it is
   # not bundled in the jar). A server with no internet access can place the driver jar there manually;
   # if the driver is unavailable, Slimefun falls back to 'legacy' storage for that boot and logs why.

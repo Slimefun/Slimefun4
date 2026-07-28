@@ -12,6 +12,7 @@ import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.TeleporterListener;
 import io.github.thebusybiscuit.slimefun5.implementation.listeners.WorldListener;
 import io.github.thebusybiscuit.slimefun5.implementation.setup.PostSetup;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcStorage;
 import io.github.thebusybiscuit.slimefun5.storage.backend.migration.MigrationService;
 
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -56,6 +57,11 @@ public class SlimefunStartupTask implements Runnable {
 
         if (svc != null) {
             svc.migrateUniversalIfNeeded();
+
+            // One-time import of flat-file player data into the DB (only when player data uses a JDBC store).
+            if (Slimefun.getPlayerStorage() instanceof JdbcStorage) {
+                svc.migratePlayerDataIfNeeded((JdbcStorage) Slimefun.getPlayerStorage());
+            }
         }
 
         for (World world : Bukkit.getWorlds()) {

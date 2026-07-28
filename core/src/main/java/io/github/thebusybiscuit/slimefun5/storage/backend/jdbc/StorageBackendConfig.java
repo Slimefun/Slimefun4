@@ -40,6 +40,15 @@ public final class StorageBackendConfig {
         return "jdbc:h2:file:./data-storage/Slimefun/slimefun;AUTO_SERVER=FALSE";
     }
 
+    /**
+     * Player data lives in its own H2 database file (embedded H2 permits only one connection per
+     * file per JVM, so it cannot share the block store's connection). MySQL player data reuses
+     * {@link #mysqlUrl()} on a separate connection since MySQL allows concurrent connections.
+     */
+    public static String playersH2Url() {
+        return "jdbc:h2:file:./data-storage/Slimefun/slimefun-players;AUTO_SERVER=FALSE";
+    }
+
     public static String mysqlUrl() {
         String host = Slimefun.getCfg().getOrSetDefault("storage.mysql.host", "localhost");
         int port = Slimefun.getCfg().getOrSetDefault("storage.mysql.port", 3306);

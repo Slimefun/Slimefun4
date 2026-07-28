@@ -16,9 +16,21 @@ class H2Dialect implements SqlDialect {
         "CREATE INDEX IF NOT EXISTS idx_chunk_data_world ON chunk_data(world)"
     };
 
+    private static final String[] PLAYER_DDL = {
+        "CREATE TABLE IF NOT EXISTS storage_meta (k VARCHAR(64) PRIMARY KEY, v VARCHAR(255))",
+        "CREATE TABLE IF NOT EXISTS player_research (uuid VARCHAR(36), research_id INT, PRIMARY KEY(uuid,research_id))",
+        "CREATE TABLE IF NOT EXISTS player_backpack (uuid VARCHAR(36), backpack_id INT, size INT, contents CLOB, PRIMARY KEY(uuid,backpack_id))",
+        "CREATE TABLE IF NOT EXISTS player_waypoint (uuid VARCHAR(36), waypoint_id VARCHAR(255), name VARCHAR(255), world VARCHAR(255), x DOUBLE, y DOUBLE, z DOUBLE, yaw REAL, pitch REAL, PRIMARY KEY(uuid,waypoint_id))"
+    };
+
     @Override
     public String[] ddl() {
         return DDL;
+    }
+
+    @Override
+    public String[] playerDdl() {
+        return PLAYER_DDL;
     }
 
     @Override

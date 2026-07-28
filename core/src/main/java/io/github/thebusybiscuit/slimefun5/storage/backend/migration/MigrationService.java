@@ -7,6 +7,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import javax.annotation.Nonnull;
@@ -20,7 +21,9 @@ import com.google.common.annotations.Beta;
 
 import io.github.thebusybiscuit.slimefun5.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcStorage;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
+import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
 
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -133,6 +136,63 @@ public class MigrationService {
                     new Object[] { uni.size(), ts });
         } catch (Exception | LinkageError x) {
             Slimefun.logger().log(Level.SEVERE, x, () -> "[storage] Universal-inventory migration FAILED - kept intact");
+        }
+    }
+
+    /**
+     * One-time import of the flat-file player data ({@code Players/*.yml} + {@code waypoints/*.yml})
+     * into the {@link JdbcStorage} player store. Idempotent via a {@code storage_meta} flag in the
+     * block DB (both DBs only exist together in a JDBC backend). On success the two flat directories
+     * are renamed to {@code .migrated-backup-<ts>} siblings; any failure keeps them intact and retries
+     * next boot.
+     */
+    public void migratePlayerDataIfNeeded(@Nonnull JdbcStorage playerStore) {
+        if (jdbc.getMeta("migrated.players") != null) {
+            return;
+        }
+
+        File playersDir = new File("data-storage/Slimefun/Players");
+        File waypointsDir = new File("data-storage/Slimefun/waypoints");
+
+        File[] files = playersDir.listFiles((dir, name) -> name.endsWith(".yml"));
+
+        if (files == null || files.length == 0) {
+            // Nothing to migrate - mark done so we don't re-scan every boot.
+            jdbc.setMeta("migrated.players", VERSION);
+            return;
+        }
+
+        try {
+            LegacyStorage legacyPlayers = new LegacyStorage();
+            int migrated = 0;
+
+            for (File file : files) {
+                String base = file.getName().substring(0, file.getName().length() - ".yml".length());
+
+                UUID uuid;
+                try {
+                    uuid = UUID.fromString(base);
+                } catch (IllegalArgumentException notAUuid) {
+                    // A stray non-uuid file in Players/ - skip it, don't abort the whole migration.
+                    continue;
+                }
+
+                playerStore.savePlayerData(uuid, legacyPlayers.loadPlayerData(uuid));
+                migrated++;
+            }
+
+            // Only after every player imported: mark migrated, then back up both flat directories.
+            jdbc.setMeta("migrated.players", VERSION);
+            renameToBackup(playersDir, backupSiblingOf("data-storage/Slimefun/Players"));
+            renameToBackup(waypointsDir, backupSiblingOf("data-storage/Slimefun/waypoints"));
+
+            int count = migrated;
+            Slimefun.logger().log(Level.INFO,
+                    "[storage] Migrated {0} player(s) to the database. Flat backup: *.migrated-backup-{1}",
+                    new Object[] { count, ts });
+        } catch (Exception | LinkageError x) {
+            Slimefun.logger().log(Level.SEVERE, x, () -> "[storage] Player-data migration FAILED - flat files kept intact, will retry next boot");
+            // Do NOT set the flag, do NOT rename anything - retried next boot, no data loss.
         }
     }
 

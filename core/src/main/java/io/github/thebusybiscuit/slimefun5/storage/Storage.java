@@ -23,5 +23,13 @@ public interface Storage {
     PlayerData loadPlayerData(UUID uuid);
 
     void savePlayerData(UUID uuid, PlayerData data);
+
+    /**
+     * Releases any resources held by this backend (e.g. a JDBC connection). Called once on plugin
+     * disable. The flat-file backend holds nothing, so it defaults to a no-op.
+     */
+    default void close() {
+        // Flat-file backend needs no teardown; DB backends override this.
+    }
 }
 

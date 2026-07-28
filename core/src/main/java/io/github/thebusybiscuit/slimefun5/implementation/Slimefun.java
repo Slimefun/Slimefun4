@@ -19,6 +19,7 @@ import io.github.thebusybiscuit.slimefun5.storage.backend.BlockStorageBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.MySqlDialect;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.MySqlProvider;
+import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.JdbcStorage;
 import io.github.thebusybiscuit.slimefun5.storage.backend.jdbc.StorageBackendConfig;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyFileBackend;
 import io.github.thebusybiscuit.slimefun5.storage.backend.legacy.LegacyStorage;
@@ -391,10 +392,9 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
 
         networkManager = new NetworkManager(networkSize, config.getBoolean("networks.enable-visualizer"), config.getBoolean("networks.delete-excess-items"));
 
-        // Data storage
-        playerStorage = new LegacyStorage();
-        logger.log(Level.INFO, "Using legacy storage for player data");
-
+        // Data storage - block AND player data both follow storage.backend, sharing one legacy fallback.
+        // Player data lives in its own JDBC connection (embedded H2 allows only one connection per file
+        // per JVM, so it cannot share the block store's).
         StorageBackendConfig.Backend backend = StorageBackendConfig.backend();
 
         try {
@@ -402,26 +402,42 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
                 case MYSQL:
                     blockStorageBackend = new JdbcBackend(new MySqlDialect(), new MySqlProvider(
                         StorageBackendConfig.mysqlUrl(), StorageBackendConfig.mysqlUser(), StorageBackendConfig.mysqlPassword()));
-                    logger.log(Level.INFO, "Using MySQL database storage for block data");
+                    playerStorage = new JdbcStorage("mysql", new MySqlDialect(), new MySqlProvider(
+                        StorageBackendConfig.mysqlUrl(), StorageBackendConfig.mysqlUser(), StorageBackendConfig.mysqlPassword()));
+                    logger.log(Level.INFO, "Using MySQL database storage for block and player data");
                     break;
                 case H2:
                     blockStorageBackend = new JdbcBackend(StorageBackendConfig.h2Url());
-                    logger.log(Level.INFO, "Using H2 database storage for block data");
+                    playerStorage = new JdbcStorage("h2", StorageBackendConfig.playersH2Url());
+                    logger.log(Level.INFO, "Using H2 database storage for block and player data");
                     break;
                 case LEGACY:
                 default:
                     blockStorageBackend = new LegacyFileBackend();
-                    logger.log(Level.INFO, "Using legacy (flat-file) storage for block data");
+                    playerStorage = new LegacyStorage();
+                    logger.log(Level.INFO, "Using legacy (flat-file) storage for block and player data");
                     break;
             }
         } catch (Exception | LinkageError e) {
             // The database driver is downloaded on demand (not shaded); a fresh offline server with no
             // cached driver, or a bad MySQL config, must not stop the plugin from enabling. Fall back to
-            // flat-file storage for this boot and log loudly so the operator can fix it.
+            // flat-file storage for this boot and log loudly so the operator can fix it. Close anything
+            // that DID open before the failure so a half-open connection isn't leaked, and fall back BOTH
+            // stores together so block and player data never split across a DB and flat files.
             logger.log(Level.SEVERE, e, () -> "Could not initialise the " + backend + " storage backend; "
                 + "falling back to legacy (flat-file) storage for this boot. If this server has no internet "
                 + "access, place the driver jar in plugins/Slimefun/libraries/ manually.");
+
+            if (blockStorageBackend != null) {
+                blockStorageBackend.close();
+            }
+
+            if (playerStorage != null) {
+                playerStorage.close();
+            }
+
             blockStorageBackend = new LegacyFileBackend();
+            playerStorage = new LegacyStorage();
         }
 
         if (blockStorageBackend instanceof JdbcBackend) {
@@ -624,6 +640,12 @@ public class Slimefun extends JavaPlugin implements SlimefunAddon {
         // is assigned (unsupported-version / missing-CS-CoreLib early exits both re-enter onDisable).
         if (blockStorageBackend != null) {
             blockStorageBackend.close();
+        }
+
+        // Tear down the player-data store (JDBC connection close; no-op for legacy). Same null-guard
+        // rationale as the block backend above.
+        if (playerStorage != null) {
+            playerStorage.close();
         }
 
         // Create a new backup zip
