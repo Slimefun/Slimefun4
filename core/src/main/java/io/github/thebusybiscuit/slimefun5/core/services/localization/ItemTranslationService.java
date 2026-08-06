@@ -590,7 +590,12 @@ public class ItemTranslationService {
      * handles static entries, id-keyed resolvers and the english/raw fallback, and caches).
      */
     public RenderedDisplay renderForPacketWithItem(@Nonnull ItemStack item, @Nonnull String id, @Nullable String languageId, @Nonnull TranslationConfig.FallbackMode fallback, boolean includeDescription) {
-        if (!resolvers.isEmpty() && SlimefunItem.getById(id) != null && lookup(resolveEffectiveLanguage(languageId), id) == null && lookup("en", id) == null) {
+        // Item-aware resolvers get first crack: they inspect the actual stack and MAY override even a
+        // static items.yml entry for the specific instances they claim - e.g. an assembled SlimeTinker
+        // tool whose id (TOOL_PICKAXE) also backs a static guide-display entry. Resolvers return null for
+        // stacks they don't handle, so ordinary items fall straight through to the static/id path below.
+        // Every item is translatable through this one path; no addon re-skins outside it.
+        if (!resolvers.isEmpty() && SlimefunItem.getById(id) != null) {
             RenderedDisplay resolved = tryResolvers(item, id, resolveEffectiveLanguage(languageId));
 
             if (resolved != null) {
