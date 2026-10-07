@@ -223,6 +223,15 @@ public class ResourceManager {
         String title = "&4" + Slimefun.getLocalization().getResourceString(p, "tooltips.results");
         ChestMenu menu = new ChestMenu(title);
 
+        // Prevent both shift-clicking and number key usage
+        menu.setPlayerInventoryClickable(false);
+        menu.setEmptySlotsClickable(false);
+
+        // Add click handler to explicitly deny shift and number key actions
+        menu.addPlayerInventoryClickHandler((player, slot, item, action) -> {
+            return false; // Deny all player inventory interactions
+        });
+
         for (int slot : backgroundSlots) {
             menu.addItem(slot, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
         }
